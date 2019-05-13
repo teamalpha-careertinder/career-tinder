@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .view {
   background-image: url('https://mdbootstrap.com/img/Photos/Others/images/91.jpg');
   background-repeat: no-repeat;
@@ -46,3 +47,29 @@
     background-size: 100%;
   }
   
+=======
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+>>>>>>> 68534c00b28c4fceb3d908268fcc5847d04fb129
