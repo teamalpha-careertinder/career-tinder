@@ -37,3 +37,11 @@
 #root .container-fluid {
     padding: 0px;
 }
+
+.profile-form-wrapper {
+    margin: 10px 0;
+}
+
+.profile-form .form-group>label {
+    font-weight: bold
+}
