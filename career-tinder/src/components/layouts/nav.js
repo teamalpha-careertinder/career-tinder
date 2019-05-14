@@ -1,7 +1,47 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 import logo from '../../assets/images/logo.png';
 
-class Nav extends Component {
+import CoreLayout from '../layouts';
+import HomeLayout from '../layouts/home';
+import CreateProfileLayout from '../profile/create';
+import LoginLayout from '../authentication/login';
+
+const Home = (props) => (
+    <div className="container-fluid">
+        <CoreLayout />
+        <HomeLayout />
+    </div>
+);
+
+const CreateProfile = (props) => (
+    <div className="container-fluid">
+      <CoreLayout />
+      <div className="container">
+        <CreateProfileLayout />
+      </div>
+    </div>
+);
+
+const Login = (props) => (
+    <div className="container-fluid">
+      <CoreLayout />
+      <LoginLayout />
+    </div>
+);
+
+class Nav extends React.Component {
+    Home() {
+        ReactDOM.render(<Home />, document.getElementById('root'));
+    }
+
+    CreateProfile() {
+        ReactDOM.render(<CreateProfile />, document.getElementById('root'));
+    }
+
+    Login() {
+        ReactDOM.render(<Login />, document.getElementById('root'));
+    }
     render() {
       return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -11,17 +51,14 @@ class Nav extends Component {
             </button>
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
-                    <li className="nav-item active">
+                    <li className="nav-item active" onClick={this.Home}>
                         <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/profile/create">Create Profile</a>
+                    <li className="nav-item" onClick={this.CreateProfile}>
+                        <a className="nav-link" href="#">Create Profile</a>
                     </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/login">Login</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/registration">Register</a>
+                    <li className="nav-item" onClick={this.Login}>
+                        <a className="nav-link" href="#">Login</a>
                     </li>
                 </ul>
             </div>

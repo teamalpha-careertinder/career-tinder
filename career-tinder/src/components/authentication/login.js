@@ -10,13 +10,22 @@ import "./login.css";
 import App from "./../app/app";
 import { MDBAnimation } from "mdbreact";
 
+import CoreLayout from '../layouts';
+import HomeLayout from '../layouts/home';
 
+
+const Home = (props) => (
+  <div className="container-fluid">
+    <CoreLayout />
+    <HomeLayout />
+  </div>
+);
 
 
 class Login extends React.Component {
 
   SignupClicked() {
-    ReactDOM.render(<App />, document.getElementById('root'));
+    ReactDOM.render(<Home />, document.getElementById('root'));
   }
   state = {
     collapseID: ""

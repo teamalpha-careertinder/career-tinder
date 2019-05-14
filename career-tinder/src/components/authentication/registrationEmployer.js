@@ -5,10 +5,10 @@ import {
   MDBCol, MDBIcon,
   MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBFormInline
 } from "mdbreact";
-import "./Registration_Employer.css";
+import "./registrationEmployer.css";
 
 
-class EmployerFormPage extends React.Component {
+class RegistrationEmployer extends React.Component {
 
   state = {
     collapseID: ""
@@ -82,4 +82,4 @@ class EmployerFormPage extends React.Component {
   }
 }
 
-export default EmployerFormPage;
+export default RegistrationEmployer;

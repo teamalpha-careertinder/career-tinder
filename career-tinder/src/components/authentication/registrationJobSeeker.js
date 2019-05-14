@@ -5,11 +5,9 @@ MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggle
 MDBCol, MDBIcon,
 MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBFormInline
 } from "mdbreact";
-import { LinkedInLoginButton  } from "react-social-login-buttons";
-import { GoogleLoginButton   } from "react-social-login-buttons";
-import "./Registration_Jobseeker.css";
+import "./registrationJobSeeker.css";
 
-class Registration extends React.Component  {
+class RegistrationJobSeeker extends React.Component  {
 
 
   state = {
@@ -28,8 +26,7 @@ class Registration extends React.Component  {
     return (
     <div id="classicformpage">
       <Router>
-        <div>
-          
+        <div>          
           {this.state.collapseID && overlay}
         </div>
       </Router>
@@ -74,10 +71,6 @@ class Registration extends React.Component  {
 
                     <div className="text-center mt-4 black-text">
                       <MDBBtn color="indigo">Sign Up</MDBBtn>
-                      <hr className="hr-light" />
-                      <GoogleLoginButton onClick={() => alert("Hello")} />
-                      <LinkedInLoginButton onClick={() => alert("Hello")} />
-
                     </div>
                   </MDBCardBody>
                 </MDBCard>
@@ -92,4 +85,4 @@ class Registration extends React.Component  {
   }
 }
   
-  export default Registration;
+  export default RegistrationJobSeeker;
