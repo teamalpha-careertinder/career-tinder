@@ -1,33 +1,48 @@
 import React, { Component } from 'react';
 import { Router, browserHistory, Route } from 'react-router';
 import './app.css';
+import ReactDOM from "react-dom";
+import { MDBAnimation } from "mdbreact";
+import { Redirect } from 'react-router';
+import {
+  MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBMask, MDBRow,
+  MDBCol, MDBIcon,
+  MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBFormInline
+} from "mdbreact";
+
 import CoreLayout from '../layouts';
 import LoginLayout from '../authentication/login';
-import RegistrationLayout from '../authentication/registration';
+import RegistrationEmployerLayout from '../authentication/registrationEmployer';
+import RegistrationJobSeekerLayout from '../authentication/registrationJobSeeker';
 import CreateProfileLayout from '../profile/create';
+import HomeLayout from '../layouts/home';
 
 const Home = (props) => (
   <div className="container-fluid">
     <CoreLayout />
-  </div>  
+    <HomeLayout />
+  </div>
 );
 
 const Login = (props) => (
   <div className="container-fluid">
     <CoreLayout />
-    <div className="container">
-      <LoginLayout />
-    </div>
-  </div>  
+    <LoginLayout />
+  </div>
 );
 
-const Registration = (props) => (
+const RegistrationJobSeeker = (props) => (
   <div className="container-fluid">
     <CoreLayout />
-    <div className="container">
-      <RegistrationLayout />
-    </div>
-  </div>  
+    <RegistrationJobSeekerLayout />
+  </div>
+);
+
+const RegistrationEmployer = (props) => (
+  <div className="container-fluid">
+    <CoreLayout />
+    <RegistrationEmployerLayout />
+  </div>
 );
 
 const CreateProfile = (props) => (
@@ -36,18 +51,21 @@ const CreateProfile = (props) => (
     <div className="container">
       <CreateProfileLayout />
     </div>
-  </div>  
+  </div>
 );
 
 class App extends Component {
   render() {
     return (
-      <Router history={browserHistory}>
-        <Route path="/" component={Home}/>
-        <Route path="/login" component={Login}/>
-        <Route path="/registration" component={Registration}/>
-        <Route path="/profile/create" component={CreateProfile}/>
-      </Router>
+      <div id="classicformpage">
+        <Router history={browserHistory}>
+          <Route path="/" component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/registration/jobseeker" component={RegistrationJobSeeker} />
+          <Route path="/registration/employer" component={RegistrationEmployer} />
+          <Route path="/profile/create" component={CreateProfile} />
+        </Router>
+      </div>
     );
   }
 }
