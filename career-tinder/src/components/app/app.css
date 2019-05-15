@@ -90,6 +90,25 @@ label {
     margin: 10px 0;
 }
 
+.profile-form .form-group label {
+    color: #333 !important;
+}
+
 .profile-form .form-group>label {
-    font-weight: bold
+    font-weight: bold;
+}
+
+.card-body.text-info {
+    background-color: #fff;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link,
+.card-header {
+    background-color: #33b5e5;
+    color: #fff;
+}
+
+.nav-pills .nav-link {
+    color: #33b5e5;
 }
