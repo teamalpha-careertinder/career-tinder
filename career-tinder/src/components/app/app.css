@@ -87,7 +87,7 @@ label {
 }
 
 .profile-form-wrapper {
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
 .profile-form .form-group label {
@@ -111,4 +111,26 @@ label {
 
 .nav-pills .nav-link {
     color: #33b5e5;
+}
+
+.header-wrapper a.nav-link {
+    color: #fff;
+}
+
+button.navbar-toggler {
+    color: #fff;
+}
+
+.navbar-wrapper .navbar {
+    background: #1e698d !important;
+}
+
+.navbar-wrapper {
+    height: 66px;
+}
+
+@media (max-width: 768px) {
+    .header-wrapper .navbar:not(.top-nav-collapse) {
+        background: #1e698d !important;
+    }
 }
