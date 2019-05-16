@@ -1,32 +1,12 @@
-import React, { Component } from 'react';
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
-import {
-  MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBMask, MDBRow,
-  MDBCol, MDBIcon,
-  MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBFormInline
-} from "mdbreact";
+import React from 'react';
+import { BrowserRouter as Router, NavLink } from "react-router-dom";
+import { MDBMask, MDBRow, MDBCol, MDBIcon, MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput } from "mdbreact";
 import "./login.css";
-import App from "./../app/app";
 import { MDBAnimation } from "mdbreact";
-
-import CoreLayout from '../layouts';
-import HomeLayout from '../layouts/home';
-
-
-const Home = (props) => (
-  <div className="container-fluid">
-    <CoreLayout />
-    <HomeLayout />
-  </div>
-);
 
 
 class Login extends React.Component {
 
-  SignupClicked() {
-    ReactDOM.render(<Home />, document.getElementById('root'));
-  }
   state = {
     collapseID: ""
   };
@@ -44,7 +24,6 @@ class Login extends React.Component {
       <div id="classicformpage">
         <Router>
           <div>
-
             {this.state.collapseID && overlay}
           </div>
         </Router>
@@ -84,12 +63,9 @@ class Login extends React.Component {
                           <MDBBtn color="indigo">Sign In</MDBBtn>
                           <hr className="hr-light" />
                           <div className="text-center d-flex justify-content-center white-label">
-
-                            <a href="#!" className="white-text">
-                              Don't have an account ? <MDBIcon onClick={this.SignupClicked} icon="user-plus" className="red-text" />
-                            </a>
-
-
+                            <div className="white-text">
+                              Don't have an account ? <NavLink exact className="nav-link red-text" to="/"><i className="fas fa-user-plus"></i> Register</NavLink>
+                            </div>
                           </div>
                         </div>
                       </MDBCardBody>

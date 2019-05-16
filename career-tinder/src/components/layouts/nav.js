@@ -1,47 +1,8 @@
 import React from 'react';
-import ReactDOM from "react-dom";
+import {  NavLink } from "react-router-dom";
 import logo from '../../assets/images/logo.png';
-import CoreLayout from '../layouts';
-import HomeLayout from '../layouts/home';
-import CreateProfileLayout from '../profile/create';
-import LoginLayout from '../authentication/login';
-
-const Home = (props) => (
-    <div className="container-fluid">
-        <CoreLayout />
-        <HomeLayout />
-    </div>
-);
-
-const CreateProfile = (props) => (
-    <div className="container-fluid">
-      <CoreLayout />
-      <div className="container">
-        <CreateProfileLayout />
-      </div>
-    </div>
-);
-
-const Login = (props) => (
-    <div className="container-fluid">
-      <CoreLayout />
-      <LoginLayout />
-    </div>
-);
 
 class Nav extends React.Component {
-    Home() {
-        ReactDOM.render(<Home />, document.getElementById('root'));
-    }
-
-    CreateProfile() {
-        ReactDOM.render(<CreateProfile />, document.getElementById('root'));
-    }
-
-    Login() {
-        ReactDOM.render(<Login />, document.getElementById('root'));
-    }
-
     state = {
         isOpen: false
     };
@@ -60,14 +21,14 @@ class Nav extends React.Component {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav float-left">
-                        <li className="nav-item" onClick={this.Home}>
-                            <a className="nav-link" href="#!"><i className="fas fa-user-plus"></i> Register</a>
+                        <li className="nav-item">
+                            <NavLink exact className="nav-link" to="/"><i className="fas fa-user-plus"></i> Register</NavLink>
                         </li>
-                        <li className="nav-item" onClick={this.CreateProfile}>
-                            <a className="nav-link" href="#!"><i className="fas fa-plus"></i> Create Profile</a>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/login"><i className="fas fa-sign-in-alt"></i> Login</NavLink>
                         </li>
-                        <li className="nav-item" onClick={this.Login}>
-                            <a className="nav-link" href="#!"><i className="fas fa-sign-in-alt"></i> Login</a>
+                        <li className="nav-item">
+                            <NavLink className="nav-link" to="/profile/create"><i className="fas fa-plus"></i> Create Profile</NavLink>
                         </li>
                     </ul>
                 </div>

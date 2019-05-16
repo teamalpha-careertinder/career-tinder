@@ -1,9 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, NavLink } from "react-router-dom";
 import {
-  MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBMask, MDBRow,
-  MDBCol, MDBIcon,
-  MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBFormInline
+  MDBMask, MDBRow, MDBCol, MDBIcon, MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput
 } from "mdbreact";
 import "./registrationEmployer.css";
 
@@ -27,7 +25,6 @@ class RegistrationEmployer extends React.Component {
       <div id="classicformpage">
         <Router>
           <div>
-
             {this.state.collapseID && overlay}
           </div>
         </Router>
@@ -66,8 +63,15 @@ class RegistrationEmployer extends React.Component {
 
                       <div className="text-center mt-4 black-text">
                         <MDBBtn color="indigo">Sign Up</MDBBtn>
+                      </div>
 
-
+                      <div className="text-center mt-4">    
+                        <hr className="hr-light" />
+                        <div className="text-center d-flex justify-content-center white-label"> 
+                          <NavLink className="red-text" to="/registration/jobseeker">
+                            <i className="fas fa-user-plus"></i> Oops! I'm a Job Seeker!
+                          </NavLink>  
+                        </div>
                       </div>
                     </MDBCardBody>
                   </MDBCard>

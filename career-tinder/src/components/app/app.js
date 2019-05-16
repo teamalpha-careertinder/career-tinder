@@ -1,66 +1,33 @@
 import React, { Component } from 'react';
-import { Router, browserHistory, Route } from 'react-router';
+import {  Route,  HashRouter } from "react-router-dom";
 import './app.css';
 
 import CoreLayout from '../layouts';
-import LoginLayout from '../authentication/login';
-import RegistrationEmployerLayout from '../authentication/registrationEmployer';
-import RegistrationJobSeekerLayout from '../authentication/registrationJobSeeker';
-import CreateProfileLayout from '../profile/create';
-import HomeLayout from '../layouts/home';
-
-const Home = (props) => (
-  <div className="container-fluid">
-    <CoreLayout />
-    <HomeLayout />
-  </div>
-);
-
-const Login = (props) => (
-  <div className="container-fluid">
-    <CoreLayout />
-    <LoginLayout />
-  </div>
-);
-
-const RegistrationJobSeeker = (props) => (
-  <div className="container-fluid">
-    <CoreLayout />
-    <RegistrationJobSeekerLayout />
-  </div>
-);
-
-const RegistrationEmployer = (props) => (
-  <div className="container-fluid">
-    <CoreLayout />
-    <RegistrationEmployerLayout />
-  </div>
-);
-
-const CreateProfile = (props) => (
-  <div className="container-fluid">
-    <CoreLayout />
-    <div className="container">
-      <CreateProfileLayout />
-    </div>
-  </div>
-);
+import Login from '../authentication/login';
+import RegistrationEmployer from '../authentication/registrationEmployer';
+import RegistrationJobSeeker from '../authentication/registrationJobSeeker';
+import CreateProfile from '../profile/create';
+import GuestHome from '../layouts/home';
 
 class App extends Component {
   render() {
     return (
       <div id="classicformpage">
-        <Router history={browserHistory}>
-          <Route path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/registration/jobseeker" component={RegistrationJobSeeker} />
-          <Route path="/registration/employer" component={RegistrationEmployer} />
-          <Route path="/profile/create" component={CreateProfile} />
-        </Router>
+        <HashRouter>
+          <div className="container-fluid">
+            <CoreLayout />
+            <div className="content-wrapper">
+              <Route exact path="/" component={GuestHome} />
+              <Route path="/login" component={Login} />
+              <Route path="/registration/jobseeker" component={RegistrationJobSeeker} />
+              <Route path="/registration/employer" component={RegistrationEmployer} />
+              <Route path="/profile/create" component={CreateProfile} />
+            </div>
+          </div>
+        </HashRouter>
       </div>
     );
   }
 }
 
 export default App;
-
