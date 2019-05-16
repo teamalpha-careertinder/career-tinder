@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { Router, browserHistory, Route } from 'react-router';
 import './app.css';
-import ReactDOM from "react-dom";
-import { MDBAnimation } from "mdbreact";
-import { Redirect } from 'react-router';
-import {
-  MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBMask, MDBRow,
-  MDBCol, MDBIcon,
-  MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBFormInline
-} from "mdbreact";
 
 import CoreLayout from '../layouts';
 import LoginLayout from '../authentication/login';

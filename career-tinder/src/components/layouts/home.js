@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
-  MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBMask, MDBRow,
-  MDBCol, MDBIcon,
-  MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBFormInline
+  MDBMask, MDBRow, MDBCol, MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody
 } from "mdbreact";
-import App from "./../app/app";
 import { MDBAnimation } from "mdbreact";
 
 import CoreLayout from '../layouts';
@@ -113,9 +110,9 @@ class Home extends React.Component {
                             <div className="text-center mt-4 black-text">    
                               <hr className="hr-light" />
                               <div className="text-center d-flex justify-content-center white-label">    
-                                <a href="#!" className="white-text" >
-                                  Already have an account? <p><a href="#" class="text-danger" onClick={this.SigninClicked}>Login Here</a> </p>
-                                </a>        
+                                <div className="white-text" >
+                                  Already have an account? <br/><a href="#!" className="text-danger" onClick={this.SigninClicked}>Login Here</a> 
+                                </div>        
                               </div>
                             </div>
                           </MDBCardBody>

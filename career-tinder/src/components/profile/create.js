@@ -1,8 +1,70 @@
-import React, { Component } from 'react';
+import React from 'react';
+import DatePicker from "react-datepicker";
+import Select from 'react-select';
 import { MDBInput, MDBIcon, MDBBtn } from "mdbreact";
+import './profile.css';
 
-class CreateProfile extends Component {
+const skills = [
+  { value: 'php', label: 'PHP' },
+  { value: 'asp.net', label: 'ASP.Net' },
+  { value: 'java', label: 'Java' }
+];
+
+const languages = [
+  { value: 'english', label: 'English' },
+  { value: 'deutsche', label: 'Deutsche' },
+  { value: 'italian', label: 'Italian' }
+];
+
+
+class CreateProfile extends React.Component {
+    state = {
+      selectedSkills: null,
+      selectedLanguages: null,
+    }
+    handleSkillsChange = (selectedSkills) => {
+      this.setState({ selectedSkills });
+      console.log(`Option selected:`, selectedSkills);
+    }
+    handleLanguagesChange = (selectedLanguages) => {
+      this.setState({ selectedLanguages });
+      console.log(`Option selected:`, selectedLanguages);
+    }
+
+    constructor(props) {
+      super(props);
+      this.state = {
+        startDOBDate: new Date(),
+        startFromDate: new Date(),
+        startToDate: new Date()
+      };
+      this.handleDOBDateChange = this.handleDOBDateChange.bind(this);
+      this.handleFromDateChange = this.handleFromDateChange.bind(this);
+      this.handleToDateChange = this.handleToDateChange.bind(this);
+    }
+  
+    handleDOBDateChange(date) {
+      this.setState({
+        startDOBDate: date
+      });
+    }
+
+    handleFromDateChange(date) {
+      this.setState({
+        startFromDate: date
+      });
+    }
+
+    handleToDateChange(date) {
+      this.setState({
+        startToDate: date
+      });
+    }
+
     render() {
+      const { selectedSkills } = this.state;
+      const { selectedLanguages } = this.state;
+
       return (
         <div className="profile-form-wrapper">        
           <div className="card border-info mb-3">
@@ -26,65 +88,159 @@ class CreateProfile extends Component {
                 <div className="tab-pane fade show active" id="pills-job-seeker" role="tabpanel" aria-labelledby="pills-job-seeker-tab">
                   <form className="profile-form">
                     <div className="row">
-                      <div className="col-md-4 col-sm-12">
+                      <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          <MDBInput label="Name" outline type="text" icon="pencil-alt" />
+                          <MDBInput label="Name" type="text" icon="pencil-alt" />
                         </div>
-                      </div>
-                      <div className="col-md-4 col-sm-12">
+                      </div>                      
+                      <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          <MDBInput label="Date of Birth" outline type="text" icon="calendar-alt" />
-                        </div>
-                      </div>
-                      <div className="col-md-4 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput label="Phone" outline icon="mobile-alt" type="text" />
+                          <MDBInput label="Phone" icon="mobile-alt" type="text" />
                         </div>
                       </div>
                     </div>
                     <div className="row">            
                       <div className="col-sm-12">
                         <div className="form-group">
-                          <MDBInput label="Address" outline icon="address-card" type="textarea" rows="1" />
+                          <MDBInput label="Address" icon="address-card" type="textarea" rows="1" />
                         </div>
                       </div>
                     </div>
                     <div className="row">
+                      <div className="col-md-4 col-sm-12">
+                        <div className="form-group datepicker">
+                          <label>Date of birth:</label>
+                          <div className="md-form">
+                            <i className="fas fa-calendar-alt prefix"></i>
+                            <DatePicker selected={this.state.startDOBDate} onChange={this.handleDOBDateChange} className="form-control" 
+                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-4 col-sm-12">
+                        <div className="form-group">
+                          <label>Skills</label>
+                          <Select
+                            value={selectedSkills}
+                            onChange={this.handleSkillsChange}
+                            options={skills}
+                            isMulti={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-4 col-sm-12">
+                        <div className="form-group">
+                          <label>Languages</label>
+                          <Select
+                            value={selectedLanguages}
+                            onChange={this.handleLanguagesChange}
+                            options={languages}
+                            isMulti={true}
+                          />
+                        </div>
+                      </div>
+                    </div>                           
+                    <div className="row">                      
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          <MDBInput label="Skills" outline icon="walking" type="text" />
+                          <label htmlFor="eu_citizen">EU Citizen:</label>
+                          <div className="form-check">
+                            <input className="form-check-input" type="checkbox" value="" id="eu_citizen" />
+                            <label className="form-check-label" htmlFor="eu_citizen">
+                              Are you an EU Citizen?
+                            </label>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          <label for="eu_citizen">EU Citizen:</label>
+                          <label htmlFor="job_type">Employment type for this position:</label>
                           <div className="form-check">
-                            <input className="form-check-input" type="checkbox" value="" id="eu_citizen" />
-                            <label className="form-check-label" for="defaultCheck1">
-                              Are you an EU Citizen?
+                            <input className="form-check-input" type="checkbox" name="job_type" value="" id="job_type_ft" />
+                            <label className="form-check-label" htmlFor="job_type_ft">
+                              Full-time
+                            </label>
+                          </div>
+                          <div className="form-check">
+                            <input className="form-check-input" type="checkbox" name="job_type" value="" id="job_type_pt" />
+                            <label className="form-check-label" htmlFor="job_type_pt">
+                              Part-time
                             </label>
                           </div>
                         </div>
                       </div>
                     </div>   
                     <div className="row">
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-sm-12">
                         <div className="form-group">
-                          <label for="work_experience">Work Experience:</label>
-                          {/* Add Required Fields */}
+                          <label htmlFor="work_experience">Work Experience:</label>
+                          <div className="row">
+                            <div className="col-md-6 col-sm-12">
+                              <MDBInput label="Company name" type="text" icon="pencil-alt" />
+                            </div>
+                            <div className="col-md-6 col-sm-12">
+                              <MDBInput label="Job title" type="text" icon="pencil-alt" />
+                            </div>
+                            <div className="col-md-6 col-sm-12">
+                              <div className="form-group datepicker">
+                                <label>From:</label>
+                                <div className="md-form">
+                                  <i className="fas fa-calendar-alt prefix"></i>
+                                  <DatePicker selected={this.state.startFromDate} onChange={this.handleFromDateChange} className="form-control" 
+                                    peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6 col-sm-12">
+                              <div className="form-group datepicker">
+                                <label>To:</label>
+                                <div className="md-form">
+                                  <i className="fas fa-calendar-alt prefix"></i>
+                                  <DatePicker selected={this.state.startToDate} onChange={this.handleToDateChange} className="form-control" 
+                                    peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-sm-12">
+                              <MDBInput label="Job description" type="text" icon="pencil-alt" />
+                            </div>
+                            <div className="col-sm-12 mb-1">
+                              <div className="form-inline">
+                                <div className="form-group">
+                                  <label htmlFor="job_type"className="mr-2">Job type while working there:</label>
+                                  <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="we_job_type" value="" id="job_type_ft" />
+                                    <label className="form-check-label" htmlFor="job_type_ft">
+                                      Full-time
+                                    </label>
+                                  </div>
+                                  <div className="form-check form-check-inline">
+                                    <input className="form-check-input" type="radio" name="we_job_type" value="" id="job_type_pt" />
+                                    <label className="form-check-label" htmlFor="job_type_pt">
+                                      Part-time
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-sm-12">
+                              <MDBBtn color="success" className="btn-sm">
+                                <MDBIcon icon="plus" className="mr-1" /> Add work experience
+                              </MDBBtn>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-md-6 col-sm-12">
+                      </div>   
+                      <div className="col-sm-12">
                         <div className="form-group">
-                          <label for="degree">Degree:</label>
-                          {/* Add Required Fields */}
+                          <MDBInput label="Salary range" icon="euro-sign" type="text" />
                         </div>
-                      </div>
+                      </div>                   
                     </div>    
                     <div className="row">
                       <div className="col-sm-12">
                         <MDBBtn outline color="info" className="float-right">
-                          <MDBIcon icon="plus" className="mr-1" /> Create Job Seeker
+                          <i className="fas fa-save"></i> Save Job Seeker Profile
                         </MDBBtn>
                       </div>
                     </div>      
@@ -95,48 +251,48 @@ class CreateProfile extends Component {
                       <div className="row">
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <MDBInput label="Employer Name" outline icon="pencil-alt" type="text" />
+                            <MDBInput label="Employer Name" icon="pencil-alt" type="text" />
                           </div>
                         </div>
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <MDBInput label="Industry" type="text" outline icon="industry" />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-md-4 col-sm-12">
-                          <div className="form-group">
-                            <MDBInput label="Contact Name" type="text" outline icon="pencil-alt" />
-                          </div>
-                        </div>
-                        <div className="col-md-4 col-sm-12">
-                          <div className="form-group">
-                            <MDBInput label="Contact Email" type="email" outline icon="envelope" />
-                          </div>
-                        </div>
-                        <div className="col-md-4 col-sm-12">
-                          <div className="form-group">
-                            <MDBInput label="Contact Phone" type="text" outline icon="mobile-alt" />
+                            <MDBInput label="Industry" type="text" icon="industry" />
                           </div>
                         </div>
                       </div>
                       <div className="row">            
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <MDBInput label="Employer Address" type="textarea" rows="1" outline icon="address-card" />
+                            <MDBInput label="Employer Address" type="textarea" rows="1" icon="address-card" />
                           </div>
                         </div>
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <MDBInput label="Employer Description" type="textarea" rows="1" outline icon="comment-alt" />
+                            <MDBInput label="Employer Description" type="textarea" rows="1" icon="comment-alt" />
                           </div>
                         </div>
-                      </div>      
+                      </div>   
+                      <div className="row">
+                        <div className="col-md-4 col-sm-12">
+                          <div className="form-group">
+                            <MDBInput label="Contact Name" type="text" icon="pencil-alt" />
+                          </div>
+                        </div>
+                        <div className="col-md-4 col-sm-12">
+                          <div className="form-group">
+                            <MDBInput label="Contact Email" type="email" icon="envelope" />
+                          </div>
+                        </div>
+                        <div className="col-md-4 col-sm-12">
+                          <div className="form-group">
+                            <MDBInput label="Contact Phone" type="text" icon="mobile-alt" />
+                          </div>
+                        </div>
+                      </div>                         
                       <div className="row">
                         <div className="col-sm-12">
                           <MDBBtn outline color="info" className="float-right">
-                            <MDBIcon icon="plus" className="mr-1" /> Create Employer
+                            <i className="fas fa-save"></i> Save Employer Profile
                           </MDBBtn>
                         </div>
                       </div>        
