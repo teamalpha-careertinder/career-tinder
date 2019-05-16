@@ -86,18 +86,6 @@ label {
     background-size: 100%;
 }
 
-.profile-form-wrapper {
-    margin: 20px 0;
-}
-
-.profile-form .form-group label {
-    color: #333 !important;
-}
-
-.profile-form .form-group>label {
-    font-weight: bold;
-}
-
 .card-body.text-info {
     background-color: #fff;
 }
@@ -127,6 +115,11 @@ button.navbar-toggler {
 
 .navbar-wrapper {
     height: 66px;
+}
+
+.react-datepicker-wrapper input {
+    margin-left: 2.5rem !important;
+    width: calc(100% - 2.5rem);
 }
 
 @media (max-width: 768px) {
