@@ -1,63 +1,21 @@
 import React from 'react';
-import ReactDOM from "react-dom";
+import { NavLink } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
-  MDBMask, MDBRow, MDBCol, MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody
+  MDBMask, MDBRow, MDBCol, MDBView, MDBContainer, MDBCard, MDBCardBody
 } from "mdbreact";
 import { MDBAnimation } from "mdbreact";
 
-import CoreLayout from '../layouts';
-import LoginLayout from '../authentication/login';
-import RegistrationEmployerLayout from '../authentication/registrationEmployer';
-import RegistrationJobSeekerLayout from '../authentication/registrationJobSeeker';
-
-const Login = (props) => (
-  <div className="container-fluid">
-    <CoreLayout />
-    <LoginLayout />
-  </div>
-);
-
-const RegistrationJobSeeker = (props) => (
-  <div className="container-fluid">
-    <CoreLayout />
-    <RegistrationJobSeekerLayout />
-  </div>
-);
-
-const RegistrationEmployer = (props) => (
-  <div className="container-fluid">
-    <CoreLayout />
-    <RegistrationEmployerLayout />
-  </div>
-);
-
 class Home extends React.Component {
-    SigninClicked() {
-        ReactDOM.render(<Login />, document.getElementById('root'));
-      }
-    
-      Jobseeker() {
-        ReactDOM.render(<RegistrationJobSeeker />, document.getElementById('root'));
-      }
-      Employer() {
-        ReactDOM.render(<RegistrationEmployer />, document.getElementById('root'));
-      }
-    
-    
-    
       state = {
         collapseID: ""
       };
-    
-    
-    
-    
-    
+      
       toggleCollapse = collapseID => () =>
         this.setState(prevState => ({
           collapseID: prevState.collapseID !== collapseID ? collapseID : ""
-        }));
+        })
+      );
     
       render() {
         const overlay = (
@@ -69,8 +27,7 @@ class Home extends React.Component {
               <div>    
                 {this.state.collapseID && overlay}
               </div>
-            </Router>   
-    
+            </Router>       
     
             <MDBView>
               <MDBMask className="d-flex justify-content-center align-items-center gradient">
@@ -100,18 +57,25 @@ class Home extends React.Component {
                             <h5 className="text-center">
                               Hey there! Are you a Job Seeker or an Employer?
                             </h5>
-                            <hr className="hr-light" />    
-                            <div className="text-center mt-4 black-text" onClick={this.Jobseeker}>
-                              <MDBBtn gradient="purple"><b>I'M A JOB SEEKER</b></MDBBtn>
-                            </div>    
-                            <div className="text-center mt-4 black-text" onClick={this.Employer}>
-                              <MDBBtn gradient="blue"><b>I'M AN EMPLOYER</b></MDBBtn>
+                            <hr className="hr-light" />   
+                            <div className="text-center mt-4 black-text">
+                              <NavLink className="btn purple-gradient Ripple-parent" to="/registration/jobseeker">
+                                <i className="fas fa-user-plus"></i> <b>I'M A JOB SEEKER</b>
+                              </NavLink> 
+                            </div>  
+                            <div className="text-center mt-4 black-text">
+                              <NavLink className="btn blue-gradient Ripple-parent" to="/registration/employer">
+                                <i className="fas fa-user-plus"></i> <b>I'M AN EMPLOYER</b>
+                              </NavLink> 
                             </div>    
                             <div className="text-center mt-4 black-text">    
                               <hr className="hr-light" />
                               <div className="text-center d-flex justify-content-center white-label">    
                                 <div className="white-text" >
-                                  Already have an account? <br/><a href="#!" className="text-danger" onClick={this.SigninClicked}>Login Here</a> 
+                                  Already have an account? <br/>
+                                  <NavLink className="red-text" to="/login">
+                                    <i className="fas fa-sign-in-alt"></i> Login
+                                  </NavLink> 
                                 </div>        
                               </div>
                             </div>
@@ -123,10 +87,6 @@ class Home extends React.Component {
                 </MDBContainer>
               </MDBMask>
             </MDBView>
-    
-    
-    
-    
           </div>
         );
     }
