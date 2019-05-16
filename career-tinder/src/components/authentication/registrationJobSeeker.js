@@ -1,10 +1,6 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
-import {
-MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBMask, MDBRow,
-MDBCol, MDBIcon,
-MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput, MDBFormInline
-} from "mdbreact";
+import React from 'react';
+import { BrowserRouter as Router, NavLink } from "react-router-dom";
+import { MDBMask, MDBRow, MDBCol, MDBIcon, MDBBtn, MDBView, MDBContainer, MDBCard, MDBCardBody, MDBInput } from "mdbreact";
 import "./registrationJobSeeker.css";
 
 class RegistrationJobSeeker extends React.Component  {
@@ -72,6 +68,15 @@ class RegistrationJobSeeker extends React.Component  {
                     <div className="text-center mt-4 black-text">
                       <MDBBtn color="indigo">Sign Up</MDBBtn>
                     </div>
+
+                    <div className="text-center mt-4">    
+                      <hr className="hr-light" />
+                      <div className="text-center d-flex justify-content-center white-label"> 
+                        <NavLink className="red-text" to="/registration/employer">
+                          <i className="fas fa-user-plus"></i> Oops! I'm an Employer!
+                        </NavLink>  
+                      </div>
+                    </div>
                   </MDBCardBody>
                 </MDBCard>
               </MDBCol>
@@ -85,4 +90,4 @@ class RegistrationJobSeeker extends React.Component  {
   }
 }
   
-  export default RegistrationJobSeeker;
+export default RegistrationJobSeeker;

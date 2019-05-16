@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, NavLink } from "react-router-dom";
 import {
   MDBMask,
   MDBRow,
@@ -81,10 +81,16 @@ class Login extends React.Component {
                           <MDBBtn color="indigo">Sign In</MDBBtn>
                           <hr className="hr-light" />
                           <div className="text-center d-flex justify-content-center white-label">
-                            <a href="/" className="white-text">
+                            <div className="white-text">
                               Don't have an account ?{" "}
-                              <MDBIcon icon="user-plus" className="red-text" />
-                            </a>
+                              <NavLink
+                                exact
+                                className="nav-link red-text"
+                                to="/"
+                              >
+                                <i className="fas fa-user-plus" /> Register
+                              </NavLink>
+                            </div>
                           </div>
                         </div>
                       </MDBCardBody>

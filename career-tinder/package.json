@@ -9,6 +9,7 @@
     "mdbreact": "^4.13.0",
     "react": "^16.7.0",
     "react-bootstrap": "^1.0.0-beta.8",
+    "react-datepicker": "^2.5.0",
     "react-dom": "^16.7.0",
     "react-resize-image": "^1.0.4",
     "react-router": "^3.2.1",
@@ -20,7 +21,8 @@
     "redux": "^4.0.0",
     "redux-firestore": "^0.5.7",
     "redux-thunk": "^2.3.0",
-    "recompose": "^0.30.0"
+    "recompose": "^0.30.0",
+    "react-select": "^2.4.3"
   },
   "devDependencies": {},
   "scripts": {

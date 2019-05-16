@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
+import { NavLink } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
   MDBMask,
   MDBRow,
   MDBCol,
-  MDBBtn,
   MDBView,
   MDBContainer,
   MDBCard,
@@ -67,31 +66,33 @@ class Home extends React.Component {
                           Hey there! Are you a Job Seeker or an Employer?
                         </h5>
                         <hr className="hr-light" />
-                        <a href="/registration/jobseeker">
-                          <div className="text-center mt-4 black-text">
-                            <MDBBtn gradient="purple">
-                              <b>I'M A JOB SEEKER</b>
-                            </MDBBtn>
-                          </div>
-                        </a>
-                        <a href="/registration/employer">
-                          <div className="text-center mt-4 black-text">
-                            <MDBBtn gradient="blue">
-                              <b>I'M AN EMPLOYER</b>
-                            </MDBBtn>
-                          </div>
-                        </a>
+                        <div className="text-center mt-4 black-text">
+                          <NavLink
+                            className="btn purple-gradient Ripple-parent"
+                            to="/registration/jobseeker"
+                          >
+                            <i className="fas fa-user-plus" />{" "}
+                            <b>I'M A JOB SEEKER</b>
+                          </NavLink>
+                        </div>
+                        <div className="text-center mt-4 black-text">
+                          <NavLink
+                            className="btn blue-gradient Ripple-parent"
+                            to="/registration/employer"
+                          >
+                            <i className="fas fa-user-plus" />{" "}
+                            <b>I'M AN EMPLOYER</b>
+                          </NavLink>
+                        </div>
                         <div className="text-center mt-4 black-text">
                           <hr className="hr-light" />
                           <div className="text-center d-flex justify-content-center white-label">
-                            <a href="#!" className="white-text">
-                              Already have an account?{" "}
-                              <p>
-                                <a href="/login" class="text-danger">
-                                  Login Here
-                                </a>{" "}
-                              </p>
-                            </a>
+                            <div className="white-text">
+                              Already have an account? <br />
+                              <NavLink className="red-text" to="/login">
+                                <i className="fas fa-sign-in-alt" /> Login
+                              </NavLink>
+                            </div>
                           </div>
                         </div>
                       </MDBCardBody>
