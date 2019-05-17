@@ -1,17 +1,18 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/auth';
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/auth";
 
 // Replace this with your own config details
 var config = {
-  apiKey: "AIzaSyDo2HauU6PtL3PY6KthXdpIUzbDV908avo",
-  authDomain: "marioplan-files.firebaseapp.com",
-  databaseURL: "https://marioplan-files.firebaseio.com",
-  projectId: "marioplan-files",
-  storageBucket: "marioplan-files.appspot.com",
-  messagingSenderId: "1011174152626"
+  apiKey: "AIzaSyBevDnFW_8QV7ydcIClGeZfIrZJh3J_fWI",
+  authDomain: "career-tinder.firebaseapp.com",
+  databaseURL: "https://career-tinder.firebaseio.com",
+  projectId: "career-tinder",
+  storageBucket: "career-tinder.appspot.com",
+  messagingSenderId: "430287319970",
+  appId: "1:430287319970:web:630a3cd4111782b0"
 };
 firebase.initializeApp(config);
-firebase.firestore().settings({ timestampsInSnapshots: true });
+firebase.firestore().settings({});
 
-export default firebase 
+export default firebase;
