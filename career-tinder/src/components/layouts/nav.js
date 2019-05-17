@@ -1,42 +1,51 @@
-import React from 'react';
-import {  NavLink } from "react-router-dom";
-import logo from '../../assets/images/logo.png';
+import React from "react";
+import logo from "../../assets/images/logo.png";
+import { connect } from "react-redux";
+import SignedInLinks from "./SignedInLinks";
+import SignedOutLinks from "./SignedOutLinks";
+import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
-class Nav extends React.Component {
-    state = {
-        isOpen: false
-    };
-      
-    toggleCollapse = () => {
-        this.setState({ isOpen: !this.state.isOpen });
-    }
+const Nav = props => {
+  const { auth, profile } = props;
+  // console.log(auth);
+  const links = auth.uid ? (
+    <SignedInLinks profile={profile} />
+  ) : (
+    <SignedOutLinks />
+  );
+  return (
+    <div className="navbar-wrapper">
+      <nav className="navbar fixed-top navbar-expand-lg navbar-dark">
+        <Link to="/" className="navbar-brand">
+          <img src={logo} alt={"logo"} />
+        </Link>
 
-    render() {
-      return (
-        <div className="navbar-wrapper">
-            <nav className="navbar fixed-top navbar-expand-lg navbar-dark">
-                <a className="navbar-brand" href="#!"><img src={logo} alt={"logo"} /></a>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul className="navbar-nav float-left">
-                        <li className="nav-item">
-                            <NavLink exact className="nav-link" to="/"><i className="fas fa-user-plus"></i> Register</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/login"><i className="fas fa-sign-in-alt"></i> Login</NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/profile/create"><i className="fas fa-plus"></i> Create Profile</NavLink>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          {links}
         </div>
-        
-      );
-    }
-  }
-  
-  export default Nav;
+      </nav>
+    </div>
+  );
+};
+
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile
+  };
+};
+
+export default connect(mapStateToProps)(Nav);

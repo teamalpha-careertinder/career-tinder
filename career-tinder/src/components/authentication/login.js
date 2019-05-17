@@ -14,31 +14,30 @@ import {
 } from "mdbreact";
 import "./login.css";
 import { MDBAnimation } from "mdbreact";
+import { signIn } from "../../store/actions/authActions";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 class Login extends React.Component {
   state = {
-    collapseID: ""
+    email: "",
+    password: ""
+  };
+  handleChange = e => {
+    this.setState({
+      [e.target.id]: e.target.value
+    });
+  };
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.signIn(this.state);
   };
 
-  toggleCollapse = collapseID => () =>
-    this.setState(prevState => ({
-      collapseID: prevState.collapseID !== collapseID ? collapseID : ""
-    }));
-
   render() {
-    const overlay = (
-      <div
-        id="sidenav-overlay"
-        style={{ backgroundColor: "transparent" }}
-        onClick={this.toggleCollapse("navbarCollapse")}
-      />
-    );
+    const { authError, auth } = this.props;
+    if (auth.uid) return <Redirect to="/feed" />;
     return (
       <div id="classicformpage">
-        <Router>
-          <div>{this.state.collapseID && overlay}</div>
-        </Router>
-
         <MDBView>
           <MDBMask className="d-flex justify-content-center align-items-center gradient">
             <MDBContainer>
@@ -65,23 +64,36 @@ class Login extends React.Component {
                           <MDBIcon icon="user" /> Existing User
                         </h3>
                         <hr className="hr-light" />
-
-                        <MDBInput
-                          label="Your email"
-                          icon="envelope"
-                          className="white-text"
-                        />
-                        <MDBInput
-                          label="Your password"
-                          icon="lock"
-                          type="password"
-                          className="white-text"
-                        />
+                        <form onSubmit={this.handleSubmit}>
+                          <MDBInput
+                            label="Your email"
+                            icon="envelope"
+                            className="white-text"
+                            type="email"
+                            id="email"
+                            onChange={this.handleChange}
+                          />
+                          <MDBInput
+                            label="Your password"
+                            icon="lock"
+                            className="white-text"
+                            type="password"
+                            id="password"
+                            onChange={this.handleChange}
+                          />
+                          <div className="text-center mt-4 black-text">
+                            <MDBBtn color="indigo" type="submit">
+                              Sign In
+                            </MDBBtn>
+                            <div className="center red-text">
+                              {authError ? <p>{authError}</p> : null}
+                            </div>
+                          </div>
+                        </form>
                         <div className="text-center mt-4 black-text">
-                          <MDBBtn color="indigo">Sign In</MDBBtn>
-                          <hr className="hr-light" />
                           <div className="text-center d-flex justify-content-center white-label">
                             <div className="white-text">
+                              <hr className="hr-light" />
                               Don't have an account ?{" "}
                               <NavLink
                                 exact
@@ -106,4 +118,20 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    authError: state.auth.authError,
+    auth: state.firebase.auth
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    signIn: creds => dispatch(signIn(creds))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

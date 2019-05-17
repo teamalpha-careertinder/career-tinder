@@ -3,6 +3,11 @@ import DatePicker from "react-datepicker";
 import Select from 'react-select';
 import { MDBInput, MDBIcon, MDBBtn } from "mdbreact";
 import './profile.css';
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import { Redirect } from "react-router-dom";
+
 
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -64,7 +69,8 @@ class CreateProfile extends React.Component {
     render() {
       const { selectedSkills } = this.state;
       const { selectedLanguages } = this.state;
-
+      const { auth } = this.props;
+      if (!auth.uid) return <Redirect to="/login" />;
       return (
         <div className="container">
           <div className="profile-form-wrapper">        
@@ -308,4 +314,16 @@ class CreateProfile extends React.Component {
     }
   }
 
-export default CreateProfile;
+
+const mapStateToProps = state => {
+  // console.log(state);
+  return {
+    auth: state.firebase.auth
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect()
+)(CreateProfile);
+
