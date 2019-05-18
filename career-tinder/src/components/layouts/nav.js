@@ -17,7 +17,7 @@ const Nav = props => {
   return (
     <div className="navbar-wrapper">
       <nav className="navbar fixed-top navbar-expand-lg navbar-dark">
-        <Link to="/" className="navbar-brand">
+        <Link to="/feed" className="navbar-brand">
           <img src={logo} alt={"logo"} />
         </Link>
 
