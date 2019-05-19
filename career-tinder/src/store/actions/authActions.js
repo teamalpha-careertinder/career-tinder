@@ -31,18 +31,23 @@ export const signUpAsJobSeeker = newUser => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
+    const batch = firestore.batch();
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
-        return firestore
+
+        var newUserType = firestore.collection("users").doc(resp.user.uid);
+        batch.set(newUserType, {userType: 'jobseeker'});
+
+        var jobSeeker = firestore
           .collection("jobseeker")
-          .doc(resp.user.uid)
-          .set({
-            firstName: newUser.firstName,
-            lastName: newUser.lastName
-          });
+          .doc(resp.user.uid);
+         
+          batch.set(jobSeeker, {firstName: newUser.firstName, lastName: newUser.lastName});
+
+          batch.commit();
       })
       .then(() => {
         dispatch({ type: "SIGNUP_SUCCESS" });
@@ -57,17 +62,23 @@ export const signUpAsEmployer = newUser => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
+    const batch = firestore.batch();
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
-        return firestore
+
+        var newUserType = firestore.collection("users").doc(resp.user.uid);
+        batch.set(newUserType, {userType: 'employer'});
+
+        var employer = firestore
           .collection("employer")
-          .doc(resp.user.uid)
-          .set({
-            companyname: newUser.companyname
-          });
+          .doc(resp.user.uid);
+          batch.set(employer, {companyname: newUser.companyname});
+
+          batch.commit();
+        
       })
       .then(() => {
         dispatch({ type: "SIGNUP_SUCCESS" });
