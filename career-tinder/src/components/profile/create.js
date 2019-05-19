@@ -69,29 +69,35 @@ class CreateProfile extends React.Component {
     render() {
       const { selectedSkills } = this.state;
       const { selectedLanguages } = this.state;
-      const { auth } = this.props;
+      const { auth, user } = this.props;
+       
+          
+
       if (!auth.uid) return <Redirect to="/login" />;
       return (
         <div className="container">
           <div className="profile-form-wrapper">        
             <div className="card border-info mb-3">
               <div className="card-header">
-                <MDBIcon icon="user" className="mr-1" /> Create new profile
+                <MDBIcon icon="user" className="mr-1" /> Edit your profile
               </div>
               <div className="card-body text-info">
                 <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                   <li className="nav-item">
-                    <a className="nav-link active" id="pills-job-seeker-tab" data-toggle="pill" href="#pills-job-seeker" role="tab" aria-controls="pills-job-seeker" aria-selected="true">
+                  {user && user.userType == "jobseeker" ?  
+                    <a className="nav-link active" id="pills-job-seeker-tab" data-toggle="pill"  href="#pills-job-seeker" role="tab" aria-controls="pills-job-seeker" aria-selected="true">
                       <MDBIcon icon="users" className="mr-1" /> Job Seeker
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" id="pills-company-tab" data-toggle="pill" href="#pills-company" role="tab" aria-controls="pills-company" aria-selected="false">
+                    </a>      
+                   : 
+                   <a className="nav-link active" id="pills-company-tab" data-toggle="pill" href="#pills-company" role="tab" aria-controls="pills-company" aria-selected="true">
                       <MDBIcon icon="user-tie" className="mr-1" /> Employer
-                    </a>
+                   </a>
+                  }
                   </li>
+                  
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
+                  {user && user.userType == "jobseeker" ?  
                   <div className="tab-pane fade show active" id="pills-job-seeker" role="tabpanel" aria-labelledby="pills-job-seeker-tab">
                     <form className="profile-form">
                       <div className="row">
@@ -253,7 +259,8 @@ class CreateProfile extends React.Component {
                       </div>      
                     </form>  
                   </div>
-                  <div className="tab-pane fade" id="pills-company" role="tabpanel" aria-labelledby="pills-company-tab">
+                    : 
+                  <div className="tab-pane fade show active" id="pills-company" role="tabpanel" aria-labelledby="pills-company-tab">
                     <form className="profile-form">
                         <div className="row">
                           <div className="col-md-6 col-sm-12">
@@ -305,6 +312,7 @@ class CreateProfile extends React.Component {
                         </div>        
                       </form>  
                   </div>
+                  }
                 </div>  
               </div>
             </div>                  
@@ -315,15 +323,20 @@ class CreateProfile extends React.Component {
   }
 
 
-const mapStateToProps = state => {
-  // console.log(state);
+const mapStateToProps = (state) => {
+  const auth = state.firebase.auth;
+  const users = state.firestore.data.users;
+  const user= users ? users[auth.uid] : null;
   return {
-    auth: state.firebase.auth
-  };
+    user: user,
+    auth: auth
+  }
 };
 
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect()
+  firestoreConnect([{
+    collection: 'users'
+  }])
 )(CreateProfile);
 
