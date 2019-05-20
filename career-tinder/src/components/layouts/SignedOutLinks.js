@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const SignedOutLinks = () => {
   return (
-    <ul className="navbar-nav float-left">
+    <ul className="navbar-nav">
       <li className="nav-item">
         <NavLink exact className="nav-link" to="/">
           <i className="fas fa-user-plus" /> Register

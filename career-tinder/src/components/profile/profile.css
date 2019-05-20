@@ -1,5 +1,9 @@
 .profile-form-wrapper {
-    margin: 20px 0;
+    margin: 10px 0;
+}
+
+.profile-form-wrapper .card {
+    background-color: transparent;
 }
 
 .profile-form .form-group label {
@@ -13,4 +17,13 @@
 
 .datepicker .md-form {
     margin: 0;
+}
+
+@media (max-width: 768px) {
+    .profile-form-wrapper {
+        margin: 0;
+    }
+    .content-wrapper .container {
+        padding: 0;
+    }
 }

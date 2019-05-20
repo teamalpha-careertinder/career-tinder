@@ -5,8 +5,7 @@ import { signOut } from "../../store/actions/authActions";
 
 const SignedInLinks = (props) => {
   return (
-    <ul className="navbar-nav float-left">
-      
+    <ul className="navbar-nav mr-auto">      
       <li className="nav-item">
         <NavLink className="nav-link" to="/profile/create">
           <i className="fas fa-edit" /> Edit Profile
