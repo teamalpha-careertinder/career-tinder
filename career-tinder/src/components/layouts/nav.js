@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import SignedInLinks from "./SignedInLinks";
 import SignedOutLinks from "./SignedOutLinks";
 import { Link } from "react-router-dom";
-import { Redirect } from "react-router-dom";
+
 
 const Nav = props => {
   const { auth, profile } = props;
