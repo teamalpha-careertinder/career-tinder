@@ -2,17 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
-  MDBMask,
-  MDBRow,
-  MDBCol,
-  MDBView,
-  MDBContainer,
-  MDBCard,
+
   MDBCardBody,
   MDBBtn,
-  MDBIcon,
-  MDBCardTitle,
-  MDBFooter,
+
+
   MDBCardFooter
 } from "mdbreact";
 import { MDBAnimation } from "mdbreact";
