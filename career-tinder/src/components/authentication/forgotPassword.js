@@ -58,7 +58,7 @@ class ForgotPassword extends React.Component {
                         <br></br>
                         <h6 className="mb-2 black-text" align="center">
 
-                          Enter the e-mail address associated with your Indeed account and we'll send you instructions on how to reset your password.</h6>
+                          Enter the e-mail address associated with your Career Tinder account and we'll send you instructions on how to reset your password.</h6>
                           <br></br>
                           <br></br>
                         <MDBCardBody className="z-depth-2 gradient-text" md="3" xl="3">
