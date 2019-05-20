@@ -1,0 +1,16 @@
+.profile-form-wrapper {
+    margin: 20px 0;
+}
+
+.profile-form .form-group label {
+    color: #333 !important;
+}
+
+.profile-form .form-group>label {
+    color: #1e698d !important;
+    font-weight: bold;
+}
+
+.datepicker .md-form {
+    margin: 0;
+}

@@ -1,0 +1,9 @@
+{
+    "name": "career-tinder",
+    "short_name": "career-tinder",
+    "start_url": ".",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#ccc",
+    "theme_color": "#5faae5"
+}
