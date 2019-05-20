@@ -1,14 +1,14 @@
 import React from "react";
-import { BrowserRouter as Router, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
-  MDBMask,
+
   MDBRow,
   MDBCol,
-  MDBIcon,
+
   MDBBtn,
-  MDBView,
+
   MDBContainer,
-  MDBCard,
+
   MDBCardBody,
   MDBCardFooter,
   MDBInput
@@ -65,17 +65,17 @@ class RegistrationJobSeeker extends React.Component {
                       <MDBCardBody className="z-depth-2 gradient-text" md="3" xl="3">
 
                         <form onSubmit={this.handleSubmit}>
-                          
+
                           <MDBInput
                             id="firstName"
                             label="First Name"
                             icon="pencil-alt"
                             className="black-text"
-                            
+
                             class="form-control"
-                           
+
                             onChange={this.handleChange}
-                          /> 
+                          />
                           <MDBInput
                             id="lastName"
                             label="Last Name"
