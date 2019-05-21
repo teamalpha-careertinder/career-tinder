@@ -84,7 +84,7 @@ class CreateProfile extends React.Component {
               <div className="card-body text-info">
                 <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                   <li className="nav-item">
-                  {user && user.userType == "jobseeker" ?  
+                  {user && user.userType === "jobseeker" ?  
                     <a className="nav-link active" id="pills-job-seeker-tab" data-toggle="pill"  href="#pills-job-seeker" role="tab" aria-controls="pills-job-seeker" aria-selected="true">
                       <MDBIcon icon="users" className="mr-1" /> Job Seeker
                     </a>      
@@ -93,17 +93,16 @@ class CreateProfile extends React.Component {
                       <MDBIcon icon="user-tie" className="mr-1" /> Employer
                    </a>
                   }
-                  </li>
-                  
+                  </li>                  
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
-                  {user && user.userType == "jobseeker" ?  
+                  {user && user.userType === "jobseeker" ?  
                   <div className="tab-pane fade show active" id="pills-job-seeker" role="tabpanel" aria-labelledby="pills-job-seeker-tab">
                     <form className="profile-form">
                       <div className="row">
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <MDBInput label="Name" type="text" icon="pencil-alt" />
+                            <MDBInput label="Name" type="text" icon="pencil-alt" /> 
                           </div>
                         </div>                      
                         <div className="col-md-6 col-sm-12">
