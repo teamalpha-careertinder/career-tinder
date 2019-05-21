@@ -38,24 +38,6 @@
     padding: 0px;
 }
 
-.view {
-    background-image: url('https://mdbootstrap.com/img/Photos/Others/images/91.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    height: 100vh;
-}
-
-.gradient {
-    background: -webkit-linear-gradient(45deg, rgba(0, 0, 0, 0.7), rgba(72, 15, 144, 0.4) 100%);
-    background: -webkit-gradient(linear, 45deg, from(rgba(0, 0, 0, 0.7), rgba(72, 15, 144, 0.4) 100%));
-    background: linear-gradient(to 45deg, rgba(0, 0, 0, 0.7), rgba(72, 15, 144, 0.4) 100%);
-}
-
-.card {
-    background-color: rgba(126, 123, 215, 0.2);
-}
-
 h6 {
     line-height: 1.7;
 }
@@ -120,6 +102,10 @@ button.navbar-toggler {
 .react-datepicker-wrapper input {
     margin-left: 2.5rem !important;
     width: calc(100% - 2.5rem);
+}
+
+.md-form>label {
+    color: #333 !important;
 }
 
 @media (max-width: 768px) {

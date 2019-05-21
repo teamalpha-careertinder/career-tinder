@@ -13,11 +13,11 @@ const SignedInLinks = (props) => {
         </NavLink>
       </li>
       <li className="nav-item">
-        <a className="nav-link" onClick={props.signOut}>
+        <NavLink className="nav-link" onClick={props.signOut} to="#">
           {" "}
           <i className="fas fa-sign-out-alt" />
           Log Out
-        </a>
+        </NavLink>
       </li>
     </ul>
   )
