@@ -8,7 +8,7 @@ class ForgotPassword extends React.Component {
       <div className="container">
         <div className="card-body text-info">
           <div className="card border-info mb-3">
-            <div class="card-header">
+            <div className="card-header">
               Reset your password
             </div>
             <div className="card-body text-info">

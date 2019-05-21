@@ -33,7 +33,7 @@ class RegistrationJobSeeker extends React.Component {
           <div className="col-md-6 col-sm-12">
             <div className="card border-info mb-3 mt-4">
               <div className="card-header">
-                <i class="fas fa-users"></i> Sign Up as a Job Seeker
+                <i className="fas fa-users"></i> Sign Up as a Job Seeker
               </div>
               <MDBCardBody className="z-depth-2 gradient-text text-info" md="3" xl="3">
                 <form onSubmit={this.handleSubmit}>
@@ -41,8 +41,6 @@ class RegistrationJobSeeker extends React.Component {
                     id="firstName"
                     label="First Name"
                     icon="pencil-alt"
-                    className="black-text"
-                    class="form-control"
                     onChange={this.handleChange}
                   />
                   <MDBInput
@@ -50,7 +48,6 @@ class RegistrationJobSeeker extends React.Component {
                     label="Last Name"
                     className="black-text"
                     icon="pencil-alt"
-                    class="form-control"
                     onChange={this.handleChange}
                   />
                   <MDBInput
@@ -58,7 +55,6 @@ class RegistrationJobSeeker extends React.Component {
                     label="Email"
                     icon="envelope"
                     type="email"
-                    className="black-text"
                     autoComplete="false"
                     onChange={this.handleChange}
                   />
@@ -67,8 +63,7 @@ class RegistrationJobSeeker extends React.Component {
                     label="Password"
                     icon="lock"
                     type="password"
-                    className="black-text"
-                    autocomplete="new-password"
+                    autoComplete="new-password"
                     onChange={this.handleChange}
                   />
                   <MDBInput
@@ -76,8 +71,7 @@ class RegistrationJobSeeker extends React.Component {
                     label="Confirm Password"
                     icon="lock"
                     type="password"
-                    className="black-text"
-                    autocomplete="new-password"
+                    autoComplete="new-password"
                     onChange={this.handleChange}
                   />
                   <div className="text-center mt-4 black-text">

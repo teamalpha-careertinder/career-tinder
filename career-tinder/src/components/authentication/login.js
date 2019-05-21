@@ -62,7 +62,7 @@ class Login extends React.Component {
                          </div>
                        </div>
 
-                       <Link exact className="text-center d-flex justify-content-center black-text" to="/forgot-password">
+                       <Link className="text-center d-flex justify-content-center black-text" to="/forgot-password">
                          Forgot password ?
                        </Link>
                      </form>
