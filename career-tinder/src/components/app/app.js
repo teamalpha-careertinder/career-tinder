@@ -7,7 +7,7 @@ import Login from "../authentication/login";
 import RegistrationEmployer from "../authentication/registrationEmployer";
 import RegistrationJobSeeker from "../authentication/registrationJobSeeker";
 import CreateProfile from "../profile/create";
-import EditProfile from "../profile/edit";
+import CreateEmployerProfile from "../profile/createEmployer";
 import FeedBoard from "../feedboard/feedboard";
 import GuestHome from "../layouts/home";
 import ForgotPassword from "../authentication/forgotPassword";
@@ -25,7 +25,7 @@ class App extends Component {
               <Route path="/registration/jobseeker" component={RegistrationJobSeeker} />
               <Route path="/registration/employer" component={RegistrationEmployer} />
               <Route path="/profile/create" component={CreateProfile} />
-              <Route path="/profile/edit" component={EditProfile} />
+              <Route path="/profile/create-employer" component={CreateEmployerProfile} />
               <Route path="/feed" component={FeedBoard} />
               <Route path="/forgot-password" component={ForgotPassword} />
             </div>
