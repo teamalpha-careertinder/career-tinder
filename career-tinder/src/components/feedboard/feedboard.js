@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
-import {  MDBRow } from "mdbreact";
+import { MDBView, MDBRow, MDBMask, MDBContainer } from "mdbreact";
 import { Link } from "react-router-dom";
 
 class Feedboard extends Component {
