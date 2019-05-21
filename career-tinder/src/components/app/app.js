@@ -7,6 +7,7 @@ import Login from "../authentication/login";
 import RegistrationEmployer from "../authentication/registrationEmployer";
 import RegistrationJobSeeker from "../authentication/registrationJobSeeker";
 import CreateProfile from "../profile/create";
+import CreateEmployerProfile from "../profile/createEmployer";
 import FeedBoard from "../feedboard/feedboard";
 import GuestHome from "../layouts/home";
 
@@ -29,6 +30,7 @@ class App extends Component {
                 component={RegistrationEmployer}
               />
               <Route path="/profile/create" component={CreateProfile} />
+              <Route path="/profile/create-employer" component={CreateEmployerProfile} />
               <Route path="/feed" component={FeedBoard} />
             </div>
           </div>

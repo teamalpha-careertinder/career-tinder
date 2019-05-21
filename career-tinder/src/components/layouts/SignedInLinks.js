@@ -8,7 +8,7 @@ const SignedInLinks = (props) => {
     <ul className="navbar-nav float-left">
       
       <li className="nav-item">
-        <NavLink className="nav-link" to="/profile/create">
+        <NavLink className="nav-link" to="/profile/create/">
           <i className="fas fa-edit" /> Edit Profile
         </NavLink>
       </li>
