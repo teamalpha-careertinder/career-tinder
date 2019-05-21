@@ -38,10 +38,6 @@
     padding: 0px;
 }
 
-
-
-
-
 h6 {
     line-height: 1.7;
 }
@@ -106,6 +102,10 @@ button.navbar-toggler {
 .react-datepicker-wrapper input {
     margin-left: 2.5rem !important;
     width: calc(100% - 2.5rem);
+}
+
+.md-form>label {
+    color: #333 !important;
 }
 
 @media (max-width: 768px) {

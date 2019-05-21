@@ -93,8 +93,7 @@ class CreateProfile extends React.Component {
                       <MDBIcon icon="user-tie" className="mr-1" /> Employer
                    </a>
                   }
-                  </li>
-                  
+                  </li>                  
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
                   {user && user.userType === "jobseeker" ?  
@@ -103,12 +102,7 @@ class CreateProfile extends React.Component {
                       <div className="row">
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <div class="md-form">
-                            
-                            <MDBInput label="Name" type="text" icon="pencil-alt">
-                            ::before 
-                            </MDBInput> 
-                          </div>
+                            <MDBInput label="Name" type="text" icon="pencil-alt" /> 
                           </div>
                         </div>                      
                         <div className="col-md-6 col-sm-12">
