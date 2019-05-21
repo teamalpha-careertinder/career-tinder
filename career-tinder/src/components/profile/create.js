@@ -144,8 +144,7 @@ class CreateProfile extends React.Component {
                       <MDBIcon icon="user-tie" className="mr-1" /> Employer
                    </a>
                   }
-                  </li>
-                  
+                  </li>                  
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
                   {user && user.userType === "jobseeker" ?  
