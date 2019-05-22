@@ -11,6 +11,7 @@ import CreateEmployerProfile from "../profile/createEmployer";
 import FeedBoard from "../feedboard/feedboard";
 import GuestHome from "../layouts/home";
 import ForgotPassword from "../authentication/forgotPassword";
+import ChangePassword from "../profile/changePassword";
 
 class App extends Component {
   render() {
@@ -26,6 +27,7 @@ class App extends Component {
               <Route path="/registration/employer" component={RegistrationEmployer} />
               <Route path="/profile/create" component={CreateProfile} />
               <Route path="/profile/create-employer" component={CreateEmployerProfile} />
+              <Route exact path="/profile/changepassword" component={ChangePassword} />  
               <Route path="/feed" component={FeedBoard} />
               <Route path="/forgot-password" component={ForgotPassword} />
             </div>

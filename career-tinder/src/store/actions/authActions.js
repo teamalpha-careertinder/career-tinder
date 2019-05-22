@@ -88,3 +88,26 @@ export const signUpAsEmployer = newUser => {
       });
   };
 };
+
+//@begin: Password Reset (Forget) - Abel G.
+export const passwordForget = email => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    //const firestore = getFirestore();
+
+
+    firebase
+    .auth()
+    .sendPasswordResetEmail(email)
+    .then(() => {
+     // this.setState({ ...INITIAL_STATE });
+       dispatch({ type: "PWFORGET_SUCCESS" });
+    })
+    .catch(err => {
+//      this.setState({ error });
+      dispatch({ type: "PWFORGET_ERROR", err });
+    });
+
+  };
+};
+//@end: Password Reset (Forget) - Abel G.

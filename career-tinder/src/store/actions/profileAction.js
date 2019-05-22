@@ -31,3 +31,23 @@ export const createEmployerProfile = (employer) => {
       });
     }
 };
+
+//@begin: Password Change - Abel G.
+export const passwordChange = newPassword => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    //const firestore = getFirestore();
+
+    firebase
+      .auth()
+      .currentUser
+      .updatePassword(newPassword)
+      .then(() => {
+        dispatch({ type: "PWCHANGE_SUCCESS" });
+      })
+      .catch(err => {
+        dispatch({ type: "PWCHANGE_ERROR", err });
+      });
+  };
+};
+//@end: PasswordChange - Abel G.
