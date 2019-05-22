@@ -8,6 +8,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 
+import { createJobSeekerProfile } from '../../store/actions/profileAction';
 
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -23,10 +24,7 @@ const languages = [
 
 
 class CreateProfile extends React.Component {
-    state = {
-      selectedSkills: null,
-      selectedLanguages: null,
-    }
+    
     handleSkillsChange = (selectedSkills) => {
       this.setState({ selectedSkills });
       console.log(`Option selected:`, selectedSkills);
@@ -39,9 +37,9 @@ class CreateProfile extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        startDOBDate: new Date(),
-        startFromDate: new Date(),
-        startToDate: new Date()
+        startDOBDate: '',
+        startFromDate: '',
+        startToDate: ''
       };
       this.handleDOBDateChange = this.handleDOBDateChange.bind(this);
       this.handleFromDateChange = this.handleFromDateChange.bind(this);
@@ -64,6 +62,59 @@ class CreateProfile extends React.Component {
       this.setState({
         startToDate: date
       });
+    }
+
+    handleChange = (e) => {
+      this.setState({
+        [e.target.id]: e.target.value
+      })
+    }
+
+    handleSelectChange = function(e) {
+      var options = e.target.options;
+      var value = [];
+      for (var i = 0, l = options.length; i < l; i++) {
+        if (options[i].selected) {
+          value.push(options[i].value);
+        }
+      }
+      this.props.someCallback(value);
+    }
+
+    handleChangeFT = () => {
+      this.setState(prevState => ({
+        applyingFullTime: !prevState.applyingFor_FullTime,
+      }));
+    }
+
+    handleChangePT = () => {
+      this.setState(prevState => ({
+        applyingPartTime: !prevState.applyingFor_PartTime,
+      }));
+    }
+
+    handleChangeEU = () => {
+      this.setState(prevState => ({
+        euCitizen: !prevState.euCitizen,
+      }));
+    }
+
+    handleOptionChange = (changeEvent) => {
+      this.setState({
+        prevWorkJobType: changeEvent.target.value
+      });
+    }
+
+    handleSubmit = (e) => {
+      e.preventDefault();
+      this.props.createJobSeekerProfile(this.state);
+      this.props.history.push('/feed');
+    }
+
+    handleEmployerSubmit = (e) => {
+      e.preventDefault();
+      this.props.createEmployerProfile(this.state);
+      this.props.history.push('/feed');
     }
 
     render() {
@@ -98,23 +149,24 @@ class CreateProfile extends React.Component {
                 <div className="tab-content" id="pills-tabContent">
                   {user && user.userType === "jobseeker" ?  
                   <div className="tab-pane fade show active" id="pills-job-seeker" role="tabpanel" aria-labelledby="pills-job-seeker-tab">
-                    <form className="profile-form">
+                    <form className="profile-form" onSubmit={this.handleSubmit}>
+                    
                       <div className="row">
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <MDBInput label="Name" type="text" icon="pencil-alt" /> 
+                            <MDBInput id="jobSeekerName" label="Name" type="text" icon="pencil-alt" onChange={this.handleChange} />
                           </div>
                         </div>                      
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <MDBInput label="Phone" icon="mobile-alt" type="text" />
+                            <MDBInput id="jobSeekerPhone" label="Phone" icon="mobile-alt" type="text" onChange={this.handleChange} />
                           </div>
                         </div>
                       </div>
                       <div className="row">            
                         <div className="col-sm-12">
                           <div className="form-group">
-                            <MDBInput label="Address" icon="address-card" type="textarea" rows="1" />
+                            <MDBInput id="jobSeekeraddress" label="Address" icon="address-card" type="textarea" rows="1" onChange={this.handleChange} />
                           </div>
                         </div>
                       </div>
@@ -155,9 +207,9 @@ class CreateProfile extends React.Component {
                       <div className="row">                      
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <label htmlFor="eu_citizen">EU Citizen:</label>
+                            <label htmlFor="euCitizen">EU Citizen:</label>
                             <div className="form-check">
-                              <input className="form-check-input" type="checkbox" value="" id="eu_citizen" />
+                              <input className="form-check-input" type="checkbox" checked={this.state.euCitizen} onChange={this.handleChangeEU} />
                               <label className="form-check-label" htmlFor="eu_citizen">
                                 Are you an EU Citizen?
                               </label>
@@ -168,13 +220,13 @@ class CreateProfile extends React.Component {
                           <div className="form-group">
                             <label htmlFor="job_type">Employment type for this position:</label>
                             <div className="form-check">
-                              <input className="form-check-input" type="checkbox" name="job_type" value="" id="job_type_ft" />
+                              <input className="form-check-input" type="checkbox" checked={this.state.applyingFullTime} onChange={this.handleChangeFT} />
                               <label className="form-check-label" htmlFor="job_type_ft">
                                 Full-time
                               </label>
                             </div>
                             <div className="form-check">
-                              <input className="form-check-input" type="checkbox" name="job_type" value="" id="job_type_pt" />
+                              <input className="form-check-input" type="checkbox" checked={this.state.applyingPartTime} onChange={this.handleChangePT} />
                               <label className="form-check-label" htmlFor="job_type_pt">
                                 Part-time
                               </label>
@@ -188,10 +240,10 @@ class CreateProfile extends React.Component {
                             <label htmlFor="work_experience">Work Experience:</label>
                             <div className="row">
                               <div className="col-md-6 col-sm-12">
-                                <MDBInput label="Company name" type="text" icon="pencil-alt" />
+                                <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" onChange={this.handleChange} />
                               </div>
                               <div className="col-md-6 col-sm-12">
-                                <MDBInput label="Job title" type="text" icon="pencil-alt" />
+                                <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" onChange={this.handleChange} />
                               </div>
                               <div className="col-md-6 col-sm-12">
                                 <div className="form-group datepicker">
@@ -214,20 +266,20 @@ class CreateProfile extends React.Component {
                                 </div>
                               </div>
                               <div className="col-sm-12">
-                                <MDBInput label="Job description" type="text" icon="pencil-alt" />
+                                <MDBInput id="jobDescription" label="Job description" type="text" icon="pencil-alt" onChange={this.handleChange} />
                               </div>
                               <div className="col-sm-12 mb-1">
                                 <div className="form-inline">
                                   <div className="form-group">
                                     <label htmlFor="job_type"className="mr-2">Job type while working there:</label>
                                     <div className="form-check form-check-inline">
-                                      <input className="form-check-input" type="radio" name="we_job_type" value="" id="job_type_ft" />
+                                      <input className="form-check-input" type="radio" value="Full-time" checked={this.state.prevWorkJobType === 'Full-time'}  onChange={this.handleOptionChange} />
                                       <label className="form-check-label" htmlFor="job_type_ft">
                                         Full-time
                                       </label>
                                     </div>
                                     <div className="form-check form-check-inline">
-                                      <input className="form-check-input" type="radio" name="we_job_type" value="" id="job_type_pt" />
+                                      <input className="form-check-input" type="radio" value="Part-time" checked={this.state.prevWorkJobType === 'Part-time'}  onChange={this.handleOptionChange} />
                                       <label className="form-check-label" htmlFor="job_type_pt">
                                         Part-time
                                       </label>
@@ -245,13 +297,13 @@ class CreateProfile extends React.Component {
                         </div>   
                         <div className="col-sm-12">
                           <div className="form-group">
-                            <MDBInput label="Salary range" icon="euro-sign" type="text" />
+                            <MDBInput id="salaryRange" label="Salary range" icon="euro-sign" type="text" onChange={this.handleChange} />
                           </div>
                         </div>                   
                       </div>    
                       <div className="row">
                         <div className="col-sm-12">
-                          <MDBBtn outline color="info" className="float-right">
+                          <MDBBtn outline color="info" className="float-right" type="submit">
                             <i className="fas fa-save"></i> Save Job Seeker Profile
                           </MDBBtn>
                         </div>
@@ -260,56 +312,7 @@ class CreateProfile extends React.Component {
                   </div>
                     : 
                   <div className="tab-pane fade show active" id="pills-company" role="tabpanel" aria-labelledby="pills-company-tab">
-                    <form className="profile-form">
-                        <div className="row">
-                          <div className="col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <MDBInput label="Employer Name" icon="pencil-alt" type="text" />
-                            </div>
-                          </div>
-                          <div className="col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <MDBInput label="Industry" type="text" icon="industry" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">            
-                          <div className="col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <MDBInput label="Employer Address" type="textarea" rows="1" icon="address-card" />
-                            </div>
-                          </div>
-                          <div className="col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <MDBInput label="Employer Description" type="textarea" rows="1" icon="comment-alt" />
-                            </div>
-                          </div>
-                        </div>   
-                        <div className="row">
-                          <div className="col-md-4 col-sm-12">
-                            <div className="form-group">
-                              <MDBInput label="Contact Name" type="text" icon="pencil-alt" />
-                            </div>
-                          </div>
-                          <div className="col-md-4 col-sm-12">
-                            <div className="form-group">
-                              <MDBInput label="Contact Email" type="email" icon="envelope" />
-                            </div>
-                          </div>
-                          <div className="col-md-4 col-sm-12">
-                            <div className="form-group">
-                              <MDBInput label="Contact Phone" type="text" icon="mobile-alt" />
-                            </div>
-                          </div>
-                        </div>                         
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <MDBBtn outline color="info" className="float-right">
-                              <i className="fas fa-save"></i> Save Employer Profile
-                            </MDBBtn>
-                          </div>
-                        </div>        
-                      </form>  
+                    
                   </div>
                   }
                 </div>  
@@ -332,10 +335,18 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([{
-    collection: 'users'
-  }])
-)(CreateProfile);
+const mapDispatchToPropsJobseeker = dispatch => {
+  // console.log(state);
+  return {
+    createJobSeekerProfile: (profile) => dispatch(createJobSeekerProfile(profile))
+  }
+};
 
+
+export default 
+  compose(
+    connect(mapStateToProps, mapDispatchToPropsJobseeker),
+    firestoreConnect([{
+      collection: 'users'
+    }])
+  )(CreateProfile);
