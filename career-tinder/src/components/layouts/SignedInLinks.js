@@ -4,12 +4,20 @@ import { connect } from "react-redux";
 import { signOut } from "../../store/actions/authActions";
 
 const SignedInLinks = (props) => {
+  const { user } = props;
+  console.log(props);
   return (
     <ul className="navbar-nav ct-nav-collapsible">      
       <li className="nav-item">
+      {user && user.userType === "jobseeker" ?  
         <NavLink className="nav-link" to="/profile/create">
           <i className="fas fa-user" /> Profile
         </NavLink>
+        :
+        <NavLink className="nav-link" to="/profile/create-employer">
+          <i className="fas fa-user" /> Profile
+        </NavLink>
+      }
       </li>
       <li className="nav-item">
         <NavLink className="nav-link" to="/feed">
@@ -20,10 +28,20 @@ const SignedInLinks = (props) => {
   )
 }
 
+const mapStateToProps = (state) => {
+  const auth = state.firebase.auth;
+  const users = state.firestore.data.users;
+  const user= users ? users[auth.uid] : null;
+  return {
+    user: user,
+    auth: auth
+  }
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOut())
   }
 }
 
-export default connect(null, mapDispatchToProps)(SignedInLinks)
+export default connect(mapStateToProps, mapDispatchToProps)(SignedInLinks)
