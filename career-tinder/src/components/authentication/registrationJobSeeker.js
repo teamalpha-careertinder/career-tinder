@@ -29,13 +29,13 @@ class RegistrationJobSeeker extends React.Component {
     if (auth.uid) return <Redirect to="/feed" />
     return (
       <div className="container">
-        <div className="row">
-          <div className="col-md-6 col-sm-12">
-            <div className="card border-info mb-3 mt-4">
-              <div className="card-header">
-                <i className="fas fa-users"></i> Sign Up as a Job Seeker
-              </div>
-              <MDBCardBody className="z-depth-2 gradient-text text-info" md="3" xl="3">
+        <div className="card border-info card-container">
+          <div className="card-header">
+            <i className="fas fa-users"></i> Sign Up as a Job Seeker
+          </div>
+          <MDBCardBody className="z-depth-2 gradient-text text-info">
+            <div className="row">
+              <div className="col-md-6 col-sm-12">
                 <form onSubmit={this.handleSubmit}>
                   <MDBInput
                     id="firstName"
@@ -75,7 +75,7 @@ class RegistrationJobSeeker extends React.Component {
                     onChange={this.handleChange}
                   />
                   <div className="text-center mt-4 black-text">
-                    <MDBBtn color="indigo" type="submit">
+                    <MDBBtn color="primary" type="submit">
                       Sign Up
                     </MDBBtn>
                     <div className="center red-text">
@@ -91,10 +91,9 @@ class RegistrationJobSeeker extends React.Component {
                   </NavLink>
                   </div>
                 </div>
-              </MDBCardBody>
               </div>
             </div>
-          </div>
+          </MDBCardBody>
           <MDBCardFooter >
             <h6 className="mb-2" align="center">
               Welcome to Career Tinder website. This website is
@@ -105,7 +104,8 @@ class RegistrationJobSeeker extends React.Component {
               click the signup button to register
             </h6>
           </MDBCardFooter>
-        </div>
+        </div>         
+      </div>
     );
   }
 }

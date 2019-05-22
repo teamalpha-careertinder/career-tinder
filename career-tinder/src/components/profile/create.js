@@ -77,7 +77,7 @@ class CreateProfile extends React.Component {
       return (
         <div className="container">
           <div className="profile-form-wrapper">        
-            <div className="card border-info mb-3">
+            <div className="card border-info card-container">
               <div className="card-header">
                 <MDBIcon icon="user" className="mr-1" /> Edit your profile
               </div>

@@ -56,10 +56,10 @@ class Nav extends React.Component {
                     <i className="fas fa-sign-in-alt" />
                   </Link>
                   :
-                  <a className="nav-link" onClick={this.props.signOut}>
+                  <Link className="nav-link" to="#" onClick={this.props.signOut}>
                     {" "}
                     <i className="fas fa-sign-out-alt" />
-                  </a>
+                  </Link>
                 }
                 </li>
               </ul>              

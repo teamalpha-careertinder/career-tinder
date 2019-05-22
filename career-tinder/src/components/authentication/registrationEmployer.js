@@ -27,13 +27,13 @@ class RegistrationEmployer extends React.Component {
     if (auth.uid) return <Redirect to="/feed" />
     return (
       <div className="container">
-        <div className="row">
-          <div className="col-md-6 col-sm-12">
-            <div className="card border-info mb-3 mt-4">
-              <div className="card-header">
-                <i className="fas fa-user-tie"></i> Sign Up as an Employer
-              </div>
-              <MDBCardBody className="z-depth-2 gradient-text text-info" md="3" xl="3">
+        <div className="card border-info card-container">
+          <div className="card-header">
+            <i className="fas fa-user-tie"></i> Sign Up as an Employer
+          </div>
+          <MDBCardBody className="z-depth-2 gradient-text text-info">
+            <div className="row">
+              <div className="col-md-6 col-sm-12">
                 <form onSubmit={this.handleSubmit}>
                   <MDBInput
                     id="companyname"
@@ -66,7 +66,7 @@ class RegistrationEmployer extends React.Component {
                   />
 
                   <div className="text-center mt-4 black-text">
-                    <MDBBtn color="indigo" type="submit">Sign Up</MDBBtn>
+                    <MDBBtn color="primary" type="submit">Sign Up</MDBBtn>
                     <div className="center red-text">
                       {authError ? <p>{authError}</p> : null}
                     </div>
@@ -80,10 +80,9 @@ class RegistrationEmployer extends React.Component {
                     </NavLink>
                   </div>
                 </div>
-              </MDBCardBody>
               </div>
             </div>
-          </div>
+          </MDBCardBody>
           <MDBCardFooter >
             <h6 className="mb-2" align="center">
               Welcome to Career Tinder website. This website is
@@ -94,6 +93,7 @@ class RegistrationEmployer extends React.Component {
               click the signup button to register
             </h6>
           </MDBCardFooter>
+          </div>    
         </div>
         
     )
