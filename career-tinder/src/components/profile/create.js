@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
+import { Alert } from 'reactstrap';
 
 import { createJobSeekerProfile } from '../../store/actions/profileAction';
 
@@ -39,7 +40,8 @@ class CreateProfile extends React.Component {
       this.state = {
         startDOBDate: '',
         startFromDate: '',
-        startToDate: ''
+        startToDate: '',
+        visible: false
       };
       this.handleDOBDateChange = this.handleDOBDateChange.bind(this);
       this.handleFromDateChange = this.handleFromDateChange.bind(this);
@@ -107,14 +109,15 @@ class CreateProfile extends React.Component {
 
     handleSubmit = (e) => {
       e.preventDefault();
-      this.props.createJobSeekerProfile(this.state);
-      this.props.history.push('/feed');
+      this.props.createJobSeekerProfile(this.state); 
     }
 
-    handleEmployerSubmit = (e) => {
-      e.preventDefault();
-      this.props.createEmployerProfile(this.state);
-      this.props.history.push('/feed');
+    onShowAlert = ()=>{
+      this.setState({visible:true},()=>{
+        window.setTimeout(()=>{
+          this.setState({visible:false})
+        },2000)
+      });
     }
 
     render() {
@@ -127,6 +130,7 @@ class CreateProfile extends React.Component {
       if (!auth.uid) return <Redirect to="/login" />;
       return (
         <div className="container">
+          <Alert color="success" isOpen={this.state.visible}><i class="fas fa-check"></i> Profile updated!</Alert>
           <div className="profile-form-wrapper">        
             <div className="card border-info card-container">
               <div className="card-header">
@@ -288,8 +292,8 @@ class CreateProfile extends React.Component {
                       </div>    
                       <div className="row">
                         <div className="col-sm-12">
-                          <MDBBtn color="primary" className="float-right" type="submit">
-                            <i className="fas fa-save"></i> Save Job Seeker Profile
+                          <MDBBtn color="primary" className="float-right" type="submit" onClick={()=>{this.onShowAlert()}}>
+                            <i className="fas fa-save"></i> Save Profile
                           </MDBBtn>
                         </div>
                       </div>      
