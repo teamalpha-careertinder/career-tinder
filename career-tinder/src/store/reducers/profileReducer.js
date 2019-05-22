@@ -14,6 +14,22 @@ const profileReducer = (state = initState, action) => {
         case 'CREATE_EMPLOYER_PROJECT_ERROR':
             console.log('create profile error');
             return state;
+//@begin Change Password - Abel
+        case "PWCHANGE_SUCCESS":
+            console.log("Password Change - success");
+            return {
+            ...state,
+            authStatus: "OK",
+            authMsg: "Password successfully changed."
+        };
+        case "PWCHANGE_ERROR":
+            console.log("Password Change - error");
+            return {
+            ...state,
+            authStatus: "ERROR",
+            authMsg: action.err.message
+        };  
+  //@end Change Password - Abel    
         default:
             return state;
     }
