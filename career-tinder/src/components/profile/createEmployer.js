@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
+import { Alert } from 'reactstrap';
 
 import { createEmployerProfile } from '../../store/actions/profileAction';
 
@@ -18,8 +19,19 @@ class CreateEmployerProfile extends React.Component {
 
     handleEmployerSubmit = (e) => {
       e.preventDefault();
-      this.props.createEmployerProfile(this.state);
-      this.props.history.push('/feed');
+      this.props.createEmployerProfile(this.state);   
+    }
+
+    state = {
+      visible: false
+    }
+
+    onShowAlert = ()=>{
+      this.setState({visible:true},()=>{
+        window.setTimeout(()=>{
+          this.setState({visible:false})
+        },2000)
+      });
     }
 
     render() {
@@ -27,6 +39,7 @@ class CreateEmployerProfile extends React.Component {
       if (!auth.uid) return <Redirect to="/login" />;
       return (
         <div className="container">
+          <Alert color="success" isOpen={this.state.visible}><i class="fas fa-check"></i> Profile updated!</Alert>
           <div className="profile-form-wrapper">        
             <div className="card border-info card-container">
               <div className="card-header">
@@ -79,8 +92,8 @@ class CreateEmployerProfile extends React.Component {
                         </div>                         
                         <div className="row">
                           <div className="col-sm-12">
-                            <MDBBtn color="primary" className="float-right" type="submit">
-                              <i className="fas fa-save"></i> Save Employer Profile
+                            <MDBBtn color="primary" className="float-right" type="submit" onClick={()=>{this.onShowAlert()}}>
+                              <i className="fas fa-save"></i> Save Profile
                             </MDBBtn>
                           </div>
                         </div>        
