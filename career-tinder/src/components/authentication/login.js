@@ -30,7 +30,7 @@ class Login extends React.Component {
    if (auth.uid) return <Redirect to="/feed" />;
    return (
        <div className="container">
-           <div className="card border-info mb-3 mt-4">
+           <div className="card border-info card-container">
              <div className="card-header">
                <i className="fas fa-sign-in-alt"></i> Sign In
              </div>
@@ -61,20 +61,19 @@ class Login extends React.Component {
                            {authError ? <p>{authError}</p> : null}
                          </div>
                        </div>
-
                        <Link className="text-center d-flex justify-content-center black-text" to="/forgot-password">
-                         Forgot password ?
+                         Forgot password?
                        </Link>
                      </form>
                    </div>
                  </div>
                </div>
-               <div className="text-center mt-4 black-text">
+               <div className="text-center black-text">
                  <div className="text-center d-flex justify-content-center white-label">
                    <div className="black-text">
                      <hr className="hr-dark" />
                      Don't have an account ?{" "}
-                     <NavLink exact className="nav-link red-text" to="/">
+                     <NavLink className="nav-link red-text" to="/">
                        <i className="fas fa-user-plus" /> Register
                      </NavLink>
                    </div>

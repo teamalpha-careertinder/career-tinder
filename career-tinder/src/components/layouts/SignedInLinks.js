@@ -4,24 +4,39 @@ import { connect } from "react-redux";
 import { signOut } from "../../store/actions/authActions";
 
 const SignedInLinks = (props) => {
+  const { user } = props;
+  console.log(props);
   return (
-    <ul className="navbar-nav float-left">
-      
+    <ul className="navbar-nav ct-nav-collapsible">      
       <li className="nav-item">
-        <NavLink className="nav-link" to="/profile/create/">
-          <i className="fas fa-edit" /> Edit Profile
+      {user && user.userType === "jobseeker" ?  
+        <NavLink className="nav-link" to="/profile/create">
+          <i className="fas fa-user" /> Profile
         </NavLink>
+        :
+        <NavLink className="nav-link" to="/profile/create-employer">
+          <i className="fas fa-user" /> Profile
+        </NavLink>
+      }
       </li>
       <li className="nav-item">
-        <NavLink className="nav-link" onClick={props.signOut} to="#">
-          {" "}
-          <i className="fas fa-sign-out-alt" />
-          Log Out
+        <NavLink className="nav-link" to="/feed">
+          <i className="fas fa-rss"></i> Feed
         </NavLink>
       </li>
     </ul>
   )
 }
+
+const mapStateToProps = (state) => {
+  const auth = state.firebase.auth;
+  const users = state.firestore.data.users;
+  const user= users ? users[auth.uid] : null;
+  return {
+    user: user,
+    auth: auth
+  }
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -29,4 +44,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(SignedInLinks)
+export default connect(mapStateToProps, mapDispatchToProps)(SignedInLinks)

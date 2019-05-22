@@ -1,7 +1,3 @@
-.profile-form-wrapper {
-    margin: 20px 0;
-}
-
 .profile-form .form-group label {
     color: #333 !important;
 }
@@ -13,4 +9,13 @@
 
 .datepicker .md-form {
     margin: 0;
+}
+
+@media (max-width: 768px) {
+    .profile-form-wrapper {
+        margin: 0;
+    }
+    .content-wrapper .container {
+        padding: 0;
+    }
 }

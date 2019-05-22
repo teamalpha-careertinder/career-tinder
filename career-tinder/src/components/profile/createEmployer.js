@@ -28,31 +28,12 @@ class CreateEmployerProfile extends React.Component {
       return (
         <div className="container">
           <div className="profile-form-wrapper">        
-            <div className="card border-info mb-3">
+            <div className="card border-info card-container">
               <div className="card-header">
-                <MDBIcon icon="user" className="mr-1" /> Edit your profile
+                <i className="fas fa-user-tie"></i> Update your Employer profile
               </div>
-              <div className="card-body text-info">
-                <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                  <li className="nav-item">
-                  {user && user.userType === "jobseeker" ?  
-                    <a className="nav-link active" id="pills-job-seeker-tab" data-toggle="pill"  href="#pills-job-seeker" role="tab" aria-controls="pills-job-seeker" aria-selected="true">
-                      <MDBIcon icon="users" className="mr-1" /> Job Seeker
-                    </a>      
-                   : 
-                   <a className="nav-link active" id="pills-company-tab" data-toggle="pill" href="#pills-company" role="tab" aria-controls="pills-company" aria-selected="true">
-                      <MDBIcon icon="user-tie" className="mr-1" /> Employer
-                   </a>
-                  }
-                  </li>
-                  
-                </ul>
+              <div className="card-body text-info">                
                 <div className="tab-content" id="pills-tabContent">
-                  {user && user.userType === "jobseeker" ?  
-                  <div className="tab-pane fade show active" id="pills-job-seeker" role="tabpanel" aria-labelledby="pills-job-seeker-tab">
-                    
-                  </div>
-                    : 
                   <div className="tab-pane fade show active" id="pills-company" role="tabpanel" aria-labelledby="pills-company-tab">
                     <form className="profile-form" onSubmit={this.handleEmployerSubmit}>
                         <div className="row">
@@ -98,14 +79,13 @@ class CreateEmployerProfile extends React.Component {
                         </div>                         
                         <div className="row">
                           <div className="col-sm-12">
-                            <MDBBtn outline color="info" className="float-right" type="submit">
+                            <MDBBtn color="primary" className="float-right" type="submit">
                               <i className="fas fa-save"></i> Save Employer Profile
                             </MDBBtn>
                           </div>
                         </div>        
                       </form>  
                   </div>
-                  }
                 </div>  
               </div>
             </div>                  
