@@ -1,0 +1,11 @@
+export const LANDING = '/';
+export const LOG_IN = '/login';
+export const REGISTRATION_JOB_SEEKER = '/registration/jobseeker';
+export const REGISTRATION_EMPLOYER = '/registration/employer';
+export const CREATE_PROFILE = '/profile/create';
+export const CREATE_EMPLOYER_PROFILE = '/profile/create-employer';
+export const CHANGE_PASSWORD = '/profile/changepassword';
+export const FEED = '/feed';
+export const FORGOT_PASSWORD = '/forgot-password';
+export const EMAIL_REDIRECT_URL_DEV = 'http://localhost:3000/feed';
+export const EMAIL_REDIRECT_URL_PROD = 'https://career-tinder.firebaseapp.com/feed';
