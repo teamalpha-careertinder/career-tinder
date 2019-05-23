@@ -6,85 +6,84 @@ import { connect } from "react-redux";
 import { passwordForget } from "../../store/actions/authActions";
 
 const INITIAL_STATE = {
-  email: '',
+  email: "",
   error: null,
   authMsg: null
 };
 
 class ForgotPassword extends React.Component {
-
   state = { ...INITIAL_STATE };
 
   handleChange = event => {
-      this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   handleSubmit = event => {
+    event.preventDefault();
+    //   console.log(`OnSubmit_PW_Forget: `,  this.state, this.props);
 
-      event.preventDefault();
-   //   console.log(`OnSubmit_PW_Forget: `,  this.state, this.props);
+    const { email } = this.state;
 
-      const { email } = this.state;
-
-      this.props.passwordForget(email);
-
-    };
+    this.props.passwordForget(email);
+  };
 
   render() {
-      
-    const { email, error } = this.state;
-    const isInvalid = email === '';
+    const { email } = this.state;
+    const isInvalid = email === "";
     const { auth, authStatus, authMsg } = this.props;
-    
+
     if (auth.uid) return <Redirect to="/feed" />;
     return (
       <div className="container">
         <div className="card-body text-info">
           <div className="card border-info mb-3">
-            <div className="card-header">
-              Reset your password
-            </div>
+            <div className="card-header">Reset your password</div>
             <div className="card-body text-info">
               <div className="gradient-text">
                 <h6 className="mb-2 black-text" align="center">
-                  Enter the e-mail address associated with your Career Tinder account and we'll send 
-                  you instructions on how to reset your password.
+                  Enter the e-mail address associated with your Career Tinder
+                  account and we'll send you instructions on how to reset your
+                  password.
                 </h6>
                 <form onSubmit={this.handleSubmit}>
                   <div className="row">
                     <div className="col-md-6 col-sm-12">
                       <MDBInput
-                      name="email"
-                      value={this.state.email}
-                      label="Your email"
-                      icon="envelope"
-                      className="black-text"
-                      type="email"
-                      id="email"
-                      onChange={this.handleChange}
+                        name="email"
+                        value={this.state.email}
+                        label="Your email"
+                        icon="envelope"
+                        className="black-text"
+                        type="email"
+                        id="email"
+                        onChange={this.handleChange}
                       />
 
                       <div className="text-center mt-4 black-text">
-                        <MDBBtn color="indigo" type="submit" disabled={isInvalid}>
+                        <MDBBtn
+                          color="indigo"
+                          type="submit"
+                          disabled={isInvalid}
+                        >
                           Send
                         </MDBBtn>
-                        <MDBBtn color="indigo" href="/#/login" >
+                        <MDBBtn color="indigo" href="/#/login">
                           Back to Login
                         </MDBBtn>
-                        { (authStatus == "OK") ?
-                            <div className="center green-text">
-                              {authMsg ? <p>{authMsg}</p> : null}
-                            </div>
-                          :
-                            <div className="center red-text">
-                              {authMsg ? <p>{authMsg}</p> : null}
-                            </div>
-                        }
+                        {authStatus === "OK" ? (
+                          <div className="center green-text">
+                            {authMsg ? <p>{authMsg}</p> : null}
+                          </div>
+                        ) : (
+                          <div className="center red-text">
+                            {authMsg ? <p>{authMsg}</p> : null}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
-                  </form>
-                </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -104,13 +103,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-     passwordForget: email => dispatch(passwordForget(email))
+    passwordForget: email => dispatch(passwordForget(email))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ForgotPassword); 
-
-
+)(ForgotPassword);
