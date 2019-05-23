@@ -4,11 +4,10 @@ import Select from 'react-select';
 import { MDBInput, MDBIcon, MDBBtn } from "mdbreact";
 import './profile.css';
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { Alert } from 'reactstrap';
-
+import EmailVerification from "../authentication/emailVerification";
 import { createJobSeekerProfile } from '../../store/actions/profileAction';
 
 const skills = [
@@ -123,7 +122,7 @@ class CreateProfile extends React.Component {
     render() {
       const { selectedSkills } = this.state;
       const { selectedLanguages } = this.state;
-      const { auth, user } = this.props;
+      const { auth } = this.props;
        
           
 
@@ -309,14 +308,10 @@ class CreateProfile extends React.Component {
   }
 
 
-const mapStateToProps = (state) => {
-  const auth = state.firebase.auth;
-  const users = state.firestore.data.users;
-  const user= users ? users[auth.uid] : null;
+const mapStateToProps = state => {
   return {
-    user: user,
-    auth: auth
-  }
+    auth: state.firebase.auth
+  };
 };
 
 const mapDispatchToPropsJobseeker = dispatch => {
@@ -328,9 +323,6 @@ const mapDispatchToPropsJobseeker = dispatch => {
 
 
 export default 
-  compose(
-    connect(mapStateToProps, mapDispatchToPropsJobseeker),
-    firestoreConnect([{
-      collection: 'users'
-    }])
+  compose(EmailVerification,
+    connect(mapStateToProps, mapDispatchToPropsJobseeker)
   )(CreateProfile);

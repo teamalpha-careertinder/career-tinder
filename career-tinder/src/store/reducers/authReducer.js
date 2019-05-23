@@ -1,5 +1,7 @@
 const initState = {
-  authError: null
+  authError: null,
+  emailIsSent: false,
+  userType: null
 };
 
 const authReducer = (state = initState, action) => {
@@ -35,25 +37,39 @@ const authReducer = (state = initState, action) => {
         ...state,
         authError: action.err.message
       };
+    case "EMAIL_SENT_SUCCESS":
+      console.log("Email sent success");
+      return {
+        ...state,
+        authError: null,
+        emailIsSent: true
+      };
 
-      //@begin Reset (Forgot) Password - Abel
-        case "PWFORGET_SUCCESS":
-          console.log("Password FORGET - success");
-          return {
-            ...state,
-            authStatus: "OK",
-            authMsg: "Email sent."
-          };
-  
-        case "PWFORGET_ERROR":
-          console.log("Password FORGET - error");
-          return {
-            ...state,
-            authStatus: "ERROR",
-            authMsg: action.err.message
-          };
-  //@end Reset (Forgot) Password - Abel    
-  
+    case "EMAIL_SENT_ERROR":
+      console.log("Email sent error");
+      return {
+        ...state,
+        authError: action.err.message,
+        emailIsSent: false
+      };
+    //@begin Reset (Forgot) Password - Abel
+    case "PWFORGET_SUCCESS":
+      console.log("Password FORGET - success");
+      return {
+        ...state,
+        authStatus: "OK",
+        authMsg: "Email sent."
+      };
+
+    case "PWFORGET_ERROR":
+      console.log("Password FORGET - error");
+      return {
+        ...state,
+        authStatus: "ERROR",
+        authMsg: action.err.message
+      };
+    //@end Reset (Forgot) Password - Abel
+
     default:
       return state;
   }

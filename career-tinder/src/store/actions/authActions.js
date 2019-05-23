@@ -1,3 +1,5 @@
+import * as ROUTES from '../../constants/routes';
+
 export const signIn = credentials => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
@@ -37,17 +39,18 @@ export const signUpAsJobSeeker = newUser => {
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
-
         var newUserType = firestore.collection("users").doc(resp.user.uid);
-        batch.set(newUserType, {userType: 'jobseeker'});
+        batch.set(newUserType, { userType: "jobseeker" });
 
-        var jobSeeker = firestore
-          .collection("jobseeker")
-          .doc(resp.user.uid);
-         
-          batch.set(jobSeeker, {firstName: newUser.firstName, lastName: newUser.lastName});
+        var jobSeeker = firestore.collection("jobseeker").doc(resp.user.uid);
 
-          batch.commit();
+        batch.set(jobSeeker, {
+          firstName: newUser.firstName,
+          lastName: newUser.lastName
+        });
+        dispatch(verifyEmail());
+
+        batch.commit();
       })
       .then(() => {
         dispatch({ type: "SIGNUP_SUCCESS" });
@@ -68,17 +71,15 @@ export const signUpAsEmployer = newUser => {
       .auth()
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
-
         var newUserType = firestore.collection("users").doc(resp.user.uid);
-        batch.set(newUserType, {userType: 'employer'});
+        batch.set(newUserType, { userType: "employer" });
 
-        var employer = firestore
-          .collection("employer")
-          .doc(resp.user.uid);
-          batch.set(employer, {companyname: newUser.companyname});
+        var employer = firestore.collection("employer").doc(resp.user.uid);
+        batch.set(employer, { companyname: newUser.companyname });
 
-          batch.commit();
-        
+        dispatch(verifyEmail());
+
+        batch.commit();
       })
       .then(() => {
         dispatch({ type: "SIGNUP_SUCCESS" });
@@ -88,26 +89,46 @@ export const signUpAsEmployer = newUser => {
       });
   };
 };
+export const verifyEmail = () => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    //const firestore = getFirestore();
 
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        firebase
+          .auth()
+          .currentUser.sendEmailVerification({
+           url: ROUTES.EMAIL_REDIRECT_URL_DEV
+          })
+          .then(() => {
+            dispatch({ type: "EMAIL_SENT_SUCCESS" });
+          })
+          .catch(err => {
+            dispatch({ type: "EMAIL_SENT_ERROR", err });
+          });
+      }
+    });
+  };
+};
 //@begin: Password Reset (Forget) - Abel G.
 export const passwordForget = email => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     //const firestore = getFirestore();
 
-
     firebase
-    .auth()
-    .sendPasswordResetEmail(email)
-    .then(() => {
-     // this.setState({ ...INITIAL_STATE });
-       dispatch({ type: "PWFORGET_SUCCESS" });
-    })
-    .catch(err => {
-//      this.setState({ error });
-      dispatch({ type: "PWFORGET_ERROR", err });
-    });
-
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        // this.setState({ ...INITIAL_STATE });
+        dispatch({ type: "PWFORGET_SUCCESS" });
+      })
+      .catch(err => {
+        //      this.setState({ error });
+        dispatch({ type: "PWFORGET_ERROR", err });
+      });
   };
 };
 //@end: Password Reset (Forget) - Abel G.
