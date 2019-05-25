@@ -1,4 +1,5 @@
 import React from "react";
+import * as ROUTES from '../../constants/routes';
 import { NavLink } from "react-router-dom";
 import { MDBBtn, MDBCardBody, MDBCardFooter, MDBInput } from "mdbreact";
 
@@ -26,7 +27,7 @@ class RegistrationJobSeeker extends React.Component {
 
   render() {
     const { auth, authError } = this.props;
-    if (auth.uid) return <Redirect to="/feed" />
+    if (auth.uid) return <Redirect to={ROUTES.FEED} />
     return (
       <div className="container">
         <div className="card border-info card-container">
@@ -86,7 +87,7 @@ class RegistrationJobSeeker extends React.Component {
                 <div className="text-center mt-4">
                   <hr className="hr-dark" />
                   <div className="text-center d-flex justify-content-center white-label">
-                    <NavLink className="red-text" to="/registration/employer">
+                    <NavLink className="red-text" to={ROUTES.REGISTRATION_EMPLOYER}>
                       <i className="fas fa-user-plus" /> Oops! I'm an Employer!
                   </NavLink>
                   </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { MDBCollapse, MDBHamburgerToggler } from 'mdbreact';
 import logo from "../../assets/images/logo.png";
+import * as ROUTES from '../../constants/routes';
 import { connect } from "react-redux";
 import SignedInLinks from "./SignedInLinks";
 import SignedOutLinks from "./SignedOutLinks";
@@ -35,7 +36,7 @@ class Nav extends React.Component {
     return (
       <div className="navbar-wrapper">
         <nav id="ct_navbar" className="navbar fixed-top navbar-expand-md navbar-dark">
-          <Link to="/feed" className="navbar-brand d-none d-md-block">
+          <Link to={ROUTES.FEED} className="navbar-brand d-none d-md-block">
             <img src={logo} alt={"logo"} />
           </Link>
           <MDBCollapse isOpen={this.state.collapse1} navbar className="w-100 order-4 order-md-0 collapsenav">
@@ -44,7 +45,7 @@ class Nav extends React.Component {
           <div className="w-100 d-flex flex-nowrap">
             <div className="w-100 d-md-none">
               <MDBHamburgerToggler color="#d3531a" className="d-block d-md-none" id="hamburger1" onClick={()=> this.toggleSingleCollapse('collapse1')} />
-              <Link to="/feed" className="navbar-brand">
+              <Link to={ROUTES.FEED} className="navbar-brand">
                 <img src={logo} alt={"logo"} />
               </Link>
             </div>
@@ -52,7 +53,7 @@ class Nav extends React.Component {
               <ul className="navbar-nav mr-2">
                 <li className="nav-item">
                 {!auth.uid ?  
-                  <Link className="nav-link" to="/login">
+                  <Link className="nav-link" to={ROUTES.LOG_IN}>
                     <i className="fas fa-sign-in-alt" />
                   </Link>
                   :
@@ -72,7 +73,6 @@ class Nav extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile

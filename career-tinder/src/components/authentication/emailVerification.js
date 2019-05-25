@@ -13,7 +13,6 @@ const EmailVerification = Component => {
 
     render() {
       const { auth, emailIsSent, emailVerified } = this.props;
-      console.log("herere rereererr", auth, emailIsSent);
 
       if (!auth.uid) return <Redirect to="/login" />;
       return auth && !emailVerified ? (

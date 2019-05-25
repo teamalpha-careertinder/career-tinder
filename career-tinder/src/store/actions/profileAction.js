@@ -1,4 +1,4 @@
-export const createJobSeekerProfile = (jobseeker) => {
+export const editJobSeekerProfile = (jobseeker) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
       const firestore = getFirestore();
       const profile = getState().firebase.profile;
@@ -15,8 +15,9 @@ export const createJobSeekerProfile = (jobseeker) => {
     }
 };
 
-export const createEmployerProfile = (employer) => {
+export const editEmployerProfile = (employer) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
+      console.log(employer);
       const firestore = getFirestore();
       const profile = getState().firebase.profile;
       const authorId = getState().firebase.auth.uid;
