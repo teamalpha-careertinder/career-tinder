@@ -90,13 +90,8 @@ class Login extends React.Component {
                  <div className="text-center d-flex justify-content-center white-label">
                    <div className="black-text">
                      <hr className="hr-dark" />
-<<<<<<< HEAD
                      Don't Have an Account ?{" "}
                      <NavLink className="nav-link red-text" to="/">
-=======
-                     Don't have an account ?{" "}
-                     <NavLink className="nav-link red-text" to={ROUTES.LANDING}>
->>>>>>> 9a64c4f6cab829ef24ac5b4c70c668223641c5b9
                        <i className="fas fa-user-plus" /> Register
                      </NavLink>
                    </div>

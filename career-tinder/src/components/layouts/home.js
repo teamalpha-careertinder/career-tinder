@@ -35,13 +35,8 @@ class Home extends React.Component {
                   <hr className="hr-dark" />
                   <div className="text-center d-flex justify-content-center black-label">
                     <div className="black-text">
-<<<<<<< HEAD
                       Already Have an Account? <br />
                       <NavLink className="red-text" to="/login">
-=======
-                      Already have an account? <br />
-                      <NavLink className="red-text" to={ROUTES.LOG_IN}>
->>>>>>> 9a64c4f6cab829ef24ac5b4c70c668223641c5b9
                         <i className="fas fa-sign-in-alt" /> Log in
                       </NavLink>
                     </div>
