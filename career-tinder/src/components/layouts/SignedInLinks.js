@@ -20,6 +20,11 @@ const SignedInLinks = props => {
         </NavLink>
       </li>
       <li className="nav-item">
+        <NavLink className="nav-link" to={ROUTES.JOBS_LIST}>
+          <i className="fas fa-user-md"></i> Jobs
+        </NavLink>
+      </li>
+      <li className="nav-item">
         <NavLink className="nav-link" to={ROUTES.CHANGE_PASSWORD}>
           <i className="fas fa-unlock-alt" /> Change Password
         </NavLink>

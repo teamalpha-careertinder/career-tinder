@@ -1,0 +1,17 @@
+.job-ads-wrapper b {
+    color: #1e698d !important;
+    font-weight: normal;
+}
+
+.job-ads-wrapper .job-ad {
+    background: rgba(255, 255, 255, 0.5);
+    margin: 12px 12px 0;
+}
+
+.job-ads-wrapper .wishlist-selector {
+    line-height: 24px;
+}
+
+.job-ad .card-body .fas {
+    width: 20px;
+}
