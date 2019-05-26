@@ -15,11 +15,19 @@ class Login extends React.Component {
    email: "",
    password: ""
  };
- handleChange = e => {
+
+
+ changeHandler = event => {
+  this.setState({ [event.target.name]: event.target.value });
+};
+
+
+/* handleChange = e => {
    this.setState({
      [e.target.id]: e.target.value
-   });
- };
+   })
+
+ };;*/
  handleSubmit = e => {
    e.preventDefault();
    this.props.signIn(this.state);
@@ -39,19 +47,32 @@ class Login extends React.Component {
                  <div className="row">
                    <div className="col-md-6 col-sm-12">
                      <form onSubmit={this.handleSubmit}>
+                       
                        <MDBInput
+                         value={this.state.email}
+                         name="email"
                          label="Your email"
                          icon="envelope"
                          type="email"
                          id="email"
-                         onChange={this.handleChange}
+                         className="form-control"
+                         onChange={this.changeHandler}
+                         required
+                        // onChange={this.handleChange}
                        />
+                       
                        <MDBInput
+                         value={this.state.password}
+                         name="password"
                          label="Your password"
                          icon="lock"
                          type="password"
                          id="password"
-                         onChange={this.handleChange}
+                         className="form-control"
+                         onChange={this.changeHandler}
+                         required
+                        // onChange={this.handleChange}
+
                        />
                        <div className="text-center mt-4 black-text">
                          <MDBBtn color="indigo" type="submit" className="mb-4">
@@ -72,7 +93,7 @@ class Login extends React.Component {
                  <div className="text-center d-flex justify-content-center white-label">
                    <div className="black-text">
                      <hr className="hr-dark" />
-                     Don't have an account ?{" "}
+                     Don't Have an Account ?{" "}
                      <NavLink className="nav-link red-text" to="/">
                        <i className="fas fa-user-plus" /> Register
                      </NavLink>

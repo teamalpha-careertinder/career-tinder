@@ -14,7 +14,11 @@ const INITIAL_STATE = {
 class ForgotPassword extends React.Component {
   state = { ...INITIAL_STATE };
 
-  handleChange = event => {
+  /* handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  }; */
+
+  changeHandler = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -53,10 +57,12 @@ class ForgotPassword extends React.Component {
                         value={this.state.email}
                         label="Your email"
                         icon="envelope"
-                        className="black-text"
+                        className="form-control black-text"
                         type="email"
                         id="email"
-                        onChange={this.handleChange}
+                        //onChange={this.handleChange}
+                        onChange={this.changeHandler}
+                        required
                       />
 
                       <div className="text-center mt-4 black-text">
