@@ -1,14 +1,24 @@
-.profile-form .form-group label {
+.profile-form .form-group label,
+.work-experience-form .form-group label {
     color: #333 !important;
 }
 
-.profile-form .form-group>label {
+.profile-form .form-group>label,
+.work-experience-form .form-group>label {
     color: #1e698d !important;
     font-weight: bold;
 }
 
 .datepicker .md-form {
     margin: 0;
+}
+
+.work-experiences-tag i {
+    cursor: pointer;
+}
+
+span.work-experiences-tag.badge.badge-dark {
+    padding: 10px;
 }
 
 @media (max-width: 768px) {
