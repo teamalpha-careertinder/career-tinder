@@ -11,6 +11,7 @@ import FeedBoard from "../feedboard/feedboard";
 import LandingPage from "../layouts/home";
 import ForgotPassword from "../authentication/forgotPassword";
 import ChangePassword from "../profile/changePassword";
+import JobAds from "../jobs/jobAds";
 
 class App extends Component {
   render() {
@@ -28,6 +29,7 @@ class App extends Component {
               <Route exact path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />  
               <Route path={ROUTES.FEED} component={FeedBoard} />
               <Route path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
+              <Route path={ROUTES.JOBS_LIST} component={JobAds} />
             </div>
           </div>
         </HashRouter>
