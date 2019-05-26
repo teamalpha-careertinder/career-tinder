@@ -1,4 +1,5 @@
 import React from "react";
+import * as ROUTES from '../../constants/routes';
 import { NavLink } from "react-router-dom";
 import { MDBCardBody, MDBBtn, MDBCardFooter
 } from "mdbreact";
@@ -15,7 +16,7 @@ class Home extends React.Component {
               </div>
               <MDBCardBody className="z-depth-3 gradient-text" md="3" xl="3">
                 <div className="text-center mt-4 black-text">
-                  <NavLink to="/registration/jobseeker">
+                  <NavLink to={ROUTES.REGISTRATION_JOB_SEEKER}>
                     <MDBBtn outline color="secondary">
                       <i className="fas fa-user-plus" />{" "}
                       <b>I'M A JOB SEEKER</b>
@@ -23,7 +24,7 @@ class Home extends React.Component {
                   </NavLink>
                 </div>
                 <div className="text-center mt-4 black-text">
-                  <NavLink to="/registration/employer">
+                  <NavLink to={ROUTES.REGISTRATION_EMPLOYER}>
                     <MDBBtn outline color="info">
                       <i className="fas fa-user-plus" />{" "}
                       <b>I'M AN EMPLOYER</b>
@@ -34,8 +35,13 @@ class Home extends React.Component {
                   <hr className="hr-dark" />
                   <div className="text-center d-flex justify-content-center black-label">
                     <div className="black-text">
+<<<<<<< HEAD
                       Already Have an Account? <br />
                       <NavLink className="red-text" to="/login">
+=======
+                      Already have an account? <br />
+                      <NavLink className="red-text" to={ROUTES.LOG_IN}>
+>>>>>>> 9a64c4f6cab829ef24ac5b4c70c668223641c5b9
                         <i className="fas fa-sign-in-alt" /> Log in
                       </NavLink>
                     </div>

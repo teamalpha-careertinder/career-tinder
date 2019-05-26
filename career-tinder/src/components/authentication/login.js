@@ -1,10 +1,7 @@
 import React from "react";
+import * as ROUTES from '../../constants/routes';
 import { NavLink,Link } from "react-router-dom";
-import {
- MDBBtn,
- MDBCardFooter,
- MDBInput
-} from "mdbreact";
+import { MDBBtn, MDBCardFooter, MDBInput } from "mdbreact";
 import "./login.css";
 import { signIn } from "../../store/actions/authActions";
 import { Redirect } from "react-router-dom";
@@ -35,7 +32,7 @@ class Login extends React.Component {
 
  render() {
    const { authError, auth } = this.props;
-   if (auth.uid) return <Redirect to="/feed" />;
+   if (auth.uid) return <Redirect to={ROUTES.FEED} />;
    return (
        <div className="container">
            <div className="card border-info card-container">
@@ -82,7 +79,7 @@ class Login extends React.Component {
                            {authError ? <p>{authError}</p> : null}
                          </div>
                        </div>
-                       <Link className="text-center d-flex justify-content-center black-text" to="/forgot-password">
+                       <Link className="text-center d-flex justify-content-center black-text" to={ROUTES.FORGOT_PASSWORD}>
                          Forgot password?
                        </Link>
                      </form>
@@ -93,8 +90,13 @@ class Login extends React.Component {
                  <div className="text-center d-flex justify-content-center white-label">
                    <div className="black-text">
                      <hr className="hr-dark" />
+<<<<<<< HEAD
                      Don't Have an Account ?{" "}
                      <NavLink className="nav-link red-text" to="/">
+=======
+                     Don't have an account ?{" "}
+                     <NavLink className="nav-link red-text" to={ROUTES.LANDING}>
+>>>>>>> 9a64c4f6cab829ef24ac5b4c70c668223641c5b9
                        <i className="fas fa-user-plus" /> Register
                      </NavLink>
                    </div>
