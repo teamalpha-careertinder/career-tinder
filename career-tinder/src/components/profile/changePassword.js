@@ -1,7 +1,8 @@
 import React from "react";
+import * as ROUTES from '../../constants/routes';
 import { MDBInput, MDBIcon, MDBBtn } from "mdbreact";
 import "./profile.css";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { passwordChange } from "../../store/actions/profileAction";
 import { firestoreConnect } from "react-redux-firebase";
@@ -46,35 +47,6 @@ class ChangePassword extends React.Component {
               <MDBIcon icon="user" className="mr-1" /> Change your password
             </div>
             <div className="card-body text-info">
-              <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li className="nav-item">
-                  {user && user.userType === "jobseeker" ? (
-                    <a
-                      className="nav-link active"
-                      id="pills-job-seeker-tab"
-                      data-toggle="pill"
-                      href="#pills-job-seeker"
-                      role="tab"
-                      aria-controls="pills-job-seeker"
-                      aria-selected="true"
-                    >
-                      <MDBIcon icon="users" className="mr-1" /> Job Seeker
-                    </a>
-                  ) : (
-                    <a
-                      className="nav-link active"
-                      id="pills-company-tab"
-                      data-toggle="pill"
-                      href="#pills-company"
-                      role="tab"
-                      aria-controls="pills-company"
-                      aria-selected="false"
-                    >
-                      <MDBIcon icon="user-tie" className="mr-1" /> Employer
-                    </a>
-                  )}
-                </li>
-              </ul>
               <div className="tab-content" id="pills-tabContent">
                 <div
                   className="tab-pane fade show active"
@@ -111,14 +83,9 @@ class ChangePassword extends React.Component {
                     </div>
                     <div className="row">
                       <div className="col-sm-12">
-                        <MDBBtn
-                          outline
-                          color="info"
-                          className="float-right"
-                          href="/#/profile/create"
-                        >
-                          Back to profile
-                        </MDBBtn>
+                      <Link className="btn btn-primary float-right" to={ROUTES.UPDATE_PROFILE}>
+                        <i className="fas fa-user" /> Profile
+                      </Link>
                         <MDBBtn
                           outline
                           color="info"

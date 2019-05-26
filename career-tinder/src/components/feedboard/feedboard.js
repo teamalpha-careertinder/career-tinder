@@ -17,12 +17,7 @@ class Feedboard extends Component {
           <h1 className="h1-responsive font-weight-bold">Career Tinder </h1>
           <hr className="hr-light" />
           <h6 className="mb-4">
-            Welcome to your career-tinder profile. Please
-            {user && user.userType === "jobseeker" ? (
-              <Link to="/profile/create"> edit your profile </Link>
-            ) : (
-              <Link to="/profile/create-employer"> edit your profile </Link>
-            )}
+            Welcome to your career-tinder profile. Please <Link to="/profile/update"> update your profile </Link>
             to have your profile complete. Your job feed is coming soon.
           </h6>
         </div>

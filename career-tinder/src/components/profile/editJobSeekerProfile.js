@@ -8,7 +8,7 @@ import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { Alert } from 'reactstrap';
 import EmailVerification from "../authentication/emailVerification";
-import { createJobSeekerProfile } from '../../store/actions/profileAction';
+import { editJobSeekerProfile } from '../../store/actions/profileAction';
 
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -23,7 +23,7 @@ const languages = [
 ];
 
 
-class CreateProfile extends React.Component {
+class EditJobSeekerProfile extends React.Component {
     
     handleSkillsChange = (selectedSkills) => {
       this.setState({ selectedSkills });
@@ -108,7 +108,7 @@ class CreateProfile extends React.Component {
 
     handleSubmit = (e) => {
       e.preventDefault();
-      this.props.createJobSeekerProfile(this.state); 
+      this.props.editJobSeekerProfile(this.state); 
     }
 
     onShowAlert = ()=>{
@@ -128,7 +128,7 @@ class CreateProfile extends React.Component {
 
       if (!auth.uid) return <Redirect to="/login" />;
       return (
-        <div className="container">
+        <div className="job-seeker-profile">
           <Alert color="success" isOpen={this.state.visible}><i class="fas fa-check"></i> Profile updated!</Alert>
           <div className="profile-form-wrapper">        
             <div className="card border-info card-container">
@@ -280,7 +280,7 @@ class CreateProfile extends React.Component {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-sm-12 d-none">
+                              <div className="col-sm-12">
                                 <MDBBtn color="success" className="btn-sm">
                                   <MDBIcon icon="plus" className="mr-1" /> Add work experience
                                 </MDBBtn>
@@ -317,7 +317,7 @@ const mapStateToProps = state => {
 const mapDispatchToPropsJobseeker = dispatch => {
   // console.log(state);
   return {
-    createJobSeekerProfile: (profile) => dispatch(createJobSeekerProfile(profile))
+    editJobSeekerProfile: (profile) => dispatch(editJobSeekerProfile(profile))
   }
 };
 
@@ -325,4 +325,4 @@ const mapDispatchToPropsJobseeker = dispatch => {
 export default 
   compose(EmailVerification,
     connect(mapStateToProps, mapDispatchToPropsJobseeker)
-  )(CreateProfile);
+  )(EditJobSeekerProfile);

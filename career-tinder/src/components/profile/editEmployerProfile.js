@@ -6,9 +6,9 @@ import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { Alert } from "reactstrap";
 import EmailVerification from "../authentication/emailVerification";
-import { createEmployerProfile } from "../../store/actions/profileAction";
+import { editEmployerProfile } from "../../store/actions/profileAction";
 
-class CreateEmployerProfile extends React.Component {
+class EditEmployerProfile extends React.Component {
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
@@ -17,7 +17,7 @@ class CreateEmployerProfile extends React.Component {
 
   handleEmployerSubmit = e => {
     e.preventDefault();
-    this.props.createEmployerProfile(this.state);
+    this.props.editEmployerProfile(this.state);
   };
 
   state = {
@@ -36,9 +36,9 @@ class CreateEmployerProfile extends React.Component {
     const { auth } = this.props;
     if (!auth.uid) return <Redirect to="/login" />;
     return (
-      <div className="container">
+      <div className="employer-profile">
         <Alert color="success" isOpen={this.state.visible}>
-          <i class="fas fa-check" /> Profile updated!
+          <i className="fas fa-check" /> Profile updated!
         </Alert>
         <div className="profile-form-wrapper">
           <div className="card border-info card-container">
@@ -176,7 +176,7 @@ const mapStateToProps = state => {
 const mapDispatchToPropsEmployer = dispatch => {
   // console.log(state);
   return {
-    createEmployerProfile: profile => dispatch(createEmployerProfile(profile))
+    editEmployerProfile: profile => dispatch(editEmployerProfile(profile))
   };
 };
 
@@ -186,4 +186,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToPropsEmployer
   )
-)(CreateEmployerProfile);
+)(EditEmployerProfile);
