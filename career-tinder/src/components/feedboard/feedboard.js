@@ -4,13 +4,12 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
-import EmailVerification from "../authentication/emailVerification";
+import * as ROUTES from '../../constants/routes';
 
 class Feedboard extends Component {
   render() {
-    const { auth, user } = this.props;
-    if (!auth.uid) return <Redirect to="/login" />;
-
+    const { auth } = this.props;
+    if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN}/>;
     return (
       <div className="container text-center d-flex justify-content-center black-label">
         <div className="fb-wrapper black-text text-center text-md-left">
@@ -37,7 +36,6 @@ const mapStateToProps = state => {
 };
 
 export default compose(
-  EmailVerification,
   connect(mapStateToProps),
   firestoreConnect([
     {

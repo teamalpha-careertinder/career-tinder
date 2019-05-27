@@ -7,6 +7,7 @@ import Login from "../authentication/login";
 import RegistrationEmployer from "../authentication/registrationEmployer";
 import RegistrationJobSeeker from "../authentication/registrationJobSeeker";
 import UpdateProfile from "../profile/editProfile";
+import EmailVerification from "../authentication/emailVerification";
 import FeedBoard from "../feedboard/feedboard";
 import LandingPage from "../layouts/home";
 import ForgotPassword from "../authentication/forgotPassword";
@@ -25,6 +26,7 @@ class App extends Component {
               <Route path={ROUTES.REGISTRATION_JOB_SEEKER} component={RegistrationJobSeeker} />
               <Route path={ROUTES.REGISTRATION_EMPLOYER} component={RegistrationEmployer} />
               <Route path={ROUTES.UPDATE_PROFILE} component={UpdateProfile} />
+              <Route path={ROUTES.EMAIL_VERIFICATION} component={EmailVerification} />
               <Route exact path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />  
               <Route path={ROUTES.FEED} component={FeedBoard} />
               <Route path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />

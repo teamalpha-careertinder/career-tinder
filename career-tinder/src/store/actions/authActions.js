@@ -1,4 +1,4 @@
-import * as ROUTES from '../../constants/routes';
+import * as ROUTES from "../../constants/routes";
 
 export const signIn = credentials => {
   return (dispatch, getState, { getFirebase }) => {
@@ -8,14 +8,23 @@ export const signIn = credentials => {
       .auth()
       .signInWithEmailAndPassword(credentials.email, credentials.password)
       .then(() => {
-        dispatch({ type: "LOGIN_SUCCESS" });
+        const user = firebase.auth().currentUser;
+        user.reload().then(() => {
+          if (user) {
+            if (user.emailVerified) {
+              dispatch({ type: "LOGIN_SUCCESS" });
+            } else {
+              dispatch(verifyEmail());
+              dispatch({ type: "EMAIL_NOT_VERIFIED" });
+            }
+          }
+        });
       })
       .catch(err => {
         dispatch({ type: "LOGIN_ERROR", err });
       });
   };
 };
-
 export const signOut = () => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
@@ -93,23 +102,21 @@ export const verifyEmail = () => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firebase = getFirebase();
     //const firestore = getFirestore();
-
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        // User is signed in.
-        firebase
-          .auth()
-          .currentUser.sendEmailVerification({
-           url: ROUTES.EMAIL_REDIRECT_URL_DEV
-          })
-          .then(() => {
-            dispatch({ type: "EMAIL_SENT_SUCCESS" });
-          })
-          .catch(err => {
-            dispatch({ type: "EMAIL_SENT_ERROR", err });
-          });
-      }
-    });
+    var user = firebase.auth().currentUser;
+    if (user) {
+      firebase
+        .auth()
+        .currentUser.sendEmailVerification({
+          // url: ROUTES.EMAIL_REDIRECT_URL_DEV
+        })
+        .then(() => {
+          dispatch(signOut());
+          dispatch({ type: "EMAIL_SENT_SUCCESS" });
+        })
+        .catch(err => {
+          dispatch({ type: "EMAIL_SENT_ERROR", err });
+        });
+    }
   };
 };
 //@begin: Password Reset (Forget) - Abel G.

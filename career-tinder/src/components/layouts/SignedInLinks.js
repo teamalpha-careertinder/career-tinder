@@ -1,10 +1,10 @@
 import React from "react";
-import * as ROUTES from '../../constants/routes';
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { signOut } from "../../store/actions/authActions";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
+import * as ROUTES from '../../constants/routes';
 
 const SignedInLinks = props => {
   return (

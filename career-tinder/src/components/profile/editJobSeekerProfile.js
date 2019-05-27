@@ -6,9 +6,9 @@ import './profile.css';
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
-import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import EmailVerification from "../authentication/emailVerification";
+import { Alert, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { editJobSeekerProfile } from '../../store/actions/profileAction';
+import * as ROUTES from '../../constants/routes';
 
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -160,7 +160,7 @@ class EditJobSeekerProfile extends React.Component {
       const { selectedLanguages } = this.state;
       const { auth } = this.props;          
 
-      if (!auth.uid) return <Redirect to="/login" />;
+      if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN}/>;
       return (
         <div className="job-seeker-profile">
           <Alert color="success" isOpen={this.state.visible}><i class="fas fa-check"></i> Profile updated!</Alert>
@@ -382,6 +382,6 @@ const mapDispatchToPropsJobseeker = dispatch => {
 
 
 export default 
-  compose(EmailVerification,
+  compose(
     connect(mapStateToProps, mapDispatchToPropsJobseeker)
   )(EditJobSeekerProfile);

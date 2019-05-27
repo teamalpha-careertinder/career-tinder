@@ -4,7 +4,6 @@ import * as ROUTES from '../../constants/routes';
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
-import EmailVerification from "../authentication/emailVerification";
 import EditEmployerProfile from './editEmployerProfile';
 import EditJobSeekerProfile from './editJobSeekerProfile';
 
@@ -12,7 +11,7 @@ class EditProfile extends React.Component {
   render() {        
     const { auth } = this.props;
     const { user } = this.props;
-    if (!auth.uid) return <Redirect to={ROUTES.LOG_IN} />;
+    if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN}/>;
     return (
       <div className="container">
         {user && user.userType === "jobseeker" ? (
@@ -37,4 +36,4 @@ const mapStateToProps = state => {
 };
 
 
-export default compose(EmailVerification,connect(mapStateToProps))(EditProfile);
+export default compose(connect(mapStateToProps))(EditProfile);

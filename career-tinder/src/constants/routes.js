@@ -1,7 +1,8 @@
 export const LANDING = '/';
 export const LOG_IN = '/login';
-export const REGISTRATION_JOB_SEEKER = '/registration/jobseeker';
-export const REGISTRATION_EMPLOYER = '/registration/employer';
+export const REGISTRATION_JOB_SEEKER = '/signup/jobseeker';
+export const REGISTRATION_EMPLOYER = '/signup/employer';
+export const EMAIL_VERIFICATION = '/signup/verify-email';
 export const UPDATE_PROFILE = '/profile/update';
 export const CHANGE_PASSWORD = '/profile/changepassword';
 export const FEED = '/feed';

@@ -1,9 +1,7 @@
 import React from "react";
-import * as ROUTES from '../../constants/routes';
 import { NavLink } from "react-router-dom";
 import { MDBBtn, MDBCardBody, MDBCardFooter, MDBInput } from "mdbreact";
-
-
+import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { signUpAsJobSeeker } from "../../store/actions/authActions";
@@ -12,6 +10,7 @@ class RegistrationJobSeeker extends React.Component {
   state = {
     email: "",
     password: "",
+    confirm_password: "",
     firstName: "",
     lastName: ""
   };
@@ -27,12 +26,19 @@ class RegistrationJobSeeker extends React.Component {
 
   render() {
     const { auth, authError } = this.props;
-    if (auth.uid) return <Redirect to={ROUTES.FEED} />
+    const { password, confirm_password } = this.state;
+    const isInvalid =
+      password !== confirm_password ||
+      password === "" ||
+      confirm_password === "";
+
+    if (auth.uid && !auth.emailVerified)
+      return <Redirect to={ROUTES.EMAIL_VERIFICATION} />;
     return (
       <div className="container">
         <div className="card border-info card-container">
           <div className="card-header">
-            <i className="fas fa-users"></i> Sign Up as a Job Seeker
+            <i className="fas fa-users" /> Sign Up as a Job Seeker
           </div>
           <MDBCardBody className="z-depth-2 gradient-text text-info">
             <div className="row">
@@ -61,6 +67,7 @@ class RegistrationJobSeeker extends React.Component {
                   />
                   <MDBInput
                     id="password"
+                    value={password}
                     label="Password"
                     icon="lock"
                     type="password"
@@ -69,6 +76,7 @@ class RegistrationJobSeeker extends React.Component {
                   />
                   <MDBInput
                     id="confirm_password"
+                    value={confirm_password}
                     label="Confirm Password"
                     icon="lock"
                     type="password"
@@ -76,7 +84,7 @@ class RegistrationJobSeeker extends React.Component {
                     onChange={this.handleChange}
                   />
                   <div className="text-center mt-4 black-text">
-                    <MDBBtn color="primary" type="submit">
+                    <MDBBtn color="primary" type="submit" disabled={isInvalid}>
                       Sign Up
                     </MDBBtn>
                     <div className="center red-text">
@@ -87,25 +95,27 @@ class RegistrationJobSeeker extends React.Component {
                 <div className="text-center mt-4">
                   <hr className="hr-dark" />
                   <div className="text-center d-flex justify-content-center white-label">
-                    <NavLink className="red-text" to={ROUTES.REGISTRATION_EMPLOYER}>
+                    <NavLink
+                      className="red-text"
+                      to={ROUTES.REGISTRATION_EMPLOYER}
+                    >
                       <i className="fas fa-user-plus" /> Oops! I'm an Employer!
-                  </NavLink>
+                    </NavLink>
                   </div>
                 </div>
               </div>
             </div>
           </MDBCardBody>
-          <MDBCardFooter >
+          <MDBCardFooter>
             <h6 className="mb-2" align="center">
-              Welcome to Career Tinder website. This website is
-              desgined for the companies which are looking to hire new
-              employees, as well as people how are looking for job. To
-              use the offered services of the web, please login with
-              your account or if you don't have an account yet, please
-              click the signup button to register
+              Welcome to Career Tinder website. This website is desgined for the
+              companies which are looking to hire new employees, as well as
+              people how are looking for job. To use the offered services of the
+              web, please login with your account or if you don't have an
+              account yet, please click the signup button to register
             </h6>
           </MDBCardFooter>
-        </div>         
+        </div>
       </div>
     );
   }

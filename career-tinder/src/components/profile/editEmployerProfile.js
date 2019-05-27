@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { Alert } from "reactstrap";
-import EmailVerification from "../authentication/emailVerification";
 import { editEmployerProfile } from "../../store/actions/profileAction";
+import * as ROUTES from '../../constants/routes';
 
 class EditEmployerProfile extends React.Component {
   handleChange = e => {
@@ -34,7 +34,7 @@ class EditEmployerProfile extends React.Component {
 
   render() {
     const { auth } = this.props;
-    if (!auth.uid) return <Redirect to="/login" />;
+    if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN}/>;
     return (
       <div className="employer-profile">
         <Alert color="success" isOpen={this.state.visible}>
@@ -181,7 +181,6 @@ const mapDispatchToPropsEmployer = dispatch => {
 };
 
 export default compose(
-  EmailVerification,
   connect(
     mapStateToProps,
     mapDispatchToPropsEmployer
