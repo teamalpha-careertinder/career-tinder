@@ -1,9 +1,9 @@
 import React from "react";
-import * as ROUTES from '../../constants/routes';
 import { NavLink } from "react-router-dom";
 import { MDBCardBody, MDBBtn, MDBCardFooter
 } from "mdbreact";
 import { MDBAnimation } from "mdbreact";
+import * as ROUTES from '../../constants/routes';
 
 class Home extends React.Component {
   render() {

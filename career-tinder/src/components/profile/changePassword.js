@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { passwordChange } from "../../store/actions/profileAction";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import EmailVerification from "../authentication/emailVerification";
 
 const INITIAL_STATE = {
   passwordOne: "",
@@ -36,9 +35,9 @@ class ChangePassword extends React.Component {
   render() {
     const { passwordOne, passwordTwo } = this.state;
     const isInvalid = passwordOne !== passwordTwo || passwordOne === "";
-    const { auth, user, authStatus, authMsg } = this.props;
+    const { auth, authStatus, authMsg } = this.props;
 
-    if (!auth.uid) return <Redirect to="/login" />;
+    if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN}/>;
     return (
       <div className="container">
         <div className="profile-form-wrapper">
@@ -140,7 +139,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  EmailVerification,
   connect(
     mapStateToProps,
     mapDispatchToProps

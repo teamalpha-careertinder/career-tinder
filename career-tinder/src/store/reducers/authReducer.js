@@ -1,6 +1,5 @@
 const initState = {
   authError: null,
-  emailIsSent: false,
   userType: null
 };
 
@@ -12,12 +11,18 @@ const authReducer = (state = initState, action) => {
         ...state,
         authError: "Login failed"
       };
-
     case "LOGIN_SUCCESS":
       console.log("login success");
       return {
         ...state,
         authError: null
+      };
+    case "EMAIL_NOT_VERIFIED":
+      console.log("Email not verified ");
+      return {
+        ...state,
+        authError:
+          "Email not verified yet,Please verify your email for successful signup"
       };
 
     case "SIGNOUT_SUCCESS":
@@ -41,16 +46,14 @@ const authReducer = (state = initState, action) => {
       console.log("Email sent success");
       return {
         ...state,
-        authError: null,
-        emailIsSent: true
+        authError: null
       };
 
     case "EMAIL_SENT_ERROR":
       console.log("Email sent error");
       return {
         ...state,
-        authError: action.err.message,
-        emailIsSent: false
+        authError: action.err.message
       };
     //@begin Reset (Forgot) Password - Abel
     case "PWFORGET_SUCCESS":

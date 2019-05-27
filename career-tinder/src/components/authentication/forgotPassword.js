@@ -4,6 +4,7 @@ import "./login.css";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { passwordForget } from "../../store/actions/authActions";
+import * as ROUTES from '../../constants/routes';
 
 const INITIAL_STATE = {
   email: "",
@@ -32,7 +33,7 @@ class ForgotPassword extends React.Component {
     const isInvalid = email === "";
     const { auth, authStatus, authMsg } = this.props;
 
-    if (auth.uid) return <Redirect to="/feed" />;
+    if (!auth.uid) return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="container">
         <div className="card-body text-info">
