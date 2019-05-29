@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import { MDBInput, MDBBtn } from "mdbreact";
 import "./profile.css";
 import { connect } from "react-redux";
@@ -7,8 +8,15 @@ import { Redirect } from "react-router-dom";
 import { Alert } from "reactstrap";
 import { editEmployerProfile } from "../../store/actions/profileAction";
 import * as ROUTES from '../../constants/routes';
+import CreateJobAd from "../jobs/createjobAd"
 
 class EditEmployerProfile extends React.Component {
+
+  click ()
+  {
+    ReactDOM.render( <CreateJobAd /> , document.getElementById('root'));
+  }
+
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
@@ -37,9 +45,13 @@ class EditEmployerProfile extends React.Component {
     if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN}/>;
     return (
       <div className="employer-profile">
+       
         <Alert color="success" isOpen={this.state.visible}>
           <i className="fas fa-check" /> Profile updated!
         </Alert>
+
+
+
         <div className="profile-form-wrapper">
           <div className="card border-info card-container">
             <div className="card-header">
@@ -57,6 +69,13 @@ class EditEmployerProfile extends React.Component {
                     className="profile-form"
                     onSubmit={this.handleEmployerSubmit}
                   >
+                    <MDBBtn outline color="secondary"  onClick={this.click} >
+                       Navigate to CreateJobPage
+                    </MDBBtn>
+                    
+                    
+                    
+                      
                     <div className="row">
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
@@ -154,6 +173,7 @@ class EditEmployerProfile extends React.Component {
                         >
                           <i className="fas fa-save" /> Save Profile
                         </MDBBtn>
+                        
                       </div>
                     </div>
                   </form>

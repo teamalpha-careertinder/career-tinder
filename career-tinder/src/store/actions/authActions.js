@@ -47,7 +47,7 @@ export const signUpAsJobSeeker = newUser => {
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
         var newUserType = firestore.collection("users").doc(resp.user.uid);
-        batch.set(newUserType, { userType: "jobseeker", profileCompletenessPercentage : 0 });
+        batch.set(newUserType, { userType: "jobseeker" });
 
         var jobSeeker = firestore.collection("jobseeker").doc(resp.user.uid);
 
@@ -79,7 +79,7 @@ export const signUpAsEmployer = newUser => {
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(resp => {
         var newUserType = firestore.collection("users").doc(resp.user.uid);
-        batch.set(newUserType, { userType: "employer", profileCompletenessPercentage : 0  });
+        batch.set(newUserType, { userType: "employer" });
 
         var employer = firestore.collection("employer").doc(resp.user.uid);
         batch.set(employer, { companyname: newUser.companyname });
