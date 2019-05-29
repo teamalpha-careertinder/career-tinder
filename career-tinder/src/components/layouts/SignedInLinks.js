@@ -4,16 +4,11 @@ import { connect } from "react-redux";
 import { signOut } from "../../store/actions/authActions";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import * as ROUTES from '../../constants/routes';
+import * as ROUTES from "../../constants/routes";
 
 const SignedInLinks = props => {
   return (
     <ul className="navbar-nav ct-nav-collapsible">
-      <li className="nav-item">
-          <NavLink className="nav-link" to={ROUTES.UPDATE_PROFILE}>
-            <i className="fas fa-user" /> Profile
-          </NavLink>
-      </li>
       <li className="nav-item">
         <NavLink className="nav-link" to={ROUTES.FEED}>
           <i className="fas fa-rss" /> Feed
@@ -21,7 +16,17 @@ const SignedInLinks = props => {
       </li>
       <li className="nav-item">
         <NavLink className="nav-link" to={ROUTES.JOBS_LIST}>
-          <i className="fas fa-user-md"></i> Jobs
+          <i className="fas fa-user-md" /> Jobs
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link" to={ROUTES.UPDATE_PROFILE}>
+          <i className="fas fa-user" /> Profile
+        </NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link" to={ROUTES.NOTIFICATIONS}>
+          <i className="fas fa-bell-slash" /> Notifications
         </NavLink>
       </li>
       <li className="nav-item">

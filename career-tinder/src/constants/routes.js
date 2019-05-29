@@ -8,5 +8,6 @@ export const CHANGE_PASSWORD = '/profile/changepassword';
 export const FEED = '/feed';
 export const FORGOT_PASSWORD = '/forgot-password';
 export const JOBS_LIST = '/jobs';
+export const NOTIFICATIONS = "/notifications";
 export const EMAIL_REDIRECT_URL_DEV = 'http://localhost:3000/feed';
 export const EMAIL_REDIRECT_URL_PROD = 'https://career-tinder.firebaseapp.com/feed';

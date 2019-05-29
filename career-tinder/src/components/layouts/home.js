@@ -4,9 +4,13 @@ import { MDBCardBody, MDBBtn, MDBCardFooter
 } from "mdbreact";
 import { MDBAnimation } from "mdbreact";
 import * as ROUTES from '../../constants/routes';
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 class Home extends React.Component {
   render() {
+    const { auth } = this.props;
+   if (auth.uid && auth.emailVerified) return <Redirect to={ROUTES.FEED}   />;
     return (
         <div className="container">
           <div className="card border-info">
@@ -59,5 +63,11 @@ class Home extends React.Component {
     );
   }
 }
-
-export default Home;
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth
+  };
+ };
+export default connect(
+  mapStateToProps,
+ )(Home);
