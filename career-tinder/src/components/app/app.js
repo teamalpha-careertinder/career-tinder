@@ -12,7 +12,7 @@ import FeedBoard from "../feedboard/feedboard";
 import LandingPage from "../layouts/home";
 import ForgotPassword from "../authentication/forgotPassword";
 import ChangePassword from "../profile/changePassword";
-import JobAds from "../jobs/jobAds";
+import Jobs from "../jobs/jobs";
 import Notifications from "../feedboard/Notifications";
 
 class App extends Component {
@@ -38,19 +38,11 @@ class App extends Component {
                 path={ROUTES.EMAIL_VERIFICATION}
                 component={EmailVerification}
               />
-              <Route
-                exact
-                path={ROUTES.NOTIFICATIONS}
-                component={Notifications}
-              />
-              <Route
-                exact
-                path={ROUTES.CHANGE_PASSWORD}
-                component={ChangePassword}
-              />
+              <Route path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />
               <Route path={ROUTES.FEED} component={FeedBoard} />
               <Route path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
-              <Route path={ROUTES.JOBS_LIST} component={JobAds} />
+              <Route path={ROUTES.JOBS} component={Jobs} />
+              <Route path={ROUTES.NOTIFICATIONS} component={Notifications} />
             </div>
           </div>
         </HashRouter>

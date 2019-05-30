@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { MDBIcon, MDBBtn } from "mdbreact";
+import { MDBIcon } from "mdbreact";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
@@ -65,14 +65,12 @@ const mapStateToProps = state => {
   };
 };
 
-
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect((props) => [
-     {
-        collection: 'notifications',
-        ['userId']: props.auth.uid,
-        ordered : ["time", "desc"]
-     }
+  firestoreConnect(props => [
+    {
+      collection: "notifications",
+      where: [["userId", "==", props.auth.uid]]
+    }
   ])
 )(Notifications);
