@@ -41,7 +41,6 @@ class EditEmployerProfile extends React.Component {
         <Alert color="success" isOpen={this.state.visible}>
           <i className="fas fa-check" /> Profile updated!
         </Alert>
-
         <div className="profile-form-wrapper">
           <div className="card border-info card-container">
             <div className="card-header">

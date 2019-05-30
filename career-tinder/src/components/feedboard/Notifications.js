@@ -70,8 +70,7 @@ export default compose(
   firestoreConnect(props => [
     {
       collection: "notifications",
-      where: [["userId", "==", props.auth.uid]],
-      ordered: ["time", "desc"]
+      where: [["userId", "==", props.auth.uid]]
     }
   ])
 )(Notifications);
