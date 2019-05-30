@@ -4,13 +4,9 @@ import { MDBCardBody, MDBBtn, MDBCardFooter
 } from "mdbreact";
 import { MDBAnimation } from "mdbreact";
 import * as ROUTES from '../../constants/routes';
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
 
 class Home extends React.Component {
   render() {
-    const { auth } = this.props;
-   if (auth.uid && auth.emailVerified) return <Redirect to={ROUTES.FEED}   />;
     return (
         <div className="container">
           <div className="card border-info">
@@ -39,7 +35,7 @@ class Home extends React.Component {
                   <hr className="hr-dark" />
                   <div className="text-center d-flex justify-content-center black-label">
                     <div className="black-text">
-                      Already have an account? <br />
+                      Already Have an Account? <br />
                       <NavLink className="red-text" to={ROUTES.LOG_IN}>
                         <i className="fas fa-sign-in-alt" /> Log in
                       </NavLink>
@@ -58,16 +54,12 @@ class Home extends React.Component {
               your account or if you don't have an account yet, please
               click the signup button to register
             </h6>
+
+          
           </MDBCardFooter>
         </div>
     );
   }
 }
-const mapStateToProps = state => {
-  return {
-    auth: state.firebase.auth
-  };
- };
-export default connect(
-  mapStateToProps,
- )(Home);
+
+export default Home;

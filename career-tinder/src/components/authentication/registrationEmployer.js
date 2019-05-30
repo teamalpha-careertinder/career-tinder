@@ -10,13 +10,14 @@ class RegistrationEmployer extends React.Component {
   state = {
     email: "",
     password: "",
+    confirm_password: "",
     companyname: ""
   };
-  handleChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value
-    });
+
+  changeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
   };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.signUpAsEmployer(this.state);
@@ -42,39 +43,58 @@ class RegistrationEmployer extends React.Component {
               <div className="col-md-6 col-sm-12">
                 <form onSubmit={this.handleSubmit}>
                   <MDBInput
+                    value={this.state.companyname}
+                    name="companyname"
                     id="companyname"
                     icon="pencil-alt"
                     label="Company Name"
-                    onChange={this.handleChange}
+                    type="text"
+                    className="form-control"
+                    onChange={this.changeHandler}
+                    required
                   />
+
                   <MDBInput
-                    id="email"
-                    label="Email"
+                    value={this.state.email}
+                    name="email"
+                    label="Your email"
                     icon="envelope"
+                    type="email"
+                    id="email"
+                    className="form-control"
+                    onChange={this.changeHandler}
+                    required
                     autoComplete="false"
-                    onChange={this.handleChange}
                   />
+
                   <MDBInput
-                    id="password"
-                    value={password}
-                    label="Password"
+                    value={this.state.password}
+                    name="password"
+                    label="Your password"
                     icon="lock"
                     type="password"
-                    autoComplete="new-password"
-                    onChange={this.handleChange}
+                    id="password"
+                    className="form-control"
+                    onChange={this.changeHandler}
+                    required
+                    //onChange={this.handleChange}
                   />
                   <MDBInput
+                    value={this.state.confirmpassword}
+                    name="confirmpassword"
                     id="confirm_password"
-                    value={confirm_password}
                     label="Confirm Password"
                     icon="lock"
                     type="password"
                     autoComplete="new-password"
-                    onChange={this.handleChange}
+                    className="form-control"
+                    onChange={this.changeHandler}
+                    required
+                    //onChange={this.handleChange}
                   />
 
                   <div className="text-center mt-4 black-text">
-                    <MDBBtn color="primary" type="submit" disabled={isInvalid}>
+                    <MDBBtn color="primary" type="submit" enabled={isInvalid}>
                       Sign Up
                     </MDBBtn>
                     <div className="center red-text">

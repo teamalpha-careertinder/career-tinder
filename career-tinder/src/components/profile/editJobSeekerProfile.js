@@ -42,7 +42,6 @@ class EditJobSeekerProfile extends React.Component {
         startToDate: '',
         visible: false,
         modal: false,
-        workExperiences: []
       };
       this.handleDOBDateChange = this.handleDOBDateChange.bind(this);
       this.handleFromDateChange = this.handleFromDateChange.bind(this);
@@ -117,7 +116,6 @@ class EditJobSeekerProfile extends React.Component {
 
     handleWExperienceSubmit = (e) => {
         e.preventDefault();
-        const { workExperiences } = this.state;
         const newWExperience = {
             companyName: e.target.company_name.value,
             jobTitle: e.target.job_title.value,
