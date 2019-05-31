@@ -103,7 +103,7 @@ class RegistrationJobSeeker extends React.Component {
                     //onChange={this.handleChange}
                   />
                   <div className="text-center mt-4 black-text">
-                    <MDBBtn color="primary" type="submit" enabled={isInvalid}>
+                    <MDBBtn color="indigo" type="submit" enabled={isInvalid}>
                       Sign Up
                     </MDBBtn>
                     <div className="center red-text">

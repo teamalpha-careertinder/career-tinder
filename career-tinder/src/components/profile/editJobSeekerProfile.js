@@ -350,7 +350,7 @@ class EditJobSeekerProfile extends React.Component {
                     </div>
                     <div className="row">
                       <div className="col-sm-12">
-                        <MDBBtn color="primary" className="float-right" type="submit" onClick={() => { this.onShowAlert() }}>
+                        <MDBBtn color="indigo" className="float-right" type="submit" onClick={() => { this.onShowAlert() }}>
                           <i className="fas fa-save"></i> Save Profile
                           </MDBBtn>
                       </div>
