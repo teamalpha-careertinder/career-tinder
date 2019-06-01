@@ -14,8 +14,16 @@ const INITIAL_STATE = {
   error: null
 };
 
+var newLoad;
+
 class ChangePassword extends React.Component {
-  state = { ...INITIAL_STATE };
+  // state = { ...INITIAL_STATE };
+
+  constructor(props) {
+    super(props);
+    this.state = { ...INITIAL_STATE };
+    newLoad = true;
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -23,9 +31,10 @@ class ChangePassword extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(`OnSubmit1: `, this.state, this.props);
+    //console.log(`OnSubmit1: `, this.state, this.props);
 
     this.props.passwordChange(this.state.passwordOne);
+    newLoad = false;
     this.setState({
       passwordOne: "",
       passwordTwo: ""
@@ -97,15 +106,12 @@ class ChangePassword extends React.Component {
                           }{" "}
                           Change Password
                         </MDBBtn>
-                        {authStatus === "OK" ? (
-                          <div className="center green-text">
-                            {authMsg ? <p>{authMsg}</p> : null}
-                          </div>
-                        ) : (
-                          <div className="center red-text">
-                            {authMsg ? <p>{authMsg}</p> : null}
-                          </div>
-                        )}
+                        { (newLoad === false) ?
+                            <div className= {(authStatus === "OK") ? "center green-text": "center red-text"}>
+                                <p>{authMsg}</p>
+                            </div>
+                            : null
+                        }
                       </div>
                     </div>
                   </form>

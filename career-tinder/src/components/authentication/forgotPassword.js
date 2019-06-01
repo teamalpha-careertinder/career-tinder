@@ -12,8 +12,16 @@ const INITIAL_STATE = {
   authMsg: null
 };
 
+var newLoad;
+
 class ForgotPassword extends React.Component {
-  state = { ...INITIAL_STATE };
+  //state = { ...INITIAL_STATE };
+
+  constructor(props) {
+    super(props);
+    this.state = { ...INITIAL_STATE };
+    newLoad = true;
+  }
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -26,6 +34,8 @@ class ForgotPassword extends React.Component {
     const { email } = this.state;
 
     this.props.passwordForget(email);
+    newLoad = false;
+    this.forceUpdate();
   };
 
   render() {
@@ -33,7 +43,7 @@ class ForgotPassword extends React.Component {
     const isInvalid = email === "";
     const { auth, authStatus, authMsg } = this.props;
 
-    if (!auth.uid) return <Redirect to={ROUTES.LOG_IN} />;
+    if (auth.uid) return <Redirect to={ROUTES.FEED} />;
     return (
       <div className="container">
         <div className="card-body text-info">
@@ -71,15 +81,12 @@ class ForgotPassword extends React.Component {
                         <MDBBtn color="indigo" href="/#/login">
                           Back to Login
                         </MDBBtn>
-                        {authStatus === "OK" ? (
-                          <div className="center green-text">
-                            {authMsg ? <p>{authMsg}</p> : null}
-                          </div>
-                        ) : (
-                          <div className="center red-text">
-                            {authMsg ? <p>{authMsg}</p> : null}
-                          </div>
-                        )}
+                        { (newLoad === false) ?
+                            <div className= {(authStatus === "OK") ? "center green-text": "center red-text"}>
+                                <p>{authMsg}</p>
+                            </div>
+                            : null
+                        }
                       </div>
                     </div>
                   </div>
