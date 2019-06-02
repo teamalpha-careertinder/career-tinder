@@ -13,7 +13,7 @@ import LandingPage from "../layouts/home";
 import ForgotPassword from "../authentication/forgotPassword";
 import ChangePassword from "../profile/changePassword";
 import Jobs from "../jobs/jobs";
-import Notifications from "../feedboard/Notifications";
+import Notifications from "../profile/Notifications";
 
 class App extends Component {
   render() {
