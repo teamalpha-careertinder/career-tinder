@@ -33,7 +33,8 @@ const jobSeekerProfileEntity = {
   applyingFullTime: null,
   applyingPartTime: null, 
   euCitizen: null,
-  minimunSalary: null,
+  minSalary: null,
+  maxSalary: null,
   languages: null,
     //  label: field of languages
     //  value: field of languages
@@ -101,6 +102,19 @@ class EditJobSeekerProfile extends React.Component {
     this.setState({
       [e.target.id]: e.target.value
     })
+    switch(e.target.id) {
+      case "jobSeekerName":
+        var element = e.target;
+        if (element.validity.patternMismatch) {
+          element.setCustomValidity("Name should not contain number and special characters");
+          element.reportValidity();
+        } else {
+          element.setCustomValidity("");
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   handleSelectChange = function (e) {
@@ -154,7 +168,8 @@ class EditJobSeekerProfile extends React.Component {
         else { this.state.applyingPartTime = false }
       if (this.state.euCitizen) { jobSeekerProfile.euCitizen  = true }
         else { jobSeekerProfile.euCitizen  = false}   
-      if (this.state.salaryRange) {jobSeekerProfile.minimunSalary = this.state.salaryRange;}
+      if (this.state.minSalary) {jobSeekerProfile.minSalary = this.state.minSalary;}
+      if (this.state.maxSalary) {jobSeekerProfile.maxSalary = this.state.maxSalary;}
       if (this.state.selectedLanguages) {jobSeekerProfile.languages = this.state.selectedLanguages;}
       if (this.state.selectedSkills) { jobSeekerProfile.skills = this.state.selectedSkills}
       if (this.state.startDOBDate) {jobSeekerProfile.DOBDate  =  this.state.startDOBDate;}
@@ -189,6 +204,7 @@ class EditJobSeekerProfile extends React.Component {
     }
 
   handleWExperienceSubmit = (e) => {
+    this.toggle();
     e.preventDefault();
     const { workExperiences } = this.state;
     const newWExperience = {
@@ -247,10 +263,10 @@ class EditJobSeekerProfile extends React.Component {
                     <label htmlFor="work_experience">Work Experience:</label>
                     <div className="row">
                       <div className="col-md-6 col-sm-12">
-                        <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name" onChange={this.handleChange} />
+                        <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name" onChange={this.handleChange} required />
                       </div>
                       <div className="col-md-6 col-sm-12">
-                        <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" name="job_title" onChange={this.handleChange} />
+                        <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" name="job_title" onChange={this.handleChange} required />
                       </div>
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group datepicker">
@@ -258,7 +274,7 @@ class EditJobSeekerProfile extends React.Component {
                           <div className="md-form">
                             <i className="fas fa-calendar-alt prefix"></i>
                             <DatePicker selected={this.state.startFromDate} onChange={this.handleFromDateChange} className="form-control"
-                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" name="working_from" />
+                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" name="working_from" maxDate={new Date()} required />
                           </div>
                         </div>
                       </div>
@@ -268,7 +284,7 @@ class EditJobSeekerProfile extends React.Component {
                           <div className="md-form">
                             <i className="fas fa-calendar-alt prefix"></i>
                             <DatePicker selected={this.state.startToDate} onChange={this.handleToDateChange} className="form-control"
-                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" name="worked_to" />
+                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" name="worked_to" maxDate={new Date()} />
                           </div>
                         </div>
                       </div>
@@ -300,7 +316,7 @@ class EditJobSeekerProfile extends React.Component {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <Button color="primary" type="submit" onClick={this.toggle}><i className="fas fa-plus"></i> Add</Button>{' '}
+                  <Button color="primary" type="submit"><i className="fas fa-plus"></i> Add</Button>{' '}
                   <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                 </div>
               </div>
@@ -319,12 +335,13 @@ class EditJobSeekerProfile extends React.Component {
                     <div className="row">
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          <MDBInput id="jobSeekerName" label="Name" type="text" icon="pencil-alt" onChange={this.handleChange} />
+                          <MDBInput id="jobSeekerName" label="Name" type="text" icon="pencil-alt" 
+                          onChange={this.handleChange} maxlength="40" pattern="^[A-Za-z.\s_-]+$" required />
                         </div>
                       </div>
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          <MDBInput id="jobSeekerPhone" label="Phone" icon="mobile-alt" type="text" onChange={this.handleChange} />
+                          <MDBInput id="jobSeekerPhone" label="Phone" icon="mobile-alt" type="number" onChange={this.handleChange} />
                         </div>
                       </div>
                     </div>
@@ -341,8 +358,8 @@ class EditJobSeekerProfile extends React.Component {
                           <label>Date of birth:</label>
                           <div className="md-form">
                             <i className="fas fa-calendar-alt prefix"></i>
-                            <DatePicker selected={this.state.startDOBDate} onChange={this.handleDOBDateChange} className="form-control"
-                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" />
+                            <DatePicker selected={this.state.startDOBDate} id="dateOfBirth" onChange={this.handleDOBDateChange} className="form-control"
+                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" maxDate={new Date()} autoComplete="off" />
                           </div>
                         </div>
                       </div>
@@ -350,6 +367,7 @@ class EditJobSeekerProfile extends React.Component {
                         <div className="form-group">
                           <label>Skills</label>
                           <Select
+                            id="employeeSkills"
                             value={selectedSkills}
                             onChange={this.handleSkillsChange}
                             options={skills}
@@ -361,6 +379,7 @@ class EditJobSeekerProfile extends React.Component {
                         <div className="form-group">
                           <label>Languages</label>
                           <Select
+                            id="employeeLanguage"
                             value={selectedLanguages}
                             onChange={this.handleLanguagesChange}
                             options={languages}
@@ -374,7 +393,7 @@ class EditJobSeekerProfile extends React.Component {
                         <div className="form-group">
                           <label htmlFor="euCitizen">EU Citizen:</label>
                           <div className="form-check">
-                            <input className="form-check-input" type="checkbox" checked={this.state.euCitizen} onChange={this.handleChangeEU} />
+                            <input className="form-check-input" id="employeeCitizenship" type="checkbox" checked={this.state.euCitizen} onChange={this.handleChangeEU} />
                             <label className="form-check-label" htmlFor="eu_citizen">
                               Are you an EU Citizen?
                               </label>
@@ -385,24 +404,35 @@ class EditJobSeekerProfile extends React.Component {
                         <div className="form-group">
                           <label htmlFor="job_type">Employment type for this position:</label>
                           <div className="form-check">
-                            <input className="form-check-input" type="checkbox" checked={this.state.applyingFullTime} onChange={this.handleChangeFT} />
+                            <input className="form-check-input" id="employmentTypeFull" type="checkbox" checked={this.state.applyingFullTime} onChange={this.handleChangeFT} />
                             <label className="form-check-label" htmlFor="job_type_ft">
                               Full-time
                               </label>
                           </div>
                           <div className="form-check">
-                            <input className="form-check-input" type="checkbox" checked={this.state.applyingPartTime} onChange={this.handleChangePT} />
+                            <input className="form-check-input" id="employmentTypePart" type="checkbox" checked={this.state.applyingPartTime} onChange={this.handleChangePT} />
                             <label className="form-check-label" htmlFor="job_type_pt">
                               Part-time
                               </label>
                           </div>
                         </div>
                       </div>
-                      <div className="col-sm-12">
-                        <div className="form-group">
-                          <MDBInput id="salaryRange" label="Salary range" icon="euro-sign" type="text" onChange={this.handleChange} />
+
+                      <div className="row">
+                        <div className="col-md-6 col-sm-12">
+                          <div className="form-group">
+                            <MDBInput id="minSalary" label="Minimum expected salary" type="number" icon="euro-sign" 
+                            onChange={this.handleChange} />
+                          </div>
+                        </div>
+                        <div className="col-md-6 col-sm-12">
+                          <div className="form-group">
+                            <MDBInput id="maxSalary" label="Maximum expected salary" type="number" icon="euro-sign" 
+                            onChange={this.handleChange} />
+                          </div>
                         </div>
                       </div>
+
                       <div className="col-sm-12">
                         <div id="work_experiences">
                           {

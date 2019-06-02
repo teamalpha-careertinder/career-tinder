@@ -7,9 +7,9 @@ export const editJobSeekerProfile = (jobseeker) => {
         ...jobseeker,
         usertype: profile.userType,
         authorId: authorId
-      }).then(() => {
+      }).then(() => {console.log("SUCCESSFULL")
         dispatch({ type: 'CREATE_PROJECT_SUCCESS' });
-      }).catch(err => {
+      }).catch(err => {console.log("ERROR OCCURRED")
         dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
       });
     }
