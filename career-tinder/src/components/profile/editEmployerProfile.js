@@ -101,6 +101,7 @@ class EditEmployerProfile extends React.Component {
                             icon="pencil-alt"
                             type="text"
                             onChange={this.handleChange}
+                            required
                           />
                         </div>
                       </div>
@@ -126,6 +127,7 @@ class EditEmployerProfile extends React.Component {
                             rows="1"
                             icon="address-card"
                             onChange={this.handleChange}
+                            required
                           />
                         </div>
                       </div>
@@ -151,6 +153,7 @@ class EditEmployerProfile extends React.Component {
                             type="text"
                             icon="pencil-alt"
                             onChange={this.handleChange}
+                            required
                           />
                         </div>
                       </div>
@@ -162,6 +165,7 @@ class EditEmployerProfile extends React.Component {
                             type="email"
                             icon="envelope"
                             onChange={this.handleChange}
+                            required
                           />
                         </div>
                       </div>
@@ -170,9 +174,10 @@ class EditEmployerProfile extends React.Component {
                           <MDBInput
                             id="contactPhone"
                             label="Contact Phone"
-                            type="text"
+                            type="number"
                             icon="mobile-alt"
                             onChange={this.handleChange}
+                            required
                           />
                         </div>
                       </div>
