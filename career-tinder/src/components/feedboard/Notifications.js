@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { MDBIcon, MDBBtn } from "mdbreact";
+import { MDBIcon } from "mdbreact";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
@@ -10,6 +10,7 @@ import { Redirect } from "react-router-dom";
 class Notifications extends React.Component {
   render() {
     const { auth, notifications } = this.props;
+
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
@@ -57,22 +58,23 @@ class Notifications extends React.Component {
 
 const mapStateToProps = state => {
   const auth = state.firebase.auth;
-  const userNotifications = state.firestore.ordered.notifications;
-
+  const notification = state.firestore.ordered.notifications;
   return {
-    auth: auth,
-    notifications: userNotifications
+    uid: auth.uid,
+    notifications: notification,
+    auth: auth
   };
 };
 
-
 export default compose(
   connect(mapStateToProps),
-  firestoreConnect((props) => [
-     {
-        collection: 'notifications',
-        ['userId']: props.auth.uid,
-        ordered : ["time", "desc"]
-     }
-  ])
+  firestoreConnect(props => {
+    return [
+      {
+        collection: "notifications",
+        where: [["userId", "==", props.uid || null]],
+        limit: 3
+      }
+    ];
+  })
 )(Notifications);

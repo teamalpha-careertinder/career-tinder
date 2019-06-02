@@ -11,14 +11,18 @@ class RegistrationJobSeeker extends React.Component {
     email: "",
     password: "",
     confirm_password: "",
-    firstName: "",
-    lastName: ""
+    FullName: ""
   };
-  handleChange = e => {
+
+  changeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  /* handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
     });
-  };
+  }; */
   handleSubmit = e => {
     e.preventDefault();
     this.props.signUpAsJobSeeker(this.state);
@@ -44,47 +48,62 @@ class RegistrationJobSeeker extends React.Component {
             <div className="row">
               <div className="col-md-6 col-sm-12">
                 <form onSubmit={this.handleSubmit}>
-                  <MDBInput
-                    id="firstName"
-                    label="First Name"
+
+                <MDBInput
+                   value={this.state.name}
+                    name="name"
+                    onChange={this.changeHandler}
+                    id="Name"
+                    label="Full Name"
                     icon="pencil-alt"
-                    onChange={this.handleChange}
-                  />
+                    type="text"
+                    className="form-control"
+                    required
+                    //onChange={this.handleChange}
+                    />
+
                   <MDBInput
-                    id="lastName"
-                    label="Last Name"
-                    className="black-text"
-                    icon="pencil-alt"
-                    onChange={this.handleChange}
+                    value={this.state.email}
+                         name="email"
+                         label="Your email"
+                         icon="envelope"
+                         type="email"
+                         id="email"
+                         className="form-control"
+                         onChange={this.changeHandler}
+                         required
+                         autoComplete="false"
+                        //onChange={this.handleChange}
                   />
+
                   <MDBInput
-                    id="email"
-                    label="Email"
-                    icon="envelope"
-                    type="email"
-                    autoComplete="false"
-                    onChange={this.handleChange}
+                     value={this.state.password}
+                     name="password"
+                     label="Your password"
+                     icon="lock"
+                     type="password"
+                     id="password"
+                     className="form-control"
+                     onChange={this.changeHandler}
+                     required
+                    //onChange={this.handleChange}
                   />
+
                   <MDBInput
-                    id="password"
-                    value={password}
-                    label="Password"
-                    icon="lock"
-                    type="password"
-                    autoComplete="new-password"
-                    onChange={this.handleChange}
-                  />
-                  <MDBInput
-                    id="confirm_password"
-                    value={confirm_password}
-                    label="Confirm Password"
-                    icon="lock"
-                    type="password"
-                    autoComplete="new-password"
-                    onChange={this.handleChange}
+                   value={this.state.confirmpassword}
+                   name="confirmpassword"
+                   id="confirm_password"
+                   label="Confirm Password"
+                   icon="lock"
+                   type="password"
+                   autoComplete="new-password"
+                   className="form-control"
+                    onChange={this.changeHandler}
+                    required
+                    //onChange={this.handleChange}
                   />
                   <div className="text-center mt-4 black-text">
-                    <MDBBtn color="primary" type="submit" disabled={isInvalid}>
+                    <MDBBtn color="indigo" type="submit" enabled={isInvalid}>
                       Sign Up
                     </MDBBtn>
                     <div className="center red-text">
