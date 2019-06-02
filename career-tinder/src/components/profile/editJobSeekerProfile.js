@@ -22,6 +22,34 @@ const languages = [
   { value: 'italian', label: 'Italian' }
 ];
 
+//Entity to store JobSeekerProfile in DB
+const jobSeekerProfileEntity = {
+  authorId: null,
+  //firstName:null,   //inhereted from user
+  //lastName: null,   //inhereted from user
+  jobSeekerName: null,  //should be replaced by firstName
+  jobSeekerPhone: null,  
+  jobSeekerAddress: null,
+  applyingFullTime: null,
+  applyingPartTime: null, 
+  euCitizen: null,
+  minimunSalary: null,
+  languages: null,
+    //  label: field of languages
+    //  value: field of languages
+  skills: null,
+    //  label: field of skills
+    //  value: field of skills
+  DOBDate: null,
+  //usertype: null, //inhereted from user
+  workExperiences: null
+    //  companyName: field of workExperiences
+    //  jobDescription: field of workExperiences
+    //  jobTitle: field of workExperiences
+    //  jobType: field of workExperiences
+    //  startJobDate: field of workExperiences
+    //  endJobDate: field of workExperiences */
+}
 
 class EditJobSeekerProfile extends React.Component {
 
@@ -110,10 +138,55 @@ class EditJobSeekerProfile extends React.Component {
     });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.editJobSeekerProfile(this.state);
-  }
+    handleSubmit = (e) => {
+      e.preventDefault();
+      //take the information from state that should be stored in DB (state contains more data than needed):
+      var jobSeekerProfile = jobSeekerProfileEntity;
+      //console.log(`OnSubmit1: `, this.state);
+      jobSeekerProfile.authorId  =  this.state.authorId;
+      if (this.state.jobSeekerName) {jobSeekerProfile.jobSeekerName    =  this.state.jobSeekerName; }
+      if (this.state.jobSeekerPhone) {jobSeekerProfile.jobSeekerPhone  =  this.state.jobSeekerPhone;  }
+        else { delete jobSeekerProfile.jobSeekerPhone }
+      if (this.state.jobSeekeraddress) {jobSeekerProfile.jobSeekerAddress =  this.state.jobSeekeraddress;}
+      if (this.state.applyingFullTime) { jobSeekerProfile.applyingFullTime = true }
+        else { jobSeekerProfile.applyingFullTime = false }
+      if (this.state.applyingPartTime) { jobSeekerProfile.applyingPartTime = true }
+        else { this.state.applyingPartTime = false }
+      if (this.state.euCitizen) { jobSeekerProfile.euCitizen  = true }
+        else { jobSeekerProfile.euCitizen  = false}   
+      if (this.state.salaryRange) {jobSeekerProfile.minimunSalary = this.state.salaryRange;}
+      if (this.state.selectedLanguages) {jobSeekerProfile.languages = this.state.selectedLanguages;}
+      if (this.state.selectedSkills) { jobSeekerProfile.skills = this.state.selectedSkills}
+      if (this.state.startDOBDate) {jobSeekerProfile.DOBDate  =  this.state.startDOBDate;}
+      if (this.state.workExperiences.length > 0) {
+        var tmpWExps = [];
+        for (var i = 0, l = this.state.workExperiences.length; i < l; i++) {
+          var tmpExp = { 
+            companyName: null,
+            jobDescription: null,
+            jobTitle: null,
+            jobType: null,
+            startJobDate: null,
+            endJobDate: null
+          }
+          if (this.state.workExperiences[i].companyName) {tmpExp.companyName = this.state.workExperiences[i].companyName}
+          if (this.state.workExperiences[i].jobDescription) {tmpExp.jobDescription = this.state.workExperiences[i].jobDescription}
+          if (this.state.workExperiences[i].jobTitle) {tmpExp.jobTitle = this.state.workExperiences[i].jobTitle}
+          if (this.state.workExperiences[i].jobType) {tmpExp.jobType = this.state.workExperiences[i].jobType}
+          if (this.state.workExperiences[i].workingFrom) {tmpExp.startJobDate = new Date(this.state.workExperiences[i].workingFrom)}
+          if (this.state.workExperiences[i].workedTo) {tmpExp.endJobDate = new Date(this.state.workExperiences[i].workedTo)}
+          
+          if (i==0) {tmpWExps[0] = tmpExp; }
+            else {tmpWExps =  [...tmpWExps,tmpExp]; }
+
+        }
+        if (tmpWExps.length>0) {jobSeekerProfile.workExperiences = tmpWExps}
+
+      } else {jobSeekerProfile.workExperiences = null}
+      
+      //console.log(`OnSubmit2: `, jobSeekerProfile);
+      this.props.editJobSeekerProfile(jobSeekerProfile); 
+    }
 
   handleWExperienceSubmit = (e) => {
     e.preventDefault();
