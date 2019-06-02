@@ -24,7 +24,6 @@ const languages = [
 
 //Entity to store JobSeekerProfile in DB
 const jobSeekerProfileEntity = {
-  authorId: null,
   //firstName:null,   //inhereted from user
   //lastName: null,   //inhereted from user
   jobSeekerName: null,  //should be replaced by firstName
@@ -157,7 +156,6 @@ class EditJobSeekerProfile extends React.Component {
       //take the information from state that should be stored in DB (state contains more data than needed):
       var jobSeekerProfile = jobSeekerProfileEntity;
       //console.log(`OnSubmit1: `, this.state);
-      jobSeekerProfile.authorId  =  this.state.authorId;
       if (this.state.jobSeekerName) {jobSeekerProfile.jobSeekerName    =  this.state.jobSeekerName; }
       if (this.state.jobSeekerPhone) {jobSeekerProfile.jobSeekerPhone  =  this.state.jobSeekerPhone;  }
         else { delete jobSeekerProfile.jobSeekerPhone }
@@ -252,7 +250,7 @@ class EditJobSeekerProfile extends React.Component {
     if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="job-seeker-profile">
-        <Alert color="success" isOpen={this.state.visible}><i class="fas fa-check"></i> Profile updated!</Alert>
+        <Alert color="success" isOpen={this.state.visible}><i className="fas fa-check"></i> Profile updated!</Alert>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Your Work Experience</ModalHeader>
           <ModalBody>

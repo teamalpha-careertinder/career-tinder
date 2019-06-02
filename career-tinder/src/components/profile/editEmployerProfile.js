@@ -8,6 +8,17 @@ import { Alert } from "reactstrap";
 import { editEmployerProfile } from "../../store/actions/profileAction";
 import * as ROUTES from "../../constants/routes";
 
+//Entity to store employerProfile in DB
+const employerProfileEntity = {
+  employerName: null,
+  industryName: null,
+  employerAddress: null,
+  employerDescription: null,
+  contactName: null,
+  contactEmail: null,
+  contactPhone: null
+};
+
 class EditEmployerProfile extends React.Component {
   handleChange = e => {
     this.setState({
@@ -17,7 +28,30 @@ class EditEmployerProfile extends React.Component {
 
   handleEmployerSubmit = e => {
     e.preventDefault();
-    this.props.editEmployerProfile(this.state);
+    var employerProfile = employerProfileEntity;
+    if (this.state.employerName) {
+      employerProfileEntity.employerName = this.state.employerName;
+    }
+    if (this.state.industryName) {
+      employerProfileEntity.industryName = this.state.industryName;
+    }
+    if (this.state.employerAddress) {
+      employerProfileEntity.employerAddress = this.state.employerAddress;
+    }
+    if (this.state.employerDescription) {
+      employerProfileEntity.employerDescription = this.state.employerDescription;
+    }
+    if (this.state.contactName) {
+      employerProfileEntity.contactName = this.state.contactName;
+    }
+    if (this.state.contactEmail) {
+      employerProfileEntity.contactEmail = this.state.contactEmail;
+    }
+    if (this.state.contactPhone) {
+      employerProfileEntity.contactPhone = this.state.contactPhone;
+    }
+
+    this.props.editEmployerProfile(employerProfile);
   };
 
   state = {
@@ -146,7 +180,7 @@ class EditEmployerProfile extends React.Component {
                     <div className="row">
                       <div className="col-sm-12">
                         <MDBBtn
-                          color="primary"
+                          color="indigo"
                           className="float-right"
                           type="submit"
                           onClick={() => {

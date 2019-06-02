@@ -1,8 +1,8 @@
 import React from "react";
-import * as ROUTES from '../../constants/routes';
+import * as ROUTES from "../../constants/routes";
 import { MDBInput, MDBIcon, MDBBtn } from "mdbreact";
 import "./profile.css";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { passwordChange } from "../../store/actions/profileAction";
 import { firestoreConnect } from "react-redux-firebase";
@@ -46,7 +46,8 @@ class ChangePassword extends React.Component {
     const isInvalid = passwordOne !== passwordTwo || passwordOne === "";
     const { auth, authStatus, authMsg } = this.props;
 
-    if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN}/>;
+    if (!auth.uid && !auth.emailVerified)
+      return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="container">
         <div className="profile-form-wrapper">
@@ -91,12 +92,8 @@ class ChangePassword extends React.Component {
                     </div>
                     <div className="row">
                       <div className="col-sm-12">
-                      <Link className="btn btn-primary float-right" to={ROUTES.UPDATE_PROFILE}>
-                        <i className="fas fa-user" /> Profile
-                      </Link>
                         <MDBBtn
-                          outline
-                          color="info"
+                          color="indigo"
                           className="float-right"
                           type="submit"
                           disabled={isInvalid}
@@ -106,12 +103,17 @@ class ChangePassword extends React.Component {
                           }{" "}
                           Change Password
                         </MDBBtn>
-                        { (newLoad === false) ?
-                            <div className= {(authStatus === "OK") ? "center green-text": "center red-text"}>
-                                <p>{authMsg}</p>
-                            </div>
-                            : null
-                        }
+                        {newLoad === false ? (
+                          <div
+                            className={
+                              authStatus === "OK"
+                                ? "center green-text"
+                                : "center red-text"
+                            }
+                          >
+                            <p>{authMsg}</p>
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </form>
