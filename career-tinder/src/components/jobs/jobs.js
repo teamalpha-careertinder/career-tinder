@@ -21,7 +21,7 @@ class Jobs extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = state => {console.log()
   const auth = state.firebase.auth;
   const users = state.firestore.data.users;
   const user = users ? users[auth.uid] : null;
