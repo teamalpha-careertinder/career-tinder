@@ -6,17 +6,44 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import "./jobs.css";
+import { saveUserChoice } from '../../store/actions/jobAddActions';
+
+const jobSeekerChoiceEntity = {
+  jobAdID: null,
+  jobSeekerID: null,
+  like_dislike: Boolean,
+}
 
 class JobAds extends Component {
+
+  //function to save on DB the relation between job add and user's like or dislike:
+  processLikeDisLike(userAction, jobAdID, jobSeekerID) {
+    //userAction: true ->User likes company // false->user dislikes company
+    var jobSeekerChoice = jobSeekerChoiceEntity;
+    jobSeekerChoice.jobAdID = jobAdID;
+    jobSeekerChoice.jobSeekerID = jobSeekerID;
+    jobSeekerChoice.like_dislike = userAction;
+    //console.log(`processLike: `, jobSeekerChoice, jobSeekerID);
+    this.props.saveUserChoice(jobSeekerChoice);
+  };
+
   slideAdUp = e => {
+
     var id = $(e.target)[0].closest(".job-ad-wrapper").id;
+    //call the managment of (Dis)Likes to be store on DB:
+    this.processLikeDisLike(true,id, this.props.auth.uid);
+
     $("#" + id)
       .animate({ right: "2000px" }, "slow")
       .slideUp(500);
   };
 
   slideAdDown = e => {
+
     var id = $(e.target)[0].closest(".job-ad-wrapper").id;
+    //call the managment of (Dis)Likes to be store on DB:
+    this.processLikeDisLike(false,id, this.props.auth.uid);
+
     $("#" + id)
       .animate({ left: "2000px" }, "slow")
       .slideUp(500);
@@ -29,7 +56,7 @@ class JobAds extends Component {
     return (
       <div className="container">
         <div className="row job-ads-wrapper mb-3">
-          <div id="1" className="col-md-6 col-12 job-ad-wrapper">
+          <div id="R4qTKiDrh4af3oKsJ0iR" className="col-md-6 col-12 job-ad-wrapper"> {/*this is temporal: id must contain de id of document JobPosting from DB*/}
             <div className="card job-ad text-body shadow rounded">
               <div className="card-header">
                 <div className="row">
@@ -109,7 +136,7 @@ class JobAds extends Component {
               </div>
             </div>
           </div>
-          <div id="2" className="col-md-6 col-12 job-ad-wrapper">
+          <div id="aC3zImvOJbdvTHzUC7QB" className="col-md-6 col-12 job-ad-wrapper"> {/*this is temporal: id must contain de id of document JobPosting from DB*/}
             <div className="card job-ad text-body shadow rounded">
               <div className="card-header">
                 <div className="row">
@@ -202,4 +229,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default compose(connect(mapStateToProps))(JobAds);
+const mapDispatchToPropsJobseeker = dispatch => {
+  // console.log(state);
+  return {
+    saveUserChoice: (jobSeekerChoice) => dispatch(saveUserChoice(jobSeekerChoice))
+  }
+};
+
+export default compose(connect(mapStateToProps,mapDispatchToPropsJobseeker))(JobAds);
