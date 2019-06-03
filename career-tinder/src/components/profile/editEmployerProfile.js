@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 import { Alert } from "reactstrap";
 import { editEmployerProfile } from "../../store/actions/profileAction";
 import * as ROUTES from "../../constants/routes";
+import { firestoreConnect } from "react-redux-firebase";
 
 //Entity to store employerProfile in DB
 const employerProfileEntity = {
@@ -20,6 +21,36 @@ const employerProfileEntity = {
 };
 
 class EditEmployerProfile extends React.Component {
+  constructor(props) {
+    super(props);
+
+    var employerProfileProps = this.props.employer;
+    var employerName =
+      employerProfileProps && employerProfileProps.employerName;
+    var industryName =
+      employerProfileProps && employerProfileProps.industryName;
+    var employerAddress =
+      employerProfileProps && employerProfileProps.employerAddress;
+    var employerDescription =
+      employerProfileProps && employerProfileProps.employerDescription;
+    var contactName = employerProfileProps && employerProfileProps.contactName;
+    var contactEmail =
+      employerProfileProps && employerProfileProps.contactEmail;
+    var contactPhone =
+      employerProfileProps && employerProfileProps.contactPhone;
+    this.state = {
+      employerName: employerName,
+      industryName: industryName,
+      employerAddress: employerAddress,
+      employerDescription: employerDescription,
+      contactName: contactName,
+      contactEmail: contactEmail,
+      contactPhone: contactPhone
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleEmployerSubmit = this.handleEmployerSubmit.bind(this);
+    this.onShowAlert = this.onShowAlert.bind(this);
+  }
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
@@ -52,10 +83,6 @@ class EditEmployerProfile extends React.Component {
     }
 
     this.props.editEmployerProfile(employerProfile);
-  };
-
-  state = {
-    visible: false
   };
 
   onShowAlert = () => {
@@ -97,6 +124,7 @@ class EditEmployerProfile extends React.Component {
                         <div className="form-group">
                           <MDBInput
                             id="employerName"
+                            value={this.state.employerName || ""}
                             label="Employer Name"
                             icon="pencil-alt"
                             type="text"
@@ -109,6 +137,7 @@ class EditEmployerProfile extends React.Component {
                         <div className="form-group">
                           <MDBInput
                             id="industryName"
+                            value={this.state.industryName || ""}
                             label="Industry"
                             type="text"
                             icon="industry"
@@ -122,6 +151,7 @@ class EditEmployerProfile extends React.Component {
                         <div className="form-group">
                           <MDBInput
                             id="employerAddress"
+                            value={this.state.employerAddress || ""}
                             label="Employer Address"
                             type="textarea"
                             rows="1"
@@ -135,6 +165,7 @@ class EditEmployerProfile extends React.Component {
                         <div className="form-group">
                           <MDBInput
                             id="employerDescription"
+                            value={this.state.employerDescription || ""}
                             label="Employer Description"
                             type="textarea"
                             rows="1"
@@ -149,6 +180,7 @@ class EditEmployerProfile extends React.Component {
                         <div className="form-group">
                           <MDBInput
                             id="contactName"
+                            value={this.state.contactName || ""}
                             label="Contact Name"
                             type="text"
                             icon="pencil-alt"
@@ -161,6 +193,7 @@ class EditEmployerProfile extends React.Component {
                         <div className="form-group">
                           <MDBInput
                             id="contactEmail"
+                            value={this.state.contactEmail || ""}
                             label="Contact Email"
                             type="email"
                             icon="envelope"
@@ -173,6 +206,7 @@ class EditEmployerProfile extends React.Component {
                         <div className="form-group">
                           <MDBInput
                             id="contactPhone"
+                            value={this.state.contactPhone || ""}
                             label="Contact Phone"
                             type="number"
                             icon="mobile-alt"
@@ -208,8 +242,12 @@ class EditEmployerProfile extends React.Component {
 }
 
 const mapStateToProps = state => {
+  const employers = state.firestore.data.employer;
+  const auth = state.firebase.auth;
+  const employer = employers ? employers[auth.uid] : null;
   return {
-    auth: state.firebase.auth
+    auth: auth,
+    employer: employer
   };
 };
 
@@ -224,5 +262,10 @@ export default compose(
   connect(
     mapStateToProps,
     mapDispatchToPropsEmployer
-  )
+  ),
+  firestoreConnect([
+    {
+      collection: "employer"
+    }
+  ])
 )(EditEmployerProfile);

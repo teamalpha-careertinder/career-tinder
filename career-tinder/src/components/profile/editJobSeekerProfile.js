@@ -9,6 +9,7 @@ import { Redirect } from "react-router-dom";
 import { Alert, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { editJobSeekerProfile } from '../../store/actions/profileAction';
 import * as ROUTES from '../../constants/routes';
+import { firestoreConnect } from "react-redux-firebase";
 
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -24,14 +25,12 @@ const languages = [
 
 //Entity to store JobSeekerProfile in DB
 const jobSeekerProfileEntity = {
-  //firstName:null,   //inhereted from user
-  //lastName: null,   //inhereted from user
   jobSeekerName: null,  //should be replaced by firstName
   jobSeekerPhone: null,  
   jobSeekerAddress: null,
-  applyingFullTime: null,
-  applyingPartTime: null, 
-  euCitizen: null,
+  applyingFullTime: false,
+  applyingPartTime: false, 
+  euCitizen: false,
   minSalary: null,
   maxSalary: null,
   languages: null,
@@ -54,18 +53,43 @@ const jobSeekerProfileEntity = {
 class EditJobSeekerProfile extends React.Component {
 
   handleSkillsChange = (selectedSkills) => {
-    this.setState({ selectedSkills });
+    this.setState({ selectedSkills : selectedSkills });
     console.log(`Option selected:`, selectedSkills);
   }
   handleLanguagesChange = (selectedLanguages) => {
-    this.setState({ selectedLanguages });
+    this.setState({ selectedLanguages: selectedLanguages });
     console.log(`Option selected:`, selectedLanguages);
   }
 
   constructor(props) {
     super(props);
+
+    var jobSeekerProfileProps = this.props.jobseeker;
+    var jobSeekerName = jobSeekerProfileProps && jobSeekerProfileProps.jobSeekerName;
+    var jobSeekerPhone = jobSeekerProfileProps && jobSeekerProfileProps.jobSeekerPhone;
+    var jobSeekerAddress = jobSeekerProfileProps && jobSeekerProfileProps.jobSeekerAddress;
+    var applyingFullTime = jobSeekerProfileProps && jobSeekerProfileProps.applyingFullTime;
+    var applyingPartTime = jobSeekerProfileProps && jobSeekerProfileProps.applyingPartTime;
+    var euCitizen = jobSeekerProfileProps && jobSeekerProfileProps.euCitizen;
+    var minSalary = jobSeekerProfileProps && jobSeekerProfileProps.minSalary;
+    var maxSalary = jobSeekerProfileProps && jobSeekerProfileProps.maxSalary;
+    var DOBDate = jobSeekerProfileProps && jobSeekerProfileProps.DOBDate;
+    var skills = jobSeekerProfileProps && jobSeekerProfileProps.skills;
+    var languages = jobSeekerProfileProps && jobSeekerProfileProps.languages;
+
     this.state = {
-      startDOBDate: '',
+      jobSeekerName: jobSeekerName, 
+      jobSeekerPhone: jobSeekerPhone,
+      jobSeekerAddress: jobSeekerAddress,
+      applyingFullTime: applyingFullTime,
+      applyingPartTime: applyingPartTime,
+      euCitizen: euCitizen,
+      minSalary: minSalary,
+      maxSalary: maxSalary,
+      selectedLanguages: languages,
+      selectedSkills: skills,
+      startDOBDate: DOBDate && DOBDate.toDate(),
+
       startFromDate: '',
       startToDate: '',
       visible: false,
@@ -100,8 +124,8 @@ class EditJobSeekerProfile extends React.Component {
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
-    })
-    switch(e.target.id) {
+    });
+    switch (e.target.id) {
       case "jobSeekerName":
         var element = e.target;
         if (element.validity.patternMismatch) {
@@ -114,7 +138,7 @@ class EditJobSeekerProfile extends React.Component {
       default:
         break;
     }
-  }
+  };
 
   handleSelectChange = function (e) {
     var options = e.target.options;
@@ -129,13 +153,13 @@ class EditJobSeekerProfile extends React.Component {
 
   handleChangeFT = () => {
     this.setState(prevState => ({
-      applyingFullTime: !prevState.applyingFor_FullTime,
+      applyingFullTime: !prevState.applyingFullTime,
     }));
   }
 
   handleChangePT = () => {
     this.setState(prevState => ({
-      applyingPartTime: !prevState.applyingFor_PartTime,
+      applyingPartTime: !prevState.applyingPartTime,
     }));
   }
 
@@ -159,11 +183,11 @@ class EditJobSeekerProfile extends React.Component {
       if (this.state.jobSeekerName) {jobSeekerProfile.jobSeekerName    =  this.state.jobSeekerName; }
       if (this.state.jobSeekerPhone) {jobSeekerProfile.jobSeekerPhone  =  this.state.jobSeekerPhone;  }
         else { delete jobSeekerProfile.jobSeekerPhone }
-      if (this.state.jobSeekeraddress) {jobSeekerProfile.jobSeekerAddress =  this.state.jobSeekeraddress;}
+      if (this.state.jobSeekerAddress) { jobSeekerProfile.jobSeekerAddress = this.state.jobSeekerAddress;}
       if (this.state.applyingFullTime) { jobSeekerProfile.applyingFullTime = true }
         else { jobSeekerProfile.applyingFullTime = false }
       if (this.state.applyingPartTime) { jobSeekerProfile.applyingPartTime = true }
-        else { this.state.applyingPartTime = false }
+      else { jobSeekerProfile.applyingPartTime = false }
       if (this.state.euCitizen) { jobSeekerProfile.euCitizen  = true }
         else { jobSeekerProfile.euCitizen  = false}   
       if (this.state.minSalary) {jobSeekerProfile.minSalary = this.state.minSalary;}
@@ -189,7 +213,7 @@ class EditJobSeekerProfile extends React.Component {
           if (this.state.workExperiences[i].workingFrom) {tmpExp.startJobDate = new Date(this.state.workExperiences[i].workingFrom)}
           if (this.state.workExperiences[i].workedTo) {tmpExp.endJobDate = new Date(this.state.workExperiences[i].workedTo)}
           
-          if (i==0) {tmpWExps[0] = tmpExp; }
+          if (i===0) {tmpWExps[0] = tmpExp; }
             else {tmpWExps =  [...tmpWExps,tmpExp]; }
 
         }
@@ -204,7 +228,6 @@ class EditJobSeekerProfile extends React.Component {
   handleWExperienceSubmit = (e) => {
     this.toggle();
     e.preventDefault();
-    const { workExperiences } = this.state;
     const newWExperience = {
       companyName: e.target.company_name.value,
       jobTitle: e.target.job_title.value,
@@ -243,10 +266,7 @@ class EditJobSeekerProfile extends React.Component {
   }
 
   render() {
-    const { selectedSkills } = this.state;
-    const { selectedLanguages } = this.state;
     const { auth } = this.props;
-
     if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="job-seeker-profile">
@@ -333,20 +353,21 @@ class EditJobSeekerProfile extends React.Component {
                     <div className="row">
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          <MDBInput id="jobSeekerName" label="Name" type="text" icon="pencil-alt" 
-                          onChange={this.handleChange} maxlength="40" pattern="^[A-Za-z.\s_-]+$" required />
+                          
+                          <MDBInput id="jobSeekerName" value={this.state.jobSeekerName || ''} label="Name"  type="text" icon="pencil-alt" 
+                          onChange={this.handleChange} maxLength="40" pattern="^[A-Za-z.\s_-]+$" required />
                         </div>
                       </div>
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          <MDBInput id="jobSeekerPhone" label="Phone" icon="mobile-alt" type="number" onChange={this.handleChange} />
+                          <MDBInput id="jobSeekerPhone" value={this.state.jobSeekerPhone || ''}  label="Phone" icon="mobile-alt" type="number" onChange={this.handleChange} />
                         </div>
                       </div>
                     </div>
                     <div className="row">
                       <div className="col-sm-12">
                         <div className="form-group">
-                          <MDBInput id="jobSeekeraddress" label="Address" icon="address-card" type="textarea" rows="1" onChange={this.handleChange} />
+                          <MDBInput id="jobSeekerAddress" value={this.state.jobSeekerAddress || ''} label="Address" icon="address-card" type="textarea" rows="1" onChange={this.handleChange} />
                         </div>
                       </div>
                     </div>
@@ -356,8 +377,8 @@ class EditJobSeekerProfile extends React.Component {
                           <label>Date of birth:</label>
                           <div className="md-form">
                             <i className="fas fa-calendar-alt prefix"></i>
-                            <DatePicker selected={this.state.startDOBDate} id="dateOfBirth" onChange={this.handleDOBDateChange} className="form-control"
-                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" maxDate={new Date()} autoComplete="off" />
+                            <DatePicker selected={this.state.startDOBDate || '' } id="dateOfBirth" onChange={this.handleDOBDateChange} className="form-control"
+                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" maxDate={new Date()} autoComplete="off"  />
                           </div>
                         </div>
                       </div>
@@ -366,7 +387,7 @@ class EditJobSeekerProfile extends React.Component {
                           <label>Skills</label>
                           <Select
                             id="employeeSkills"
-                            value={selectedSkills}
+                            value={this.state.selectedSkills}
                             onChange={this.handleSkillsChange}
                             options={skills}
                             isMulti={true}
@@ -378,7 +399,7 @@ class EditJobSeekerProfile extends React.Component {
                           <label>Languages</label>
                           <Select
                             id="employeeLanguage"
-                            value={selectedLanguages}
+                            value={this.state.selectedLanguages}
                             onChange={this.handleLanguagesChange}
                             options={languages}
                             isMulti={true}
@@ -391,10 +412,10 @@ class EditJobSeekerProfile extends React.Component {
                         <div className="form-group">
                           <label htmlFor="euCitizen">EU Citizen:</label>
                           <div className="form-check">
-                            <input className="form-check-input" id="employeeCitizenship" type="checkbox" checked={this.state.euCitizen} onChange={this.handleChangeEU} />
+                            <input className="form-check-input" id="employeeCitizenship" type="checkbox" checked={this.state.euCitizen ? true : false} onChange={this.handleChangeEU} />
                             <label className="form-check-label" htmlFor="eu_citizen">
                               Are you an EU Citizen?
-                              </label>
+                            </label>
                           </div>
                         </div>
                       </div>
@@ -402,13 +423,13 @@ class EditJobSeekerProfile extends React.Component {
                         <div className="form-group">
                           <label htmlFor="job_type">Employment type for this position:</label>
                           <div className="form-check">
-                            <input className="form-check-input" id="employmentTypeFull" type="checkbox" checked={this.state.applyingFullTime} onChange={this.handleChangeFT} />
+                            <input className="form-check-input" id="employmentTypeFull" type="checkbox" checked={this.state.applyingFullTime ? true : false} onChange={this.handleChangeFT} />
                             <label className="form-check-label" htmlFor="job_type_ft">
                               Full-time
-                              </label>
+                            </label>
                           </div>
                           <div className="form-check">
-                            <input className="form-check-input" id="employmentTypePart" type="checkbox" checked={this.state.applyingPartTime} onChange={this.handleChangePT} />
+                            <input className="form-check-input" id="employmentTypePart" type="checkbox" checked={this.state.applyingPartTime ? true : false} onChange={this.handleChangePT} />
                             <label className="form-check-label" htmlFor="job_type_pt">
                               Part-time
                               </label>
@@ -419,13 +440,13 @@ class EditJobSeekerProfile extends React.Component {
                       <div className="row">
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <MDBInput id="minSalary" label="Minimum expected salary" type="number" icon="euro-sign" 
+                            <MDBInput id="minSalary" value={this.state.minSalary || ''} label="Minimum expected salary" type="number" icon="euro-sign" 
                             onChange={this.handleChange} />
                           </div>
                         </div>
                         <div className="col-md-6 col-sm-12">
                           <div className="form-group">
-                            <MDBInput id="maxSalary" label="Maximum expected salary" type="number" icon="euro-sign" 
+                            <MDBInput id="maxSalary" value={this.state.maxSalary || ''} label="Maximum expected salary" type="number" icon="euro-sign" 
                             onChange={this.handleChange} />
                           </div>
                         </div>
@@ -469,13 +490,17 @@ class EditJobSeekerProfile extends React.Component {
 
 
 const mapStateToProps = state => {
+  const jobseekers = state.firestore.data.jobseeker;
+  const auth = state.firebase.auth;
+  const jobseeker = jobseekers ? jobseekers[auth.uid] : null;
   return {
-    auth: state.firebase.auth
+    auth: auth,
+    jobseeker :jobseeker
   };
 };
 
 const mapDispatchToPropsJobseeker = dispatch => {
-  // console.log(state);
+  
   return {
     editJobSeekerProfile: (profile) => dispatch(editJobSeekerProfile(profile))
   }
@@ -484,5 +509,10 @@ const mapDispatchToPropsJobseeker = dispatch => {
 
 export default
   compose(
-    connect(mapStateToProps, mapDispatchToPropsJobseeker)
+    connect(mapStateToProps, mapDispatchToPropsJobseeker),
+    firestoreConnect([
+      {
+        collection: "jobseeker"
+      }
+    ])   
   )(EditJobSeekerProfile);
