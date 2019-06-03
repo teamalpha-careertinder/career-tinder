@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import CreateJobAds from "./createJobAds";
+import JobsList from ".//jobsList"
 import JobAds from "./jobAds";
 
 class Jobs extends React.Component {
@@ -14,7 +15,7 @@ class Jobs extends React.Component {
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="container">
-        {user && user.userType === "jobseeker" ? <JobAds /> : <CreateJobAds />}
+        {user && user.userType === "jobseeker" ? <JobAds /> : <JobsList />}
       </div>
     );
   }
