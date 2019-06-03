@@ -84,7 +84,7 @@ class CreateJobAds extends React.Component {
     }));
   };
 
-  submitHandler = event => {
+  handleSubmit = event => {alert(1)
     event.preventDefault();
     event.target.className += " was-validated";
   };
@@ -295,9 +295,6 @@ class CreateJobAds extends React.Component {
                               color="primary"
                               className="float-right"
                               type="submit"
-                              onClick={() => {
-                                this.onShowAlert();
-                              }}
                             >
                               <i className="fas fa-save" /> Add This Job
                               Opportunity
