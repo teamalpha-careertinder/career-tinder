@@ -5,7 +5,7 @@ import Select from "react-select";
 import { MDBCardBody } from "mdbreact";
 import { Alert } from "reactstrap";
 import { connect } from "react-redux";
-import { jobAdActions } from "../../store/actions/jobAdActions"
+import { jobAdActions, jobUpdateActions } from "../../store/actions/jobAdActions"
 
 const skills = [
   { value: "php", label: "PHP" },
@@ -32,6 +32,11 @@ class CreateJobAds extends React.Component {
       expectedstartdate: "",
       expirationdate: ""
     };
+    if(this.props.location.jobAd)
+    {
+      this.state.jobAdId = this.props.location.jobAd.id;      
+    }
+    console.log(this.state)
   }
 
   handleDateChange = (name, value) => {
@@ -55,7 +60,14 @@ class CreateJobAds extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     event.target.className += " was-validated";
-    this.props.jobAdActions(this.state);
+    if(this.state.jobAdId)
+    {
+      this.props.jobUpdateActions(this.state);
+    }
+    else
+    {
+      this.props.jobAdActions(this.state);
+    }  
     this.props.history.push('/jobs')
   };
 
@@ -118,7 +130,7 @@ class CreateJobAds extends React.Component {
                                 name="job_title"
                                 className="form-control"
                                 onChange={this.handleChange}
-                                //required
+                                required
                               />
                             </div>
                           </div>
@@ -186,7 +198,7 @@ class CreateJobAds extends React.Component {
                                 rows="1"
                                 className="form-control"
                                 onChange={this.handleChange}
-                                //required
+                                required
                               />
                             </div>
                           </div>
@@ -229,7 +241,7 @@ class CreateJobAds extends React.Component {
                                 icon="comment-alt"
                                 className="form-control"
                                 onChange={this.handleChange}
-                                //required
+                                required
                               />
                             </div>
                           </div>
@@ -281,7 +293,7 @@ class CreateJobAds extends React.Component {
                               className="float-right"
                               type="submit"
                             >
-                              <i className="fas fa-save" /> Add This Job
+                              <i className="fas fa-save" /> submit This Job
                               Opportunity
                             </MDBBtn>
                           </div>
@@ -307,7 +319,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    jobAdActions: jobAd => dispatch(jobAdActions(jobAd))
+    jobAdActions: jobAd => dispatch(jobAdActions(jobAd)),
+    jobUpdateActions: jobAd => dispatch(jobUpdateActions(jobAd))
   };
 };
 

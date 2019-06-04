@@ -25,7 +25,7 @@ const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const users = state.firestore.data.users;
   const user = users ? users[auth.uid] : null;
-  const jobAds = state.firestore.ordered.jobposting//filter(jobpost => jobpost.employerid == auth.uid)
+  const jobAds = state.firestore.ordered.jobposting;
   return {
     user: user,
     auth: auth,

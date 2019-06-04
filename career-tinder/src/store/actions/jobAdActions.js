@@ -22,85 +22,43 @@ export const jobAdActions = (jobAd) => {
   }
 };
 
-
-
-
-
-
-
-
-/*export const signUpAsEmployer = newUser => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firebase = getFirebase();
+export const jobUpdateActions = (jobAd) => {
+  return (dispatch, getState, {getFirestore}) => {
+    // make async call to database
+    const userId = getState().firebase.auth.uid
     const firestore = getFirestore();
-    const batch = firestore.batch();
-    const employerId = getState().auth.currentUser.getState.uid;
-    
+    const jobAdId = jobAd.jobAdId;
 
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(newUser.email, newUser.password)
-      .then(resp => {
-        var newUserType = firestore.collection("users").doc(resp.user.uid);
-        batch.set(newUserType, {
-          userType: "employer",
-          profileCompletenessPercentage: 0
-        });
-
-        resp.user.updateProfile({
-          displayName: newUser.companyname
-        });
-        dispatch(verifyEmail());
-
-        batch.commit();
-      })
-      .then(() => {
-        dispatch({ type: "SIGNUP_SUCCESS" });
-      })
-      .catch(err => {
-        dispatch({ type: "SIGNUP_ERROR", err });
+    firestore.collection("employer").doc(userId).get().then(d => {
+      const companyname = d.data().companyname;
+      firestore.collection('jobposting').doc(jobAdId).set({
+        ...jobAd,
+        employerid: userId,
+        lastUpdatedAt: new Date(),
+        employername: companyname
+      }).then(() => {
+        console.log("Updated job posting successfully")
+        dispatch({ type: 'UPDATE_JOBPOST_SUCCESS' });
+      }).catch(err => {
+        console.log("Job posting update error")
+        dispatch({ type: 'UPDATE_JOBPOST_ERROR' }, err);
       });
-  };
+    });
+  }
 };
-export const verifyEmail = () => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firebase = getFirebase();
-    //const firestore = getFirestore();
-    var user = firebase.auth().currentUser;
-    if (user) {
-      firebase
-        .auth()
-        .currentUser.sendEmailVerification({
-          // url: ROUTES.EMAIL_REDIRECT_URL_DEV
-        })
-        .then(() => {
-          dispatch(signOut());
-          dispatch({ type: "EMAIL_SENT_SUCCESS" });
-        })
-        .catch(err => {
-          dispatch({ type: "EMAIL_SENT_ERROR", err });
-        });
-    }
-  };
-};
-//@begin: Password Reset (Forget) - Abel G.
-export const passwordForget = email => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firebase = getFirebase();
-    //const firestore = getFirestore();
 
-    firebase
-      .auth()
-      .sendPasswordResetEmail(email)
-      .then(() => {
-        // this.setState({ ...INITIAL_STATE });
-        dispatch({ type: "PWFORGET_SUCCESS" });
-      })
-      .catch(err => {
-        //      this.setState({ error });
-        dispatch({ type: "PWFORGET_ERROR", err });
-      });
-  };
+export const jobDeleteActions = (jobAdId) => {
+console.log(jobAdId + "AAAAA")
+  return (dispatch, getState, {getFirestore}) => {
+    // make async call to database
+    const firestore = getFirestore();
+
+    firestore.collection('jobposting').doc(jobAdId).delete().then(() => {
+      console.log("Deleted job posting successfully")
+      dispatch({ type: 'DELETE_JOBPOST_SUCCESS' });
+    }).catch(err => {
+      console.log("Job posting delete error")
+      dispatch({ type: 'DELETE_JOBPOST_ERROR' }, err);
+    });
+  }
 };
-//@end: Password Reset (Forget) - Abel G.
-*/
