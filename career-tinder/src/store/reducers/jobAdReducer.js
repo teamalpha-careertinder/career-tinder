@@ -20,6 +20,13 @@ const jobAdReducer = (state = initState, action) => {
     case "DELETE_JOBPOST_ERROR":
       console.log("DELETE_JOBPOST_ERROR");
       return state;
+    case "SAVE_USER_CHOICE_SUCCESS":
+      console.log("SAVE_USER_CHOICE_SUCCESS");
+      return state;
+    case "SAVE_USER_CHOICE_ERROR":
+      console.log("SAVE_USER_CHOICE_ERROR");
+      return state;
+
     default:
       return state;
   }

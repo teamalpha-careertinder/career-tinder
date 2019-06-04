@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import "./jobs.css";
-import { saveUserChoice } from "../../store/actions/jobAddActions";
+import { saveUserChoice } from "../../store/actions/jobAdActions";
 import { firestoreConnect } from "react-redux-firebase";
 
 const jobSeekerChoiceEntity = {
