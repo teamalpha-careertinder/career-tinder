@@ -4,16 +4,20 @@ export const jobAdActions = (jobAd) => {
     // make async call to database
     const userId = getState().firebase.auth.uid
     const firestore = getFirestore();
-    firestore.collection('jobposting').add({
-      ...jobAd,
-      employerid: userId,
-      createdAt: new Date()
-    }).then(() => {
-      console.log("Created job posting successfully")
-      dispatch({ type: 'CREATE_JOBPOST_SUCCESS' });
-    }).catch(err => {
-      console.log("Job posting creation error")
-      dispatch({ type: 'CREATE_JOBPOST_ERROR' }, err);
+    firestore.collection("employer").doc(userId).get().then(d => {
+      const companyname = d.data().companyname;
+      firestore.collection('jobposting').add({
+        ...jobAd,
+        employerid: userId,
+        createdAt: new Date(),
+        employername: companyname
+      }).then(() => {
+        console.log("Created job posting successfully")
+        dispatch({ type: 'CREATE_JOBPOST_SUCCESS' });
+      }).catch(err => {
+        console.log("Job posting creation error")
+        dispatch({ type: 'CREATE_JOBPOST_ERROR' }, err);
+      });
     });
   }
 };

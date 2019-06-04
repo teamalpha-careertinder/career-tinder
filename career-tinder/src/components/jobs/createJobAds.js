@@ -55,8 +55,8 @@ class CreateJobAds extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     event.target.className += " was-validated";
-    console.log(this.state)
     this.props.jobAdActions(this.state);
+    this.props.history.push('/jobs')
   };
 
   state = {
