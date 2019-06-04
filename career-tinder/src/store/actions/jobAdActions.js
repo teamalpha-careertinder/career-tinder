@@ -6,11 +6,12 @@ export const jobAdActions = (jobAd) => {
     const firestore = getFirestore();
     firestore.collection("employer").doc(userId).get().then(d => {
       const companyname = d.data().companyname;
+      jobAd.employername = companyname ? companyname : "";
+      
       firestore.collection('jobposting').add({
         ...jobAd,
         employerid: userId,
-        createdAt: new Date(),
-        employername: companyname
+        createdAt: new Date()
       }).then(() => {
         console.log("Created job posting successfully")
         dispatch({ type: 'CREATE_JOBPOST_SUCCESS' });
@@ -31,11 +32,12 @@ export const jobUpdateActions = (jobAd) => {
 
     firestore.collection("employer").doc(userId).get().then(d => {
       const companyname = d.data().companyname;
+      jobAd.employername = companyname ? companyname : "";
+
       firestore.collection('jobposting').doc(jobAdId).set({
         ...jobAd,
         employerid: userId,
-        lastUpdatedAt: new Date(),
-        employername: companyname
+        lastUpdatedAt: new Date()
       }).then(() => {
         console.log("Updated job posting successfully")
         dispatch({ type: 'UPDATE_JOBPOST_SUCCESS' });
@@ -48,7 +50,7 @@ export const jobUpdateActions = (jobAd) => {
 };
 
 export const jobDeleteActions = (jobAdId) => {
-console.log(jobAdId + "AAAAA")
+
   return (dispatch, getState, {getFirestore}) => {
     // make async call to database
     const firestore = getFirestore();
