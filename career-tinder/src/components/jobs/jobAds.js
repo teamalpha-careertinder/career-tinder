@@ -57,7 +57,11 @@ class JobAds extends Component {
           {jobposting &&
             jobposting.map(item => {
               return (
-                <div id={item.id} className="col-md-6 col-12 job-ad-wrapper">
+                <div
+                  id={item.id}
+                  key={item.id}
+                  className="col-md-6 col-12 job-ad-wrapper"
+                >
                   {" "}
                   {/*this is temporal: id must contain de id of document JobPosting from DB*/}
                   <div className="card job-ad text-body shadow rounded">
@@ -89,13 +93,20 @@ class JobAds extends Component {
                           <b>
                             <i className="fas fa-building" /> Company name:
                           </b>{" "}
-                          SAP
+                          {item.employername}
                         </div>
                         <div className="col-12">
                           <b>
                             <i className="fas fa-calendar-alt" /> Expected start
-                            date:
+                            Date:
                           </b>{" "}
+                          {item.expectedstartdate.toDate().toLocaleString()}
+                        </div>
+                        <div className="col-12">
+                          <b>
+                            <i className="fas fa-calendar-alt" /> Due Date:
+                          </b>{" "}
+                          {item.expirationdate.toDate().toLocaleString()}
                         </div>
                         <div className="col-12">
                           <b>
@@ -107,8 +118,17 @@ class JobAds extends Component {
                           <b className="mr-2">
                             <i className="fas fa-check-double" /> Needed skills:
                           </b>
-                          <span className="badge badge-danger mr-2">Java</span>
-                          <span className="badge badge-danger mr-2">SQL</span>
+                          {item.neededskills &&
+                            item.neededskills.map(child => {
+                              return (
+                                <span
+                                  key={child.value}
+                                  className="badge badge-danger mr-2"
+                                >
+                                  {child.label}
+                                </span>
+                              );
+                            })}
                         </div>
                         <hr />
                         <div className="col-12">
