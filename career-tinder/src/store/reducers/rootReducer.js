@@ -1,5 +1,6 @@
 import authReducer from "./authReducer";
 import profileReducer from "./profileReducer";
+import jobAdReducer from "./jobAdReducer";
 import { combineReducers } from "redux";
 import { firestoreReducer } from "redux-firestore";
 import { firebaseReducer } from "react-redux-firebase";
@@ -7,6 +8,7 @@ import { firebaseReducer } from "react-redux-firebase";
 const rootReducer = combineReducers({
   auth: authReducer,
   profile: profileReducer,
+  jobAd: jobAdReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });

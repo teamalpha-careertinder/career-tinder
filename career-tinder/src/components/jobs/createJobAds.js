@@ -4,6 +4,8 @@ import DatePicker from "react-datepicker";
 import Select from "react-select";
 import { MDBCardBody } from "mdbreact";
 import { Alert } from "reactstrap";
+import { connect } from "react-redux";
+import { jobAdActions, jobUpdateActions } from "../../store/actions/jobAdActions"
 
 const skills = [
   { value: "php", label: "PHP" },
@@ -12,9 +14,8 @@ const skills = [
 ];
 
 class CreateJobAds extends React.Component {
-  handleSkillsChange = selectedSkills => {
-    this.setState({ selectedSkills });
-    console.log(`Option selected:`, selectedSkills);
+  handleSkillsChange = neededskills => {
+    this.setState({ neededskills });
   };
 
   constructor(props) {
@@ -22,76 +23,54 @@ class CreateJobAds extends React.Component {
     this.state = {
       jobtitle: "",
       neededskills: "",
-      typeofjob: "",
-      salaryrange: "",
+      applypartime: false,
+      applyfulltime: false,
+      minsalary: "",
+      maxsalary: "",
       jobdescription: "",
       education: "",
       expectedstartdate: "",
       expirationdate: ""
     };
-
-    this.handleFromDateChange = this.handleFromDateChange.bind(this);
-    this.handleToDateChange = this.handleToDateChange.bind(this);
+    if(this.props.location.jobAd)
+    {
+      this.state.jobAdId = this.props.location.jobAd.id;      
+    }
+    console.log(this.state)
   }
 
-  getPickerValue = value => {
-    console.log(value);
-  };
-
-  handleFromDateChange(date) {
+  handleDateChange = (name, value) => {
     this.setState({
-      startFromDate: date
+      [name]: value
     });
   }
-
-  handleToDateChange(date) {
-    this.setState({
-      startToDate: date
-    });
-  }
-
-  handleOptionChange = changeEvent => {
-    this.setState({
-      prevWorkJobType: changeEvent.target.value
-    });
-  };
 
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
     });
   };
-  handleSelectChange = function(e) {
-    var options = e.target.options;
-    var value = [];
-    for (var i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    this.props.someCallback(value);
+
+  handleChangeJobType = (e) => {
+    this.setState({
+      [e.target.name]: e.target.checked
+    });
   };
 
-  handleChangeFT = () => {
-    this.setState(prevState => ({
-      applyingFullTime: !prevState.applyingFor_FullTime
-    }));
-  };
-
-  handleChangePT = () => {
-    this.setState(prevState => ({
-      applyingPartTime: !prevState.applyingFor_PartTime
-    }));
-  };
-
-  submitHandler = event => {
+  handleSubmit = event => {
     event.preventDefault();
     event.target.className += " was-validated";
+    if(this.state.jobAdId)
+    {
+      this.props.jobUpdateActions(this.state);
+    }
+    else
+    {
+      this.props.jobAdActions(this.state);
+    }  
+    this.props.history.push('/jobs')
   };
 
-  changeHandler = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
   state = {
     visible: false
   };
@@ -111,7 +90,7 @@ class CreateJobAds extends React.Component {
   }
 
   render() {
-    const { selectedSkills } = this.state;
+    const { neededskills } = this.state.neededskills;
 
     return (
       <div className="create-job-ad">
@@ -150,7 +129,7 @@ class CreateJobAds extends React.Component {
                                 icon="pencil-alt"
                                 name="job_title"
                                 className="form-control"
-                                onChange={this.changeHandler}
+                                onChange={this.handleChange}
                                 required
                               />
                             </div>
@@ -161,7 +140,7 @@ class CreateJobAds extends React.Component {
                             <div className="form-group">
                               <label>Needed Skills</label>
                               <Select
-                                value={selectedSkills}
+                                value={neededskills}
                                 onChange={this.handleSkillsChange}
                                 options={skills}
                                 isMulti={true}
@@ -178,8 +157,9 @@ class CreateJobAds extends React.Component {
                                 <input
                                   className="form-check-input checkbox"
                                   type="checkbox"
-                                  checked={this.state.applyingFullTime}
-                                  onChange={this.handleChangeFT}
+                                  checked={this.state.applyfulltime}
+                                  onChange={this.handleChangeJobType}
+                                  name="applyfulltime"
                                 />
                                 <label
                                   className="form-check-label"
@@ -192,8 +172,9 @@ class CreateJobAds extends React.Component {
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  checked={this.state.applyingPartTime}
-                                  onChange={this.handleChangePT}
+                                  checked={this.state.applypartime}
+                                  onChange={this.handleChangeJobType}
+                                  name="applypartime"
                                 />
                                 <label
                                   className="form-check-label"
@@ -207,7 +188,7 @@ class CreateJobAds extends React.Component {
                         </div>
 
                         <div className="row">
-                          <div className="col-sm-6">
+                          <div className="col-sm-12">
                             <div className="form-group">
                               <MDBInput
                                 id="education"
@@ -216,8 +197,22 @@ class CreateJobAds extends React.Component {
                                 type="text"
                                 rows="1"
                                 className="form-control"
-                                onChange={this.changeHandler}
+                                onChange={this.handleChange}
                                 required
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-sm-6">
+                            <div className="form-group">
+                              <MDBInput
+                                id="minsalary"
+                                label="Minimum Salary"
+                                icon="euro-sign"
+                                type="number"
+                                onChange={this.handleChange}
                               />
                             </div>
                           </div>
@@ -225,10 +220,10 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-6">
                             <div className="form-group">
                               <MDBInput
-                                id="salaryRange"
-                                label="Salary range"
+                                id="maxsalary"
+                                label="Maximum Salary"
                                 icon="euro-sign"
-                                type="text"
+                                type="number"
                                 onChange={this.handleChange}
                               />
                             </div>
@@ -239,13 +234,13 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-12">
                             <div className="form-group">
                               <MDBInput
-                                id="Jobdiscription"
+                                id="jobdescription"
                                 label="Job Discription"
                                 type="textarea"
                                 rows="3"
                                 icon="comment-alt"
                                 className="form-control"
-                                onChange={this.changeHandler}
+                                onChange={this.handleChange}
                                 required
                               />
                             </div>
@@ -257,14 +252,15 @@ class CreateJobAds extends React.Component {
                             <div className="md-form">
                               <i className="fas fa-calendar-alt prefix" />
                               <DatePicker
-                                selected={this.state.startFromDate}
-                                onChange={this.handleFromDateChange}
+                                selected={this.state.expectedstartdate}
+                                onChange={this.handleDateChange.bind(this.parentElement, "expectedstartdate")}
                                 className="form-control"
                                 peekNextMonth
                                 showMonthDropdown
                                 showYearDropdown
                                 dropdownMode="select"
-                                name="working_from"
+                                name="expectedstartdate"
+                                minDate={new Date()}
                               />
                             </div>
                           </div>
@@ -276,14 +272,15 @@ class CreateJobAds extends React.Component {
                             <div className="md-form">
                               <i className="fas fa-calendar-alt prefix" />
                               <DatePicker
-                                selected={this.state.startFromDate}
-                                onChange={this.handleFromDateChange}
+                                selected={this.state.expirationdate}
+                                onChange={this.handleDateChange.bind(this.parentElement, "expirationdate")}
                                 className="form-control"
                                 peekNextMonth
                                 showMonthDropdown
                                 showYearDropdown
                                 dropdownMode="select"
-                                name="working_from"
+                                name="expirationdate"
+                                minDate={new Date()}
                               />
                             </div>
                           </div>
@@ -295,11 +292,8 @@ class CreateJobAds extends React.Component {
                               color="primary"
                               className="float-right"
                               type="submit"
-                              onClick={() => {
-                                this.onShowAlert();
-                              }}
                             >
-                              <i className="fas fa-save" /> Add This Job
+                              <i className="fas fa-save" /> submit This Job
                               Opportunity
                             </MDBBtn>
                           </div>
@@ -317,4 +311,17 @@ class CreateJobAds extends React.Component {
   }
 }
 
-export default CreateJobAds;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    jobAdActions: jobAd => dispatch(jobAdActions(jobAd)),
+    jobUpdateActions: jobAd => dispatch(jobUpdateActions(jobAd))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateJobAds) ;

@@ -14,6 +14,8 @@ import ForgotPassword from "../authentication/forgotPassword";
 import ChangePassword from "../profile/changePassword";
 import Jobs from "../jobs/jobs";
 import Notifications from "../profile/Notifications";
+import JobsList from "../jobs/jobsList"
+import CreateJobAds from "../jobs/createJobAds"
 
 class App extends Component {
   render() {
@@ -32,6 +34,10 @@ class App extends Component {
               <Route
                 path={ROUTES.REGISTRATION_EMPLOYER}
                 component={RegistrationEmployer}
+              />
+              <Route
+                path={ROUTES.CREATE_JOB_AD}
+                component={CreateJobAds}
               />
               <Route path={ROUTES.UPDATE_PROFILE} component={UpdateProfile} />
               <Route
