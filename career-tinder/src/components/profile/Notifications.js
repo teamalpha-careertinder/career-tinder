@@ -59,6 +59,7 @@ class Notifications extends React.Component {
 const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const notification = state.firestore.ordered.notifications;
+  console.log(notification);
   return {
     uid: auth.uid,
     notifications: notification,
