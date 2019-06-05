@@ -78,10 +78,31 @@ class JobAds extends Component {
                     <div className="card-body">
                       <div className="row">
                         <div className="col-12">
+                          <b className="mr-2">
+                            <i className="fas fa-check-double" /> Needed skills:
+                          </b>
+                          {item.neededskills &&
+                            item.neededskills.map(child => {
+                              return (
+                                <span
+                                  key={child.value}
+                                  className="badge badge-danger mr-2"
+                                >
+                                  {child.label}
+                                </span>
+                              );
+                            })}
+                        </div>
+                        <div className="col-12">
                           <b>
                             <i className="fas fa-certificate" /> Job type:
                           </b>{" "}
-                          {item.applyfulltime ? "Full Time" : "Part Time"}
+                          {(item.applyfulltime && item.applyfulltime
+                            ? "Full Time"
+                            : "Part Time") ||
+                            (item.applypartime && item.applypartime
+                              ? "Part Time"
+                              : "Full Time")}
                         </div>
                         <div className="col-12">
                           <b>
@@ -100,13 +121,15 @@ class JobAds extends Component {
                             <i className="fas fa-calendar-alt" /> Expected start
                             Date:
                           </b>{" "}
-                          {item.expectedstartdate.toDate().toLocaleString()}
+                          {item.expectedstartdate &&
+                            item.expectedstartdate.toDate().toLocaleString()}
                         </div>
                         <div className="col-12">
                           <b>
                             <i className="fas fa-calendar-alt" /> Due Date:
                           </b>{" "}
-                          {item.expirationdate.toDate().toLocaleString()}
+                          {item.expirationdate &&
+                            item.expirationdate.toDate().toLocaleString()}
                         </div>
                         <div className="col-12">
                           <b>
@@ -114,22 +137,7 @@ class JobAds extends Component {
                           </b>{" "}
                           {item.education}
                         </div>
-                        <div className="col-12">
-                          <b className="mr-2">
-                            <i className="fas fa-check-double" /> Needed skills:
-                          </b>
-                          {item.neededskills &&
-                            item.neededskills.map(child => {
-                              return (
-                                <span
-                                  key={child.value}
-                                  className="badge badge-danger mr-2"
-                                >
-                                  {child.label}
-                                </span>
-                              );
-                            })}
-                        </div>
+
                         <hr />
                         <div className="col-12">
                           <div className="row">
