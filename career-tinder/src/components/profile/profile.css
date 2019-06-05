@@ -17,8 +17,9 @@
     cursor: pointer;
 }
 
-span.work-experiences-tag.badge.badge-dark {
+.work-experiences-tag.badge.badge-dark {
     padding: 10px;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {

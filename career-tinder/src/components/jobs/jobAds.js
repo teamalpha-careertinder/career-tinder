@@ -61,10 +61,10 @@ class JobAds extends Component {
               <div className="card-header">
                 <div className="row">
                   <div className="col-9">
-                    <i className="fas fa-heading" /> Software Developer
+                    <i className="fas fa-thumbtack" aria-hidden="true"></i> Software Developer
                   </div>
                   <div className="col-3">
-                    <i className="fas fa-heart wishlist-selector float-right" />
+                    <i className="fas fa-heart wishlist-selector float-right d-none" />
                   </div>
                 </div>
               </div>
@@ -72,25 +72,25 @@ class JobAds extends Component {
                 <div className="row">
                   <div className="col-12">
                     <b>
-                      <i className="fas fa-certificate" /> Job type:
+                      <i className="fas fa-certificate" /> Type:
                     </b>{" "}
                     Full-time
                   </div>
                   <div className="col-12">
                     <b>
-                      <i className="fas fa-euro-sign" /> Salary range:
+                      <i className="fas fa-euro-sign" /> Salary:
                     </b>{" "}
                     40000-50000
                   </div>
                   <div className="col-12">
                     <b>
-                      <i className="fas fa-building" /> Company name:
+                      <i className="fas fa-building" /> Company:
                     </b>{" "}
                     SAP
                   </div>
                   <div className="col-12">
                     <b>
-                      <i className="fas fa-calendar-alt" /> Expected start date:
+                      <i className="fas fa-calendar-alt" /> Start:
                     </b>{" "}
                     01.10.2019
                   </div>
@@ -102,7 +102,7 @@ class JobAds extends Component {
                   </div>
                   <div className="col-12">
                     <b className="mr-2">
-                      <i className="fas fa-check-double" /> Needed skills:
+                      <i className="fas fa-check-double" /> Skills:
                     </b>
                     <span className="badge badge-danger mr-2">Java</span>
                     <span className="badge badge-danger mr-2">SQL</span>
@@ -141,10 +141,10 @@ class JobAds extends Component {
               <div className="card-header">
                 <div className="row">
                   <div className="col-9">
-                    <i className="fas fa-heading" /> Software Developer
+                  <i className="fas fa-thumbtack" aria-hidden="true"></i> Software Developer
                   </div>
                   <div className="col-3">
-                    <i className="fas fa-heart wishlist-selector float-right" />
+                    <i className="fas fa-heart wishlist-selector float-right d-none" />
                   </div>
                 </div>
               </div>
@@ -152,25 +152,25 @@ class JobAds extends Component {
                 <div className="row">
                   <div className="col-12">
                     <b>
-                      <i className="fas fa-certificate" /> Job type:
+                      <i className="fas fa-certificate" /> Type:
                     </b>{" "}
                     Full-time
                   </div>
                   <div className="col-12">
                     <b>
-                      <i className="fas fa-euro-sign" /> Salary range:
+                      <i className="fas fa-euro-sign" /> Salary:
                     </b>{" "}
                     40000-50000
                   </div>
                   <div className="col-12">
                     <b>
-                      <i className="fas fa-building" /> Company name:
+                      <i className="fas fa-building" /> Company:
                     </b>{" "}
                     SAP
                   </div>
                   <div className="col-12">
                     <b>
-                      <i className="fas fa-calendar-alt" /> Expected start date:
+                      <i className="fas fa-calendar-alt" /> Start:
                     </b>{" "}
                     01.10.2019
                   </div>
@@ -182,7 +182,7 @@ class JobAds extends Component {
                   </div>
                   <div className="col-12">
                     <b className="mr-2">
-                      <i className="fas fa-check-double" /> Needed skills:
+                      <i className="fas fa-check-double" /> Skills:
                     </b>
                     <span className="badge badge-danger mr-2">Java</span>
                     <span className="badge badge-danger mr-2">SQL</span>
