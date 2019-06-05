@@ -18,11 +18,11 @@ class JobsList extends Component {
           <div className="card border-info card-container" >
             <div className="card-header">
 
-              <div class="row">
-                <div class="col-sm">
+              <div className="row">
+                <div className="col-sm">
                   <h5 style={{ paddingTop: '9px' }} className="fas fa-list-alt">  Jobs List
      </h5>
-                  <NavLink type='button' style={{ float: 'right' }} class="btn btn-primary btn-sm" className="nav-link" to={ROUTES.CREATE_JOB_AD}>
+                  <NavLink type='button' style={{ float: 'right' }} className="btn btn-primary btn-sm nav-link" to={ROUTES.CREATE_JOB_AD}>
                     <b>Create Job Ad</b>
                   </NavLink>
 
@@ -36,7 +36,7 @@ class JobsList extends Component {
 
             </div>
 
-            <div class="card-body" align="center">
+            <div className="card-body" align="center">
 
 
               <MDBAnimation type="zoomIn">

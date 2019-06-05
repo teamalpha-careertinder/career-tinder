@@ -29,14 +29,24 @@ class CreateJobAds extends React.Component {
       maxsalary: "",
       jobdescription: "",
       education: "",
-      expectedstartdate: "",
-      expirationdate: ""
+      expectedstartdate: null,
+      expirationdate: null
     };
-    if(this.props.location.jobAd)
+    if(this.props.location.job)
     {
-      this.state.jobAdId = this.props.location.jobAd.id;      
+      var modifiableJobAd = this.props.location.job;
+      if(modifiableJobAd.id)this.state.id = modifiableJobAd.id;
+      if(modifiableJobAd.jobtitle)this.state.jobtitle = modifiableJobAd.jobtitle; 
+      if(modifiableJobAd.neededskills)this.state.neededskills = modifiableJobAd.neededskills;
+      if(modifiableJobAd.applypartime)this.state.applypartime = modifiableJobAd.applypartime;
+      if(modifiableJobAd.applyfulltime)this.state.applyfulltime = modifiableJobAd.applyfulltime;
+      if(modifiableJobAd.minsalary)this.state.minsalary = modifiableJobAd.minsalary;
+      if(modifiableJobAd.maxsalary)this.state.maxsalary = modifiableJobAd.maxsalary;
+      if(modifiableJobAd.jobdescription)this.state.jobdescription = modifiableJobAd.jobdescription
+      if(modifiableJobAd.education)this.state.education = modifiableJobAd.education
+      if(modifiableJobAd.expectedstartdate)this.state.expectedstartdate = modifiableJobAd.expectedstartdate
+      if(modifiableJobAd.expirationdate)this.state.expirationdate = modifiableJobAd.expirationdate
     }
-    console.log(this.state)
   }
 
   handleDateChange = (name, value) => {
@@ -90,11 +100,10 @@ class CreateJobAds extends React.Component {
   }
 
   render() {
-    const { neededskills } = this.state.neededskills;
-
+    //isOpen={this.state.visible}
     return (
       <div className="create-job-ad">
-        {/* <Alert color="success" isOpen={this.state.visible}>
+        {/* <Alert color="success" id="success-alert-noman" isOpen={this.state.visible}>
           <i className="fas fa-check" /> Job Successfully posted!
         </Alert> */}
 
@@ -128,6 +137,7 @@ class CreateJobAds extends React.Component {
                                 name="job_title"
                                 className="form-control"
                                 onChange={this.handleChange}
+                                value={this.state.jobtitle}
                                 required
                               />
                             </div>
@@ -138,7 +148,6 @@ class CreateJobAds extends React.Component {
                             <div className="form-group">
                               <label>Needed Skills</label>
                               <Select
-                                value={neededskills}
                                 onChange={this.handleSkillsChange}
                                 options={skills}
                                 isMulti={true}
@@ -189,6 +198,7 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-12">
                             <div className="form-group">
                               <MDBInput
+                                value={this.state.education}
                                 id="education"
                                 label="Education"
                                 icon="address-card"
@@ -206,6 +216,7 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-6">
                             <div className="form-group">
                               <MDBInput
+                                value={this.state.minsalary}
                                 id="minsalary"
                                 label="Minimum Salary"
                                 icon="euro-sign"
@@ -218,6 +229,7 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-6">
                             <div className="form-group">
                               <MDBInput
+                                value={this.state.maxsalary}
                                 id="maxsalary"
                                 label="Maximum Salary"
                                 icon="euro-sign"
@@ -232,6 +244,7 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-12">
                             <div className="form-group">
                               <MDBInput
+                                value={this.state.jobdescription}
                                 id="jobdescription"
                                 label="Job Discription"
                                 type="textarea"
@@ -252,7 +265,6 @@ class CreateJobAds extends React.Component {
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
                                 <DatePicker
-                                  selected={this.state.expectedstartdate}
                                   onChange={this.handleDateChange.bind(this.parentElement, "expectedstartdate")}
                                   className="form-control"
                                   peekNextMonth
@@ -272,7 +284,6 @@ class CreateJobAds extends React.Component {
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
                                 <DatePicker
-                                  selected={this.state.expirationdate}
                                   onChange={this.handleDateChange.bind(this.parentElement, "expirationdate")}
                                   className="form-control"
                                   peekNextMonth

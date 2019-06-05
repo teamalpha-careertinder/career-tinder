@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-import { MDBIcon } from "mdbreact";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
@@ -18,7 +17,7 @@ class Notifications extends React.Component {
         <div className="profile-form-wrapper">
           <div className="card border-info mb-3">
             <div className="card-header">
-              <MDBIcon icon="user" className="mr-1" /> Notifications
+              <div className="fas fa-bell-slash" /> Notifications{" "}
             </div>
             <div className="card-body text-info">
               <div className="tab-content" id="pills-tabContent">
@@ -74,6 +73,7 @@ export default compose(
       {
         collection: "notifications",
         where: [["userId", "==", props.uid || null]],
+        orderBy: ["time", "desc"],
         limit: 3
       }
     ];

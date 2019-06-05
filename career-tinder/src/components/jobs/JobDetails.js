@@ -14,30 +14,28 @@ class JobDetails extends Component{
     render(){
       const {job} = this.props;
       return (
-        <div class="col-sm-6">
-          <div class="card border-success mb-3" style={{ maxwidth: '18rem' }}>
-            <h5 class="card-header">{job.jobtitle}</h5>
-            <div class="card-body text-dark">
-              <h5 class="card-title">{job.employername}</h5>
+        <div className="col-sm-6">
+          <div className="card border-success mb-3" style={{ maxwidth: '18rem' }}>
+            <h5 className="card-header">{job.jobtitle}</h5>
+            <div className="card-body text-dark">
+              <h5 className="card-title">{job.employername}</h5>
               <br></br>
-              <p class="card-text">
-                <div class="btn-group flex-wrap">
+              <div className="card-text">
+                <div className="btn-group flex-wrap">
   
-                  <button type="button" id="btnMatch" class="btn btn-outline-success mr-3 btn-sm" >Match</button>
-                  <NavLink type='button' class="btn btn-outline-dark mr-3 btn-sm" to={{
+                  <button type="button" id="btnMatch" className="btn btn-outline-success mr-3 btn-sm" >Match</button>
+                  <NavLink type='button' className="btn btn-outline-dark mr-3 btn-sm" to={{
                         pathname: '/create-job-ad',
-                        jobAd: {
-                          id: job.id
-                        }
+                        job: job
                       }}>
                     <b>MODIFY</b>
                   </NavLink>
-                  <button type="button" id="btnDelete" data-jobid={job.id} class="btn btn-outline-danger mr-3 btn-sm" onClick={this.handleDeleteAction}>Delete</button>
+                  <button type="button" id="btnDelete" data-jobid={job.id} className="btn btn-outline-danger mr-3 btn-sm" onClick={this.handleDeleteAction}>Delete</button>
                   
                 </div>
   
   
-              </p>
+              </div>
             </div>
           </div>
         </div>
