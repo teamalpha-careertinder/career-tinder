@@ -78,7 +78,10 @@ class EditJobSeekerProfile extends React.Component {
     var languages = jobSeekerProfileProps && jobSeekerProfileProps.languages;
     var workExperiences = (jobSeekerProfileProps && jobSeekerProfileProps.workExperiences !== null) ? jobSeekerProfileProps.workExperiences : [];
 
-    console.log(workExperiences);
+    workExperiences.map((item, value) => {
+      item.id = Math.random().toString(36).slice(2);
+    });
+
     this.state = {
       jobSeekerName: jobSeekerName, 
       jobSeekerPhone: jobSeekerPhone,
@@ -300,8 +303,7 @@ class EditJobSeekerProfile extends React.Component {
     }));
   }
 
-  toggleModalWithData(e, exp, id) {  
-    console.log(exp);
+  toggleModalWithData(e, exp, id) {
     if(typeof exp.startJobDate !== 'string') {
       var tsStartJobDate = new Date(exp.startJobDate.seconds * 1000);
       tsStartJobDate = (tsStartJobDate.getMonth() + 1) + '/' + tsStartJobDate.getDate() + '/' + tsStartJobDate.getFullYear();
@@ -518,14 +520,18 @@ class EditJobSeekerProfile extends React.Component {
                         </div>
                       </div>
 
-                      <div className="col-sm-12">
-                        <div id="work_experiences">
+                      <div className="col-sm-12">                        
+                        <div className="form-group">
+                          <label>Work Experiences:</label>
+                        </div>
+                        <div id="row work_experiences">
                           {
                             this.state.workExperiences.map((workExperience, i) => {
                               return (
-                                <div onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} key={`work-experience-${i}`} className="work-experiences-tag badge badge-dark ml-1">
+                                <div key={`work-experience-${i}`} className="work-experiences-tag col-lg-3 col-md-4 col-12 badge badge-info ml-1 mb-2">
                                   <span>{workExperience.companyName}</span>
-                                  <i id={"remove_we_"+i} className="fas fa-times ml-3" onClick={(e) => this.handleWEDelete(workExperience)}></i>
+                                  <i id={"remove_we_"+i} className="fas fa-trash ml-3 float-right" onClick={(e) => this.handleWEDelete(workExperience)}></i>
+                                  <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
                                 </div>                             
                               )
                             })
