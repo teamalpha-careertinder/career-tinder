@@ -8,21 +8,22 @@ import { Redirect } from "react-router-dom";
 import "./jobs.css";
 import { saveUserChoice } from "../../store/actions/jobAdActions";
 import { firestoreConnect } from "react-redux-firebase";
+import _ from "lodash";
 
 const jobSeekerChoiceEntity = {
-  jobAdID: null,
+  jobAdId: null,
   jobSeekerID: null,
-  like_dislike: Boolean
+  isLiked: Boolean
 };
 
 class JobAds extends Component {
   //function to save on DB the relation between job add and user's like or dislike:
-  processLikeDisLike(userAction, jobAdID, jobSeekerID) {
+  processLikeDisLike(userAction, jobAdId, jobSeekerID) {
     //userAction: true ->User likes company // false->user dislikes company
     var jobSeekerChoice = jobSeekerChoiceEntity;
-    jobSeekerChoice.jobAdID = jobAdID;
+    jobSeekerChoice.jobAdId = jobAdId;
     jobSeekerChoice.jobSeekerID = jobSeekerID;
-    jobSeekerChoice.like_dislike = userAction;
+    jobSeekerChoice.isLiked = userAction;
     //console.log(`processLike: `, jobSeekerChoice, jobSeekerID);
     this.props.saveUserChoice(jobSeekerChoice);
   }
@@ -48,14 +49,15 @@ class JobAds extends Component {
   };
 
   render() {
-    const { auth, jobposting } = this.props;
+    const { auth, userJobPosting } = this.props;
+
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="container">
         <div className="row job-ads-wrapper mb-3">
-          {jobposting &&
-            jobposting.map(item => {
+          {userJobPosting &&
+            userJobPosting.map(item => {
               return (
                 <div
                   id={item.id}
@@ -78,10 +80,31 @@ class JobAds extends Component {
                     <div className="card-body">
                       <div className="row">
                         <div className="col-12">
+                          <b className="mr-2">
+                            <i className="fas fa-check-double" /> Skills:
+                          </b>
+                          {item.neededskills &&
+                            item.neededskills.map(child => {
+                              return (
+                                <span
+                                  key={child.value}
+                                  className="badge badge-danger mr-2"
+                                >
+                                  {child.label}
+                                </span>
+                              );
+                            })}
+                        </div>
+                        <div className="col-12">
                           <b>
                             <i className="fas fa-certificate" /> Type:
                           </b>{" "}
-                          {item.applyfulltime ? "Full Time" : "Part Time"}
+                          {(item.applyfulltime && item.applyfulltime
+                            ? "Full Time"
+                            : "Part Time") ||
+                            (item.applypartime && item.applypartime
+                              ? "Part Time"
+                              : "Full Time")}
                         </div>
                         <div className="col-12">
                           <b>
@@ -99,35 +122,21 @@ class JobAds extends Component {
                           <b>
                             <i className="fas fa-calendar-alt" /> Start
                           </b>{" "}
-                          {item.expectedstartdate.toDate().toLocaleString()}
+                          {item.expectedstartdate &&
+                            item.expectedstartdate.toDate().toLocaleString()}
                         </div>
                         <div className="col-12">
                           <b>
                             <i className="fas fa-calendar-alt" /> Due Date:
                           </b>{" "}
-                          {item.expirationdate.toDate().toLocaleString()}
+                          {item.expirationdate &&
+                            item.expirationdate.toDate().toLocaleString()}
                         </div>
                         <div className="col-12">
                           <b>
                             <i className="fas fa-graduation-cap" /> Education:
                           </b>{" "}
                           {item.education}
-                        </div>
-                        <div className="col-12">
-                          <b className="mr-2">
-                            <i className="fas fa-check-double" /> Skills:
-                          </b>
-                          {item.neededskills &&
-                            item.neededskills.map(child => {
-                              return (
-                                <span
-                                  key={child.value}
-                                  className="badge badge-danger mr-2"
-                                >
-                                  {child.label}
-                                </span>
-                              );
-                            })}
                         </div>
                         <hr />
                         <div className="col-12">
@@ -169,9 +178,18 @@ class JobAds extends Component {
 const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const jobposting = state.firestore.ordered.jobposting;
+  const jobseekerChoice = state.firestore.ordered.jobSeekerChoice;
+  const userJobPosting = _.differenceWith(jobposting, jobseekerChoice, function(
+    jobpost,
+    jobseekerchoice
+  ) {
+    return jobpost.id === jobseekerchoice.jobAdId;
+  });
+
   return {
-    auth: auth,
-    jobposting: jobposting
+    userJobPosting: userJobPosting,
+    uid: auth.uid,
+    auth: auth
   };
 };
 
@@ -187,10 +205,16 @@ export default compose(
     mapStateToProps,
     mapDispatchToPropsJobseeker
   ),
-  firestoreConnect([
-    {
-      collection: "jobposting",
-      orderBy: ["createdAt", "desc"]
-    }
-  ])
+  firestoreConnect(props => {
+    return [
+      {
+        collection: "jobSeekerChoice",
+        where: [["jobSeekerID", "==", props.uid || null]]
+      },
+      {
+        collection: "jobposting",
+        orderBy: ["createdAt", "desc"]
+      }
+    ];
+  })
 )(JobAds);

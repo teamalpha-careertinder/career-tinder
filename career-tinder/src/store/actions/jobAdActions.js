@@ -95,7 +95,7 @@ export const saveUserChoice = choice => {
       .collection("jobSeekerChoice")
       .add({
         ...choice,
-        lastUpdateAt: new Date()
+        createdAt: new Date()
       })
       .then(() => {
         dispatch({ type: "SAVE_USER_CHOICE_SUCCESS" });
