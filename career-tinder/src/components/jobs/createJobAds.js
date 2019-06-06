@@ -103,19 +103,17 @@ class CreateJobAds extends React.Component {
     //isOpen={this.state.visible}
     return (
       <div className="create-job-ad">
-        <Alert color="success" id="success-alert-noman" isOpen={this.state.visible}>
+        {/* <Alert color="success" id="success-alert-noman" isOpen={this.state.visible}>
           <i className="fas fa-check" /> Job Successfully posted!
-        </Alert>
+        </Alert> */}
 
         <div className="container " />
-        <div className="row justify-content-md-center">
+        <div className="justify-content-md-center">
           <div className="profile-form-wrapper">
             <div className="card border-info card-container">
               <div className="card-header">
-                <i className="fas fa-users" />
-                Create Job Ad
+                <i className="fas fa-users" /> Create Job Ad
               </div>
-              <MDBCardBody>
                 <div className="card-body text-info">
                   <div className="tab-content" id="pills-tabContent">
                     <div
@@ -259,40 +257,43 @@ class CreateJobAds extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div className="col-sm-6">
-                          <div className="form-group datepicker">
-                            <label>Expected Start Date:</label>
-                            <div className="md-form">
-                              <i className="fas fa-calendar-alt prefix" />
-                              <DatePicker
-                                onChange={this.handleDateChange.bind(this.parentElement, "expectedstartdate")}
-                                className="form-control"
-                                peekNextMonth
-                                showMonthDropdown
-                                showYearDropdown
-                                dropdownMode="select"
-                                name="expectedstartdate"
-                                minDate={new Date()}
-                              />
+                        
+                        <div className="row">
+                          <div className="col-sm-6">
+                            <div className="form-group datepicker">
+                              <label>Expected Start Date:</label>
+                              <div className="md-form">
+                                <i className="fas fa-calendar-alt prefix" />
+                                <DatePicker
+                                  onChange={this.handleDateChange.bind(this.parentElement, "expectedstartdate")}
+                                  className="form-control"
+                                  peekNextMonth
+                                  showMonthDropdown
+                                  showYearDropdown
+                                  dropdownMode="select"
+                                  name="expectedstartdate"
+                                  minDate={new Date()}
+                                />
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div className="col-sm-6">
-                          <div className="form-group datepicker">
-                            <label>Expiration Date:</label>
-                            <div className="md-form">
-                              <i className="fas fa-calendar-alt prefix" />
-                              <DatePicker
-                                onChange={this.handleDateChange.bind(this.parentElement, "expirationdate")}
-                                className="form-control"
-                                peekNextMonth
-                                showMonthDropdown
-                                showYearDropdown
-                                dropdownMode="select"
-                                name="expirationdate"
-                                minDate={new Date()}
-                              />
+                          <div className="col-sm-6">
+                            <div className="form-group datepicker">
+                              <label>Expiration Date:</label>
+                              <div className="md-form">
+                                <i className="fas fa-calendar-alt prefix" />
+                                <DatePicker
+                                  onChange={this.handleDateChange.bind(this.parentElement, "expirationdate")}
+                                  className="form-control"
+                                  peekNextMonth
+                                  showMonthDropdown
+                                  showYearDropdown
+                                  dropdownMode="select"
+                                  name="expirationdate"
+                                  minDate={new Date()}
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -313,7 +314,6 @@ class CreateJobAds extends React.Component {
                     </div>
                   </div>
                 </div>
-              </MDBCardBody>
             </div>
           </div>
         </div>

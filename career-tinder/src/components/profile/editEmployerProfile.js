@@ -99,9 +99,9 @@ class EditEmployerProfile extends React.Component {
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="employer-profile">
-        <Alert color="success" isOpen={this.state.visible}>
+        {/* <Alert color="success" isOpen={this.state.visible}>
           <i className="fas fa-check" /> Profile updated!
-        </Alert>
+        </Alert> */}
         <div className="profile-form-wrapper">
           <div className="card border-info card-container">
             <div className="card-header">

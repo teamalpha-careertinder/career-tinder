@@ -70,10 +70,10 @@ class JobAds extends Component {
                     <div className="card-header">
                       <div className="row">
                         <div className="col-9">
-                          <i className="fas fa-heading" /> {item.jobtitle}
+                          <i className="fas fa-thumbtack" /> {item.jobtitle}
                         </div>
                         <div className="col-3">
-                          <i className="fas fa-heart wishlist-selector float-right" />
+                          <i className="fas fa-heart wishlist-selector float-right d-none" />
                         </div>
                       </div>
                     </div>
@@ -81,7 +81,7 @@ class JobAds extends Component {
                       <div className="row">
                         <div className="col-12">
                           <b className="mr-2">
-                            <i className="fas fa-check-double" /> Needed skills:
+                            <i className="fas fa-check-double" /> Skills:
                           </b>
                           {item.neededskills &&
                             item.neededskills.map(child => {
@@ -97,7 +97,7 @@ class JobAds extends Component {
                         </div>
                         <div className="col-12">
                           <b>
-                            <i className="fas fa-certificate" /> Job type:
+                            <i className="fas fa-certificate" /> Type:
                           </b>{" "}
                           {(item.applyfulltime && item.applyfulltime
                             ? "Full Time"
@@ -108,20 +108,19 @@ class JobAds extends Component {
                         </div>
                         <div className="col-12">
                           <b>
-                            <i className="fas fa-euro-sign" /> Salary range:
+                            <i className="fas fa-euro-sign" /> Salary:
                           </b>{" "}
                           {item.minsalary} - {item.maxsalary}
                         </div>
                         <div className="col-12">
                           <b>
-                            <i className="fas fa-building" /> Company name:
+                            <i className="fas fa-building" /> Company:
                           </b>{" "}
                           {item.employername}
                         </div>
                         <div className="col-12">
                           <b>
-                            <i className="fas fa-calendar-alt" /> Expected start
-                            Date:
+                            <i className="fas fa-calendar-alt" /> Start
                           </b>{" "}
                           {item.expectedstartdate &&
                             item.expectedstartdate.toDate().toLocaleString()}
@@ -139,7 +138,6 @@ class JobAds extends Component {
                           </b>{" "}
                           {item.education}
                         </div>
-
                         <hr />
                         <div className="col-12">
                           <div className="row">

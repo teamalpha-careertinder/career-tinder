@@ -17,7 +17,7 @@
     cursor: pointer;
 }
 
-span.work-experiences-tag.badge.badge-dark {
+.work-experiences-tag.badge.badge-info {
     padding: 10px;
 }
 

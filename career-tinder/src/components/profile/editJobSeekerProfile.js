@@ -76,6 +76,11 @@ class EditJobSeekerProfile extends React.Component {
     var DOBDate = jobSeekerProfileProps && jobSeekerProfileProps.DOBDate;
     var skills = jobSeekerProfileProps && jobSeekerProfileProps.skills;
     var languages = jobSeekerProfileProps && jobSeekerProfileProps.languages;
+    var workExperiences = (jobSeekerProfileProps && jobSeekerProfileProps.workExperiences !== null) ? jobSeekerProfileProps.workExperiences : [];
+
+    workExperiences.map((item, value) => {
+      item.id = Math.random().toString(36).slice(2);
+    });
 
     this.state = {
       jobSeekerName: jobSeekerName, 
@@ -90,11 +95,16 @@ class EditJobSeekerProfile extends React.Component {
       selectedSkills: skills,
       startDOBDate: DOBDate && DOBDate.toDate(),
 
+      weId: '',
+      weCreate: true,
+      companyName: '',
+      jobTitle: '',
+      jobDescription: '',
       startFromDate: '',
-      startToDate: '',
+      workedTo: '',
       visible: false,
       modal: false,
-      workExperiences: []
+      workExperiences: workExperiences
     };
     this.handleDOBDateChange = this.handleDOBDateChange.bind(this);
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
@@ -113,12 +123,22 @@ class EditJobSeekerProfile extends React.Component {
     this.setState({
       startFromDate: date
     });
+    if(this.state.workedTo < date) {
+      this.setState({
+        workedTo: date
+      });
+    }
   }
 
   handleToDateChange(date) {
     this.setState({
-      startToDate: date
+      workedTo: date
     });
+    if(this.state.startFromDate > date) {
+      this.setState({
+        startFromDate: date
+      });
+    }
   }
 
   handleChange = (e) => {
@@ -210,8 +230,8 @@ class EditJobSeekerProfile extends React.Component {
           if (this.state.workExperiences[i].jobDescription) {tmpExp.jobDescription = this.state.workExperiences[i].jobDescription}
           if (this.state.workExperiences[i].jobTitle) {tmpExp.jobTitle = this.state.workExperiences[i].jobTitle}
           if (this.state.workExperiences[i].jobType) {tmpExp.jobType = this.state.workExperiences[i].jobType}
-          if (this.state.workExperiences[i].workingFrom) {tmpExp.startJobDate = new Date(this.state.workExperiences[i].workingFrom)}
-          if (this.state.workExperiences[i].workedTo) {tmpExp.endJobDate = new Date(this.state.workExperiences[i].workedTo)}
+          if (this.state.workExperiences[i].startJobDate) {tmpExp.startJobDate = new Date(this.state.workExperiences[i].startJobDate)}
+          if (this.state.workExperiences[i].endJobDate) {tmpExp.endJobDate = new Date(this.state.workExperiences[i].endJobDate)}
           
           if (i===0) {tmpWExps[0] = tmpExp; }
             else {tmpWExps =  [...tmpWExps,tmpExp]; }
@@ -228,17 +248,33 @@ class EditJobSeekerProfile extends React.Component {
   handleWExperienceSubmit = (e) => {
     this.toggle();
     e.preventDefault();
-    const newWExperience = {
-      companyName: e.target.company_name.value,
-      jobTitle: e.target.job_title.value,
-      workingFrom: e.target.working_from.value,
-      workedTo: e.target.worked_to.value,
-      jobDescription: e.target.job_description.value,
-      jobType: e.target.job_type.value,
-    };
-    newWExperience.companyName !== '' && this.setState({
-      workExperiences: [...this.state.workExperiences, newWExperience]
-    });
+    console.log(e.target.we_id);
+    if(e.target.we_id.value === '') {
+      const newWExperience = {
+        id: Math.random().toString(36).slice(2),
+        companyName: e.target.company_name.value,
+        jobTitle: e.target.job_title.value,
+        startJobDate: e.target.working_from.value,
+        endJobDate: e.target.worked_to.value,
+        jobDescription: e.target.job_description.value,
+        jobType: e.target.job_type.value,
+      };
+      newWExperience.companyName !== '' && this.setState({
+        workExperiences: [...this.state.workExperiences, newWExperience]
+      });
+    } else {
+      let updatedWorkExperiences = [...this.state.workExperiences];
+      let experience = updatedWorkExperiences.find((exp) => exp.id === e.target.we_id.value);
+      experience.companyName = e.target.company_name.value;
+      experience.jobTitle = e.target.job_title.value;
+      experience.startJobDate = e.target.working_from.value;
+      experience.endJobDate = e.target.worked_to.value;
+      experience.jobDescription = e.target.job_description.value;
+      experience.jobType = e.target.job_type.value;
+      experience.companyName !== '' && this.setState({
+        workExperiences: updatedWorkExperiences
+      });
+    }
   }
 
   handleWEDelete(experience) {
@@ -261,8 +297,38 @@ class EditJobSeekerProfile extends React.Component {
 
   toggle() {
     this.setState(prevState => ({
-      modal: !prevState.modal
+      modal: !prevState.modal,
+      weCreate: true,
+      weId: ''
     }));
+  }
+
+  toggleModalWithData(e, exp, id) {
+    if(typeof exp.startJobDate !== 'string') {
+      var tsStartJobDate = new Date(exp.startJobDate.seconds * 1000);
+      tsStartJobDate = (tsStartJobDate.getMonth() + 1) + '/' + tsStartJobDate.getDate() + '/' + tsStartJobDate.getFullYear();
+    } else {
+      var tsStartJobDate = exp.startJobDate;
+    }
+    if(typeof exp.endJobDate !== 'string') {
+      var tsEndJobDate = new Date(exp.endJobDate.seconds * 1000);
+      tsEndJobDate = (tsEndJobDate.getMonth() + 1) + '/' + tsEndJobDate.getDate() + '/' + tsEndJobDate.getFullYear();
+    } else {
+      var tsEndJobDate = exp.endJobDate;
+    }
+    if(e.target.id !== id){
+      this.setState(prevState => ({
+        modal: true,
+        weCreate: false,
+        weId: exp.id,
+        companyName: exp.companyName,
+        jobDescription: exp.jobDescription,
+        jobTitle: exp.jobTitle,
+        startFromDate: new Date(tsStartJobDate),
+        workedTo: new Date(tsEndJobDate),
+        prevWorkJobType: exp.jobType
+      }));
+    }
   }
 
   render() {
@@ -270,7 +336,7 @@ class EditJobSeekerProfile extends React.Component {
     if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="job-seeker-profile">
-        <Alert color="success" isOpen={this.state.visible}><i className="fas fa-check"></i> Profile updated!</Alert>
+        {/* <Alert color="success" isOpen={this.state.visible}><i className="fas fa-check"></i> Profile updated!</Alert> */}
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Your Work Experience</ModalHeader>
           <ModalBody>
@@ -279,12 +345,15 @@ class EditJobSeekerProfile extends React.Component {
                 <div className="col-sm-12">
                   <div className="form-group">
                     <label htmlFor="work_experience">Work Experience:</label>
+                    <MDBInput id="we_id" type="hidden" name="we_id" value={this.state.weId} />
                     <div className="row">
                       <div className="col-md-6 col-sm-12">
-                        <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name" onChange={this.handleChange} required />
+                        <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name" 
+                          onChange={this.handleChange} required value={this.state.companyName} />
                       </div>
                       <div className="col-md-6 col-sm-12">
-                        <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" name="job_title" onChange={this.handleChange} required />
+                        <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" name="job_title" 
+                          onChange={this.handleChange} required value={this.state.jobTitle} />
                       </div>
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group datepicker">
@@ -301,13 +370,14 @@ class EditJobSeekerProfile extends React.Component {
                           <label>To:</label>
                           <div className="md-form">
                             <i className="fas fa-calendar-alt prefix"></i>
-                            <DatePicker selected={this.state.startToDate} onChange={this.handleToDateChange} className="form-control"
+                            <DatePicker selected={this.state.workedTo} onChange={this.handleToDateChange} className="form-control"
                               peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" name="worked_to" maxDate={new Date()} />
                           </div>
                         </div>
                       </div>
                       <div className="col-sm-12">
-                        <MDBInput id="jobDescription" label="Job description" type="text" icon="pencil-alt" name="job_description" onChange={this.handleChange} />
+                        <MDBInput id="jobDescription" label="Job description" type="text" icon="pencil-alt" 
+                        name="job_description" onChange={this.handleChange} value={this.state.jobDescription} />
                       </div>
                       <div className="col-sm-12 mb-1">
                         <div className="form-inline">
@@ -318,14 +388,14 @@ class EditJobSeekerProfile extends React.Component {
                                 onChange={this.handleOptionChange} name="job_type" />
                               <label className="form-check-label" htmlFor="job_type_ft">
                                 Full-time
-                                                    </label>
+                              </label>
                             </div>
                             <div className="form-check form-check-inline">
                               <input className="form-check-input" type="radio" value="Part-time" checked={this.state.prevWorkJobType === 'Part-time'}
                                 onChange={this.handleOptionChange} name="job_type" />
                               <label className="form-check-label" htmlFor="job_type_pt">
                                 Part-time
-                                                    </label>
+                              </label>
                             </div>
                           </div>
                         </div>
@@ -334,7 +404,7 @@ class EditJobSeekerProfile extends React.Component {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <Button color="primary" type="submit"><i className="fas fa-plus"></i> Add</Button>{' '}
+                  <Button color="primary" type="submit"><i className={this.state.weCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.weCreate ? 'Add' : 'Edit'}</Button>{' '}
                   <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                 </div>
               </div>
@@ -437,30 +507,32 @@ class EditJobSeekerProfile extends React.Component {
                         </div>
                       </div>
 
-                      <div className="row">
-                        <div className="col-md-6 col-sm-12">
-                          <div className="form-group">
-                            <MDBInput id="minSalary" value={this.state.minSalary || ''} label="Minimum expected salary" type="number" icon="euro-sign" 
-                            onChange={this.handleChange} />
-                          </div>
+                      <div className="col-md-6 col-sm-12">
+                        <div className="form-group">
+                          <MDBInput id="minSalary" value={this.state.minSalary || ''} label="Minimum expected salary" type="number" icon="euro-sign" 
+                          onChange={this.handleChange} />
                         </div>
-                        <div className="col-md-6 col-sm-12">
-                          <div className="form-group">
-                            <MDBInput id="maxSalary" value={this.state.maxSalary || ''} label="Maximum expected salary" type="number" icon="euro-sign" 
-                            onChange={this.handleChange} />
-                          </div>
+                      </div>
+                      <div className="col-md-6 col-sm-12">
+                        <div className="form-group">
+                          <MDBInput id="maxSalary" value={this.state.maxSalary || ''} label="Maximum expected salary" type="number" icon="euro-sign" 
+                          onChange={this.handleChange} />
                         </div>
                       </div>
 
-                      <div className="col-sm-12">
-                        <div id="work_experiences">
+                      <div className="col-sm-12">                        
+                        <div className="form-group">
+                          <label>Work Experiences:</label>
+                        </div>
+                        <div id="row work_experiences">
                           {
                             this.state.workExperiences.map((workExperience, i) => {
                               return (
-                                <span key={`work-experience-${i}`} className="work-experiences-tag badge badge-dark ml-1">
-                                  {workExperience.companyName}
-                                  <i className="fas fa-times ml-3" onClick={(e) => this.handleWEDelete(workExperience)}></i>
-                                </span>
+                                <div key={`work-experience-${i}`} className="work-experiences-tag col-lg-3 col-md-4 col-12 badge badge-info ml-1 mb-2">
+                                  <span>{workExperience.companyName}</span>
+                                  <i id={"remove_we_"+i} className="fas fa-trash ml-3 float-right" onClick={(e) => this.handleWEDelete(workExperience)}></i>
+                                  <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                                </div>                             
                               )
                             })
                           }
@@ -474,7 +546,7 @@ class EditJobSeekerProfile extends React.Component {
                       <div className="col-sm-12">
                         <MDBBtn color="indigo" className="float-right" type="submit" onClick={() => { this.onShowAlert() }}>
                           <i className="fas fa-save"></i> Save Profile
-                          </MDBBtn>
+                        </MDBBtn>
                       </div>
                     </div>
                   </form>
