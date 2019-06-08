@@ -1,5 +1,6 @@
 import React from "react";
 import { MDBCollapse, MDBHamburgerToggler } from "mdbreact";
+import $ from "jquery/src/jquery";
 import logo from "../../assets/images/logo.png";
 import * as ROUTES from "../../constants/routes";
 import { connect } from "react-redux";
@@ -7,8 +8,13 @@ import SignedInLinks from "./SignedInLinks";
 import SignedOutLinks from "./SignedOutLinks";
 import { Link } from "react-router-dom";
 import { signOut } from "../../store/actions/authActions";
+import UserMenu from "./userMenu";
 
 class Nav extends React.Component {
+  constructor(props) {
+    super(props);
+  };
+
   state = {
     collapse1: false,
     collapseID: ""
@@ -27,13 +33,22 @@ class Nav extends React.Component {
     });
   };
 
+  closeCollapsibleMenu = (e) => {
+    if(!e.target.classList.contains('dropdown-item') || $('.collapsenav').hasClass('show')) {
+      $('.hamburger-button__button').click();
+    }    
+    if(e.target.classList.contains('sign-out-link')) {
+      this.props.signOut();
+    }
+  }
+
   render() {
     const { auth, profile } = this.props;
     const links =
       auth.uid && auth.emailVerified ? (
-        <SignedInLinks profile={profile} />
+        <SignedInLinks profile={profile} closeMenu={this.closeCollapsibleMenu} />
       ) : (
-        <SignedOutLinks />
+        <SignedOutLinks closeMenu={this.closeCollapsibleMenu} />
       );
     return (
       <div className="navbar-wrapper">
@@ -76,16 +91,9 @@ class Nav extends React.Component {
               <ul className="navbar-nav mr-2">
                 <li className="nav-item">
                   {auth.uid && auth.emailVerified ? (
-                    <Link
-                      className="nav-link"
-                      to="#"
-                      onClick={this.props.signOut}
-                    >
-                      {" "}
-                      <i className="fas fa-sign-out-alt" />
-                    </Link>
+                    <UserMenu closeMenu={this.closeCollapsibleMenu} />
                   ) : (
-                    <Link className="nav-link" to={ROUTES.LOG_IN}>
+                    <Link className="nav-link" to={ROUTES.LOG_IN} onClick={this.closeCollapsibleMenu}>
                       <i className="fas fa-sign-in-alt" />
                     </Link>
                   )}

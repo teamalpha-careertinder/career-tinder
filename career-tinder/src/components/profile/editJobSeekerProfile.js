@@ -404,8 +404,8 @@ class EditJobSeekerProfile extends React.Component {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <Button color="primary" type="submit"><i className={this.state.weCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.weCreate ? 'Add' : 'Edit'}</Button>{' '}
-                  <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                  <Button color="success" type="submit"><i className={this.state.weCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.weCreate ? 'Add' : 'Update'}</Button>{' '}
+                  <Button color="danger" onClick={this.toggle}>Cancel</Button>
                 </div>
               </div>
             </form>
@@ -413,7 +413,7 @@ class EditJobSeekerProfile extends React.Component {
         </Modal>
         <div className="profile-form-wrapper">
           <div className="card border-info card-container">
-            <div className="card-header">
+            <div className="card-header bg-info">
               <i className="fas fa-users"></i> Update your Job Seeker profile
               </div>
             <div className="card-body text-info">
@@ -544,7 +544,7 @@ class EditJobSeekerProfile extends React.Component {
                     </div>
                     <div className="row">
                       <div className="col-sm-12">
-                        <MDBBtn color="indigo" className="float-right" type="submit" onClick={() => { this.onShowAlert() }}>
+                        <MDBBtn color="success" className="float-right" type="submit" onClick={() => { this.onShowAlert() }}>
                           <i className="fas fa-save"></i> Save Profile
                         </MDBBtn>
                       </div>
