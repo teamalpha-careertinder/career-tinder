@@ -1,37 +1,34 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
+import $ from "jquery/src/jquery";
 import { signOut } from "../../store/actions/authActions";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import * as ROUTES from "../../constants/routes";
+import Nav from './nav';
+
+// const closeCollapsibleMenu = () => {
+//   $('.hamburger-button__button').click();
+// }
 
 const SignedInLinks = props => {
+  
   return (
     <ul className="navbar-nav ct-nav-collapsible">
-      <li className="nav-item">
-        <NavLink className="nav-link" to={ROUTES.UPDATE_PROFILE}>
-          <i className="fas fa-user" /> Profile
-        </NavLink>
-      </li>
-      <li className="nav-item">
+      <li className="nav-item" onClick={props.closeMenu}>
         <NavLink className="nav-link" to={ROUTES.FEED}>
           <i className="fas fa-rss" /> Feed
         </NavLink>
       </li>
-      <li className="nav-item">
+      <li className="nav-item" onClick={props.closeMenu}>
         <NavLink className="nav-link" to={ROUTES.JOBS}>
           <i className="fas fa-user-md" /> Jobs
         </NavLink>
       </li>
-      <li className="nav-item">
+      <li className="nav-item" onClick={props.closeMenu}>
         <NavLink className="nav-link" to={ROUTES.NOTIFICATIONS}>
           <i className="fas fa-bell-slash" /> Notifications
-        </NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink className="nav-link" to={ROUTES.CHANGE_PASSWORD}>
-          <i className="fas fa-unlock-alt" /> Change Password
         </NavLink>
       </li>
     </ul>
