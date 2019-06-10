@@ -2,6 +2,7 @@ import React from "react";
 import { MDBInput, MDBBtn } from "mdbreact";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
+import "react-datepicker/dist/react-datepicker.css";
 import { MDBCardBody } from "mdbreact";
 import { Alert } from "reactstrap";
 import { connect } from "react-redux";
@@ -10,13 +11,19 @@ import { jobAdActions, jobUpdateActions } from "../../store/actions/jobAdActions
 const skills = [
   { value: "php", label: "PHP" },
   { value: "asp.net", label: "ASP.Net" },
-  { value: "java", label: "Java" }
+  { value: "java", label: "Java" },
+  { value: "pyhton", label: "Python" },
+  { value: "react", label: "React" },
+  { value: "angular", label: "Angular" }
 ];
 
 class CreateJobAds extends React.Component {
   handleSkillsChange = neededskills => {
     this.setState({ neededskills });
   };
+  getPickerValue = (value) => {
+    console.log(value);
+  }
 
   constructor(props) {
     super(props);
@@ -29,8 +36,8 @@ class CreateJobAds extends React.Component {
       maxsalary: "",
       jobdescription: "",
       education: "",
-      expectedstartdate: null,
-      expirationdate: null
+      expectedstartdate: "",
+      expirationdate:  ""
     };
     if(this.props.location.job)
     {
@@ -85,6 +92,15 @@ class CreateJobAds extends React.Component {
     visible: false
   };
 
+
+   
+    
+  
+    
+  
+
+  
+
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
       window.setTimeout(() => {
@@ -107,10 +123,10 @@ class CreateJobAds extends React.Component {
           <i className="fas fa-check" /> Job Successfully posted!
         </Alert> */}
 
-        <div className="container " />
+        <div className="container" />
         <div className="justify-content-md-center">
-          <div className="profile-form-wrapper">
-            <div className="card border-info card-container">
+          <div className="profile-form-wrapper" class="col-md-7  my-auto" style={{height: 'auto', margin: '0 auto', align:'center'}}>
+            <div className="card border-info card-container" >
               <div className="card-header">
                 <i className="fas fa-users" /> Create Job Ad
               </div>
@@ -163,7 +179,8 @@ class CreateJobAds extends React.Component {
                               <div className="form-check">
                                 <input
                                   className="form-check-input checkbox"
-                                  type="checkbox"
+                                  type="checkbox"  
+                                                               
                                   checked={this.state.applyfulltime}
                                   onChange={this.handleChangeJobType}
                                   name="applyfulltime"
@@ -175,10 +192,14 @@ class CreateJobAds extends React.Component {
                                   Full-time
                                 </label>
                               </div>
+
+
+                              
                               <div className="form-check">
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
+                                  JobTypeTime
                                   checked={this.state.applypartime}
                                   onChange={this.handleChangeJobType}
                                   name="applypartime"
@@ -194,10 +215,36 @@ class CreateJobAds extends React.Component {
                           </div>
                         </div>
 
+
+                        <div>
+        <select className="browser-default custom-select"
+        
+        value={this.state.education}
+                                id="education"
+                                label="Education"
+                                icon="address-card"
+                                type="text"
+                                rows="1"
+                                className="form-control"
+                                onChange={this.handleChange}
+                                required
+        >
+          <option>Education</option>
+          <option value="1">Ph.D</option>
+          <option value="2">M.Sc</option>
+          <option value="3">B.Sc </option>
+          <option value="4">High School Diploma</option>
+          <option value="3">Other</option>
+        </select>
+      </div>
+
+
+
+
                         <div className="row">
                           <div className="col-sm-12">
                             <div className="form-group">
-                              <MDBInput
+                             {/*  <MDBInput 
                                 value={this.state.education}
                                 id="education"
                                 label="Education"
@@ -207,7 +254,8 @@ class CreateJobAds extends React.Component {
                                 className="form-control"
                                 onChange={this.handleChange}
                                 required
-                              />
+                              /> */}
+                              
                             </div>
                           </div>
                         </div>
@@ -218,7 +266,7 @@ class CreateJobAds extends React.Component {
                               <MDBInput
                                 value={this.state.minsalary}
                                 id="minsalary"
-                                label="Minimum Salary"
+                                label=" Expected Minimum Salary"
                                 icon="euro-sign"
                                 type="number"
                                 onChange={this.handleChange}
@@ -231,7 +279,7 @@ class CreateJobAds extends React.Component {
                               <MDBInput
                                 value={this.state.maxsalary}
                                 id="maxsalary"
-                                label="Maximum Salary"
+                                label="Expected Maximum Salary"
                                 icon="euro-sign"
                                 type="number"
                                 onChange={this.handleChange}
@@ -258,13 +306,15 @@ class CreateJobAds extends React.Component {
                           </div>
                         </div>
                         
+                        
                         <div className="row">
                           <div className="col-sm-6">
                             <div className="form-group datepicker">
                               <label>Expected Start Date:</label>
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
-                                <DatePicker
+                                <DatePicker 
+                                selected={this.state.expectedstartdate}
                                   onChange={this.handleDateChange.bind(this.parentElement, "expectedstartdate")}
                                   className="form-control"
                                   peekNextMonth
@@ -278,12 +328,15 @@ class CreateJobAds extends React.Component {
                             </div>
                           </div>
 
+                         
+
                           <div className="col-sm-6">
-                            <div className="form-group datepicker">
+                            <div className="form-group datepicker" >
                               <label>Expiration Date:</label>
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
-                                <DatePicker
+                                <DatePicker 
+                                  selected={this.state.expirationdate}
                                   onChange={this.handleDateChange.bind(this.parentElement, "expirationdate")}
                                   className="form-control"
                                   peekNextMonth
@@ -299,10 +352,11 @@ class CreateJobAds extends React.Component {
                         </div>
 
                         <div className="row">
-                          <div className="col-sm-9">
+                          <div className="col-sm-12">
                             <MDBBtn
                               color="primary"
                               className="float-right"
+                              
                               type="submit"
                             >
                               <i className="fas fa-save" /> submit This Job

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from "react-router-dom";
-import { MDBAnimation } from "mdbreact";
+import { Container,MDBAnimation } from "mdbreact";
 import "../profile/profile.css"
 import * as ROUTES from "../../constants/routes";
 import JobDetails from "./JobDetails"
@@ -40,14 +40,19 @@ class JobsList extends Component {
 
 
               <MDBAnimation type="zoomIn">
-
+              <Container> 
+              <div class='row'>
                 { jobs && jobs.map(job => {
                   return (
                     <JobDetails job={job} key={job.id} />
                   )
                 })} 
+                </div>
+                </Container>
               </MDBAnimation>
-
+              
+              
+              
             </div>
           </div>
         </div>
