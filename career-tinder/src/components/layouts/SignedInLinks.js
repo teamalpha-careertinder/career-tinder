@@ -1,19 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-import $ from "jquery/src/jquery";
 import { signOut } from "../../store/actions/authActions";
-import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import * as ROUTES from "../../constants/routes";
-import Nav from './nav';
 
 // const closeCollapsibleMenu = () => {
 //   $('.hamburger-button__button').click();
 // }
 
 const SignedInLinks = props => {
-  
+
   return (
     <ul className="navbar-nav ct-nav-collapsible">
       <li className="nav-item" onClick={props.closeMenu}>
@@ -36,12 +33,8 @@ const SignedInLinks = props => {
 };
 
 const mapStateToProps = state => {
-  const auth = state.firebase.auth;
-  const users = state.firestore.data.users;
-  const user = users ? users[auth.uid] : null;
   return {
-    user: user,
-    auth: auth
+    auth: state.firebase.auth
   };
 };
 
@@ -55,10 +48,5 @@ export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  ),
-  firestoreConnect([
-    {
-      collection: "users"
-    }
-  ])
+  )
 )(SignedInLinks);

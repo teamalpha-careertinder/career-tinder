@@ -27,14 +27,10 @@ class Jobs extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const auth = state.firebase.auth;
-  const users = state.firestore.data.users;
-  const user = users ? users[auth.uid] : null;
-  const jobAds = state.firestore.ordered.jobposting;
   return {
-    user: user,
-    auth: auth,
-    jobAds: jobAds
+    user: state.firebase.profile,
+    auth: state.firebase.auth,
+    jobAds: state.firestore.ordered.jobposting
   };
 };
 

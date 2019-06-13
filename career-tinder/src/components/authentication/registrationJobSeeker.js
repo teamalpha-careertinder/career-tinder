@@ -11,7 +11,7 @@ class RegistrationJobSeeker extends React.Component {
     email: "",
     password: "",
     confirm_password: "",
-    FullName: ""
+    fullName: ""
   };
 
   changeHandler = event => {
@@ -50,10 +50,10 @@ class RegistrationJobSeeker extends React.Component {
                 <form onSubmit={this.handleSubmit}>
 
                 <MDBInput
-                   value={this.state.name}
-                    name="name"
+                   value={this.state.fullName}
+                    name="fullName"
                     onChange={this.changeHandler}
-                    id="Name"
+                    id="fullName"
                     label="Full Name"
                     icon="pencil-alt"
                     type="text"
