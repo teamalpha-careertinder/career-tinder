@@ -7,31 +7,27 @@ import { Redirect } from "react-router-dom";
 import EditEmployerProfile from './editEmployerProfile';
 import EditJobSeekerProfile from './editJobSeekerProfile';
 
-class EditProfile extends React.Component {    
-  render() {        
-    const { auth } = this.props;
-    const { user } = this.props;
+class EditProfile extends React.Component {
+  render() {
+    const { auth, user} = this.props;
     if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN}/>;
     return (
       <div className="container">
         {user && user.userType === "jobseeker" ? (
             <EditJobSeekerProfile />
           ) : (
-            <EditEmployerProfile />          
+            <EditEmployerProfile />
         )}
-      </div>          
+      </div>
     );
   }
 }
 
 
 const mapStateToProps = state => {
-  const auth = state.firebase.auth;
-  const users = state.firestore.data.users;
-  const user = users ? users[auth.uid] : null;
   return {
-    user: user,
-    auth: auth
+    user: state.firebase.profile,
+    auth: state.firebase.auth
   };
 };
 
