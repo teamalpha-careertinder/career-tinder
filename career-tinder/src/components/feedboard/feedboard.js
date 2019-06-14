@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -26,20 +25,11 @@ class Feedboard extends Component {
 }
 
 const mapStateToProps = state => {
-  const auth = state.firebase.auth;
-  const users = state.firestore.data.users;
-  const user = users ? users[auth.uid] : null;
   return {
-    user: user,
-    auth: auth
+    auth: state.firebase.auth
   };
 };
 
 export default compose(
-  connect(mapStateToProps),
-  firestoreConnect([
-    {
-      collection: "users"
-    }
-  ])
+  connect(mapStateToProps)
 )(Feedboard);
