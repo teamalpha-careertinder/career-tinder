@@ -53,22 +53,25 @@ const jobAdReducer = (state = initState, action) => {
       };
     case "SAVE_USER_CHOICE_ERROR":
       console.log("SAVE_USER_CHOICE_ERROR");
-<<<<<<< HEAD
       return {
         ...state,
         response: "danger",
         message: "An error occured!"
       };
-=======
-      return state;
     case "SAVE_MATCH_SUCCESS":
         console.log("SAVE_MATCH_SUCCESS");
-        return state;
+        return {
+         ...state,
+         response: "success",
+         message: "Your match has been successfully saved."
+        };
     case "SAVE_MATCH_ERROR":
       console.log("SAVE_MATCH_ERROR");
-      return state;
-
->>>>>>> execute matching when user likes a jobAd
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+       };
     default:
       return state;
   }

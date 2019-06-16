@@ -1,5 +1,3 @@
-import { bool } from "prop-types";
-
 export const jobAdActions = jobAd => {
   return (dispatch, getState, { getFirestore }) => {
     // make async call to database
