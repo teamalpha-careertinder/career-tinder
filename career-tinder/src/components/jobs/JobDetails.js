@@ -10,7 +10,6 @@ class JobDetails extends Component{
 
     handleDeleteAction = e => {
       var jobId = e.target.getAttribute('data-jobid')
-<<<<<<< HEAD
      { 
       
       swal({
@@ -35,16 +34,6 @@ class JobDetails extends Component{
 
 
 
-=======
-      this.props.jobDeleteActions(jobId);
-    };
-    
-    HandleJobSeekersAction = e => {
-    var jobId = e.target.getAttribute("data-jobid");
-    var employerId = e.target.getAttribute("data-emploerid");
-    this.props.jobSeekersActions(jobId, employerId);
-  };
->>>>>>> 7a517f4e1239dd689317ec8d436d6e23401fbbac
     render(){
       const {job} = this.props;
       return (
@@ -70,7 +59,6 @@ class JobDetails extends Component{
                         </div>
                   
                   </NavLink>
-<<<<<<< HEAD
                 
                  
                   <button type="button" id="btnDelete" data-jobid={job.id}
@@ -86,10 +74,6 @@ class JobDetails extends Component{
                   
                   <button type="button" id="btnjobseekerlist"  className="btn btn-outline-blue mr-3 btn-sm" >
                   <i class="fas fa-users" style={{fontSize: '18px',color: 'blue' }} ></i>
-=======
-                  <button type="button" id="btnDelete" data-jobid={job.id} className="btn btn-outline-danger mr-3 btn-sm" onClick={this.handleDeleteAction}>
-                  <i className="fas fa-trash-alt" style={{fontSize: '18px',color: 'red' }} ></i>
->>>>>>> 7a517f4e1239dd689317ec8d436d6e23401fbbac
                   </button>
                   
                   <NavLink type='button' className="btn btn-outline-primary mr-3 btn-sm" to={{

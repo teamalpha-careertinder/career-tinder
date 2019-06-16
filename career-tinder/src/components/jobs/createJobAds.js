@@ -103,15 +103,12 @@ class CreateJobAds extends React.Component {
       
       this.props.history.push('/jobs') },2000)};
 
-<<<<<<< HEAD
   state = {
     visible: false
   };
 
 
 
-=======
->>>>>>> 7a517f4e1239dd689317ec8d436d6e23401fbbac
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
       window.setTimeout(() => {
@@ -362,12 +359,8 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-12">
                             <MDBBtn
                               color="primary"
-<<<<<<< HEAD
                               className="float-right"
                         
-=======
-                              className="float-right"                              
->>>>>>> 7a517f4e1239dd689317ec8d436d6e23401fbbac
                               type="submit"
                             >
                             
