@@ -4,16 +4,32 @@ const profileReducer = (state = initState, action) => {
   switch (action.type) {
     case "UPDATE_JOBSEEKER_PROFILE_SUCCESS":
       console.log("update jobseeker profile success");
-      return state;
+      return {
+        ...state,
+        response: "success",
+        message: "Profile successfully updated."
+      };
     case "UPDATE_JOBSEEKER_PROFILE_ERROR":
       console.log("update jobseeker profile error");
-      return state;
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
     case "UPDATE_EMPLOYER_PROFILE_SUCCESS":
       console.log("update employer profile success");
-      return state;
+      return {
+        ...state,
+        response: "success",
+        message: "Profile successfully updated."
+      };
     case "UPDATE_EMPLOYER_PROFILE_ERROR":
       console.log("update employer profile error");
-      return state;
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
     //@begin Change Password - Abel
     case "PWCHANGE_SUCCESS":
       console.log("Password Change - success");

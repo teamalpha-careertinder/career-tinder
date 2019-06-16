@@ -45,7 +45,8 @@ class EditEmployerProfile extends React.Component {
       employerDescription: employerDescription,
       contactName: contactName,
       contactEmail: contactEmail,
-      contactPhone: contactPhone
+      contactPhone: contactPhone,
+      visible: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleEmployerSubmit = this.handleEmployerSubmit.bind(this);
@@ -83,25 +84,24 @@ class EditEmployerProfile extends React.Component {
     }
 
     this.props.editEmployerProfile(employerProfile);
+    this.onShowAlert();
   };
 
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
       window.setTimeout(() => {
         this.setState({ visible: false });
-      }, 2000);
+      }, 3000);
     });
   };
 
   render() {
-    const { auth } = this.props;
+    const { auth, response, message } = this.props;
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="employer-profile">
-        {/* <Alert color="success" isOpen={this.state.visible}>
-          <i className="fas fa-check" /> Profile updated!
-        </Alert> */}
+        <Alert color={response} isOpen={this.state.visible}><i className={response === 'success' ? "fas fa-check" : "fas fa-times"}></i> {message}</Alert>
         <div className="profile-form-wrapper">
           <div className="card border-info card-container">
             <div className="card-header">
@@ -222,9 +222,6 @@ class EditEmployerProfile extends React.Component {
                           color="indigo"
                           className="float-right"
                           type="submit"
-                          onClick={() => {
-                            this.onShowAlert();
-                          }}
                         >
                           <i className="fas fa-save" /> Save Profile
                         </MDBBtn>
@@ -247,7 +244,9 @@ const mapStateToProps = state => {
   const employer = employers ? employers[auth.uid] : null;
   return {
     auth: auth,
-    employer: employer
+    employer: employer,
+    response: state.profile.response,
+    message: state.profile.message
   };
 };
 

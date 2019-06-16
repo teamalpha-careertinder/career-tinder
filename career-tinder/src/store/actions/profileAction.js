@@ -58,7 +58,7 @@ export const editEmployerProfile = employer => {
         dispatch({ type: "UPDATE_EMPLOYER_PROFILE_SUCCESS" });
       })
       .catch(err => {
-        dispatch({ type: "UPDATE_EMPLOYER_PROFILE_ERROR" }, err);
+        dispatch({ type: "UPDATE_EMPLOYER_PROFILE_ERROR", err });
       });
   };
 };

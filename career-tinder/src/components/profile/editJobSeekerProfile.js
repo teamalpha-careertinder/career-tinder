@@ -115,6 +115,7 @@ class EditJobSeekerProfile extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.toggleWERemove = this.toggleWERemove.bind(this);
     this.handleWEDelete = this.handleWEDelete.bind(this);
+    this.onShowAlert = this.onShowAlert.bind(this);
   }
 
   handleDOBDateChange(date) {
@@ -203,7 +204,6 @@ class EditJobSeekerProfile extends React.Component {
       e.preventDefault();
       //take the information from state that should be stored in DB (state contains more data than needed):
       var jobSeekerProfile = jobSeekerProfileEntity;
-      //console.log(`OnSubmit1: `, this.state);
       if (this.state.jobSeekerName) {jobSeekerProfile.jobSeekerName    =  this.state.jobSeekerName; }
       if (this.state.jobSeekerPhone) {jobSeekerProfile.jobSeekerPhone  =  this.state.jobSeekerPhone;  }
         else { delete jobSeekerProfile.jobSeekerPhone }
@@ -245,14 +245,13 @@ class EditJobSeekerProfile extends React.Component {
 
       } else {jobSeekerProfile.workExperiences = null}
       
-      //console.log(`OnSubmit2: `, jobSeekerProfile);
       this.props.editJobSeekerProfile(jobSeekerProfile); 
+      this.onShowAlert();
     }
 
   handleWExperienceSubmit = (e) => {
     this.toggle();
     e.preventDefault();
-    console.log(e.target.we_id);
     if(e.target.we_id.value === '') {
       const newWExperience = {
         id: Math.random().toString(36).slice(2),
@@ -297,7 +296,7 @@ class EditJobSeekerProfile extends React.Component {
     this.setState({ visible: true }, () => {
       window.setTimeout(() => {
         this.setState({ visible: false })
-      }, 2000)
+      }, 3000)
     });
   }
 
@@ -345,11 +344,11 @@ class EditJobSeekerProfile extends React.Component {
   }
 
   render() {
-    const { auth } = this.props;
+    const { auth, response, message } = this.props;
     if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="job-seeker-profile">
-        {/* <Alert color="success" isOpen={this.state.visible}><i className="fas fa-check"></i> Profile updated!</Alert> */}
+        <Alert color={response} isOpen={this.state.visible}><i className={response === 'success' ? "fas fa-check" : "fas fa-times"}></i> {message}</Alert>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}><i className="fas fa-info-circle text-warning"></i> {this.state.weCreate ? 'Add' : 'Edit'} work experience</ModalHeader>
           <ModalBody>
@@ -394,7 +393,7 @@ class EditJobSeekerProfile extends React.Component {
                       <div className="col-sm-12 mb-1">
                         <div className="form-inline">
                           <div className="form-group">
-                            <label htmlFor="job_type" className="mr-2">Job type while working there:</label>
+                            <label htmlFor="job_type" style={{'justify-content':'left'}} className="mr-2">Job type while working there:</label>
                             <Radio name="job_type" shape="round" color="primary" animation="smooth"
                              value="Full-time" checked={this.state.prevWorkJobType === 'Full-time'}
                              onChange={this.handleOptionChange}>
@@ -502,10 +501,10 @@ class EditJobSeekerProfile extends React.Component {
                     <div className="row">
                       <div className="col-12">                        
                         <div className="form-group">
-                          <label>Work Experiences:</label>
+                          <label style={{'width':'auto'}}>Work Experiences:</label>
                           <Button color="danger" className="btn-circle" onClick={this.toggle}><i className="fas fa-plus"></i></Button>
                         </div>
-                        <div id="row work_experiences">
+                        <div className="row" id="work_experiences">
                           {
                             this.state.workExperiences.map((workExperience, i) => {
                               return (
@@ -559,7 +558,7 @@ class EditJobSeekerProfile extends React.Component {
                     </div>                    
                     <div className="row">
                       <div className="col-sm-12">
-                        <MDBBtn color="success" className="float-right" type="submit" onClick={() => { this.onShowAlert() }}>
+                        <MDBBtn color="success" className="float-right" type="submit">
                           <i className="fas fa-save"></i> Save Profile
                         </MDBBtn>
                       </div>
@@ -582,7 +581,9 @@ const mapStateToProps = state => {
   const jobseeker = jobseekers ? jobseekers[auth.uid] : null;
   return {
     auth: auth,
-    jobseeker :jobseeker
+    jobseeker :jobseeker,
+    response: state.profile.response,
+    message: state.profile.message
   };
 };
 

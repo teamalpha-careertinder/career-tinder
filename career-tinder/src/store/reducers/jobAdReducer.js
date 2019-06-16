@@ -4,29 +4,60 @@ const jobAdReducer = (state = initState, action) => {
   switch (action.type) {
     case "CREATE_JOBPOST_SUCCESS":
       console.log("CREATE_JOBPOST_SUCCESS");
-      return state;
+      return {
+        ...state,
+        response: "success",
+        message: "Job opportunity has been created successfully."
+      };
     case "CREATE_JOBPOST_ERROR":
       console.log("CREATE_JOBPOST_ERROR");
-      return state;
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
     case "UPDATE_JOBPOST_SUCCESS":
       console.log("UPDATE_JOBPOST_SUCCESS");
-      return state;
+      return {
+        ...state,
+        response: "success",
+        message: "Job opportunity has been updated successfully."
+      };
     case "UPDATE_JOBPOST_ERROR":
       console.log("UPDATE_JOBPOST_ERROR");
-      return state;
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
     case "DELETE_JOBPOST_SUCCESS":
       console.log("DELETE_JOBPOST_SUCCESS");
-      return state;
+      return {
+        ...state,
+        response: "success",
+        message: "Job opportunity has been deleted successfully."
+      };
     case "DELETE_JOBPOST_ERROR":
       console.log("DELETE_JOBPOST_ERROR");
-      return state;
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
     case "SAVE_USER_CHOICE_SUCCESS":
       console.log("SAVE_USER_CHOICE_SUCCESS");
-      return state;
+      return {
+        ...state,
+        response: "success",
+        message: "Your choice has been successfully saved."
+      };
     case "SAVE_USER_CHOICE_ERROR":
       console.log("SAVE_USER_CHOICE_ERROR");
-      return state;
-
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
     default:
       return state;
   }
