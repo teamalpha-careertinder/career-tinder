@@ -106,3 +106,22 @@ export const saveUserChoice = choice => {
   };
 };
 // jobseeeker choice Saving-
+
+// saveEmployerChoice
+export const saveEmployerChoice = employerChoice => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+      const firestore = getFirestore();
+      firestore
+        .collection("employerChoice")
+        .add({
+          ...employerChoice,
+          createdAt: new Date()
+        })
+        .then(() => {
+          dispatch({ type: "SAVE_USER_CHOICE_SUCCESS" });
+        })
+        .catch(err => {
+          dispatch({ type: "SAVE_USER_CHOICE_ERROR" }, err);
+        });
+    };
+  };

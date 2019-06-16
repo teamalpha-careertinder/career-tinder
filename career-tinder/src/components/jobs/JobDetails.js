@@ -1,58 +1,89 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import "../profile/profile.css"
-import { jobDeleteActions } from "../../store/actions/jobAdActions"
+import "../profile/profile.css";
+import { jobDeleteActions } from "../../store/actions/jobAdActions";
 import { connect } from "react-redux";
+import * as ROUTES from "../../constants/routes";
 
-class JobDetails extends Component{
+class JobDetails extends Component {
+  handleDeleteAction = e => {
+    var jobId = e.target.getAttribute("data-jobid");
+    this.props.jobDeleteActions(jobId);
+  };
 
-    handleDeleteAction = e => {
-      var jobId = e.target.getAttribute('data-jobid')
-      this.props.jobDeleteActions(jobId);
-    }
-  
-    render(){
-      const {job} = this.props;
-      return (
-        <div className="col-sm-6">
-          <div className="card border-success mb-3" style={{ maxwidth: '18rem' }}>
-            <h5 className="card-header">{job.jobtitle}</h5>
-            <div className="card-body text-dark">
-              <h5 className="card-title">{job.employername}</h5>
-              <br></br>
-              <div className="card-text">
-                <div className="btn-group flex-wrap">
-  
-                  <button type="button" id="btnMatch" className="btn btn-outline-success mr-3 btn-sm" >Match</button>
-                  <NavLink type='button' className="btn btn-outline-dark mr-3 btn-sm" to={{
-                        pathname: '/create-job-ad',
-                        job: job
-                      }}>
-                    <b>MODIFY</b>
+  HandleJobSeekersAction = e => {
+    var jobId = e.target.getAttribute("data-jobid");
+    var employerId = e.target.getAttribute("data-emploerid");
+    this.props.jobSeekersActions(jobId, employerId);
+  };
+
+  render() {
+    const { job } = this.props;
+    return (
+      <div className="col-sm-6">
+        <div className="card border-success mb-3" style={{ maxwidth: "18rem" }}>
+          <h5 className="card-header">{job.jobtitle}</h5>
+          <div className="card-body text-dark">
+            <h5 className="card-title">{job.employername}</h5>
+            <br />
+            <div className="card-text">
+              <div className="btn-group flex-wrap">
+                <button
+                  type="button"
+                  id="btnMatch"
+                  className="btn btn-outline-success mr-3 btn-sm"
+                >
+                  <i className="far fa-thumbs-up" />
+                </button>
+                <NavLink
+                  type="button"
+                  className="btn btn-outline-dark mr-3 btn-sm"
+                  to={{
+                    pathname: "/create-job-ad",
+                    job: job
+                  }}
+                >
+                  <b>
+                    <i className="fas fa-edit" />
+                  </b>
+                </NavLink>
+                <button
+                  type="button"
+                  id="btnDelete"
+                  data-jobid={job.id}
+                  className="btn btn-outline-danger mr-3 btn-sm"
+                  onClick={this.handleDeleteAction}
+                >
+                  <i className="fas fa-trash-alt" />
+                </button>
+                <NavLink type='button' className="btn btn-outline-primary mr-3 btn-sm" to={{
+                    pathname: ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER,
+                    job: job
+                  }}>
+                <i className="fas fa-users" />
                   </NavLink>
-                  <button type="button" id="btnDelete" data-jobid={job.id} className="btn btn-outline-danger mr-3 btn-sm" onClick={this.handleDeleteAction}>Delete</button>
-                  
-                </div>
-  
-  
               </div>
             </div>
           </div>
         </div>
-      ) 
-    }
+      </div>
+    );
   }
-  
-  const mapStateToProps = (state) => {
-    return {
-      auth: state.firebase.auth
-    }
-  }
+}
 
-  const mapDispatchToProps = dispatch => {
-    return {
-      jobDeleteActions: jobAd => dispatch(jobDeleteActions(jobAd))
-    };
+const mapStateToProps = state => {
+  return {
+    auth: state.firebase.auth
   };
+};
 
-  export default connect(mapStateToProps, mapDispatchToProps)(JobDetails)
+const mapDispatchToProps = dispatch => {
+  return {
+    jobDeleteActions: jobAd => dispatch(jobDeleteActions(jobAd))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(JobDetails);
