@@ -4,11 +4,13 @@ import "../profile/profile.css"
 import { jobDeleteActions } from "../../store/actions/jobAdActions"
 import swal from 'sweetalert';
 import { connect } from "react-redux";
+import * as ROUTES from "../../constants/routes";
 
 class JobDetails extends Component{
 
     handleDeleteAction = e => {
       var jobId = e.target.getAttribute('data-jobid')
+<<<<<<< HEAD
      { 
       
       swal({
@@ -33,6 +35,16 @@ class JobDetails extends Component{
 
 
 
+=======
+      this.props.jobDeleteActions(jobId);
+    };
+    
+    HandleJobSeekersAction = e => {
+    var jobId = e.target.getAttribute("data-jobid");
+    var employerId = e.target.getAttribute("data-emploerid");
+    this.props.jobSeekersActions(jobId, employerId);
+  };
+>>>>>>> 7a517f4e1239dd689317ec8d436d6e23401fbbac
     render(){
       const {job} = this.props;
       return (
@@ -46,7 +58,7 @@ class JobDetails extends Component{
                 <div className="btn-group flex-wrap">
   
                   <button type="button" id="btnMatch" className="btn btn-outline-success mr-3 btn-sm" >
-                  <i class="far fa-thumbs-up" style={{fontSize: '18px',color: 'green' }} ></i>
+                  <i className="far fa-thumbs-up" style={{fontSize: '18px',color: 'green' }} ></i>
                   </button>
                   <NavLink type='button' className="btn btn-outline-dark mr-3 btn-sm" to={{
                         pathname: '/create-job-ad',
@@ -54,10 +66,11 @@ class JobDetails extends Component{
                         
                       }}>
                         <div>
-                        <i class="fas fa-edit" style={{fontSize: '18px',color: '#36B5E5' }}></i>
+                        <i className="fas fa-edit" style={{fontSize: '18px',color: '#36B5E5' }}></i>
                         </div>
                   
                   </NavLink>
+<<<<<<< HEAD
                 
                  
                   <button type="button" id="btnDelete" data-jobid={job.id}
@@ -73,11 +86,19 @@ class JobDetails extends Component{
                   
                   <button type="button" id="btnjobseekerlist"  className="btn btn-outline-blue mr-3 btn-sm" >
                   <i class="fas fa-users" style={{fontSize: '18px',color: 'blue' }} ></i>
+=======
+                  <button type="button" id="btnDelete" data-jobid={job.id} className="btn btn-outline-danger mr-3 btn-sm" onClick={this.handleDeleteAction}>
+                  <i className="fas fa-trash-alt" style={{fontSize: '18px',color: 'red' }} ></i>
+>>>>>>> 7a517f4e1239dd689317ec8d436d6e23401fbbac
                   </button>
                   
+                  <NavLink type='button' className="btn btn-outline-primary mr-3 btn-sm" to={{
+                    pathname: ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER,
+                    job: job
+                  }}>
+                <i className="fas fa-users" style={{fontSize: '18px'}} />
+                  </NavLink>
                 </div>
-  
-  
               </div>
             </div>
           </div>

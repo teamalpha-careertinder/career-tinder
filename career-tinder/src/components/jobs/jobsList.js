@@ -13,46 +13,28 @@ class JobsList extends Component {
 
     return (
       <div>
-        <div className="container" >
-        
+        <div className="container" >        
           <div className="card border-info card-container" >
             <div className="card-header">
-
               <div className="row">
                 <div className="col-sm">
-                  <h5 style={{ paddingTop: '9px' }} className="fas fa-list-alt">  Jobs List
-     </h5>
+                  <h5 style={{ paddingTop: '9px' }} className="fas fa-list-alt">Jobs List</h5>
                   <NavLink type='button' style={{ float: 'right' }} className="btn btn-primary btn-sm nav-link" to={ROUTES.CREATE_JOB_AD}>
                     <b>Create Job Ad</b>
                   </NavLink>
-
-
                 </div>
-
-
-
               </div>
-
-
             </div>
-
             <div className="card-body" align="center">
-
-
               <MDBAnimation type="zoomIn">
-              <Container> 
-              <div class='row'>
-                { jobs && jobs.map(job => {
-                  return (
-                    <JobDetails job={job} key={job.id} />
-                  )
-                })} 
+                <div className='row'>
+                  { jobs && jobs.map(job => {
+                    return (
+                      <JobDetails job={job} key={job.id} />
+                    )
+                  })} 
                 </div>
-                </Container>
-              </MDBAnimation>
-              
-              
-              
+              </MDBAnimation>      
             </div>
           </div>
         </div>

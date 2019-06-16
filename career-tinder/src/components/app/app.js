@@ -15,6 +15,7 @@ import ChangePassword from "../profile/changePassword";
 import Jobs from "../jobs/jobs";
 import Notifications from "../profile/Notifications";
 import CreateJobAds from "../jobs/createJobAds";
+import JobSeekers from "../profile/jobSeekers";
 
 class App extends Component {
   render() {
@@ -45,6 +46,7 @@ class App extends Component {
               <Route path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
               <Route path={ROUTES.JOBS} component={Jobs} />
               <Route path={ROUTES.NOTIFICATIONS} component={Notifications} />
+              <Route path={ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER} component={JobSeekers} />
             </div>
           </div>
         </HashRouter>

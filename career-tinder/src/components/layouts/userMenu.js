@@ -10,7 +10,7 @@ const UserMenu = props => {
   const { auth } = props;
   return (
     <div className="btn-group">
-      <span className="user-display-name">{auth && auth.displayName}</span>
+      <span className="user-display-name d-none d-md-block">{auth && auth.displayName}</span>
       <span
         className="fas fa-user-cog dropdown-toggle user-settings"
         data-toggle="dropdown"

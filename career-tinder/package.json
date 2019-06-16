@@ -12,6 +12,8 @@
     "lodash": "^4.17.11",
     "mdbreact": "^4.13.0",
     "popper.js": "^1.15.0",
+    "pretty-checkbox": "^3.0.3",
+    "pretty-checkbox-react": "^1.1.0",
     "react": "^16.7.0",
     "react-bootstrap": "^1.0.0-beta.8",
     "react-bootstrap-sweetalert": "^4.4.1",

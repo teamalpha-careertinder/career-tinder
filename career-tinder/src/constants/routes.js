@@ -13,3 +13,4 @@ export const NOTIFICATIONS = "/notifications";
 export const EMAIL_REDIRECT_URL_DEV = "http://localhost:3000/feed";
 export const EMAIL_REDIRECT_URL_PROD =
   "https://career-tinder.firebaseapp.com/feed";
+export const JOB_SEEKERS_LIST_FOR_EMPLOYER = "/jobseekers";
