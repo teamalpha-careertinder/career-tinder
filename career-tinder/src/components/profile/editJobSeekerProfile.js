@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 import Select from 'react-select';
-import { MDBInput, MDBBtn } from "mdbreact";
+import { MDBInput, MDBBtn, ModalFooter } from "mdbreact";
 import './profile.css';
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -10,6 +10,7 @@ import { Alert, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { editJobSeekerProfile } from '../../store/actions/profileAction';
 import * as ROUTES from '../../constants/routes';
 import { firestoreConnect } from "react-redux-firebase";
+import { Checkbox, Radio } from 'pretty-checkbox-react';
 
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -104,12 +105,15 @@ class EditJobSeekerProfile extends React.Component {
       workedTo: '',
       visible: false,
       modal: false,
+      weRemoveModal: false,
+      workExperience: '',
       workExperiences: workExperiences
     };
     this.handleDOBDateChange = this.handleDOBDateChange.bind(this);
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
     this.handleToDateChange = this.handleToDateChange.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.toggleWERemove = this.toggleWERemove.bind(this);
     this.handleWEDelete = this.handleWEDelete.bind(this);
   }
 
@@ -277,14 +281,16 @@ class EditJobSeekerProfile extends React.Component {
     }
   }
 
-  handleWEDelete(experience) {
+  handleWEDelete() {
+    let experience = this.state.workExperience;
     const newWorkExperiences = this.state.workExperiences.filter(workExperience => {
       return workExperience !== experience;
     });
 
-    this.setState({
-      workExperiences: [...newWorkExperiences]
-    });
+    this.setState(prevState => ({
+      workExperiences: [...newWorkExperiences],
+      weRemoveModal: !prevState.weRemoveModal
+    }));
   }
 
   onShowAlert = () => {
@@ -300,6 +306,13 @@ class EditJobSeekerProfile extends React.Component {
       modal: !prevState.modal,
       weCreate: true,
       weId: ''
+    }));
+  }
+
+  toggleWERemove(e, experience) {
+    this.setState(prevState => ({
+      weRemoveModal: !prevState.weRemoveModal,
+      workExperience: experience
     }));
   }
 
@@ -338,14 +351,13 @@ class EditJobSeekerProfile extends React.Component {
       <div className="job-seeker-profile">
         {/* <Alert color="success" isOpen={this.state.visible}><i className="fas fa-check"></i> Profile updated!</Alert> */}
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Your Work Experience</ModalHeader>
+          <ModalHeader toggle={this.toggle}><i className="fas fa-info-circle text-warning"></i> {this.state.weCreate ? 'Add' : 'Edit'} work experience</ModalHeader>
           <ModalBody>
             <form className="work-experience-form text-info" onSubmit={this.handleWExperienceSubmit}>
               <div className="row">
                 <div className="col-sm-12">
                   <div className="form-group">
-                    <label htmlFor="work_experience">Work Experience:</label>
-                    <MDBInput id="we_id" type="hidden" name="we_id" value={this.state.weId} />
+                    <input id="we_id" type="hidden" name="we_id" value={this.state.weId} />
                     <div className="row">
                       <div className="col-md-6 col-sm-12">
                         <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name" 
@@ -383,20 +395,16 @@ class EditJobSeekerProfile extends React.Component {
                         <div className="form-inline">
                           <div className="form-group">
                             <label htmlFor="job_type" className="mr-2">Job type while working there:</label>
-                            <div className="form-check form-check-inline">
-                              <input className="form-check-input" type="radio" value="Full-time" checked={this.state.prevWorkJobType === 'Full-time'}
-                                onChange={this.handleOptionChange} name="job_type" />
-                              <label className="form-check-label" htmlFor="job_type_ft">
-                                Full-time
-                              </label>
-                            </div>
-                            <div className="form-check form-check-inline">
-                              <input className="form-check-input" type="radio" value="Part-time" checked={this.state.prevWorkJobType === 'Part-time'}
-                                onChange={this.handleOptionChange} name="job_type" />
-                              <label className="form-check-label" htmlFor="job_type_pt">
-                                Part-time
-                              </label>
-                            </div>
+                            <Radio name="job_type" shape="round" color="primary" animation="smooth"
+                             value="Full-time" checked={this.state.prevWorkJobType === 'Full-time'}
+                             onChange={this.handleOptionChange}>
+                              Full-time
+                            </Radio>
+                            <Radio name="job_type" shape="round" color="primary" animation="smooth"
+                             value="Part-time" checked={this.state.prevWorkJobType === 'Part-time'}
+                             onChange={this.handleOptionChange}>
+                              Part-time
+                            </Radio>
                           </div>
                         </div>
                       </div>
@@ -410,6 +418,20 @@ class EditJobSeekerProfile extends React.Component {
               </div>
             </form>
           </ModalBody>
+        </Modal>
+        <Modal isOpen={this.state.weRemoveModal} toggle={(e) => this.toggleWERemove(e, '')} className={this.props.className}>
+          <ModalHeader toggle={(e) => this.toggleWERemove(e, '')}><i className="fas fa-info-circle text-warning"></i> Remove Work Experience</ModalHeader>
+          <ModalBody>
+            <div className="row">
+              <div className="col-12">
+                Do you really want to remove this work experience from your job seeker profile?
+              </div>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={this.handleWEDelete}><i className="fas fa-trash-alt"></i> Remove</Button>{' '}
+            <Button color="primary" onClick={(e) => this.toggleWERemove(e, '')}>Cancel</Button>
+          </ModalFooter>
         </Modal>
         <div className="profile-form-wrapper">
           <div className="card border-info card-container">
@@ -478,51 +500,10 @@ class EditJobSeekerProfile extends React.Component {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <label htmlFor="euCitizen">EU Citizen:</label>
-                          <div className="form-check">
-                            <input className="form-check-input" id="employeeCitizenship" type="checkbox" checked={this.state.euCitizen ? true : false} onChange={this.handleChangeEU} />
-                            <label className="form-check-label" htmlFor="eu_citizen">
-                              Are you an EU Citizen?
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <label htmlFor="job_type">Employment type for this position:</label>
-                          <div className="form-check">
-                            <input className="form-check-input" id="employmentTypeFull" type="checkbox" checked={this.state.applyingFullTime ? true : false} onChange={this.handleChangeFT} />
-                            <label className="form-check-label" htmlFor="job_type_ft">
-                              Full-time
-                            </label>
-                          </div>
-                          <div className="form-check">
-                            <input className="form-check-input" id="employmentTypePart" type="checkbox" checked={this.state.applyingPartTime ? true : false} onChange={this.handleChangePT} />
-                            <label className="form-check-label" htmlFor="job_type_pt">
-                              Part-time
-                              </label>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput id="minSalary" value={this.state.minSalary || ''} label="Minimum expected salary" type="number" icon="euro-sign" 
-                          onChange={this.handleChange} />
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput id="maxSalary" value={this.state.maxSalary || ''} label="Maximum expected salary" type="number" icon="euro-sign" 
-                          onChange={this.handleChange} />
-                        </div>
-                      </div>
-
-                      <div className="col-sm-12">                        
+                      <div className="col-12">                        
                         <div className="form-group">
                           <label>Work Experiences:</label>
+                          <Button color="danger" className="btn-circle" onClick={this.toggle}><i className="fas fa-plus"></i></Button>
                         </div>
                         <div id="row work_experiences">
                           {
@@ -530,7 +511,7 @@ class EditJobSeekerProfile extends React.Component {
                               return (
                                 <div key={`work-experience-${i}`} className="work-experiences-tag col-lg-3 col-md-4 col-12 badge badge-info ml-1 mb-2">
                                   <span>{workExperience.companyName}</span>
-                                  <i id={"remove_we_"+i} className="fas fa-trash ml-3 float-right" onClick={(e) => this.handleWEDelete(workExperience)}></i>
+                                  <i id={"remove_we_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
                                   <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
                                 </div>                             
                               )
@@ -538,10 +519,44 @@ class EditJobSeekerProfile extends React.Component {
                           }
                         </div>
                       </div>
-                      <div className="col-sm-12">
-                        <Button color="danger" onClick={this.toggle}>Add Working Experiences</Button>
-                      </div>
                     </div>
+                    <div className="row">
+                      <div className="col-md-6 col-sm-12">
+                        <div className="row">
+                          <div className="col-12">
+                            <div className="form-group mt-2">
+                              <label htmlFor="euCitizen">EU Citizen:</label>
+                              <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                                shape="curve" color="primary-o" id="employeeCitizenship" 
+                                checked={this.state.euCitizen ? true : false} onChange={this.handleChangeEU}>
+                                    Are you an EU Citizen?
+                              </Checkbox>
+                            </div>
+                          </div>
+                          <div className="col-12">
+                            <div className="form-group">
+                              <MDBInput id="minSalary" value={this.state.minSalary || ''} label="Minimum expected salary" type="number" icon="euro-sign" 
+                              onChange={this.handleChange} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-sm-12">
+                        <div className="form-group">
+                          <label>Employment type for this position:</label>
+                          <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                            shape="curve" color="primary-o" id="employmentTypeFull" 
+                            checked={this.state.applyingFullTime ? true : false} onChange={this.handleChangeFT}>
+                                Full-time
+                          </Checkbox>
+                          <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                            shape="curve" color="primary-o" id="employmentTypePart" 
+                            checked={this.state.applyingPartTime ? true : false} onChange={this.handleChangePT}>
+                                Part-time
+                          </Checkbox>
+                        </div>                          
+                      </div>                      
+                    </div>                    
                     <div className="row">
                       <div className="col-sm-12">
                         <MDBBtn color="success" className="float-right" type="submit" onClick={() => { this.onShowAlert() }}>
