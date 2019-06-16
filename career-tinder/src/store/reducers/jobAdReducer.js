@@ -58,6 +58,20 @@ const jobAdReducer = (state = initState, action) => {
         response: "danger",
         message: "An error occured!"
       };
+    case "SAVE_MATCH_SUCCESS":
+        console.log("SAVE_MATCH_SUCCESS");
+        return {
+         ...state,
+         response: "success",
+         message: "Your match has been successfully saved."
+        };
+    case "SAVE_MATCH_ERROR":
+      console.log("SAVE_MATCH_ERROR");
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+       };
     default:
       return state;
   }
