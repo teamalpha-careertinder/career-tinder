@@ -37,8 +37,10 @@ class CreateJobAds extends React.Component {
       jobdescription: "",
       education: "",
       expectedstartdate: "",
-      expirationdate:  ""
+      expirationdate:  "",
+      visible: false
     };
+    this.onShowAlert = this.onShowAlert.bind(this);
     if(this.props.location.job)
     {
       var modifiableJobAd = this.props.location.job;
@@ -88,24 +90,11 @@ class CreateJobAds extends React.Component {
     this.props.history.push('/jobs')
   };
 
-  state = {
-    visible: false
-  };
-
-
-   
-    
-  
-    
-  
-
-  
-
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
       window.setTimeout(() => {
         this.setState({ visible: false });
-      }, 2000);
+      }, 3000);
     });
   };
 
@@ -117,15 +106,13 @@ class CreateJobAds extends React.Component {
 
   render() {
     //isOpen={this.state.visible}
+    const { response, message } = this.props;
     return (
       <div className="create-job-ad">
-        {/* <Alert color="success" id="success-alert-noman" isOpen={this.state.visible}>
-          <i className="fas fa-check" /> Job Successfully posted!
-        </Alert> */}
-
-        <div className="container" />
+        <Alert color={response} isOpen={this.state.visible}><i className={response === 'success' ? "fas fa-check" : "fas fa-times"}></i> {message}</Alert>
+        <div className="container">
         <div className="justify-content-md-center">
-          <div className="profile-form-wrapper" class="col-md-7  my-auto" style={{height: 'auto', margin: '0 auto', align:'center'}}>
+          <div className="profile-form-wrapper">
             <div className="card border-info card-container" >
               <div className="card-header">
                 <i className="fas fa-users" /> Create Job Ad
@@ -134,7 +121,6 @@ class CreateJobAds extends React.Component {
                   <div className="tab-content" id="pills-tabContent">
                     <div
                       className="tab-pane fade show active"
-                      id="div className= col-md-6 col-sm-12"
                       role="tabpanel"
                       aria-labelledby="pills-create-job-ad-tab"
                     >
@@ -199,7 +185,6 @@ class CreateJobAds extends React.Component {
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  JobTypeTime
                                   checked={this.state.applypartime}
                                   onChange={this.handleChangeJobType}
                                   name="applypartime"
@@ -355,8 +340,7 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-12">
                             <MDBBtn
                               color="primary"
-                              className="float-right"
-                              
+                              className="float-right"                              
                               type="submit"
                             >
                               <i className="fas fa-save" /> submit This Job
@@ -368,6 +352,7 @@ class CreateJobAds extends React.Component {
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
@@ -378,7 +363,9 @@ class CreateJobAds extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    response: state.profile.response,
+    message: state.profile.message
   }
 }
 

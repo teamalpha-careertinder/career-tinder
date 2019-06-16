@@ -1,29 +1,29 @@
-.dropdown-menu-right {
+.dropdown-menu-right,
+#root .user-settings-dropdown {
     left: auto !important;
     right: 0 !important;
-  }
-  
-  .user-settings {
+}
+
+.user-settings {
     padding: 10px;
     color: #fff;
     cursor: pointer;
-  }
-  
-  .user-settings-dropdown .dropdown-item.active,
-  .user-settings-dropdown .dropdown-item:active {
+}
+
+.user-settings-dropdown .dropdown-item.active,
+.user-settings-dropdown .dropdown-item:active {
     color: #fff;
     text-decoration: none;
     background-color: #292961;
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .navbar-wrapper {
-      height: 56px;
+        height: 56px;
     }
-  }
-  
-  .user-display-name {
+}
+
+.user-display-name {
     padding: 5px;
     color: #fff;
-  }
-  
+}
