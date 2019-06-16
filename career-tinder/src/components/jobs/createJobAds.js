@@ -5,7 +5,9 @@ import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import { MDBCardBody } from "mdbreact";
 import { Alert } from "reactstrap";
+import Swal from 'sweetalert2';
 import { connect } from "react-redux";
+import swal from 'sweetalert';
 import { jobAdActions, jobUpdateActions } from "../../store/actions/jobAdActions"
 
 const skills = [
@@ -25,6 +27,8 @@ class CreateJobAds extends React.Component {
     console.log(value);
   }
 
+
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -85,21 +89,23 @@ class CreateJobAds extends React.Component {
     {
       this.props.jobAdActions(this.state);
     }  
-    this.props.history.push('/jobs')
-  };
+    Swal.fire({
+     
+      type: 'success',
+      title: 'Job Ad Successfully Created',
+      showConfirmButton: false,
+      timer: 1500
+    })
+   
+    setTimeout(() => {
+      
+      this.props.history.push('/jobs') },2000)};
 
   state = {
     visible: false
   };
 
 
-   
-    
-  
-    
-  
-
-  
 
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
@@ -356,9 +362,11 @@ class CreateJobAds extends React.Component {
                             <MDBBtn
                               color="primary"
                               className="float-right"
-                              
+                        
                               type="submit"
                             >
+                            
+                              
                               <i className="fas fa-save" /> submit This Job
                               Opportunity
                             </MDBBtn>
