@@ -7,6 +7,7 @@
 .work-experience-form .form-group>label {
     color: #1e698d !important;
     font-weight: bold;
+    width: 100%;
 }
 
 .datepicker .md-form {
@@ -19,6 +20,16 @@
 
 .work-experiences-tag.badge.badge-info {
     padding: 10px;
+}
+
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    padding: 6px 0px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 32px;
 }
 
 @media (max-width: 768px) {

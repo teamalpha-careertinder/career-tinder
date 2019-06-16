@@ -53,7 +53,7 @@ export const signUpAsJobSeeker = newUser => {
         });
 
         resp.user.updateProfile({
-          displayName: newUser.FullName
+          displayName: newUser.fullName
         });
         dispatch(verifyEmail());
 
