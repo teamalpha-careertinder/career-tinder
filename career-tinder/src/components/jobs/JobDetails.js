@@ -69,18 +69,12 @@ class JobDetails extends Component{
                   <i class="fas fa-trash-alt" style={{fontSize: '18px',color: 'red' }} ></i>
                   </button>
                   
-
-
-                  
-                  <button type="button" id="btnjobseekerlist"  className="btn btn-outline-blue mr-3 btn-sm" >
-                  <i class="fas fa-users" style={{fontSize: '18px',color: 'blue' }} ></i>
-                  </button>
-                  
-                  <NavLink type='button' className="btn btn-outline-primary mr-3 btn-sm" to={{
+ 
+                  <NavLink type='button' className="btn btn-outline-blue mr-3 btn-sm" to={{
                     pathname: ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER,
                     job: job
                   }}>
-                <i className="fas fa-users" style={{fontSize: '18px'}} />
+                <i className="fas fa-users" style={{fontSize: '18px',color: 'blue'}} />
                   </NavLink>
                 </div>
               </div>
