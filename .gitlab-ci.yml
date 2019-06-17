@@ -9,7 +9,7 @@ cache:
 deploy_production:
   stage: deploy
   tags:
-    - career-tinder
+    - alpha
   only:
     - tags
 
