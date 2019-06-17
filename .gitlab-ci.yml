@@ -8,7 +8,7 @@ cache:
     
 deploy_production:
   stage: deploy
-  environment: Production
+  
   only:
     - code-issue-39-include-gitlab-ci
   script:
