@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import { NavLink } from "react-router-dom";
 import "../profile/profile.css"
 import { jobDeleteActions } from "../../store/actions/jobAdActions"
+import swal from 'sweetalert';
 import { connect } from "react-redux";
 import * as ROUTES from "../../constants/routes";
 
@@ -9,14 +10,30 @@ class JobDetails extends Component{
 
     handleDeleteAction = e => {
       var jobId = e.target.getAttribute('data-jobid')
-      this.props.jobDeleteActions(jobId);
-    };
-    
-    HandleJobSeekersAction = e => {
-    var jobId = e.target.getAttribute("data-jobid");
-    var employerId = e.target.getAttribute("data-emploerid");
-    this.props.jobSeekersActions(jobId, employerId);
-  };
+     { 
+      
+      swal({
+        
+        text:"Are you sure you want to delete ?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete && jobId!==null) {
+          this.props.jobDeleteActions(jobId)
+          swal("Job Ad Deleted Successfully!", {
+            icon: "success",
+          });
+        } 
+      });
+       
+      }
+     
+    }
+
+
+
     render(){
       const {job} = this.props;
       return (
@@ -42,15 +59,22 @@ class JobDetails extends Component{
                         </div>
                   
                   </NavLink>
-                  <button type="button" id="btnDelete" data-jobid={job.id} className="btn btn-outline-danger mr-3 btn-sm" onClick={this.handleDeleteAction}>
-                  <i className="fas fa-trash-alt" style={{fontSize: '18px',color: 'red' }} ></i>
+                
+                 
+                  <button type="button" id="btnDelete" data-jobid={job.id}
+                   className="btn btn-outline-danger mr-3 btn-sm" onClick={this.handleDeleteAction }
+                   
+                   
+                   >
+                  <i class="fas fa-trash-alt" style={{fontSize: '18px',color: 'red' }} ></i>
                   </button>
                   
-                  <NavLink type='button' className="btn btn-outline-primary mr-3 btn-sm" to={{
+ 
+                  <NavLink type='button' className="btn btn-outline-blue mr-3 btn-sm" to={{
                     pathname: ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER,
                     job: job
                   }}>
-                <i className="fas fa-users" style={{fontSize: '18px'}} />
+                <i className="fas fa-users" style={{fontSize: '18px',color: 'blue'}} />
                   </NavLink>
                 </div>
               </div>
@@ -72,5 +96,8 @@ class JobDetails extends Component{
       jobDeleteActions: jobAd => dispatch(jobDeleteActions(jobAd))
     };
   };
+  
+
+
 
   export default connect(mapStateToProps, mapDispatchToProps)(JobDetails)
