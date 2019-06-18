@@ -8,8 +8,8 @@ export const jobAdActions = jobAd => {
       .doc(userId)
       .get()
       .then(d => {
-        const companyname = d.data().companyname;
-        jobAd.employername = companyname ? companyname : "";
+        // const companyname = d.data().companyname;
+        jobAd.employername = d.data().companyname ? d.data().companyname : "";
 
         firestore
           .collection("jobposting")
@@ -26,6 +26,9 @@ export const jobAdActions = jobAd => {
             console.log("Job posting creation error");
             dispatch({ type: "CREATE_JOBPOST_ERROR" }, err);
           });
+      }).catch(err => {
+          console.log("Job posting creation error");
+          dispatch({ type: "CREATE_JOBPOST_ERROR" }, err);
       });
   };
 };
@@ -42,17 +45,33 @@ export const jobUpdateActions = jobAd => {
       .doc(userId)
       .get()
       .then(d => {
-        const companyname = d.data().companyname;
-        jobAd.employername = companyname ? companyname : "";
+        // const companyname = d.data().companyname;
+        jobAd.employername = d.data().companyname ? d.data().companyname : "";
 
-        firestore
-          .collection("jobposting")
-          .doc(jobAdId)
-          .set({
+        const batch = firestore.batch();
+
+        var jobPostDoc = firestore.collection("jobposting").doc(jobAdId);
+
+        batch.set(
+          jobPostDoc,
+          {
             ...jobAd,
             employerid: userId,
-            lastUpdatedAt: new Date()
-          })
+            lastUpdateAt: new Date()
+          },
+          { merge: true }
+        );
+
+        // firestore
+        //   .collection("jobposting")
+        //   .doc(jobAdId)
+        //   .set({
+        //     ...jobAd,
+        //     merge: true,
+        //     // employerid: userId,
+        //     lastUpdatedAt: new Date()
+        //   })
+        batch.commit()
           .then(() => {
             console.log("Updated job posting successfully");
             dispatch({ type: "UPDATE_JOBPOST_SUCCESS" });
@@ -61,6 +80,9 @@ export const jobUpdateActions = jobAd => {
             console.log("Job posting update error");
             dispatch({ type: "UPDATE_JOBPOST_ERROR" }, err);
           });
+      }).catch(err => {
+          console.log("Could not find employer with the specified employer id");
+          dispatch({ type: "UPDATE_JOBPOST_ERROR" }, err);
       });
   };
 };

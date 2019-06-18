@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MDBCardBody } from "mdbreact";
 import { Alert } from "reactstrap";
 import { connect } from "react-redux";
+import moment from "moment";
 import { jobAdActions, jobUpdateActions } from "../../store/actions/jobAdActions"
 
 const skills = [
@@ -60,7 +61,7 @@ class CreateJobAds extends React.Component {
 
   handleDateChange = (name, value) => {
     this.setState({
-      [name]: value
+      expectedstartdate: value
     });
   }
 
@@ -299,7 +300,7 @@ class CreateJobAds extends React.Component {
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
                                 <DatePicker 
-                                selected={this.state.expectedstartdate}
+                                //selected={this.state.expectedstartdate}
                                   onChange={this.handleDateChange.bind(this.parentElement, "expectedstartdate")}
                                   className="form-control"
                                   peekNextMonth
@@ -321,7 +322,7 @@ class CreateJobAds extends React.Component {
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
                                 <DatePicker 
-                                  selected={this.state.expirationdate}
+                                  //selected={this.state.expirationdate}
                                   onChange={this.handleDateChange.bind(this.parentElement, "expirationdate")}
                                   className="form-control"
                                   peekNextMonth

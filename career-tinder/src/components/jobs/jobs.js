@@ -10,6 +10,7 @@ import { firestoreConnect } from "react-redux-firebase";
 class Jobs extends React.Component {
   render() {
     const { auth, user, jobAds } = this.props;
+    console.log(jobAds);
     var filteredJobAds =
       jobAds && jobAds.filter(jobpost => jobpost.employerid === auth.uid);
     if (!auth.uid && !auth.emailVerified)
