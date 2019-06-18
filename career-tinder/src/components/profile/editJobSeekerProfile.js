@@ -54,12 +54,10 @@ const jobSeekerProfileEntity = {
 
 class EditJobSeekerProfile extends React.Component {
 
-  handleSkillsChange = (newValue: any, actionMeta: any) => {
-    console.group('Value Changed');
-    console.log(newValue);
-    console.log(`action: ${actionMeta.action}`);
-    console.groupEnd();
-  }
+  handleSkillsChange = skills => {
+    this.setState({ skills });
+  };
+
   handleLanguagesChange = (selectedLanguages) => {
     this.setState({ selectedLanguages: selectedLanguages });
     console.log(`Option selected:`, selectedLanguages);
@@ -96,7 +94,7 @@ class EditJobSeekerProfile extends React.Component {
       minSalary: minSalary,
       maxSalary: maxSalary,
       selectedLanguages: languages,
-      selectedSkills: skills,
+      skills: skills,
       startDOBDate: DOBDate && DOBDate.toDate(),
 
       weId: '',
@@ -220,7 +218,7 @@ class EditJobSeekerProfile extends React.Component {
       if (this.state.minSalary) {jobSeekerProfile.minSalary = this.state.minSalary;}
       if (this.state.maxSalary) {jobSeekerProfile.maxSalary = this.state.maxSalary;}
       if (this.state.selectedLanguages) {jobSeekerProfile.languages = this.state.selectedLanguages;}
-      if (this.state.selectedSkills) { jobSeekerProfile.skills = this.state.selectedSkills}
+      if (this.state.skills) { jobSeekerProfile.skills = this.state.skills}
       if (this.state.startDOBDate) {jobSeekerProfile.DOBDate  =  this.state.startDOBDate;}
       if (this.state.workExperiences.length > 0) {
         var tmpWExps = [];
@@ -479,12 +477,12 @@ class EditJobSeekerProfile extends React.Component {
                       <div className="col-md-4 col-sm-12">
                         <div className="form-group">
                           <label>Skills</label>
-                          <CreatableSelect
-                            id="employeeSkills"
-                            isMulti
-                            onChange={this.handleSkillsChange}
-                            options={skills}
-                          />
+                          <Select
+                                value={this.state.skills}
+                                onChange={this.handleSkillsChange}
+                                options={skills}
+                                isMulti={true}
+                              />
                         </div>
                       </div>
                       <div className="col-md-4 col-sm-12">
