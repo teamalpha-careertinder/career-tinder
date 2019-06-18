@@ -71,7 +71,7 @@ class JobDetails extends Component{
                   
  
                   <NavLink type='button' className="btn btn-outline-blue mr-3 btn-sm" to={{
-                    pathname: ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER,
+                    pathname: ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER+'/'+job.id,
                     job: job
                   }}>
                 <i className="fas fa-users" style={{fontSize: '18px',color: 'blue'}} />
