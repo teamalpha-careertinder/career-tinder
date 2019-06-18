@@ -17,6 +17,14 @@ const jobSeekerChoiceEntity = {
 };
 
 class JobAds extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      badges: ["primary","warning","info","danger","success"]
+    }
+  }
+
   //function to save on DB the relation between job add and user's like or dislike:
   processLikeDisLike(userAction, jobAdId, jobSeekerID) {
     //userAction: true ->User likes company // false->user dislikes company
@@ -24,28 +32,29 @@ class JobAds extends Component {
     jobSeekerChoice.jobAdId = jobAdId;
     jobSeekerChoice.jobSeekerID = jobSeekerID;
     jobSeekerChoice.isLiked = userAction;
-    //console.log(`processLike: `, jobSeekerChoice, jobSeekerID);
     this.props.saveUserChoice(jobSeekerChoice);
   }
 
   slideAdUp = e => {
     var id = $(e.target)[0].closest(".job-ad-wrapper").id;
-    //call the managment of (Dis)Likes to be store on DB:
-    this.processLikeDisLike(true, id, this.props.auth.uid);
-
     $("#" + id)
       .animate({ right: "2000px" }, "slow")
       .slideUp(500);
+    //call the managment of (Dis)Likes to be store on DB:
+    setTimeout(function() { //Start the timer
+      this.processLikeDisLike(true, id, this.props.auth.uid);   
+    }.bind(this), 1000);
   };
 
   slideAdDown = e => {
     var id = $(e.target)[0].closest(".job-ad-wrapper").id;
-    //call the managment of (Dis)Likes to be store on DB:
-    this.processLikeDisLike(false, id, this.props.auth.uid);
-
     $("#" + id)
       .animate({ left: "2000px" }, "slow")
       .slideUp(500);
+    //call the managment of (Dis)Likes to be store on DB:
+    setTimeout(function() { //Start the timer
+      this.processLikeDisLike(false, id, this.props.auth.uid);    
+    }.bind(this), 1000);
   };
 
   render() {
@@ -84,11 +93,12 @@ class JobAds extends Component {
                             <i className="fas fa-check-double" /> Skills:
                           </b>
                           {item.neededskills &&
-                            item.neededskills.map(child => {
+                            item.neededskills.map((child, i) => {
+                              i = i % 5;
                               return (
                                 <span
                                   key={child.value}
-                                  className="badge badge-danger mr-2"
+                                  className={"badge badge-"+this.state.badges[i]+" mr-2"}
                                 >
                                   {child.label}
                                 </span>
@@ -194,7 +204,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToPropsJobseeker = dispatch => {
-  // console.log(state);
   return {
     saveUserChoice: jobSeekerChoice => dispatch(saveUserChoice(jobSeekerChoice))
   };

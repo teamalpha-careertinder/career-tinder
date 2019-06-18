@@ -8,7 +8,7 @@ import { Alert } from "reactstrap";
 import Swal from 'sweetalert2';
 import { connect } from "react-redux";
 import swal from 'sweetalert';
-import { jobAdActions, jobUpdateActions } from "../../store/actions/jobAdActions"
+import { jobAdActions, jobUpdateActions } from "../../store/actions/jobAdActions";
 
 const skills = [
   { value: "php", label: "PHP" },

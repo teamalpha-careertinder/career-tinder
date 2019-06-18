@@ -5,19 +5,15 @@ import { signOut } from "../../store/actions/authActions";
 import { compose } from "redux";
 import * as ROUTES from "../../constants/routes";
 
-// const closeCollapsibleMenu = () => {
-//   $('.hamburger-button__button').click();
-// }
-
 const SignedInLinks = props => {
 
   return (
     <ul className="navbar-nav ct-nav-collapsible">
-      <li className="nav-item" onClick={props.closeMenu}>
+      {/* <li className="nav-item" onClick={props.closeMenu}>
         <NavLink className="nav-link" to={ROUTES.FEED}>
           <i className="fas fa-rss" /> Feed
         </NavLink>
-      </li>
+      </li> */}
       <li className="nav-item" onClick={props.closeMenu}>
         <NavLink className="nav-link" to={ROUTES.JOBS}>
           <i className="fas fa-user-md" /> Jobs
