@@ -30,10 +30,10 @@ class Jobs extends React.Component {
     return doneCount;
   } 
 
-  redirectToProfile = () => {  
+  redirectToProfile = (percentage, role) => {  
     if (sessionStorage.getItem('popupLoaded') !== "1") {
       swal({
-        text:"You haven't completed your profile yet. Do you want to complete your profile now?",
+        text:"As "+role+" you need at least "+percentage+"% of your profile completed in order to get benefitted in full from Career Tinder app. Do you want to complete your profile now?",
         icon: "warning",
         buttons: true,
         dangerMode: false,
@@ -52,9 +52,11 @@ class Jobs extends React.Component {
       jobAds && jobAds.filter(jobpost => jobpost.employerid === auth.uid);
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
-    if ((user && user.userType === "jobseeker" && jobseeker && this.getProfileCompletionPercentage(jobseeker) < 85) ||
-      (user && user.userType === "employer" && employer && this.getProfileCompletionPercentage(employer) < 80)) {
-        this.redirectToProfile();
+    if (user && user.userType === "jobseeker" && jobseeker && this.getProfileCompletionPercentage(jobseeker) < 85) {
+      this.redirectToProfile(85, "Job Seeker");
+    }
+    if (user && user.userType === "employer" && employer && this.getProfileCompletionPercentage(employer) < 80) {
+        this.redirectToProfile(80, "Employer");
     }
     return (      
       <div className="container">
