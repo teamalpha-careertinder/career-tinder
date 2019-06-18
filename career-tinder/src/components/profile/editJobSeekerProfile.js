@@ -11,6 +11,7 @@ import { editJobSeekerProfile } from '../../store/actions/profileAction';
 import * as ROUTES from '../../constants/routes';
 import { firestoreConnect } from "react-redux-firebase";
 import { Checkbox, Radio } from 'pretty-checkbox-react';
+import CreatableSelect from 'react-select/creatable';
 
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -53,9 +54,11 @@ const jobSeekerProfileEntity = {
 
 class EditJobSeekerProfile extends React.Component {
 
-  handleSkillsChange = (selectedSkills) => {
-    this.setState({ selectedSkills : selectedSkills });
-    console.log(`Option selected:`, selectedSkills);
+  handleSkillsChange = (newValue: any, actionMeta: any) => {
+    console.group('Value Changed');
+    console.log(newValue);
+    console.log(`action: ${actionMeta.action}`);
+    console.groupEnd();
   }
   handleLanguagesChange = (selectedLanguages) => {
     this.setState({ selectedLanguages: selectedLanguages });
@@ -476,12 +479,11 @@ class EditJobSeekerProfile extends React.Component {
                       <div className="col-md-4 col-sm-12">
                         <div className="form-group">
                           <label>Skills</label>
-                          <Select
+                          <CreatableSelect
                             id="employeeSkills"
-                            value={this.state.selectedSkills}
+                            isMulti
                             onChange={this.handleSkillsChange}
                             options={skills}
-                            isMulti={true}
                           />
                         </div>
                       </div>

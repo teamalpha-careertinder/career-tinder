@@ -9,13 +9,13 @@ import { Redirect } from "react-router-dom";
 import { Button } from "reactstrap";
 import "../app/app.css";
 import { saveEmployerChoice } from "../../store/actions/jobAdActions";
+import _ from "lodash";
 
 class JobSeekers extends Component {
   HandleSaveEmployerChoice = e => {
     var jobId = e.target.getAttribute("data-jobid");
     this.props.jobSeekersActions(jobId);
   };
-
   constructor(props) {
     super(props);
     if (this.props.location.job) {
@@ -26,26 +26,6 @@ class JobSeekers extends Component {
     }
   }
   processLikeDisLike(userAction, jobSeekerId) {
-    // const userId = this.props.auth.uid;
-    // const firestore = getFirestore();
-    //     firestore
-    //       .collection("EmployerChoice")
-    //       .add({
-    //         ...EmployerChoice,
-    //         employerid: userId,
-    //         createdAt: new Date(),
-    //         jobSeekerId: jobSeekerId,
-    //         jobAdId:
-    //         isLiked = userAction
-    //       })
-    //       .then(() => {
-    //         console.log("Created job posting successfully");
-    //         dispatch({ type: "CREATE_JOBPOST_SUCCESS" });
-    //       })
-    //       .catch(err => {
-    //         console.log("Job posting creation error");
-    //         dispatch({ type: "CREATE_JOBPOST_ERROR" }, err);
-    //       });
     const employerChoiceEntity = {
       employerId: null,
       jobAdId: null,
@@ -86,6 +66,7 @@ class JobSeekers extends Component {
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div>
+        {/* <input type="hidden" id="hdnJobAdId" value={state.jobAdId}></input> */}
         <div className="container">
           <div className="card border-info card-container">
             <div className="card-header">
@@ -257,13 +238,23 @@ class JobSeekers extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const jobSeekersList = state.firestore.ordered.jobseeker;//.where("employerId","==",this.state.userId);
 
+const mapStateToProps = state => {
+  const jobSeekersList = state.firestore.ordered.jobseeker;
+  const employerChoices = state.firestore.ordered.employerChoice;
+  const EmployerjobSeekersList = _.differenceWith(jobSeekersList, employerChoices, function(
+    jobseeker,
+    employerChoice
+  ) {
+    const urlSplit = window.location.href.split("/");
+    const jobAdId = urlSplit[urlSplit.length-1];
+    return (jobseeker.id === employerChoice.jobSeekerId
+      && jobAdId === employerChoice.jobAdId);
+  });
   return {
     auth: state.firebase.auth,
     authError: state.auth.authError,
-    jobSeekersList: jobSeekersList
+    jobSeekersList: EmployerjobSeekersList
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -282,7 +273,10 @@ export default compose(
     return [
       {
         collection: "jobseeker"
-        // ,where: ['employerId',"!=", props.auth.uid] 
+      },
+      {
+        collection: "employerChoice",
+        where: [["employerId", "==", props.auth.uid || null]]
       }
     ];
   })
