@@ -13,7 +13,7 @@ import UserMenu from "./userMenu";
 class Nav extends React.Component {
   constructor(props) {
     super(props);
-  };
+  }
 
   state = {
     collapse1: false,
@@ -33,20 +33,26 @@ class Nav extends React.Component {
     });
   };
 
-  closeCollapsibleMenu = (e) => {
-    if(!e.target.classList.contains('dropdown-item') || $('.collapsenav').hasClass('show')) {
-      $('.hamburger-button__button').click();
-    }    
-    if(e.target.classList.contains('sign-out-link')) {
+  closeCollapsibleMenu = e => {
+    if (
+      !e.target.classList.contains("dropdown-item") ||
+      $(".collapsenav").hasClass("show")
+    ) {
+      $(".hamburger-button__button").click();
+    }
+    if (e.target.classList.contains("sign-out-link")) {
       this.props.signOut();
     }
-  }
+  };
 
   render() {
     const { auth, profile } = this.props;
     const links =
       auth.uid && auth.emailVerified ? (
-        <SignedInLinks profile={profile} closeMenu={this.closeCollapsibleMenu} />
+        <SignedInLinks
+          profile={profile}
+          closeMenu={this.closeCollapsibleMenu}
+        />
       ) : (
         <SignedOutLinks closeMenu={this.closeCollapsibleMenu} />
       );
@@ -93,7 +99,11 @@ class Nav extends React.Component {
                   {auth.uid && auth.emailVerified ? (
                     <UserMenu closeMenu={this.closeCollapsibleMenu} />
                   ) : (
-                    <Link className="nav-link" to={ROUTES.LOG_IN} onClick={this.closeCollapsibleMenu}>
+                    <Link
+                      className="nav-link"
+                      to={ROUTES.LOG_IN}
+                      onClick={this.closeCollapsibleMenu}
+                    >
                       <i className="fas fa-sign-in-alt" />
                     </Link>
                   )}
@@ -108,9 +118,10 @@ class Nav extends React.Component {
 }
 
 const mapStateToProps = state => {
+  const userType = state.firebase.profile && state.firebase.profile.userType;
   return {
     auth: state.firebase.auth,
-    profile: state.firebase.profile
+    profile: userType
   };
 };
 

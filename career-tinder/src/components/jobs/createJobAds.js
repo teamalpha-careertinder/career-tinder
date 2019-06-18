@@ -5,6 +5,7 @@ import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import { MDBCardBody } from "mdbreact";
 import { Alert } from "reactstrap";
+import Swal from 'sweetalert2';
 import { connect } from "react-redux";
 import moment from "moment";
 import { jobAdActions, jobUpdateActions } from "../../store/actions/jobAdActions"
@@ -26,6 +27,8 @@ class CreateJobAds extends React.Component {
     console.log(value);
   }
 
+
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -54,14 +57,14 @@ class CreateJobAds extends React.Component {
       if(modifiableJobAd.maxsalary)this.state.maxsalary = modifiableJobAd.maxsalary;
       if(modifiableJobAd.jobdescription)this.state.jobdescription = modifiableJobAd.jobdescription
       if(modifiableJobAd.education)this.state.education = modifiableJobAd.education
-      if(modifiableJobAd.expectedstartdate)this.state.expectedstartdate = modifiableJobAd.expectedstartdate
-      if(modifiableJobAd.expirationdate)this.state.expirationdate = modifiableJobAd.expirationdate
+      if(modifiableJobAd.expectedstartdate)this.state.expectedstartdate = modifiableJobAd.expectedstartdate.toDate()
+      if(modifiableJobAd.expirationdate)this.state.expirationdate = modifiableJobAd.expirationdate.toDate()
     }
   }
 
   handleDateChange = (name, value) => {
     this.setState({
-      expectedstartdate: value
+      [name]: value
     });
   }
 
@@ -80,7 +83,7 @@ class CreateJobAds extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     event.target.className += " was-validated";
-    if(this.state.jobAdId)
+    if(this.state.id)
     {
       this.props.jobUpdateActions(this.state);
     }
@@ -88,8 +91,23 @@ class CreateJobAds extends React.Component {
     {
       this.props.jobAdActions(this.state);
     }  
-    this.props.history.push('/jobs')
+    Swal.fire({
+     
+      type: 'success',
+      title: 'Job Ad Successfully Created',
+      showConfirmButton: false,
+      timer: 1500
+    })
+   
+    setTimeout(() => {
+      
+      this.props.history.push('/jobs') },2000)};
+
+  state = {
+    visible: false
   };
+
+
 
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
@@ -150,7 +168,9 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-12">
                             <div className="form-group">
                               <label>Needed Skills</label>
+                              
                               <Select
+                                value={this.state.neededskills}
                                 onChange={this.handleSkillsChange}
                                 options={skills}
                                 isMulti={true}
@@ -300,7 +320,7 @@ class CreateJobAds extends React.Component {
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
                                 <DatePicker 
-                                //selected={this.state.expectedstartdate}
+                                  selected={this.state.expectedstartdate}
                                   onChange={this.handleDateChange.bind(this.parentElement, "expectedstartdate")}
                                   className="form-control"
                                   peekNextMonth
@@ -309,6 +329,7 @@ class CreateJobAds extends React.Component {
                                   dropdownMode="select"
                                   name="expectedstartdate"
                                   minDate={new Date()}
+                                  autoComplete="off"
                                 />
                               </div>
                             </div>
@@ -322,7 +343,7 @@ class CreateJobAds extends React.Component {
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
                                 <DatePicker 
-                                  //selected={this.state.expirationdate}
+                                  selected={this.state.expirationdate}
                                   onChange={this.handleDateChange.bind(this.parentElement, "expirationdate")}
                                   className="form-control"
                                   peekNextMonth
@@ -331,6 +352,7 @@ class CreateJobAds extends React.Component {
                                   dropdownMode="select"
                                   name="expirationdate"
                                   minDate={new Date()}
+                                  autoComplete="off"
                                 />
                               </div>
                             </div>
@@ -341,9 +363,12 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-12">
                             <MDBBtn
                               color="primary"
-                              className="float-right"                              
+                              className="float-right"
+                        
                               type="submit"
                             >
+                            
+                              
                               <i className="fas fa-save" /> submit This Job
                               Opportunity
                             </MDBBtn>
