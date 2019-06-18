@@ -510,11 +510,13 @@ class EditJobSeekerProfile extends React.Component {
                           {
                             this.state.workExperiences.map((workExperience, i) => {
                               return (
-                                <div key={`work-experience-${i}`} className="work-experiences-tag col-lg-3 col-md-4 col-12 badge badge-info ml-1 mb-2">
-                                  <span>{workExperience.companyName}</span>
-                                  <i id={"remove_we_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
-                                  <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
-                                </div>                             
+                                <div key={`work-experience-${i}`} className="col-lg-3 col-md-4 col-12">
+                                  <div className="work-experiences-tag badge badge-info mb-2">
+                                    <span>{workExperience.companyName}</span>
+                                    <i id={"remove_we_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
+                                    <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                                  </div>            
+                                </div>                 
                               )
                             })
                           }

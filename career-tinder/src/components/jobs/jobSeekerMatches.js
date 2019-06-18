@@ -1,62 +1,13 @@
 import React, { Component } from "react";
 import * as ROUTES from "../../constants/routes";
-import $ from "jquery/src/jquery";
-import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import "./jobs.css";
-import { saveUserChoice } from "../../store/actions/jobAdActions";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
 
-const jobSeekerChoiceEntity = {
-  jobAdId: null,
-  jobSeekerID: null,
-  isLiked: Boolean
-};
-
-class JobAds extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      badges: ["primary","warning","info","danger","success"]
-    }
-  }
-
-  //function to save on DB the relation between job add and user's like or dislike:
-  processLikeDisLike(userAction, jobAdId, jobSeekerID) {
-    //userAction: true ->User likes company // false->user dislikes company
-    var jobSeekerChoice = jobSeekerChoiceEntity;
-    jobSeekerChoice.jobAdId = jobAdId;
-    jobSeekerChoice.jobSeekerID = jobSeekerID;
-    jobSeekerChoice.isLiked = userAction;
-    this.props.saveUserChoice(jobSeekerChoice);
-  }
-
-  slideAdUp = e => {
-    var id = $(e.target)[0].closest(".job-ad-wrapper").id;
-    $("#" + id)
-      .animate({ right: "2000px" }, "slow")
-      .slideUp(500);
-    //call the managment of (Dis)Likes to be store on DB:
-    setTimeout(function() { //Start the timer
-      this.processLikeDisLike(true, id, this.props.auth.uid);   
-    }.bind(this), 1000);
-  };
-
-  slideAdDown = e => {
-    var id = $(e.target)[0].closest(".job-ad-wrapper").id;
-    $("#" + id)
-      .animate({ left: "2000px" }, "slow")
-      .slideUp(500);
-    //call the managment of (Dis)Likes to be store on DB:
-    setTimeout(function() { //Start the timer
-      this.processLikeDisLike(false, id, this.props.auth.uid);    
-    }.bind(this), 1000);
-  };
-
+class JobSeekerMatches extends Component {
   render() {
     const { auth, userJobPosting } = this.props;
 
@@ -93,12 +44,11 @@ class JobAds extends Component {
                             <i className="fas fa-check-double" /> Skills:
                           </b>
                           {item.neededskills &&
-                            item.neededskills.map((child, i) => {
-                              i = i % 5;
+                            item.neededskills.map(child => {
                               return (
                                 <span
                                   key={child.value}
-                                  className={"badge badge-"+this.state.badges[i]+" mr-2"}
+                                  className="badge badge-danger mr-2"
                                 >
                                   {child.label}
                                 </span>
@@ -148,31 +98,6 @@ class JobAds extends Component {
                           </b>{" "}
                           {item.education}
                         </div>
-                        <hr />
-                        <div className="col-12">
-                          <div className="row">
-                            <div className="col-6">
-                              <Button
-                                outline
-                                color="success"
-                                className="w-100"
-                                onClick={this.slideAdUp}
-                              >
-                                <i className="fas fa-thumbs-up" />
-                              </Button>{" "}
-                            </div>
-                            <div className="col-6">
-                              <Button
-                                outline
-                                color="danger"
-                                className="w-100"
-                                onClick={this.slideAdDown}
-                              >
-                                <i className="fas fa-thumbs-down" />
-                              </Button>{" "}
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -188,12 +113,12 @@ class JobAds extends Component {
 const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const jobposting = state.firestore.ordered.jobposting;
-  const jobseekerChoice = state.firestore.ordered.jobSeekerChoice;
-  const userJobPosting = _.differenceWith(jobposting, jobseekerChoice, function(
+  const matches = state.firestore.ordered.match;
+  const userJobPosting = _.differenceWith(jobposting, matches, function(
     jobpost,
-    jobseekerchoice
+    match
   ) {
-    return jobpost.id === jobseekerchoice.jobAdId;
+    return jobpost.id !== match.jobAdId;
   });
 
   return {
@@ -204,9 +129,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToPropsJobseeker = dispatch => {
-  return {
-    saveUserChoice: jobSeekerChoice => dispatch(saveUserChoice(jobSeekerChoice))
-  };
+  // console.log(state);
+  return {};
 };
 
 export default compose(
@@ -217,7 +141,7 @@ export default compose(
   firestoreConnect(props => {
     return [
       {
-        collection: "jobSeekerChoice",
+        collection: "match",
         where: [["jobSeekerID", "==", props.uid || null]]
       },
       {
@@ -226,4 +150,4 @@ export default compose(
       }
     ];
   })
-)(JobAds);
+)(JobSeekerMatches);
