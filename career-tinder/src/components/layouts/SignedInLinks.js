@@ -6,7 +6,6 @@ import { compose } from "redux";
 import * as ROUTES from "../../constants/routes";
 
 const SignedInLinks = props => {
-
   return (
     <ul className="navbar-nav ct-nav-collapsible">
       {/* <li className="nav-item" onClick={props.closeMenu}>
@@ -19,6 +18,15 @@ const SignedInLinks = props => {
           <i className="fas fa-user-md" /> Jobs
         </NavLink>
       </li>
+      {props.profile === "jobseeker" ? (
+        <li className="nav-item" onClick={props.closeMenu}>
+          <NavLink className="nav-link" to={ROUTES.JOB_SEEKER_MATCHES}>
+            <i className="fas fa-handshake" /> Matches
+          </NavLink>
+        </li>
+      ) : (
+        ""
+      )}
       <li className="nav-item" onClick={props.closeMenu}>
         <NavLink className="nav-link" to={ROUTES.NOTIFICATIONS}>
           <i className="fas fa-bell-slash" /> Notifications
@@ -30,6 +38,7 @@ const SignedInLinks = props => {
 
 const mapStateToProps = state => {
   return {
+    user: state.firebase.profile,
     auth: state.firebase.auth
   };
 };

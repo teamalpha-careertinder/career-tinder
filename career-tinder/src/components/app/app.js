@@ -13,6 +13,7 @@ import LandingPage from "../layouts/home";
 import ForgotPassword from "../authentication/forgotPassword";
 import ChangePassword from "../profile/changePassword";
 import Jobs from "../jobs/jobs";
+import JobSeekerMatches from "../jobs/jobSeekerMatches";
 import Notifications from "../profile/Notifications";
 import CreateJobAds from "../jobs/createJobAds";
 import JobSeekers from "../profile/jobSeekers";
@@ -45,8 +46,15 @@ class App extends Component {
               <Route path={ROUTES.FEED} component={FeedBoard} />
               <Route path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
               <Route path={ROUTES.JOBS} component={Jobs} />
+              <Route
+                path={ROUTES.JOB_SEEKER_MATCHES}
+                component={JobSeekerMatches}
+              />
               <Route path={ROUTES.NOTIFICATIONS} component={Notifications} />
-              <Route path={ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER} component={JobSeekers} />
+              <Route
+                path={ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER}
+                component={JobSeekers}
+              />
             </div>
           </div>
         </HashRouter>
