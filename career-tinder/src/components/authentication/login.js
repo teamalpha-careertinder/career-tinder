@@ -6,12 +6,18 @@ import * as ROUTES from "../../constants/routes";
 import { signIn } from "../../store/actions/authActions";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import $ from "jquery/src/jquery";
 
-class Login extends React.Component {
-  state = {
-    email: "",
-    password: ""
-  };
+const INITIAL_STATE = {
+  email: "",
+  password: ""
+};
+
+class Login extends React.Component {   
+  constructor(props) {
+    super(props);
+    this.state = { ...INITIAL_STATE };
+  }
 
   changeHandler = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -19,12 +25,15 @@ class Login extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    if($('.collapsenav').hasClass('show')) {
+      $('.hamburger-button__button').click();
+    }
     this.props.signIn(this.state);
   };
 
   render() {
     const { authError, auth } = this.props;
-    if (auth.uid && auth.emailVerified) return <Redirect to={ROUTES.FEED} />;
+    if (auth.uid && auth.emailVerified) return <Redirect to={ROUTES.JOBS} />;
     return (
       <div className="container">
         <div className="card border-info card-container">

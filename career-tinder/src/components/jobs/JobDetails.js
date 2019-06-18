@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import { NavLink } from "react-router-dom";
-import "../profile/profile.css"
-import { jobDeleteActions } from "../../store/actions/jobAdActions"
+import "../profile/profile.css";
+import { jobDeleteActions } from "../../store/actions/jobAdActions";
 import swal from 'sweetalert';
 import { connect } from "react-redux";
 import * as ROUTES from "../../constants/routes";
@@ -9,7 +9,7 @@ import * as ROUTES from "../../constants/routes";
 class JobDetails extends Component{
 
     handleDeleteAction = e => {
-      var jobId = e.target.getAttribute('data-jobid')
+      var jobId = e.target.getAttribute('data-jobid');
      { 
       
       swal({
@@ -66,7 +66,7 @@ class JobDetails extends Component{
                    
                    
                    >
-                  <i class="fas fa-trash-alt" style={{fontSize: '18px',color: 'red' }} ></i>
+                  <i className="fas fa-trash-alt" style={{fontSize: '18px',color: 'red' }} ></i>
                   </button>
                   
  
