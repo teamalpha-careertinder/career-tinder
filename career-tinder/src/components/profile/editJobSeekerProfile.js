@@ -11,7 +11,7 @@ import { editJobSeekerProfile } from '../../store/actions/profileAction';
 import * as ROUTES from '../../constants/routes';
 import { firestoreConnect } from "react-redux-firebase";
 import { Checkbox, Radio } from 'pretty-checkbox-react';
-import CreatableSelect from 'react-select/src/Creatable';
+import CreatableSelect from 'react-select/creatable';
 
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -59,7 +59,7 @@ class EditJobSeekerProfile extends React.Component {
     console.log(newValue);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
-  };
+  }
   handleLanguagesChange = (selectedLanguages) => {
     this.setState({ selectedLanguages: selectedLanguages });
     console.log(`Option selected:`, selectedLanguages);
