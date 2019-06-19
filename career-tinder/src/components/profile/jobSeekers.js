@@ -68,7 +68,7 @@ class JobSeekers extends Component {
       <div>
         {/* <input type="hidden" id="hdnJobAdId" value={state.jobAdId}></input> */}
         <div className="container">
-          <div className="card border-info card-container">
+          <div className="card-container">
             <div className="card-header">
               <div className="row">
                 <div className="col-sm">
@@ -80,21 +80,21 @@ class JobSeekers extends Component {
               </div>
             </div>
 
-            <div className="card-body" align="center">
+            <div className="row mt-2" align="center">
               {jobSeekersList &&
                 jobSeekersList.map(jobSeeker => {
                   return (
                     <div
                       id={jobSeeker.id}
                       key={jobSeeker.id}
-                      className="col-md-6 col-12 job-ad-wrapper"
+                      className="col-md-6 col-12 job-seeker-wrapper"
                     >
                       <div className="card job-ad text-body shadow rounded">
                         <div className="card-header">
                           <div className="row">
-                            <div className="col-9">
+                            <div className="col-9 text-left">
                               {/* <i className="fas fa-thumbtack" /> {item.jobtitle} */}
-                              {jobSeeker.key}
+                              <i className="fas fa-user-tag"></i> {jobSeeker.jobSeekerName}
                             </div>
                             <div className="col-3">
                               <i className="fas fa-heart wishlist-selector float-right d-none" />

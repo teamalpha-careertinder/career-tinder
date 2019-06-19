@@ -40,4 +40,24 @@
     .content-wrapper .container {
         padding: 0;
     }
+    .card.job-ad.text-body.shadow.rounded {
+        margin: 0 10px 10px;
+    }
+    .job-seeker-wrapper b {
+        color: #1e698d !important;
+        font-weight: normal;
+    }
+    .job-seeker-wrapper .job-ad {
+        background: rgba(255, 255, 255, 0.7);
+        margin: 12px 12px 0;
+    }
+    .job-seeker-wrapper .wishlist-selector {
+        line-height: 24px;
+    }
+    .job-ad .card-body .fas {
+        width: 20px;
+    }
+    .job-ad {
+        margin-bottom: 10px;
+    }
 }
