@@ -8,31 +8,23 @@ import * as ROUTES from "../../constants/routes";
 
 class JobDetails extends Component{
 
-    handleDeleteAction = e => {
-      var jobId = e.target.getAttribute('data-jobid');
-     { 
-      
-      swal({
-        
-        text:"Are you sure you want to delete ?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete && jobId!==null) {
-          this.props.jobDeleteActions(jobId)
-          swal("Job Ad Deleted Successfully!", {
-            icon: "success",
-          });
-        } 
-      });
-       
-      }
-     
+    handleDeleteAction = (jobId) => {
+      { 
+        swal({        
+          text:"Are you sure you want to delete ?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        }).then((willDelete) => {
+          if (willDelete && jobId!==null) {
+            this.props.jobDeleteActions(jobId)
+            swal("Job Ad Deleted Successfully!", {
+              icon: "success",
+            });
+          } 
+        });       
+      }     
     }
-
-
 
     render(){
       const {job} = this.props;
@@ -47,7 +39,7 @@ class JobDetails extends Component{
                 <div className="btn-group flex-wrap">
   
                   <button type="button" id="btnMatch" className="btn btn-outline-success mr-3 btn-sm" >
-                  <i className="far fa-thumbs-up" style={{fontSize: '18px',color: 'green' }} ></i>
+                    <i className="far fa-thumbs-up" style={{fontSize: '18px',color: 'green' }} ></i>
                   </button>
                   <NavLink type='button' className="btn btn-outline-dark mr-3 btn-sm" to={{
                         pathname: '/create-job-ad',
@@ -61,12 +53,9 @@ class JobDetails extends Component{
                   </NavLink>
                 
                  
-                  <button type="button" id="btnDelete" data-jobid={job.id}
-                   className="btn btn-outline-danger mr-3 btn-sm" onClick={this.handleDeleteAction }
-                   
-                   
-                   >
-                  <i className="fas fa-trash-alt" style={{fontSize: '18px',color: 'red' }} ></i>
+                  <button type="button" id="btnDelete" className="btn btn-outline-danger mr-3 btn-sm" 
+                    onClick={(e) => this.handleDeleteAction(job.id) }>
+                    <i className="fas fa-trash-alt" style={{fontSize: '18px',color: 'red' }} ></i>
                   </button>
                   
  

@@ -394,7 +394,7 @@ class EditJobSeekerProfile extends React.Component {
                       <div className="col-sm-12 mb-1">
                         <div className="form-inline">
                           <div className="form-group">
-                            <label htmlFor="job_type" style={{'justify-content':'left'}} className="mr-2">Job type while working there:</label>
+                            <label htmlFor="job_type" style={{'justifyContent':'left'}} className="mr-2">Job type while working there:</label>
                             <Radio name="job_type" shape="round" color="primary" animation="smooth"
                              value="Full-time" checked={this.state.prevWorkJobType === 'Full-time'}
                              onChange={this.handleOptionChange}>
