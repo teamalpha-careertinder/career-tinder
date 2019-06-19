@@ -1,0 +1,225 @@
+import React, { Component } from "react";
+import { firestoreConnect } from "react-redux-firebase";
+import "../profile/profile.css";
+import * as ROUTES from "../../constants/routes";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { Redirect } from "react-router-dom";
+import "../app/app.css";
+import _ from "lodash";
+
+class EmployerMatches extends Component {
+  render() {
+    const { auth, employerMatchedJobSeekersList } = this.props;
+    if (!auth.uid && !auth.emailVerified)
+      return <Redirect to={ROUTES.LOG_IN} />;
+    if (employerMatchedJobSeekersList.length !== 0) {
+      return (
+        <div>
+          {/* <input type="hidden" id="hdnJobAdId" value={state.jobAdId}></input> */}
+          <div className="container">
+            <div className="card-container">
+              <div className="card-header">
+                <div className="row">
+                  <div className="col-sm">
+                    <h5
+                      style={{ paddingTop: "9px" }}
+                      className="fas fa-list-alt"
+                    >
+                      {" "}
+                      Matched Job Seekers
+                    </h5>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row mt-2" align="center">
+                {employerMatchedJobSeekersList &&
+                  employerMatchedJobSeekersList.map(jobSeeker => {
+                    return (
+                      <div
+                        id={jobSeeker.id}
+                        key={jobSeeker.id}
+                        className="col-md-6 col-12 job-seeker-wrapper"
+                      >
+                        <div className="card job-ad text-body shadow rounded">
+                          <div className="card-header">
+                            <div className="row">
+                              <div className="col-9 text-left">
+                                {/* <i className="fas fa-thumbtack" /> {item.jobtitle} */}
+                                <i className="fas fa-user-tag" />{" "}
+                                {jobSeeker.jobSeekerName}
+                              </div>
+                              <div className="col-3">
+                                <i className="fas fa-heart wishlist-selector float-right d-none" />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card-body">
+                            <div className="row">
+                              <div className="col-12">
+                                <b className="mr-2">
+                                  <i className="fas fa-check-double" /> Skills:
+                                </b>
+                                {jobSeeker.skills &&
+                                jobSeeker.skills.length > 0 ? (
+                                  jobSeeker.skills.map(skill => {
+                                    return (
+                                      <span
+                                        key={jobSeeker.id + "_" + skill.value}
+                                        className="badge badge-danger mr-2"
+                                      >
+                                        {skill.label}
+                                      </span>
+                                    );
+                                  })
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-graduation-cap" />{" "}
+                                  Education:
+                                </b>{" "}
+                                {jobSeeker.education ? (
+                                  jobSeeker.education
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                              <div className="col-12">
+                                <b className="mr-2">
+                                  <i className="fas fa-check-double" /> Work
+                                  Experiences:
+                                </b>
+                                {jobSeeker.workExperiences &&
+                                jobSeeker.workExperiences.length > 0 ? (
+                                  jobSeeker.workExperiences.map(exp => {
+                                    return (
+                                      <span
+                                        key={
+                                          exp.companyName + "_" + exp.jobTitle
+                                        }
+                                        className="badge badge-danger mr-2"
+                                      >
+                                        {exp.companyName}
+                                      </span>
+                                    );
+                                  })
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+
+                              <div className="col-12">
+                                <b className="mr-2">
+                                  <i className="fas fa-language" /> Languages:
+                                </b>
+                                {jobSeeker.languages &&
+                                jobSeeker.languages.length > 0 ? (
+                                  jobSeeker.languages.map(lang => {
+                                    return (
+                                      <span
+                                        key={lang.value}
+                                        className="badge badge-danger mr-2"
+                                      >
+                                        {lang.label}
+                                      </span>
+                                    );
+                                  })
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-certificate" /> Desired
+                                  Job Type:
+                                </b>{" "}
+                                {(jobSeeker.applyfulltime &&
+                                jobSeeker.applyfulltime
+                                  ? "Full Time"
+                                  : "Part Time") ||
+                                  (jobSeeker.applypartime &&
+                                  jobSeeker.applypartime
+                                    ? "Part Time"
+                                    : "Full Time")}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-euro-sign" /> Min Salary:
+                                </b>{" "}
+                                {jobSeeker.minSalary ? (
+                                  jobSeeker.minSalary
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="container">
+          <span>There is no matches for you yet.</span>
+        </div>
+      );
+    }
+  }
+}
+
+const mapStateToProps = state => {
+  const urlSplit = window.location.href.split("/");
+  const jobAdId = urlSplit[urlSplit.length - 1];
+  const jobseekers = state.firestore.ordered.jobseeker;
+  const matches = state.firestore.ordered.match;
+  const employerMatchedJobSeekersList = _.intersectionWith(
+    jobseekers,
+    matches,
+    function(jobseeker, match) {
+      return jobseeker.id === match.jobSeekerId && jobAdId === match.jobAdId;
+    }
+  );
+  console.log("jobseeker", jobseekers);
+  console.log("matches", matches);
+  console.log("employerMatchedJobSeekersList", employerMatchedJobSeekersList);
+  return {
+    uid: state.firebase.auth.uid,
+    auth: state.firebase.auth,
+    authError: state.auth.authError,
+    employerMatchedJobSeekersList: employerMatchedJobSeekersList,
+    jobAdId: jobAdId
+  };
+};
+
+const mapDispatchToPropsJobseeker = dispatch => {
+  // console.log(state);
+  return {};
+};
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToPropsJobseeker
+  ),
+  firestoreConnect(props => {
+    return [
+      {
+        collection: "match",
+        where: [["employerID", "==", props.uid || null]]
+      },
+      {
+        collection: "jobseeker"
+      }
+    ];
+  })
+)(EmployerMatches);

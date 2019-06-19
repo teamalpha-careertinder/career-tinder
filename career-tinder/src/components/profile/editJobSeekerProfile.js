@@ -477,12 +477,13 @@ class EditJobSeekerProfile extends React.Component {
                       <div className="col-md-4 col-sm-12">
                         <div className="form-group">
                           <label>Skills</label>
-                          <Select
-                                value={this.state.skills}
-                                onChange={this.handleSkillsChange}
-                                options={skills}
-                                isMulti={true}
-                              />
+                          <CreatableSelect
+                            id="employeeSkills"
+                            value={this.state.skills}
+                            isMulti
+                            onChange={this.handleSkillsChange}
+                            options={skills}
+                          />
                         </div>
                       </div>
                       <div className="col-md-4 col-sm-12">

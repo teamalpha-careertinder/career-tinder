@@ -3,12 +3,13 @@ import { MDBInput, MDBBtn } from "mdbreact";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import { MDBCardBody } from "mdbreact";
 import { Alert } from "reactstrap";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { connect } from "react-redux";
-import moment from "moment";
-import { jobAdActions, jobUpdateActions } from "../../store/actions/jobAdActions"
+import {
+  jobAdActions,
+  jobUpdateActions
+} from "../../store/actions/jobAdActions";
 
 const skills = [
   { value: "php", label: "PHP" },
@@ -23,12 +24,10 @@ class CreateJobAds extends React.Component {
   handleSkillsChange = neededskills => {
     this.setState({ neededskills });
   };
-  getPickerValue = (value) => {
+  getPickerValue = value => {
     console.log(value);
-  }
+  };
 
-
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -41,24 +40,33 @@ class CreateJobAds extends React.Component {
       jobdescription: "",
       education: "",
       expectedstartdate: "",
-      expirationdate:  "",
+      expirationdate: "",
       visible: false
     };
     this.onShowAlert = this.onShowAlert.bind(this);
-    if(this.props.location.job)
-    {
+    if (this.props.location.job) {
       var modifiableJobAd = this.props.location.job;
-      if(modifiableJobAd.id)this.state.id = modifiableJobAd.id;
-      if(modifiableJobAd.jobtitle)this.state.jobtitle = modifiableJobAd.jobtitle; 
-      if(modifiableJobAd.neededskills)this.state.neededskills = modifiableJobAd.neededskills;
-      if(modifiableJobAd.applypartime)this.state.applypartime = modifiableJobAd.applypartime;
-      if(modifiableJobAd.applyfulltime)this.state.applyfulltime = modifiableJobAd.applyfulltime;
-      if(modifiableJobAd.minsalary)this.state.minsalary = modifiableJobAd.minsalary;
-      if(modifiableJobAd.maxsalary)this.state.maxsalary = modifiableJobAd.maxsalary;
-      if(modifiableJobAd.jobdescription)this.state.jobdescription = modifiableJobAd.jobdescription
-      if(modifiableJobAd.education)this.state.education = modifiableJobAd.education
-      if(modifiableJobAd.expectedstartdate)this.state.expectedstartdate = modifiableJobAd.expectedstartdate.toDate()
-      if(modifiableJobAd.expirationdate)this.state.expirationdate = modifiableJobAd.expirationdate.toDate()
+      if (modifiableJobAd.id) this.state.id = modifiableJobAd.id;
+      if (modifiableJobAd.jobtitle)
+        this.state.jobtitle = modifiableJobAd.jobtitle;
+      if (modifiableJobAd.neededskills)
+        this.state.neededskills = modifiableJobAd.neededskills;
+      if (modifiableJobAd.applypartime)
+        this.state.applypartime = modifiableJobAd.applypartime;
+      if (modifiableJobAd.applyfulltime)
+        this.state.applyfulltime = modifiableJobAd.applyfulltime;
+      if (modifiableJobAd.minsalary)
+        this.state.minsalary = modifiableJobAd.minsalary;
+      if (modifiableJobAd.maxsalary)
+        this.state.maxsalary = modifiableJobAd.maxsalary;
+      if (modifiableJobAd.jobdescription)
+        this.state.jobdescription = modifiableJobAd.jobdescription;
+      if (modifiableJobAd.education)
+        this.state.education = modifiableJobAd.education;
+      if (modifiableJobAd.expectedstartdate)
+        this.state.expectedstartdate = modifiableJobAd.expectedstartdate.toDate();
+      if (modifiableJobAd.expirationdate)
+        this.state.expirationdate = modifiableJobAd.expirationdate.toDate();
     }
   }
 
@@ -66,7 +74,7 @@ class CreateJobAds extends React.Component {
     this.setState({
       [name]: value
     });
-  }
+  };
 
   handleChange = e => {
     this.setState({
@@ -74,7 +82,7 @@ class CreateJobAds extends React.Component {
     });
   };
 
-  handleChangeJobType = (e) => {
+  handleChangeJobType = e => {
     this.setState({
       [e.target.name]: e.target.checked
     });
@@ -83,31 +91,26 @@ class CreateJobAds extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     event.target.className += " was-validated";
-    if(this.state.id)
-    {
+    if (this.state.id) {
       this.props.jobUpdateActions(this.state);
-    }
-    else
-    {
+    } else {
       this.props.jobAdActions(this.state);
-    }  
+    }
     Swal.fire({
-     
-      type: 'success',
-      title: 'Job Ad Successfully Created',
+      type: "success",
+      title: "Job Ad Successfully Created",
       showConfirmButton: false,
       timer: 1500
-    })
-   
+    });
+
     setTimeout(() => {
-      
-      this.props.history.push('/jobs') },2000)};
+      this.props.history.push("/jobs");
+    }, 2000);
+  };
 
   state = {
     visible: false
   };
-
-
 
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
@@ -128,14 +131,19 @@ class CreateJobAds extends React.Component {
     const { response, message } = this.props;
     return (
       <div className="create-job-ad">
-        <Alert color={response} isOpen={this.state.visible}><i className={response === 'success' ? "fas fa-check" : "fas fa-times"}></i> {message}</Alert>
+        <Alert color={response} isOpen={this.state.visible}>
+          <i
+            className={response === "success" ? "fas fa-check" : "fas fa-times"}
+          />{" "}
+          {message}
+        </Alert>
         <div className="container">
-        <div className="justify-content-md-center">
-          <div className="profile-form-wrapper">
-            <div className="card border-info card-container" >
-              <div className="card-header">
-                <i className="fas fa-users" /> Create Job Ad
-              </div>
+          <div className="justify-content-md-center">
+            <div className="profile-form-wrapper">
+              <div className="card border-info card-container">
+                <div className="card-header">
+                  <i className="fas fa-users" /> Create Job Ad
+                </div>
                 <div className="card-body text-info">
                   <div className="tab-content" id="pills-tabContent">
                     <div
@@ -168,7 +176,7 @@ class CreateJobAds extends React.Component {
                           <div className="col-sm-12">
                             <div className="form-group">
                               <label>Needed Skills</label>
-                              
+
                               <Select
                                 value={this.state.neededskills}
                                 onChange={this.handleSkillsChange}
@@ -186,8 +194,7 @@ class CreateJobAds extends React.Component {
                               <div className="form-check">
                                 <input
                                   className="form-check-input checkbox"
-                                  type="checkbox"  
-                                                               
+                                  type="checkbox"
                                   checked={this.state.applyfulltime}
                                   onChange={this.handleChangeJobType}
                                   name="applyfulltime"
@@ -200,8 +207,6 @@ class CreateJobAds extends React.Component {
                                 </label>
                               </div>
 
-
-                              
                               <div className="form-check">
                                 <input
                                   className="form-check-input"
@@ -221,36 +226,31 @@ class CreateJobAds extends React.Component {
                           </div>
                         </div>
 
-
                         <div>
-        <select className="browser-default custom-select"
-        
-        value={this.state.education}
-                                id="education"
-                                label="Education"
-                                icon="address-card"
-                                type="text"
-                                rows="1"
-                                className="form-control"
-                                onChange={this.handleChange}
-                                required
-        >
-          <option>Education</option>
-          <option value="1">Ph.D</option>
-          <option value="2">M.Sc</option>
-          <option value="3">B.Sc </option>
-          <option value="4">High School Diploma</option>
-          <option value="3">Other</option>
-        </select>
-      </div>
-
-
-
+                          <select
+                            className="form-control browser-default custom-select"
+                            value={this.state.education}
+                            id="education"
+                            label="Education"
+                            icon="address-card"
+                            type="text"
+                            rows="1"
+                            onChange={this.handleChange}
+                            required
+                          >
+                            <option>Education</option>
+                            <option value="1">Ph.D</option>
+                            <option value="2">M.Sc</option>
+                            <option value="3">B.Sc </option>
+                            <option value="4">High School Diploma</option>
+                            <option value="3">Other</option>
+                          </select>
+                        </div>
 
                         <div className="row">
                           <div className="col-sm-12">
                             <div className="form-group">
-                             {/*  <MDBInput 
+                              {/*  <MDBInput 
                                 value={this.state.education}
                                 id="education"
                                 label="Education"
@@ -261,7 +261,6 @@ class CreateJobAds extends React.Component {
                                 onChange={this.handleChange}
                                 required
                               /> */}
-                              
                             </div>
                           </div>
                         </div>
@@ -311,17 +310,19 @@ class CreateJobAds extends React.Component {
                             </div>
                           </div>
                         </div>
-                        
-                        
+
                         <div className="row">
                           <div className="col-sm-6">
                             <div className="form-group datepicker">
                               <label>Expected Start Date:</label>
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
-                                <DatePicker 
+                                <DatePicker
                                   selected={this.state.expectedstartdate}
-                                  onChange={this.handleDateChange.bind(this.parentElement, "expectedstartdate")}
+                                  onChange={this.handleDateChange.bind(
+                                    this.parentElement,
+                                    "expectedstartdate"
+                                  )}
                                   className="form-control"
                                   peekNextMonth
                                   showMonthDropdown
@@ -335,16 +336,17 @@ class CreateJobAds extends React.Component {
                             </div>
                           </div>
 
-                         
-
                           <div className="col-sm-6">
-                            <div className="form-group datepicker" >
+                            <div className="form-group datepicker">
                               <label>Expiration Date:</label>
                               <div className="md-form">
                                 <i className="fas fa-calendar-alt prefix" />
-                                <DatePicker 
+                                <DatePicker
                                   selected={this.state.expirationdate}
-                                  onChange={this.handleDateChange.bind(this.parentElement, "expirationdate")}
+                                  onChange={this.handleDateChange.bind(
+                                    this.parentElement,
+                                    "expirationdate"
+                                  )}
                                   className="form-control"
                                   peekNextMonth
                                   showMonthDropdown
@@ -364,11 +366,8 @@ class CreateJobAds extends React.Component {
                             <MDBBtn
                               color="primary"
                               className="float-right"
-                        
                               type="submit"
                             >
-                            
-                              
                               <i className="fas fa-save" /> submit This Job
                               Opportunity
                             </MDBBtn>
@@ -387,13 +386,13 @@ class CreateJobAds extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
     response: state.profile.response,
     message: state.profile.message
-  }
-}
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -402,4 +401,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateJobAds) ;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateJobAds);

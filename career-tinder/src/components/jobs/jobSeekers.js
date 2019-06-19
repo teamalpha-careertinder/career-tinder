@@ -12,19 +12,6 @@ import { saveEmployerChoice } from "../../store/actions/jobAdActions";
 import _ from "lodash";
 
 class JobSeekers extends Component {
-  HandleSaveEmployerChoice = e => {
-    var jobId = e.target.getAttribute("data-jobid");
-    this.props.jobSeekersActions(jobId);
-  };
-  constructor(props) {
-    super(props);
-    if (this.props.location.job) {
-      this.state = {
-        jobAdId: this.props.location.job.id,
-        userId: this.props.auth.uid
-      };
-    }
-  }
   processLikeDisLike(userAction, jobSeekerId) {
     const employerChoiceEntity = {
       employerId: null,
@@ -32,16 +19,17 @@ class JobSeekers extends Component {
       jobSeekerId: null,
       isLiked: Boolean
     };
+    console.log(this.props);
     var employerChoice = employerChoiceEntity;
-    employerChoice.employerId = this.state.userId;
-    employerChoice.jobAdId = this.state.jobAdId;
+    employerChoice.employerId = this.props.auth.uid;
+    employerChoice.jobAdId = this.props.jobAdId;
     employerChoice.jobSeekerId = jobSeekerId;
     employerChoice.isLiked = userAction;
     this.props.saveEmployerChoice(employerChoice);
   }
 
   slideSeekerUp = e => {
-    var jobSeekerId = $(e.target)[0].closest(".job-ad-wrapper").id;
+    var jobSeekerId = $(e.target)[0].closest(".job-seeker-wrapper").id;
     //call the managment of (Dis)Likes to be store on DB:
     this.processLikeDisLike(true, jobSeekerId);
 
@@ -51,7 +39,7 @@ class JobSeekers extends Component {
   };
 
   slideSeekerDown = e => {
-    var jobSeekerId = $(e.target)[0].closest(".job-ad-wrapper").id;
+    var jobSeekerId = $(e.target)[0].closest(".job-seeker-wrapper").id;
     //call the managment of (Dis)Likes to be store on DB:
     this.processLikeDisLike(false, jobSeekerId);
 
@@ -74,7 +62,7 @@ class JobSeekers extends Component {
                 <div className="col-sm">
                   <h5 style={{ paddingTop: "9px" }} className="fas fa-list-alt">
                     {" "}
-                    Job Seekers
+                    Recommended Job Seekers
                   </h5>
                 </div>
               </div>
@@ -94,7 +82,8 @@ class JobSeekers extends Component {
                           <div className="row">
                             <div className="col-9 text-left">
                               {/* <i className="fas fa-thumbtack" /> {item.jobtitle} */}
-                              <i className="fas fa-user-tag"></i> {jobSeeker.jobSeekerName}
+                              <i className="fas fa-user-tag" />{" "}
+                              {jobSeeker.jobSeekerName}
                             </div>
                             <div className="col-3">
                               <i className="fas fa-heart wishlist-selector float-right d-none" />
@@ -238,23 +227,26 @@ class JobSeekers extends Component {
   }
 }
 
-
 const mapStateToProps = state => {
+  const urlSplit = window.location.href.split("/");
+  const jobAdId = urlSplit[urlSplit.length - 1];
   const jobSeekersList = state.firestore.ordered.jobseeker;
   const employerChoices = state.firestore.ordered.employerChoice;
-  const EmployerjobSeekersList = _.differenceWith(jobSeekersList, employerChoices, function(
-    jobseeker,
-    employerChoice
-  ) {
-    const urlSplit = window.location.href.split("/");
-    const jobAdId = urlSplit[urlSplit.length-1];
-    return (jobseeker.id === employerChoice.jobSeekerId
-      && jobAdId === employerChoice.jobAdId);
-  });
+  const EmployerjobSeekersList = _.differenceWith(
+    jobSeekersList,
+    employerChoices,
+    function(jobseeker, employerChoice) {
+      return (
+        jobseeker.id === employerChoice.jobSeekerId &&
+        jobAdId === employerChoice.jobAdId
+      );
+    }
+  );
   return {
     auth: state.firebase.auth,
     authError: state.auth.authError,
-    jobSeekersList: EmployerjobSeekersList
+    jobSeekersList: EmployerjobSeekersList,
+    jobAdId: jobAdId
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -267,8 +259,7 @@ export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )
-  ,
+  ),
   firestoreConnect(props => {
     return [
       {

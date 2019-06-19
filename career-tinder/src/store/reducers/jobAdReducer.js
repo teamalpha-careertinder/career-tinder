@@ -44,34 +44,55 @@ const jobAdReducer = (state = initState, action) => {
         response: "danger",
         message: "An error occured!"
       };
-    case "SAVE_USER_CHOICE_SUCCESS":
-      console.log("SAVE_USER_CHOICE_SUCCESS");
+    case "SAVE_JOB_SEEKER_CHOICE_SUCCESS":
+      console.log("SAVE_JOB_SEEKER_CHOICE_SUCCESS");
       return {
         ...state,
         response: "success",
         message: "Your choice has been successfully saved."
       };
-    case "SAVE_USER_CHOICE_ERROR":
-      console.log("SAVE_USER_CHOICE_ERROR");
+    case "SAVE_JOB_SEEKER_CHOICE_ERROR":
+      console.log("SAVE_JOB_SEEKER_CHOICE_ERROR");
       return {
         ...state,
         response: "danger",
         message: "An error occured!"
       };
-    case "SAVE_MATCH_SUCCESS":
-        console.log("SAVE_MATCH_SUCCESS");
-        return {
-         ...state,
-         response: "success",
-         message: "Your match has been successfully saved."
-        };
-    case "SAVE_MATCH_ERROR":
-      console.log("SAVE_MATCH_ERROR");
+    case "SAVE_EMPLOYER_CHOICE_ERROR":
+      console.log("SAVE_EMPLOYER_CHOICE_ERROR");
       return {
         ...state,
         response: "danger",
         message: "An error occured!"
-       };
+      };
+    case "SAVE_JOB_SEEKER_MATCH_SUCCESS":
+      console.log("SAVE_JOB_SEEKER_MATCH_SUCCESS");
+      return {
+        ...state,
+        response: "success",
+        message: "Your match has been successfully saved."
+      };
+    case "SAVE_EMPLOYER_MATCH_SUCCESS":
+      console.log("SAVE_EMPLOYER_MATCH_SUCCESS");
+      return {
+        ...state,
+        response: "success",
+        message: "Your match has been successfully saved."
+      };
+    case "SAVE_JOBSEEKER_MATCH_ERROR":
+      console.log("SAVE_JOBSEEKER_MATCH_ERROR");
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
+    case "SAVE_EMPLOYER_MATCH_ERROR":
+      console.log("SAVE_EMPLOYER_MATCH_ERROR");
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
     default:
       return state;
   }
