@@ -12,7 +12,7 @@ import _ from "lodash";
 
 const jobSeekerChoiceEntity = {
   jobAdId: null,
-  jobSeekerID: null,
+  jobSeekerId: null,
   isLiked: Boolean
 };
 
@@ -21,16 +21,16 @@ class JobAds extends Component {
     super(props);
 
     this.state = {
-      badges: ["primary","warning","info","danger","success"]
-    }
+      badges: ["primary", "warning", "info", "danger", "success"]
+    };
   }
 
   //function to save on DB the relation between job add and user's like or dislike:
-  processLikeDisLike(userAction, jobAdId, jobSeekerID) {
+  processLikeDisLike(userAction, jobAdId, jobSeekerId) {
     //userAction: true ->User likes company // false->user dislikes company
     var jobSeekerChoice = jobSeekerChoiceEntity;
     jobSeekerChoice.jobAdId = jobAdId;
-    jobSeekerChoice.jobSeekerID = jobSeekerID;
+    jobSeekerChoice.jobSeekerId = jobSeekerId;
     jobSeekerChoice.isLiked = userAction;
     this.props.saveUserChoice(jobSeekerChoice);
   }
@@ -41,9 +41,13 @@ class JobAds extends Component {
       .animate({ right: "2000px" }, "slow")
       .slideUp(500);
     //call the managment of (Dis)Likes to be store on DB:
-    setTimeout(function() { //Start the timer
-      this.processLikeDisLike(true, id, this.props.auth.uid);   
-    }.bind(this), 1000);
+    setTimeout(
+      function() {
+        //Start the timer
+        this.processLikeDisLike(true, id, this.props.auth.uid);
+      }.bind(this),
+      1000
+    );
   };
 
   slideAdDown = e => {
@@ -52,9 +56,13 @@ class JobAds extends Component {
       .animate({ left: "2000px" }, "slow")
       .slideUp(500);
     //call the managment of (Dis)Likes to be store on DB:
-    setTimeout(function() { //Start the timer
-      this.processLikeDisLike(false, id, this.props.auth.uid);    
-    }.bind(this), 1000);
+    setTimeout(
+      function() {
+        //Start the timer
+        this.processLikeDisLike(false, id, this.props.auth.uid);
+      }.bind(this),
+      1000
+    );
   };
 
   render() {
@@ -98,7 +106,11 @@ class JobAds extends Component {
                               return (
                                 <span
                                   key={child.value}
-                                  className={"badge badge-"+this.state.badges[i]+" mr-2"}
+                                  className={
+                                    "badge badge-" +
+                                    this.state.badges[i] +
+                                    " mr-2"
+                                  }
                                 >
                                   {child.label}
                                 </span>
@@ -218,7 +230,7 @@ export default compose(
     return [
       {
         collection: "jobSeekerChoice",
-        where: [["jobSeekerID", "==", props.uid || null]]
+        where: [["jobSeekerId", "==", props.uid || null]]
       },
       {
         collection: "jobposting",

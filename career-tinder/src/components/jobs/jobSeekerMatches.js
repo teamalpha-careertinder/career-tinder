@@ -9,15 +9,15 @@ import _ from "lodash";
 
 class JobSeekerMatches extends Component {
   render() {
-    const { auth, userJobPosting } = this.props;
+    const { auth, jobseekerMatchedJobPosting } = this.props;
 
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
-    return (
-      <div className="container">
-        <div className="row job-ads-wrapper mb-3">
-          {userJobPosting &&
-            userJobPosting.map(item => {
+    if (jobseekerMatchedJobPosting.length !== 0) {
+      return (
+        <div className="container">
+          <div className="row job-ads-wrapper mb-3">
+            {jobseekerMatchedJobPosting.map(item => {
               return (
                 <div
                   id={item.id}
@@ -104,9 +104,16 @@ class JobSeekerMatches extends Component {
                 </div>
               );
             })}
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className="container">
+          <span>There is no matches for you yet.</span>
+        </div>
+      );
+    }
   }
 }
 
@@ -114,15 +121,19 @@ const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const jobposting = state.firestore.ordered.jobposting;
   const matches = state.firestore.ordered.match;
-  const userJobPosting = _.differenceWith(jobposting, matches, function(
-    jobpost,
-    match
-  ) {
-    return jobpost.id !== match.jobAdId;
-  });
+  const jobseekerMatchedJobPosting = _.intersectionWith(
+    jobposting,
+    matches,
+    function(jobpost, match) {
+      return jobpost.id === match.jobAdId;
+    }
+  );
 
+  console.log("jobposting", jobposting);
+  console.log("matches", matches);
+  console.log("jobseekerMatchedJobPosting", jobseekerMatchedJobPosting);
   return {
-    userJobPosting: userJobPosting,
+    jobseekerMatchedJobPosting: jobseekerMatchedJobPosting,
     uid: auth.uid,
     auth: auth
   };
@@ -142,7 +153,7 @@ export default compose(
     return [
       {
         collection: "match",
-        where: [["jobSeekerID", "==", props.uid || null]]
+        where: [["jobSeekerId", "==", props.uid || null]]
       },
       {
         collection: "jobposting",

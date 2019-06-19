@@ -11,10 +11,6 @@ import { signOut } from "../../store/actions/authActions";
 import UserMenu from "./userMenu";
 
 class Nav extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   state = {
     collapse1: false,
     collapseID: ""

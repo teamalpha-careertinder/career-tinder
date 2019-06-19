@@ -10,6 +10,7 @@ export const FORGOT_PASSWORD = "/forgot-password";
 export const JOBS = "/jobs";
 export const CREATE_JOB_AD = "/create-job-ad";
 export const JOB_SEEKER_MATCHES = "/job-seeker-matches";
+export const EMPLOYER_MATCHES = "/employer-matches";
 export const NOTIFICATIONS = "/notifications";
 export const EMAIL_REDIRECT_URL_DEV = "http://localhost:3000/feed";
 export const EMAIL_REDIRECT_URL_PROD =
