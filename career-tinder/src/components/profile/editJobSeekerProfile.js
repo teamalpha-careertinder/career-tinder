@@ -12,6 +12,7 @@ import * as ROUTES from '../../constants/routes';
 import { firestoreConnect } from "react-redux-firebase";
 import { Checkbox, Radio } from 'pretty-checkbox-react';
 import CreatableSelect from 'react-select/creatable';
+import cities from '../../constants/city'
 
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -63,6 +64,11 @@ class EditJobSeekerProfile extends React.Component {
     console.log(`Option selected:`, selectedLanguages);
   }
 
+  handleCityChange = (city) => {
+    this.setState({ city: city });
+    console.log(`Option selected:`, city);
+  }
+
   constructor(props) {
     super(props);
 
@@ -79,6 +85,7 @@ class EditJobSeekerProfile extends React.Component {
     var skills = jobSeekerProfileProps && jobSeekerProfileProps.skills;
     var languages = jobSeekerProfileProps && jobSeekerProfileProps.languages;
     var workExperiences = (jobSeekerProfileProps && jobSeekerProfileProps.workExperiences !== null) ? jobSeekerProfileProps.workExperiences : [];
+    var city = jobSeekerProfileProps && jobSeekerProfileProps.city;
 
     workExperiences.map((item, value) => {
       item.id = Math.random().toString(36).slice(2);
@@ -108,7 +115,8 @@ class EditJobSeekerProfile extends React.Component {
       modal: false,
       weRemoveModal: false,
       workExperience: '',
-      workExperiences: workExperiences
+      workExperiences: workExperiences,
+      city: city ? city : ''
     };
     this.handleDOBDateChange = this.handleDOBDateChange.bind(this);
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
@@ -220,6 +228,7 @@ class EditJobSeekerProfile extends React.Component {
       if (this.state.selectedLanguages) {jobSeekerProfile.languages = this.state.selectedLanguages;}
       if (this.state.skills) { jobSeekerProfile.skills = this.state.skills}
       if (this.state.startDOBDate) {jobSeekerProfile.DOBDate  =  this.state.startDOBDate;}
+      if (this.state.city) {jobSeekerProfile.city  =  this.state.city;}
       if (this.state.workExperiences.length > 0) {
         var tmpWExps = [];
         for (var i = 0, l = this.state.workExperiences.length; i < l; i++) {
@@ -464,7 +473,7 @@ class EditJobSeekerProfile extends React.Component {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-4 col-sm-12">
+                      <div className="col-md-6 col-sm-12">
                         <div className="form-group datepicker">
                           <label>Date of birth:</label>
                           <div className="md-form">
@@ -474,7 +483,7 @@ class EditJobSeekerProfile extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-4 col-sm-12">
+                      <div className="col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>Skills</label>
                           <CreatableSelect
@@ -486,7 +495,9 @@ class EditJobSeekerProfile extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-4 col-sm-12">
+                    </div>
+                    <div className="row">
+                      <div className="col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>Languages</label>
                           <Select
@@ -495,6 +506,18 @@ class EditJobSeekerProfile extends React.Component {
                             onChange={this.handleLanguagesChange}
                             options={languages}
                             isMulti={true}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-sm-12">
+                        <div className="form-group">
+                          <label>City</label>
+                          <Select
+                            id="employeeLanguage"
+                            value={this.state.city}
+                            onChange={this.handleCityChange}
+                            options={cities}
+                            isMulti={false}
                           />
                         </div>
                       </div>

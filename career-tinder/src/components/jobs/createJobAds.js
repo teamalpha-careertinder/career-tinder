@@ -10,6 +10,7 @@ import {
   jobAdActions,
   jobUpdateActions
 } from "../../store/actions/jobAdActions";
+import cities from "../../constants/city";
 
 const skills = [
   { value: "php", label: "PHP" },
@@ -23,6 +24,9 @@ const skills = [
 class CreateJobAds extends React.Component {
   handleSkillsChange = neededskills => {
     this.setState({ neededskills });
+  };
+  handleLocationChange = location => {
+    this.setState({ location });
   };
   getPickerValue = value => {
     console.log(value);
@@ -41,7 +45,8 @@ class CreateJobAds extends React.Component {
       education: "",
       expectedstartdate: "",
       expirationdate: "",
-      visible: false
+      visible: false,
+      location: ''
     };
     this.onShowAlert = this.onShowAlert.bind(this);
     if (this.props.location.job) {
@@ -67,6 +72,8 @@ class CreateJobAds extends React.Component {
         this.state.expectedstartdate = modifiableJobAd.expectedstartdate.toDate();
       if (modifiableJobAd.expirationdate)
         this.state.expirationdate = modifiableJobAd.expirationdate.toDate();
+      if (modifiableJobAd.location)
+        this.state.location = modifiableJobAd.location;
     }
   }
 
@@ -173,7 +180,7 @@ class CreateJobAds extends React.Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-sm-12">
+                          <div className="col-md-6 col-sm-12">
                             <div className="form-group">
                               <label>Needed Skills</label>
 
@@ -186,6 +193,20 @@ class CreateJobAds extends React.Component {
                             </div>
                           </div>
 
+                          <div className="col-md-6 col-sm-12">
+                            <div className="form-group">
+                              <label>Job Location</label>
+
+                              <Select
+                                value={this.state.location}
+                                onChange={this.handleLocationChange}
+                                options={cities}
+                                isMulti={true}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
                           <div className="col-sm-10 mb-1">
                             <div className="form-group">
                               <label htmlFor="job_type">
