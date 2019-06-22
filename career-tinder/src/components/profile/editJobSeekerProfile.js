@@ -55,6 +55,13 @@ const jobSeekerProfileEntity = {
 class EditJobSeekerProfile extends React.Component {
 
   handleSkillsChange = skills => {
+    if(skills){
+      skills.forEach(skill => {
+        if(skill['__isNew__']){
+          delete skill['__isNew__']
+        }
+      });
+    }
     this.setState({ skills });
   };
 
