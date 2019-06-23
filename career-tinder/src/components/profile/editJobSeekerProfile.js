@@ -513,7 +513,7 @@ class EditJobSeekerProfile extends React.Component {
                         <div className="form-group">
                           <label>City</label>
                           <Select
-                            id="employeeLanguage"
+                            id="employeeCity"
                             value={this.state.city}
                             onChange={this.handleCityChange}
                             options={cities}
