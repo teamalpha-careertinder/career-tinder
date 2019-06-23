@@ -505,9 +505,9 @@ class EditJobSeekerProfile extends React.Component {
                           <CreatableSelect
                             id="employeeLanguage"
                             value={this.state.languages}
+                            isMulti
                             onChange={this.handleLanguagesChange}
                             options={languages}
-                            isMulti={true}
                           />
                         </div>
                       </div>
