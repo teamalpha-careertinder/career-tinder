@@ -27,6 +27,11 @@
     }
 }
 
+.md-form .prefix {
+    top: 1.1rem;
+    font-size: 1.4rem;
+}
+
 
 /* Custom styles */
 
@@ -63,3 +68,4 @@ h6 {
 label {
     color: #fff!important;
 }
+

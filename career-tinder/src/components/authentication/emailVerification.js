@@ -22,13 +22,13 @@ class EmailVerification extends React.Component {
               Career Tinder{" "}
             </h1>
             <hr className="hr-dark" />
-            <h6 className="mb-4">
+            <h6 className="mb-4" black-text>
               Verify your E-Mail to use Career Tinder: Check your E-Mails (Spam
               folder included) for a confirmation E-Mail or send another
               confirmation E-Mail.
             </h6>
 
-            <MDBBtn color="indigo" onClick={this.onSendEmailVerification}>
+            <MDBBtn color="unique" rounded size="sm" onClick={this.onSendEmailVerification}>
               {" "}
               Send confirmation E-Mail
             </MDBBtn>

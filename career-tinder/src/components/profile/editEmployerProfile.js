@@ -103,9 +103,9 @@ class EditEmployerProfile extends React.Component {
       <div className="employer-profile">
         <Alert color={response} isOpen={this.state.visible}><i className={response === 'success' ? "fas fa-check" : "fas fa-times"}></i> {message}</Alert>
         <div className="profile-form-wrapper">
-          <div className="card border-info card-container">
-            <div className="card-header">
-              <i className="fas fa-user-tie" /> Update your Employer profile
+          <div className="card border-indigo">
+            <div className="card-header white-text">
+              <i className="fas fa-user-tie" /> Update your Employer Profile
             </div>
             <div className="card-body text-info">
               <div className="tab-content" id="pills-tabContent">
@@ -120,7 +120,7 @@ class EditEmployerProfile extends React.Component {
                     onSubmit={this.handleEmployerSubmit}
                   >
                     <div className="row">
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput
                             id="employerName"
@@ -133,7 +133,7 @@ class EditEmployerProfile extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput
                             id="industryName"
@@ -147,7 +147,7 @@ class EditEmployerProfile extends React.Component {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput
                             id="employerAddress"
@@ -161,7 +161,7 @@ class EditEmployerProfile extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput
                             id="employerDescription"
@@ -176,7 +176,7 @@ class EditEmployerProfile extends React.Component {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-4 col-sm-12">
+                      <div className="col-md-4 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput
                             id="contactName"
@@ -189,7 +189,7 @@ class EditEmployerProfile extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-4 col-sm-12">
+                      <div className="col-md-4 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput
                             id="contactEmail"
@@ -202,7 +202,7 @@ class EditEmployerProfile extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-4 col-sm-12">
+                      <div className="col-md-4 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput
                             id="contactPhone"
@@ -219,9 +219,8 @@ class EditEmployerProfile extends React.Component {
                     <div className="row">
                       <div className="col-sm-12">
                         <MDBBtn
-                          color="indigo"
+                         color="unique" rounded size="sm" type="submit" className="mr-auto"
                           className="float-right"
-                          type="submit"
                         >
                           <i className="fas fa-save" /> Save Profile
                         </MDBBtn>

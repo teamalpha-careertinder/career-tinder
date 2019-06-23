@@ -14,8 +14,8 @@ class Feedboard extends Component {
         <div className="fb-wrapper black-text text-center text-md-left">
           <h1 className="h1-responsive font-weight-bold">Career Tinder </h1>
           <hr className="hr-light" />
-          <h6 className="mb-4">
-            Welcome to your career-tinder profile. Please <Link to="/profile/update"> update your profile </Link>
+          <h6 className="mb-4 black-text">
+            Welcome to your Career-Tinder profile. Please <Link to="/profile/update" > update your profile </Link>
             to have your profile complete. Your job feed is coming soon.
           </h6>
         </div>

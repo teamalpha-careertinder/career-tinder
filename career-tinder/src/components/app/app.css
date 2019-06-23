@@ -17,7 +17,7 @@ body {
 }
 
 .App-header {
-    background-color: #222;
+    background-color:#19233c;
     height: 150px;
     padding: 20px;
     color: white;
@@ -56,12 +56,12 @@ h6 {
 }
 
 .top-nav-collapse {
-    background: #424f95 !important;
+    background:#19233c !important;
 }
 
 @media (max-width: 768px) {
     .navbar:not(.top-nav-collapse) {
-        background: #424f95 !important;
+        background:#19233c !important;
     }
 }
 
@@ -88,12 +88,18 @@ label {
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link,
 .card-header {
-    background-color: #33b5e5;
-    color: #fff;
+    background-color:#19233c;
 }
 
+
+
+
+
+;
+
+
 .nav-pills .nav-link {
-    color: #33b5e5;
+    color: #19233c;
 }
 
 .header-wrapper {
@@ -125,7 +131,7 @@ button.navbar-toggler {
 }
 
 .navbar-wrapper #ct_navbar {
-    background: #292961!important;
+    background:#19233c!important;
 }
 
 .react-datepicker-wrapper input {
@@ -151,9 +157,9 @@ button.navbar-toggler {
     body {
         overflow-x: hidden;
         background-size: cover;
-        background: #1fc8db;
+        background:#19233c;
         background-repeat: no-repeat;
-        background: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%) !important;
+        background: linear-gradient(141deg, #9fb8ad 0%,#19233c 51%,#19233c 75%) !important;
     }
     #root {
         height: 100%;
@@ -162,7 +168,7 @@ button.navbar-toggler {
         margin-bottom: 0px;
     }
     .header-wrapper .navbar:not(.top-nav-collapse) {
-        background: #1e698d !important;
+        background:#19233c !important;
     }
     #ct_navbar {
         padding: 10px 0;

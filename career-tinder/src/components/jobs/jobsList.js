@@ -11,17 +11,14 @@ class JobsList extends Component {
 
     return (
       <div>
-        <div className="container">
-          <div className="card border-info card-container">
+        <div className="container" >        
+          <div className="card border-indigo" >
             <div className="card-header">
               <div className="row">
-                <div className="col-12">
-                  <h5 className="fas fa-list-alt mt-2"> Jobs List</h5>
-                  <NavLink
-                    type="button"
-                    className="btn btn-primary btn-sm nav-link float-right"
-                    to={ROUTES.CREATE_JOB_AD}
-                  >
+                <div className="col-sm">
+                  <h5 style={{ paddingTop: '9px' }} className="fas fa-list-alt"> Jobs List</h5>
+                  
+                  <NavLink  type='button rounded-pill' style={{ backgroundColor: '#880E4F' ,float: 'right' }} className="btn btn btn-sm nav-link" to={ROUTES.CREATE_JOB_AD}>
                     <b>Create Job Ad</b>
                   </NavLink>
                 </div>

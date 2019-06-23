@@ -12,25 +12,25 @@ class Home extends React.Component {
     if (auth.uid && auth.emailVerified) return <Redirect to={ROUTES.FEED} />;
     return (
       <div className="container">
-        <div className="card border-info">
+        <div className="card border-indigo" >
           <MDBAnimation type="zoomInUp">
-            <div className="card-header">
-              <h6 className="text-center">
+            <div className="card-header" >
+              <h6 className="text-center white-text " >
                 Hey there! Are you a Job Seeker or an Employer?
               </h6>
             </div>
             <MDBCardBody className="z-depth-3 gradient-text" md="3" xl="3">
-              <div className="text-center mt-4 black-text">
+              <div className="text-center mt-3 black-text">
                 <NavLink to={ROUTES.REGISTRATION_JOB_SEEKER}>
-                  <MDBBtn outline color="secondary">
-                    <i className="fas fa-user-plus" /> <b>I'M A JOB SEEKER</b>
+                  <MDBBtn color="unique" rounded size="sm" type="submit" className="mr-auto">
+                    <i className="fas fa-user-plus" /> I'M A JOB SEEKER
                   </MDBBtn>
                 </NavLink>
               </div>
-              <div className="text-center mt-4 black-text">
+              <div className="text-center mt-3 black-text">
                 <NavLink to={ROUTES.REGISTRATION_EMPLOYER}>
-                  <MDBBtn outline color="info">
-                    <i className="fas fa-user-plus" /> <b>I'M AN EMPLOYER</b>
+                  <MDBBtn color="unique" rounded size="sm" type="submit" className="mr-auto">
+                    <i className="fas fa-user-plus" /> I'M AN EMPLOYER
                   </MDBBtn>
                 </NavLink>
               </div>
@@ -38,9 +38,11 @@ class Home extends React.Component {
                 <hr className="hr-dark" />
                 <div className="text-center d-flex justify-content-center black-label">
                   <div className="black-text">
-                    Already have an account? <br />
-                    <NavLink className="red-text" to={ROUTES.LOG_IN}>
-                      <i className="fas fa-sign-in-alt" /> Log in
+                    Already Have an Account? 
+                  
+                    <NavLink className="nav-link text" style={{color:'#880E4F'}} to={ROUTES.LOG_IN}>
+                    <MDBAnimation type="pulse" infinite><b>Log In</b> 
+                  </MDBAnimation> 
                     </NavLink>
                   </div>
                 </div>
@@ -49,12 +51,12 @@ class Home extends React.Component {
           </MDBAnimation>
         </div>
         <MDBCardFooter>
-          <h6 className="mb-2" align="center">
-            Welcome to Career Tinder website. This website is desgined for the
+          <h6 className="mb-2" align="center" color= "black">
+            Welcome to the Career Tinder Website. This website is desgined for the
             companies which are looking to hire new employees, as well as people
-            how are looking for job. To use the offered services of the web,
+            who are looking for job. To use the offered services of the web,
             please login with your account or if you don't have an account yet,
-            please click the signup button to register
+            please click the signup button to register.
           </h6>
         </MDBCardFooter>
       </div>

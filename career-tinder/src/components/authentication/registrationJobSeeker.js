@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { MDBBtn, MDBCardBody, MDBCardFooter, MDBInput } from "mdbreact";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
+import { MDBAnimation } from "mdbreact";
 import { connect } from "react-redux";
 import { signUpAsJobSeeker } from "../../store/actions/authActions";
 
@@ -40,13 +41,13 @@ class RegistrationJobSeeker extends React.Component {
       return <Redirect to={ROUTES.EMAIL_VERIFICATION} />;
     return (
       <div className="container">
-        <div className="card border-info card-container">
-          <div className="card-header">
+        <div className="card border-indigo">
+          <div className="card-header white-text">
             <i className="fas fa-users" /> Sign Up as a Job Seeker
           </div>
           <MDBCardBody className="z-depth-2 gradient-text text-info">
             <div className="row">
-              <div className="col-md-6 col-sm-12">
+              <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                 <form onSubmit={this.handleSubmit}>
 
                 <MDBInput
@@ -103,7 +104,7 @@ class RegistrationJobSeeker extends React.Component {
                     //onChange={this.handleChange}
                   />
                   <div className="text-center mt-4 black-text">
-                    <MDBBtn color="indigo" type="submit" enabled={isInvalid}>
+                    <MDBBtn color="unique" rounded size="sm" type="submit" className="mr-auto" enabled={isInvalid}>
                       Sign Up
                     </MDBBtn>
                     <div className="center red-text">
@@ -114,11 +115,12 @@ class RegistrationJobSeeker extends React.Component {
                 <div className="text-center mt-4">
                   <hr className="hr-dark" />
                   <div className="text-center d-flex justify-content-center white-label">
-                    <NavLink
-                      className="red-text"
+                    <NavLink className="text" style={{color:'#880E4F'}}
                       to={ROUTES.REGISTRATION_EMPLOYER}
                     >
-                      <i className="fas fa-user-plus" /> Oops! I'm an Employer!
+                    <MDBAnimation type="pulse" infinite><b> Oops! I'm an Employer!</b>
+                  </MDBAnimation>
+                      
                     </NavLink>
                   </div>
                 </div>
@@ -126,13 +128,13 @@ class RegistrationJobSeeker extends React.Component {
             </div>
           </MDBCardBody>
           <MDBCardFooter>
-            <h6 className="mb-2" align="center">
-              Welcome to Career Tinder website. This website is desgined for the
-              companies which are looking to hire new employees, as well as
-              people how are looking for job. To use the offered services of the
-              web, please login with your account or if you don't have an
-              account yet, please click the signup button to register
-            </h6>
+          <h6 className="mb-2" align="center" color= "black">
+            Welcome to the Career Tinder Website. This website is desgined for the
+            companies which are looking to hire new employees, as well as people
+            who are looking for job. To use the offered services of the web,
+            please login with your account or if you don't have an account yet,
+            please click the signup button to register.
+          </h6>
           </MDBCardFooter>
         </div>
       </div>

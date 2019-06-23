@@ -47,8 +47,8 @@ class ForgotPassword extends React.Component {
     return (
       <div className="container">
         <div className="card-body text-info">
-          <div className="card border-info mb-3">
-            <div className="card-header">Reset your password</div>
+          <div className="card border-indigo mb-3">
+            <div className="card-header white-text">Reset your Password</div>
             <div className="card-body text-info">
               <div className="gradient-text">
                 <h6 className="mb-2 black-text" align="center">
@@ -58,7 +58,7 @@ class ForgotPassword extends React.Component {
                 </h6>
                 <form onSubmit={this.handleSubmit}>
                   <div className="row">
-                    <div className="col-md-6 col-sm-12">
+                    <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                       <MDBInput
                         name="email"
                         value={this.state.email}
@@ -72,13 +72,12 @@ class ForgotPassword extends React.Component {
 
                       <div className="text-center mt-4 black-text">
                         <MDBBtn
-                          color="indigo"
-                          type="submit"
+                          color="unique" rounded size="sm" type="submit" className="mr-auto"
                           disabled={isInvalid}
                         >
                           Send
                         </MDBBtn>
-                        <MDBBtn color="indigo" href="/#/login">
+                        <MDBBtn color="unique" rounded size="sm" type="submit" className="mr-auto" href="/#/login">
                           Back to Login
                         </MDBBtn>
                         { (newLoad === false) ?

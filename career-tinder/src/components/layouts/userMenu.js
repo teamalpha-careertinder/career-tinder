@@ -23,14 +23,14 @@ const UserMenu = props => {
           to={ROUTES.UPDATE_PROFILE}
           onClick={props.closeMenu}
         >
-          <i className="fas fa-user" /> Profile
+          <i className="fas fa-user" style={{color:'#19233C'}}/> Profile
         </NavLink>
         <NavLink
           className="dropdown-item"
           to={ROUTES.CHANGE_PASSWORD}
           onClick={props.closeMenu}
         >
-          <i className="fas fa-unlock-alt" /> Change Password
+          <i className="fas fa-unlock-alt"style={{color:'#19233C'}} /> Change Password
         </NavLink>
         <NavLink
           className="dropdown-item sign-out-link"
@@ -38,7 +38,7 @@ const UserMenu = props => {
           onClick={props.closeMenu}
         >
           {" "}
-          <i className="fas fa-sign-out-alt" /> Sign Out
+          <i className="fas fa-sign-out-alt" style={{color:'#19233C'}}/> Sign Out
         </NavLink>
       </div>
     </div>

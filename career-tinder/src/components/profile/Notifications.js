@@ -15,8 +15,8 @@ class Notifications extends React.Component {
     return (
       <div className="container">
         <div className="profile-form-wrapper">
-          <div className="card border-info mb-3">
-            <div className="card-header">
+          <div className="card border-indigo">
+            <div className="card-header white-text">
               <div className="fas fa-bell-slash" /> Notifications{" "}
             </div>
             <div className="card-body text-info">

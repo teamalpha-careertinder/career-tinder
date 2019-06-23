@@ -138,12 +138,12 @@ class CreateJobAds extends React.Component {
           {message}
         </Alert>
         <div className="container">
-          <div className="justify-content-md-center">
-            <div className="profile-form-wrapper">
-              <div className="card border-info card-container">
-                <div className="card-header">
-                  <i className="fas fa-users" /> Create Job Ad
-                </div>
+        <div className="justify-content-md-center">
+          <div className="profile-form-wrapper">
+            <div className="card border-indigo" >
+              <div className="card-header  white-text">
+                <i className="fas fa-users" /> Create Job Ad
+              </div>
                 <div className="card-body text-info">
                   <div className="tab-content" id="pills-tabContent">
                     <div
@@ -156,7 +156,7 @@ class CreateJobAds extends React.Component {
                         onSubmit={this.handleSubmit}
                       >
                         <div className="row">
-                          <div className="col-sm-12">
+                          <div className="col-sm-12" style={{color:'#19233C'}}>
                             <div className="form-group">
                               <MDBInput
                                 id="jobtitle"
@@ -165,15 +165,16 @@ class CreateJobAds extends React.Component {
                                 icon="pencil-alt"
                                 name="job_title"
                                 className="form-control"
-                                onChange={this.handleChange}
                                 value={this.state.jobtitle}
-                                required
-                              />
+                                onChange={this.handleChange}
+                                maxLength="40" pattern="^[A-Za-z.\s_-]+$"
+                                required />
+                             
                             </div>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-sm-12">
+                        <div className="col-sm-12" style={{color:'#19233C'}}>
                             <div className="form-group">
                               <label>Needed Skills</label>
 
@@ -279,7 +280,7 @@ class CreateJobAds extends React.Component {
                             </div>
                           </div>
 
-                          <div className="col-sm-6">
+                          <div className="col-sm-6" style={{color:'#19233C'}}>
                             <div className="form-group">
                               <MDBInput
                                 value={this.state.maxsalary}
@@ -294,7 +295,7 @@ class CreateJobAds extends React.Component {
                         </div>
 
                         <div className="row">
-                          <div className="col-sm-12">
+                          <div className="col-sm-12" style={{color:'#19233C'}}>
                             <div className="form-group">
                               <MDBInput
                                 value={this.state.jobdescription}
@@ -310,9 +311,10 @@ class CreateJobAds extends React.Component {
                             </div>
                           </div>
                         </div>
-
+                        
+                        
                         <div className="row">
-                          <div className="col-sm-6">
+                          <div className="col-sm-6" style={{color:'#19233C'}}>
                             <div className="form-group datepicker">
                               <label>Expected Start Date:</label>
                               <div className="md-form">
@@ -336,7 +338,7 @@ class CreateJobAds extends React.Component {
                             </div>
                           </div>
 
-                          <div className="col-sm-6">
+                          <div className="col-sm-6" style={{color:'#19233C'}}>
                             <div className="form-group datepicker">
                               <label>Expiration Date:</label>
                               <div className="md-form">
@@ -363,13 +365,9 @@ class CreateJobAds extends React.Component {
 
                         <div className="row">
                           <div className="col-sm-12">
-                            <MDBBtn
-                              color="primary"
-                              className="float-right"
-                              type="submit"
-                            >
-                              <i className="fas fa-save" /> submit This Job
-                              Opportunity
+                            <MDBBtn color="unique" rounded size="sm" type="submit" className="float-right"
+                            >Submit This Job Opportunity
+                          
                             </MDBBtn>
                           </div>
                         </div>

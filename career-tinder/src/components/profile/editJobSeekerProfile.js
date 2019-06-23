@@ -372,17 +372,17 @@ class EditJobSeekerProfile extends React.Component {
                   <div className="form-group">
                     <input id="we_id" type="hidden" name="we_id" value={this.state.weId} />
                     <div className="row">
-                      <div className="col-md-6 col-sm-12">
-                        <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name"
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
+                        <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name" 
                           onChange={this.handleChange} required value={this.state.companyName} />
                       </div>
-                      <div className="col-md-6 col-sm-12">
-                        <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" name="job_title"
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
+                        <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" name="job_title" 
                           onChange={this.handleChange} required value={this.state.jobTitle} />
                       </div>
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group datepicker">
-                          <label>From:</label>
+                          <label >From:</label>
                           <div className="md-form">
                             <i className="fas fa-calendar-alt prefix"></i>
                             <DatePicker selected={this.state.startFromDate} onChange={this.handleFromDateChange} className="form-control"
@@ -390,7 +390,7 @@ class EditJobSeekerProfile extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group datepicker">
                           <label>To:</label>
                           <div className="md-form">
@@ -400,8 +400,8 @@ class EditJobSeekerProfile extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-sm-12">
-                        <MDBInput id="jobDescription" label="Job description" type="text" icon="pencil-alt"
+                      <div className="col-sm-12" style={{color:'#19233C'}}>
+                        <MDBInput id="jobDescription" label="Job description" type="text" icon="pencil-alt" 
                         name="job_description" onChange={this.handleChange} value={this.state.jobDescription} />
                       </div>
                       <div className="col-sm-12 mb-1">
@@ -425,8 +425,8 @@ class EditJobSeekerProfile extends React.Component {
                   </div>
                 </div>
                 <div className="col-sm-12">
-                  <Button color="success" type="submit"><i className={this.state.weCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.weCreate ? 'Add' : 'Update'}</Button>{' '}
-                  <Button color="danger" onClick={this.toggle}>Cancel</Button>
+                  <Button color="unique" rounded size="sm" type="submit" className="mr-auto"><i className={this.state.weCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.weCreate ? 'Add' : 'Update'}</Button>{' '}
+                  <Button color="danger"rounded size="sm"  onClick={this.toggle}>Cancel</Button>
                 </div>
               </div>
             </form>
@@ -447,8 +447,8 @@ class EditJobSeekerProfile extends React.Component {
           </ModalFooter>
         </Modal>
         <div className="profile-form-wrapper">
-          <div className="card border-info card-container">
-            <div className="card-header bg-info">
+          <div className="card border-indigo card-container">
+            <div className="card-header white-text">
               <i className="fas fa-users"></i> Update your Job Seeker profile
               </div>
             <div className="card-body text-info">
@@ -456,28 +456,28 @@ class EditJobSeekerProfile extends React.Component {
                 <div className="tab-pane fade show active" id="pills-job-seeker" role="tabpanel" aria-labelledby="pills-job-seeker-tab">
                   <form className="profile-form" onSubmit={this.handleSubmit}>
                     <div className="row">
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12"style={{color:'#19233C'}}>
                         <div className="form-group">
-                         
-                          <MDBInput id="jobSeekerName" value={this.state.jobSeekerName || ''} label="Name"  type="text" icon="pencil-alt"
+                          
+                          <MDBInput id="jobSeekerName" value={this.state.jobSeekerName || ''} label="Name"  type="text" icon="pencil-alt" 
                           onChange={this.handleChange} maxLength="40" pattern="^[A-Za-z.\s_-]+$" required />
                         </div>
                       </div>
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12"style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput id="jobSeekerPhone" value={this.state.jobSeekerPhone || ''}  label="Phone" icon="mobile-alt" type="number" onChange={this.handleChange} />
                         </div>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-sm-12">
+                      <div className="col-sm-12"style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput id="jobSeekerAddress" value={this.state.jobSeekerAddress || ''} label="Address" icon="address-card" type="textarea" rows="1" onChange={this.handleChange} />
                         </div>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-4 col-sm-12">
+                      <div className="col-md-4 col-sm-12"style={{color:'#19233C'}}>
                         <div className="form-group datepicker">
                           <label>Date of birth:</label>
                           <div className="md-form">
@@ -487,7 +487,7 @@ class EditJobSeekerProfile extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-4 col-sm-12">
+                      <div className="col-md-4 col-sm-12"style={{color:'#19233C'}}>
                         <div className="form-group">
                           <label>Skills</label>
                           <CreatableSelect
@@ -499,7 +499,7 @@ class EditJobSeekerProfile extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-4 col-sm-12">
+                      <div className="col-md-4 col-sm-12"style={{color:'#19233C'}}>
                         <div className="form-group">
                           <label>Languages</label>
                           <CreatableSelect
@@ -513,7 +513,7 @@ class EditJobSeekerProfile extends React.Component {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-12">                        
+                      <div className="col-12"style={{color:'#19233C'}}>                        
                         <div className="form-group">
                           <label style={{'width':'auto'}}>Work Experiences:</label>
                           <Button color="danger" className="btn-circle" onClick={this.toggle}><i className="fas fa-plus"></i></Button>
@@ -536,7 +536,7 @@ class EditJobSeekerProfile extends React.Component {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12"style={{color:'#19233C'}}>
                         <div className="row">
                           <div className="col-12">
                             <div className="form-group mt-2">
@@ -548,7 +548,7 @@ class EditJobSeekerProfile extends React.Component {
                               </Checkbox>
                             </div>
                           </div>
-                          <div className="col-12">
+                          <div className="col-12"style={{color:'#19233C'}}>
                             <div className="form-group">
                               <MDBInput id="minSalary" value={this.state.minSalary || ''} label="Minimum expected salary" type="number" icon="euro-sign"
                               onChange={this.handleChange} />
@@ -556,11 +556,11 @@ class EditJobSeekerProfile extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12"style={{color:'#19233C'}}>
                         <div className="form-group">
                           <label>Employment type for this position:</label>
                           <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
-                            shape="curve" color="primary-o" id="employmentTypeFull"
+                            shape="curve" color="primary-o" id="employmentTypeFull" 
                             checked={this.state.applyingFullTime ? true : false} onChange={this.handleChangeFT}>
                                 Full-time
                           </Checkbox>
@@ -574,8 +574,8 @@ class EditJobSeekerProfile extends React.Component {
                     </div>                    
                     <div className="row">
                       <div className="col-sm-12">
-                        <MDBBtn color="success" className="float-right" type="submit">
-                          <i className="fas fa-save"></i> Save Profile
+                        <MDBBtn color="unique" rounded size="sm" type="submit" className="mr-auto"className="float-right">
+                          Save Profile
                         </MDBBtn>
                       </div>
                     </div>

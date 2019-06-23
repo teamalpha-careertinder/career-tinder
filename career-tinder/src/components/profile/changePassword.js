@@ -51,9 +51,9 @@ class ChangePassword extends React.Component {
     return (
       <div className="container">
         <div className="profile-form-wrapper">
-          <div className="card border-info mb-3">
-            <div className="card-header">
-              <MDBIcon icon="user" className="mr-1" /> Change your password
+          <div className="card border-indigo">
+            <div className="card-header white-text">
+              <MDBIcon icon="user" className="mr-1" /> Change your Password
             </div>
             <div className="card-body text-info">
               <div className="tab-content" id="pills-tabContent">
@@ -65,7 +65,7 @@ class ChangePassword extends React.Component {
                 >
                   <form onSubmit={this.handleSubmit} className="profile-form">
                     <div className="row">
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput
                             name="passwordOne"
@@ -77,7 +77,7 @@ class ChangePassword extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-6 col-sm-12">
+                      <div className="col-md-6 col-sm-12" style={{color:'#19233C'}}>
                         <div className="form-group">
                           <MDBInput
                             name="passwordTwo"
@@ -92,10 +92,7 @@ class ChangePassword extends React.Component {
                     </div>
                     <div className="row">
                       <div className="col-sm-12">
-                        <MDBBtn
-                          color="indigo"
-                          className="float-right"
-                          type="submit"
+                        <MDBBtn color="unique" rounded size="sm" type="submit" className="float-right"
                           disabled={isInvalid}
                         >
                           {
