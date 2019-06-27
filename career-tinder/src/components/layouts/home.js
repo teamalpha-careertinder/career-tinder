@@ -11,52 +11,50 @@ class Home extends React.Component {
     const { auth } = this.props;
     if (auth.uid && auth.emailVerified) return <Redirect to={ROUTES.FEED} />;
     return (
-      <div className="container">
-        <div className="card border-info">
-          <MDBAnimation type="zoomInUp">
-            <div className="card-header">
-              <h6 className="text-center">
-                Hey there! Are you a Job Seeker or an Employer?
-              </h6>
+      <div className="container page-wrapper">
+        <h3 className="text-center font-weight-bold page-heading">
+          <i className="far fa-grin"></i><br/>
+          Choose your role in<br/> Career Tinder
+        </h3>
+        <div className="row">
+          <div className="col-12 col-md-6">
+            <div className="row">
+              <div className="col-6 text-center mt-4">
+                <NavLink className="text-danger home-choose-role" to={ROUTES.REGISTRATION_JOB_SEEKER}>
+                  <i className="fas fa-user-graduate"></i><br/>
+                  <span className="font-weight-bold">I'm a Job Seeker</span>
+                </NavLink>
+              </div>
+              <div className="col-6 text-center mt-4">
+                <NavLink className="text-warning home-choose-role" to={ROUTES.REGISTRATION_EMPLOYER}>
+                  <i className="fas fa-user-tie"></i><br/>
+                  <span className="font-weight-bold">I'm an Employer</span>
+                </NavLink>
+              </div>
             </div>
-            <MDBCardBody className="z-depth-3 gradient-text" md="3" xl="3">
-              <div className="text-center mt-4 black-text">
-                <NavLink to={ROUTES.REGISTRATION_JOB_SEEKER}>
-                  <MDBBtn outline color="secondary">
-                    <i className="fas fa-user-plus" /> <b>I'M A JOB SEEKER</b>
-                  </MDBBtn>
-                </NavLink>
-              </div>
-              <div className="text-center mt-4 black-text">
-                <NavLink to={ROUTES.REGISTRATION_EMPLOYER}>
-                  <MDBBtn outline color="info">
-                    <i className="fas fa-user-plus" /> <b>I'M AN EMPLOYER</b>
-                  </MDBBtn>
-                </NavLink>
-              </div>
-              <div className="text-center mt-4 black-text">
-                <hr className="hr-dark" />
-                <div className="text-center d-flex justify-content-center black-label">
-                  <div className="black-text">
-                    Already have an account? <br />
-                    <NavLink className="red-text" to={ROUTES.LOG_IN}>
-                      <i className="fas fa-sign-in-alt" /> Log in
-                    </NavLink>
-                  </div>
-                </div>
-              </div>
-            </MDBCardBody>
-          </MDBAnimation>
+          </div>
+        </div>    
+        <div className="row">
+          <div className="col-12 text-center mt-4">
+            Already have an account? <br />
+            <NavLink className="text-info font-weight-bold" to={ROUTES.LOG_IN}>
+              <i className="fas fa-sign-in-alt" /> Log in
+            </NavLink>
+          </div>
         </div>
-        <MDBCardFooter>
-          <h6 className="mb-2" align="center">
-            Welcome to Career Tinder website. This website is desgined for the
-            companies which are looking to hire new employees, as well as people
-            how are looking for job. To use the offered services of the web,
-            please login with your account or if you don't have an account yet,
-            please click the signup button to register
-          </h6>
-        </MDBCardFooter>
+        <div className="row d-none d-md-block mt-4 text-center">
+          <div className="col-md-6">
+            <i class="fas fa-flag mt-4"></i>
+            <h6 className="mb-2 mt-4">
+              Welcome to Career Tinder website. This website is designed for the
+              companies which are looking to hire new employees, as well as people
+              who are looking for job. To use the offered services by us,
+              please login to your account or if you don't have an account yet,
+              please select an option from above and register.
+            </h6>
+          </div>
+        </div>
+          
       </div>
     );
   }

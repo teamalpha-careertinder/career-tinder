@@ -7,7 +7,7 @@ const SignedOutLinks = (props) => {
     <ul className="navbar-nav ct-nav-collapsible">
       <li className="nav-item">
         <NavLink exact className="nav-link" to={ROUTES.LANDING} onClick={props.closeMenu}>
-          <i className="fas fa-user-plus" /> Register
+          <i className="fas fa-user-plus text-info" /> Register
         </NavLink>
       </li>
     </ul>

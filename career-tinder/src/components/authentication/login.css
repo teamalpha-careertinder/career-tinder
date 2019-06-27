@@ -60,6 +60,19 @@ h6 {
     }
 }
 
-label {
-    color: #fff!important;
+.form-label {
+    color: #333 !important;
+    font-weight: bold;
+}
+
+.login-form,
+.fp-form,
+.empr-form {
+    padding: 0 10px;
+}
+
+.login-form button,
+.fp-form button,
+.empr-form button {
+    margin: 0;
 }

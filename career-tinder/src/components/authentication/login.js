@@ -35,79 +35,42 @@ class Login extends React.Component {
     const { authError, auth } = this.props;
     if (auth.uid && auth.emailVerified) return <Redirect to={ROUTES.JOBS} />;
     return (
-      <div className="container">
-        <div className="card border-info card-container">
-          <div className="card-header">
-            <i className="fas fa-sign-in-alt" /> Sign In
-          </div>
-          <div className="card-body text-info">
-            <div className="gradient-text">
-              <div className="row">
-                <div className="col-md-6 col-sm-12">
-                  <form onSubmit={this.handleSubmit}>
-                    <MDBInput
-                      value={this.state.email}
-                      name="email"
-                      label="Your email"
-                      icon="envelope"
-                      type="email"
-                      id="email"
-                      className="form-control"
-                      onChange={this.changeHandler}
-                      required
-                    />
-
-                    <MDBInput
-                      value={this.state.password}
-                      name="password"
-                      label="Your password"
-                      icon="lock"
-                      type="password"
-                      id="password"
-                      className="form-control"
-                      onChange={this.changeHandler}
-                      required
-                    />
-
-                    <div className="text-center mt-4 black-text">
-                      <MDBBtn color="indigo" type="submit" className="mb-4">
-                        Sign In
-                      </MDBBtn>
-                      <div className="center red-text">
-                        {authError ? <p>{authError}</p> : null}
-                      </div>
-                    </div>
-                    <Link
-                      className="text-center d-flex justify-content-center black-text"
-                      to={ROUTES.FORGOT_PASSWORD}
-                    >
-                      Forgot password?
-                    </Link>
-                  </form>
-                </div>
+      <div className="container page-wrapper">
+        <h3 className="text-center font-weight-bold mt-4">
+          <i className="fas fa-sign-in-alt"></i><br/>
+          Start using<br/> Career Tinder
+        </h3>
+        <div className="row">
+          <div className="col-md-6 col-12">
+            <form className="mt-4 mb-4 login-form" onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="email"><i className="fas fa-envelope"></i> Email</label>
+                <input type="email" id="email" name="email" value={this.state.email} className="form-control form-control-lg" onChange={this.changeHandler} 
+                  placeholder="career-tinder@gmail.com" required />
               </div>
-            </div>
-            <div className="text-center black-text">
-              <div className="text-center d-flex justify-content-center white-label">
-                <div className="black-text">
-                  <hr className="hr-dark" />
-                  Don't have an account ?{" "}
-                  <NavLink className="nav-link red-text" to={ROUTES.LANDING}>
-                    <i className="fas fa-user-plus" /> Register
-                  </NavLink>
-                </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="password"><i className="fas fa-key"></i> Password</label>
+                <input type="password" id="password" name="password" value={this.state.password} className="form-control form-control-lg" onChange={this.changeHandler} 
+                  placeholder="******" required />
+                <Link
+                  className="text-info float-right font-weight-bold mt-2"
+                  to={ROUTES.FORGOT_PASSWORD}
+                >
+                  Forgot password?
+                </Link>
               </div>
-            </div>
+
+              <button type="submit" className="btn btn-lg btn-info w-100 mt-4">
+                <i className="fas fa-sign-in-alt"></i> Sign In
+              </button>                
+            </form>
           </div>
-          <MDBCardFooter>
-            <h6 className="mb-2" align="center">
-              Welcome to Career Tinder website. This website is desgined for the
-              companies which are looking to hire new employees, as well as
-              people how are looking for job. To use the offered services of the
-              web, please login with your account or if you don't have an
-              account yet, please click the signup button to register
-            </h6>
-          </MDBCardFooter>
+        </div>
+        <div className="text-center">
+          <span>Don't have an account?{" "}</span>
+          <NavLink className="nav-link text-info font-weight-bold" to={ROUTES.LANDING}>
+            <i className="fas fa-user-plus" /> Register
+          </NavLink>
         </div>
       </div>
     );
