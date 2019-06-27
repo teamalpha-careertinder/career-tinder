@@ -18,11 +18,6 @@ class RegistrationJobSeeker extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  /* handleChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value
-    });
-  }; */
   handleSubmit = e => {
     e.preventDefault();
     this.props.signUpAsJobSeeker(this.state);
@@ -39,101 +34,56 @@ class RegistrationJobSeeker extends React.Component {
     if (auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.EMAIL_VERIFICATION} />;
     return (
-      <div className="container">
-        <div className="card border-info card-container">
-          <div className="card-header">
-            <i className="fas fa-users" /> Sign Up as a Job Seeker
-          </div>
-          <MDBCardBody className="z-depth-2 gradient-text text-info">
-            <div className="row">
-              <div className="col-md-6 col-sm-12">
-                <form onSubmit={this.handleSubmit}>
+      <div className="container page-wrapper">
+        <h3 className="text-center font-weight-bold mt-4">
+          <i className="fas fa-user-graduate"></i><br/>
+          Register as a Job Seeker
+        </h3>
+        <div className="row">
+          <div className="col-md-6 col-sm-12">
+            <form className="empr-form mt-4 mb-4" onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="fullName"><i className="fas fa-pencil-alt"></i> Full Name</label>
+                <input type="text" id="fullName" name="fullName" value={this.state.fullName} className="form-control form-control-lg" onChange={this.changeHandler} 
+                  placeholder="John Doe" required />
+              </div>
 
-                <MDBInput
-                   value={this.state.fullName}
-                    name="fullName"
-                    onChange={this.changeHandler}
-                    id="fullName"
-                    label="Full Name"
-                    icon="pencil-alt"
-                    type="text"
-                    className="form-control"
-                    required
-                    //onChange={this.handleChange}
-                    />
+              <div className="form-group">
+                <label className="form-label" htmlFor="email"><i className="fas fa-envelope"></i> Email</label>
+                <input type="email" id="email" name="email" value={this.state.email} className="form-control form-control-lg" onChange={this.changeHandler} 
+                  placeholder="john-doe@gmail.com" required autoComplete="false" />
+              </div>     
 
-                  <MDBInput
-                    value={this.state.email}
-                         name="email"
-                         label="Your email"
-                         icon="envelope"
-                         type="email"
-                         id="email"
-                         className="form-control"
-                         onChange={this.changeHandler}
-                         required
-                         autoComplete="false"
-                        //onChange={this.handleChange}
-                  />
+              <div className="form-group">
+                <label className="form-label" htmlFor="password"><i className="fas fa-key"></i> Password</label>
+                <input type="password" id="password" name="password" value={this.state.password} className="form-control form-control-lg" onChange={this.changeHandler} 
+                  placeholder="******" required />
+              </div>
 
-                  <MDBInput
-                     value={this.state.password}
-                     name="password"
-                     label="Your password"
-                     icon="lock"
-                     type="password"
-                     id="password"
-                     className="form-control"
-                     onChange={this.changeHandler}
-                     required
-                    //onChange={this.handleChange}
-                  />
+              <div className="form-group">
+                <label className="form-label" htmlFor="confirm_password"><i className="fas fa-key"></i> Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirmpassword" value={this.state.confirmpassword} className="form-control form-control-lg" onChange={this.changeHandler} 
+                  placeholder="******" required autoComplete="new-password"/>
+              </div>
 
-                  <MDBInput
-                   value={this.state.confirmpassword}
-                   name="confirmpassword"
-                   id="confirm_password"
-                   label="Confirm Password"
-                   icon="lock"
-                   type="password"
-                   autoComplete="new-password"
-                   className="form-control"
-                    onChange={this.changeHandler}
-                    required
-                    //onChange={this.handleChange}
-                  />
-                  <div className="text-center mt-4 black-text">
-                    <MDBBtn color="indigo" type="submit" enabled={isInvalid}>
-                      Sign Up
-                    </MDBBtn>
-                    <div className="center red-text">
-                      {authError ? <p>{authError}</p> : null}
-                    </div>
-                  </div>
-                </form>
-                <div className="text-center mt-4">
-                  <hr className="hr-dark" />
-                  <div className="text-center d-flex justify-content-center white-label">
-                    <NavLink
-                      className="red-text"
-                      to={ROUTES.REGISTRATION_EMPLOYER}
-                    >
-                      <i className="fas fa-user-plus" /> Oops! I'm an Employer!
-                    </NavLink>
-                  </div>
+              <button type="submit" className="btn btn-lg btn-info w-100 mt-4" enabled={isInvalid}>
+                <i className="fas fa-user-plus"></i> Sign Up
+              </button> 
+
+              <div className="text-center mt-4 black-text">
+                <div className="center red-text">
+                  {authError ? <p>{authError}</p> : null}
                 </div>
               </div>
+            </form>
+            <div className="text-center font-weight-bold mt-4 mb-4">
+              <NavLink className="text-info"
+                to={ROUTES.REGISTRATION_EMPLOYER}
+              >
+                <i className="fas fa-user-tie" /> Oops! I'm an Employer!
+              </NavLink>
             </div>
-          </MDBCardBody>
-          <MDBCardFooter>
-            <h6 className="mb-2" align="center">
-              Welcome to Career Tinder website. This website is desgined for the
-              companies which are looking to hire new employees, as well as
-              people how are looking for job. To use the offered services of the
-              web, please login with your account or if you don't have an
-              account yet, please click the signup button to register
-            </h6>
-          </MDBCardFooter>
+          </div>
         </div>
       </div>
     );

@@ -15,7 +15,6 @@ const INITIAL_STATE = {
 var newLoad;
 
 class ForgotPassword extends React.Component {
-  //state = { ...INITIAL_STATE };
 
   constructor(props) {
     super(props);
@@ -29,7 +28,6 @@ class ForgotPassword extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    //   console.log(`OnSubmit_PW_Forget: `,  this.state, this.props);
 
     const { email } = this.state;
 
@@ -45,54 +43,38 @@ class ForgotPassword extends React.Component {
 
     if (auth.uid) return <Redirect to={ROUTES.FEED} />;
     return (
-      <div className="container">
-        <div className="card-body text-info">
-          <div className="card border-info mb-3">
-            <div className="card-header">Reset your password</div>
-            <div className="card-body text-info">
-              <div className="gradient-text">
-                <h6 className="mb-2 black-text" align="center">
-                  Enter the e-mail address associated with your Career Tinder
-                  account and we'll send you instructions on how to reset your
-                  password.
-                </h6>
-                <form onSubmit={this.handleSubmit}>
-                  <div className="row">
-                    <div className="col-md-6 col-sm-12">
-                      <MDBInput
-                        name="email"
-                        value={this.state.email}
-                        label="Your email"
-                        icon="envelope"
-                        className="black-text"
-                        type="email"
-                        id="email"
-                        onChange={this.handleChange}
-                      />
-
-                      <div className="text-center mt-4 black-text">
-                        <MDBBtn
-                          color="indigo"
-                          type="submit"
-                          disabled={isInvalid}
-                        >
-                          Send
-                        </MDBBtn>
-                        <MDBBtn color="indigo" href="/#/login">
-                          Back to Login
-                        </MDBBtn>
-                        { (newLoad === false) ?
-                            <div className= {(authStatus === "OK") ? "center green-text": "center red-text"}>
-                                <p>{authMsg}</p>
-                            </div>
-                            : null
-                        }
-                      </div>
-                    </div>
-                  </div>
-                </form>
+      <div className="container page-wrapper">
+        <h3 className="text-center font-weight-bold mt-4">
+          <i className="fas fa-redo-alt"></i><br/>
+          Reset password
+        </h3>
+        <div className="row">
+          <div className="col-12 col-md-6">            
+            <h6 className="mt-4" align="center">
+              Enter the e-mail address associated with your Career Tinder
+              account and we'll send you instructions on how to reset your
+              password.
+            </h6>
+            <form className="fp-form mt-4 mb-4" onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="email"><i className="fas fa-envelope"></i> Email</label>
+                <input type="email" id="email" name="email" value={this.state.email} className="form-control form-control-lg" onChange={this.handleChange} 
+                  placeholder="career-tinder@gmail.com" required />
               </div>
-            </div>
+
+              <button type="submit" className="btn btn-lg btn-info w-100 mt-4" disabled={isInvalid}>
+                <i className="far fa-paper-plane"></i> Send
+              </button> 
+
+              <div className="text-center mt-4 black-text">
+                { (newLoad === false) ?
+                    <div className= {(authStatus === "OK") ? "center green-text": "center red-text"}>
+                        <p>{authMsg}</p>
+                    </div>
+                    : null
+                }
+              </div>
+            </form>
           </div>
         </div>
       </div>
