@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import './includes/bootstrap';
+import "./includes/bootstrap";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "mdbreact/dist/css/mdb.css";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,6 +14,7 @@ import thunk from "redux-thunk";
 import { reduxFirestore, getFirestore } from "redux-firestore";
 import { reactReduxFirebase, getFirebase } from "react-redux-firebase";
 import firebaseConfig from "./config/firebaseConfig";
+import ErrorBoundary from "./components/layouts/ErrorBoundary";
 
 const store = createStore(
   rootReducer,
@@ -31,7 +32,9 @@ const store = createStore(
 store.firebaseAuthIsReady.then(() => {
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </Provider>,
     document.getElementById("root")
   );
