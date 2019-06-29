@@ -12,6 +12,8 @@ import * as ROUTES from '../../constants/routes';
 import { firestoreConnect } from "react-redux-firebase";
 import { Checkbox, Radio } from 'pretty-checkbox-react';
 import CreatableSelect from 'react-select/creatable';
+import cities from '../../constants/city'
+
  
 const skills = [
   { value: 'php', label: 'PHP' },
@@ -64,6 +66,12 @@ class EditJobSeekerProfile extends React.Component {
     }
     this.setState({ skills });
   };
+
+  handleCityChange = (city) => {
+    this.setState({ city: city });
+    console.log(`Option selected:`, city);
+  }
+
  
   handleLanguagesChange = languages => {
     if(languages){
@@ -92,6 +100,8 @@ class EditJobSeekerProfile extends React.Component {
     var skills = jobSeekerProfileProps && jobSeekerProfileProps.skills;
     var languages = jobSeekerProfileProps && jobSeekerProfileProps.languages;
     var workExperiences = (jobSeekerProfileProps && jobSeekerProfileProps.workExperiences !== null) ? jobSeekerProfileProps.workExperiences : [];
+    var city = jobSeekerProfileProps && jobSeekerProfileProps.city;
+
  
     workExperiences.map((item, value) => {
       item.id = Math.random().toString(36).slice(2);
@@ -121,7 +131,8 @@ class EditJobSeekerProfile extends React.Component {
       modal: false,
       weRemoveModal: false,
       workExperience: '',
-      workExperiences: workExperiences
+      workExperiences: workExperiences,
+      city: city ? city : ''
     };
     this.handleDOBDateChange = this.handleDOBDateChange.bind(this);
     this.handleFromDateChange = this.handleFromDateChange.bind(this);
@@ -233,6 +244,7 @@ class EditJobSeekerProfile extends React.Component {
       if (this.state.languages) {jobSeekerProfile.languages = this.state.languages;}
       if (this.state.skills) { jobSeekerProfile.skills = this.state.skills}
       if (this.state.startDOBDate) {jobSeekerProfile.DOBDate  =  this.state.startDOBDate;}
+      if (this.state.city) {jobSeekerProfile.city  =  this.state.city;}
       if (this.state.workExperiences.length > 0) {
         var tmpWExps = [];
         for (var i = 0, l = this.state.workExperiences.length; i < l; i++) {
@@ -479,19 +491,19 @@ class EditJobSeekerProfile extends React.Component {
                     <div className="form-group">
                       <label className="form-label" htmlFor="jobSeekerAddress"><i class="far fa-address-card"></i> Address</label>
                       <textarea type="text" id="jobSeekerAddress" name="jobSeekerAddress" value={this.state.jobSeekerAddress || ''} className="form-control form-control-lg" onChange={this.handleChange} 
-                        rows="1" required />
+                        rows="1" required></textarea>
                     </div>
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-4 col-sm-12">
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="jobSeekerAddress"><i class="far fa-calendar-alt"></i> Date of birth</label>
+                  <div className="col-md-6 col-12">
+                    <div className="form-group datepicker">
+                      <label className="form-label" htmlFor="dateOfBirth"><i class="far fa-calendar-alt"></i> Date of birth</label>
                       <DatePicker selected={this.state.startDOBDate || '' } id="dateOfBirth" onChange={this.handleDOBDateChange} className="form-control w-100"
-                          peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" maxDate={new Date()} autoComplete="off" placeholder="MM/DD/YYYY" />
+                          peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" maxDate={new Date()} autoComplete="off" />
                     </div>
                   </div>
-                  <div className="col-md-4 col-sm-12">
+                  <div className="col-md-6 col-12">
                     <div className="form-group">
                       <label><i className="fas fa-code"></i> Skills</label>
                       <CreatableSelect
@@ -503,7 +515,9 @@ class EditJobSeekerProfile extends React.Component {
                       />
                     </div>
                   </div>
-                  <div className="col-md-4 col-sm-12">
+                </div>
+                <div className="row">
+                  <div className="col-md-6 col-12">
                     <div className="form-group">
                       <label><i className="fas fa-sign-language"></i> Languages</label>
                       <CreatableSelect
@@ -515,11 +529,23 @@ class EditJobSeekerProfile extends React.Component {
                       />
                     </div>
                   </div>
-                </div>
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">
+                      <label><i className="fas fa-map-marker-alt"></i> City</label>
+                      <Select
+                        id="employeeCity"
+                        value={this.state.city}
+                        onChange={this.handleCityChange}
+                        options={cities}
+                        isMulti={false}
+                      />
+                    </div>
+                  </div>
+                </div>             
                 <div className="row">
                   <div className="col-12">                        
                     <div className="form-group">
-                      <label className="work-experience-label"><i className="far fa-building"></i> Work Experiences:</label>
+                      <label className="work-experience-label"><i className="far fa-building"></i> Work Experiences</label>
                       <button type="button" className="btn btn-danger btn-circle" onClick={this.toggle}><i className="fas fa-plus"></i></button>
                     </div>
                     <div className="row" id="work_experiences">
@@ -542,7 +568,7 @@ class EditJobSeekerProfile extends React.Component {
                 <div className="row">
                   <div className="col-md-6 col-12">
                     <div className="form-group mt-2">
-                      <label htmlFor="euCitizen"><i class="fas fa-globe-europe"></i> EU Citizen:</label>
+                      <label htmlFor="euCitizen"><i class="fas fa-globe-europe"></i> EU Citizen</label>
                       <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
                         shape="curve" color="primary-o" id="employeeCitizenship"
                         checked={this.state.euCitizen ? true : false} onChange={this.handleChangeEU}>

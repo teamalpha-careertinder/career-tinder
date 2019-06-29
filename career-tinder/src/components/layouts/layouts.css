@@ -49,6 +49,26 @@
     margin-right: 40px;
 }
 
+.snap {
+    border: 1px red dashed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.snap p {
+    margin: 0;
+}
+
+.snap img {
+    width: 130px;
+    height: 100px;
+}
+
+.snap-message {
+    padding: 12px;
+}
+
 @media (max-width: 768px) {
     .header-wrapper {
         margin-bottom: 0px;
