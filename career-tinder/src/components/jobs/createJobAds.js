@@ -11,6 +11,8 @@ import {
   jobUpdateActions
 } from "../../store/actions/jobAdActions";
 import cities from "../../constants/city";
+import * as ROUTES from "../../constants/routes";
+import { Redirect } from "react-router-dom";
 
 const skills = [
   { value: "php", label: "PHP" },
@@ -135,7 +137,9 @@ class CreateJobAds extends React.Component {
 
   render() {
     //isOpen={this.state.visible}
-    const { response, message } = this.props;
+    const { auth, response, message } = this.props;
+    if (!auth.uid && !auth.emailVerified)
+      return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="create-job-ad">
         <Alert color={response} isOpen={this.state.visible}>

@@ -15,13 +15,13 @@ const SignedInLinks = props => {
       </li> */}
       <li className="nav-item" onClick={props.closeMenu}>
         <NavLink className="nav-link" to={ROUTES.JOBS}>
-          <i className="fas fa-user-md" /> Jobs
+          <i className="fas fa-user-md text-info" /> Jobs
         </NavLink>
       </li>
       {props.profile === "jobseeker" ? (
         <li className="nav-item" onClick={props.closeMenu}>
           <NavLink className="nav-link" to={ROUTES.JOB_SEEKER_MATCHES}>
-            <i className="fas fa-handshake" /> Matches
+            <i className="fas fa-handshake text-info" /> Matches
           </NavLink>
         </li>
       ) : (
@@ -29,7 +29,7 @@ const SignedInLinks = props => {
       )}
       <li className="nav-item" onClick={props.closeMenu}>
         <NavLink className="nav-link" to={ROUTES.NOTIFICATIONS}>
-          <i className="fas fa-bell-slash" /> Notifications
+          <i className="fas fa-bell text-info" /> Notifications
         </NavLink>
       </li>
     </ul>

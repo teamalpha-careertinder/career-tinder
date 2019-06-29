@@ -46,3 +46,35 @@ exports.userUpdated = functions.firestore
 
     return createNotification(notification);
   });
+
+exports.matchOccured = functions.firestore
+  .document("match/{matchId}")
+  .onCreate((snap, context) => {
+    const matches = snap.data();
+    const jobSeeker = matches.jobSeekerId;
+    const employer = matches.employerID;
+    const jobDoc = admin
+      .firestore()
+      .collection("jobposting")
+      .doc(matches.jobAdId);
+
+    jobDoc.get().then(parentSnap => {
+      const job = parentSnap.data();
+      const jobtitle = job.jobtitle;
+
+      var userArray = [jobSeeker, employer];
+
+      userArray.forEach(function(element) {
+        const notification = {
+          userId: element,
+          content:
+            "Your profile has got a match for job titled - " +
+            `${jobtitle}` +
+            " .Happy Career-Tindering!",
+          time: admin.firestore.FieldValue.serverTimestamp()
+        };
+
+        return createNotification(notification);
+      });
+    });
+  });

@@ -31,7 +31,7 @@ class Nav extends React.Component {
 
   closeCollapsibleMenu = e => {
     if (
-      !e.target.classList.contains("dropdown-item") ||
+      !e.target.classList.contains("close-menu") ||
       $(".collapsenav").hasClass("show")
     ) {
       $(".hamburger-button__button").click();
@@ -56,18 +56,22 @@ class Nav extends React.Component {
       <div className="navbar-wrapper">
         <nav
           id="ct_navbar"
-          className="navbar fixed-top navbar-expand-md navbar-dark"
+          className="navbar fixed-top navbar-expand-md"
         >
           {auth.uid && auth.emailVerified ? (
             <Link to={ROUTES.FEED} className="navbar-brand d-none d-md-block">
-              <img src={logo} alt={"logo"} />
+              <img src={logo} alt={"logo"} className="float-left" />
+              <span className="text-info">CAREER</span>
+              <span className="text-info">TINDER</span>
             </Link>
           ) : (
             <Link
               to={ROUTES.LANDING}
               className="navbar-brand d-none d-md-block"
             >
-              <img src={logo} alt={"logo"} />
+              <img src={logo} alt={"logo"} className="float-left" />
+              <span className="text-info">CAREER</span>
+              <span className="text-info">TINDER</span>
             </Link>
           )}
           <MDBCollapse
@@ -85,7 +89,7 @@ class Nav extends React.Component {
                 id="hamburger1"
                 onClick={() => this.toggleSingleCollapse("collapse1")}
               />
-              <Link to={ROUTES.FEED} className="navbar-brand">
+              <Link to={ROUTES.LANDING} className="navbar-brand">
                 <img src={logo} alt={"logo"} />
               </Link>
             </div>
@@ -96,11 +100,11 @@ class Nav extends React.Component {
                     <UserMenu closeMenu={this.closeCollapsibleMenu} />
                   ) : (
                     <Link
-                      className="nav-link"
+                      className="nav-link text-info close-menu"
                       to={ROUTES.LOG_IN}
                       onClick={this.closeCollapsibleMenu}
                     >
-                      <i className="fas fa-sign-in-alt" />
+                      <i className="fas fa-sign-in-alt close-menu" /> Log in
                     </Link>
                   )}
                 </li>

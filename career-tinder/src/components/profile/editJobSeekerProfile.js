@@ -14,25 +14,26 @@ import { Checkbox, Radio } from 'pretty-checkbox-react';
 import CreatableSelect from 'react-select/creatable';
 import cities from '../../constants/city'
 
+ 
 const skills = [
   { value: 'php', label: 'PHP' },
   { value: 'asp.net', label: 'ASP.Net' },
   { value: 'java', label: 'Java' }
 ];
-
+ 
 const languages = [
   { value: 'english', label: 'English' },
   { value: 'deutsche', label: 'Deutsche' },
   { value: 'italian', label: 'Italian' }
 ];
-
+ 
 //Entity to store JobSeekerProfile in DB
 const jobSeekerProfileEntity = {
   jobSeekerName: null,  //should be replaced by firstName
   jobSeekerPhone: null,  
   jobSeekerAddress: null,
   applyingFullTime: false,
-  applyingPartTime: false, 
+  applyingPartTime: false,
   euCitizen: false,
   minSalary: null,
   maxSalary: null,
@@ -52,26 +53,40 @@ const jobSeekerProfileEntity = {
     //  startJobDate: field of workExperiences
     //  endJobDate: field of workExperiences */
 }
-
+ 
 class EditJobSeekerProfile extends React.Component {
-
+ 
   handleSkillsChange = skills => {
+    if(skills){
+      skills.forEach(skill => {
+        if(skill['__isNew__']){
+          delete skill['__isNew__']
+        }
+      });
+    }
     this.setState({ skills });
   };
-
-  handleLanguagesChange = (selectedLanguages) => {
-    this.setState({ selectedLanguages: selectedLanguages });
-    console.log(`Option selected:`, selectedLanguages);
-  }
 
   handleCityChange = (city) => {
     this.setState({ city: city });
     console.log(`Option selected:`, city);
   }
 
+ 
+  handleLanguagesChange = languages => {
+    if(languages){
+      languages.forEach(languages => {
+        if(languages['__isNew__']){
+          delete languages['__isNew__']
+        }
+      });
+    }
+    this.setState({ languages });
+  };
+ 
   constructor(props) {
     super(props);
-
+ 
     var jobSeekerProfileProps = this.props.jobseeker;
     var jobSeekerName = jobSeekerProfileProps && jobSeekerProfileProps.jobSeekerName;
     var jobSeekerPhone = jobSeekerProfileProps && jobSeekerProfileProps.jobSeekerPhone;
@@ -87,12 +102,13 @@ class EditJobSeekerProfile extends React.Component {
     var workExperiences = (jobSeekerProfileProps && jobSeekerProfileProps.workExperiences !== null) ? jobSeekerProfileProps.workExperiences : [];
     var city = jobSeekerProfileProps && jobSeekerProfileProps.city;
 
+ 
     workExperiences.map((item, value) => {
       item.id = Math.random().toString(36).slice(2);
     });
-
+ 
     this.state = {
-      jobSeekerName: jobSeekerName, 
+      jobSeekerName: jobSeekerName,
       jobSeekerPhone: jobSeekerPhone,
       jobSeekerAddress: jobSeekerAddress,
       applyingFullTime: applyingFullTime,
@@ -100,10 +116,10 @@ class EditJobSeekerProfile extends React.Component {
       euCitizen: euCitizen,
       minSalary: minSalary,
       maxSalary: maxSalary,
-      selectedLanguages: languages,
+      languages: languages,
       skills: skills,
       startDOBDate: DOBDate && DOBDate.toDate(),
-
+ 
       weId: '',
       weCreate: true,
       companyName: '',
@@ -126,13 +142,13 @@ class EditJobSeekerProfile extends React.Component {
     this.handleWEDelete = this.handleWEDelete.bind(this);
     this.onShowAlert = this.onShowAlert.bind(this);
   }
-
+ 
   handleDOBDateChange(date) {
     this.setState({
       startDOBDate: date
     });
   }
-
+ 
   handleFromDateChange(date) {
     this.setState({
       startFromDate: date
@@ -143,7 +159,7 @@ class EditJobSeekerProfile extends React.Component {
       });
     }
   }
-
+ 
   handleToDateChange(date) {
     this.setState({
       workedTo: date
@@ -154,7 +170,7 @@ class EditJobSeekerProfile extends React.Component {
       });
     }
   }
-
+ 
   handleChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
@@ -173,7 +189,7 @@ class EditJobSeekerProfile extends React.Component {
         break;
     }
   };
-
+ 
   handleSelectChange = function (e) {
     var options = e.target.options;
     var value = [];
@@ -184,31 +200,31 @@ class EditJobSeekerProfile extends React.Component {
     }
     this.props.someCallback(value);
   }
-
+ 
   handleChangeFT = () => {
     this.setState(prevState => ({
       applyingFullTime: !prevState.applyingFullTime,
     }));
   }
-
+ 
   handleChangePT = () => {
     this.setState(prevState => ({
       applyingPartTime: !prevState.applyingPartTime,
     }));
   }
-
+ 
   handleChangeEU = () => {
     this.setState(prevState => ({
       euCitizen: !prevState.euCitizen,
     }));
   }
-
+ 
   handleOptionChange = (changeEvent) => {
     this.setState({
       prevWorkJobType: changeEvent.target.value
     });
   }
-
+ 
     handleSubmit = (e) => {
       e.preventDefault();
       //take the information from state that should be stored in DB (state contains more data than needed):
@@ -222,17 +238,17 @@ class EditJobSeekerProfile extends React.Component {
       if (this.state.applyingPartTime) { jobSeekerProfile.applyingPartTime = true }
       else { jobSeekerProfile.applyingPartTime = false }
       if (this.state.euCitizen) { jobSeekerProfile.euCitizen  = true }
-        else { jobSeekerProfile.euCitizen  = false}   
+        else { jobSeekerProfile.euCitizen  = false}  
       if (this.state.minSalary) {jobSeekerProfile.minSalary = this.state.minSalary;}
       if (this.state.maxSalary) {jobSeekerProfile.maxSalary = this.state.maxSalary;}
-      if (this.state.selectedLanguages) {jobSeekerProfile.languages = this.state.selectedLanguages;}
+      if (this.state.languages) {jobSeekerProfile.languages = this.state.languages;}
       if (this.state.skills) { jobSeekerProfile.skills = this.state.skills}
       if (this.state.startDOBDate) {jobSeekerProfile.DOBDate  =  this.state.startDOBDate;}
       if (this.state.city) {jobSeekerProfile.city  =  this.state.city;}
       if (this.state.workExperiences.length > 0) {
         var tmpWExps = [];
         for (var i = 0, l = this.state.workExperiences.length; i < l; i++) {
-          var tmpExp = { 
+          var tmpExp = {
             companyName: null,
             jobDescription: null,
             jobTitle: null,
@@ -246,19 +262,19 @@ class EditJobSeekerProfile extends React.Component {
           if (this.state.workExperiences[i].jobType) {tmpExp.jobType = this.state.workExperiences[i].jobType}
           if (this.state.workExperiences[i].startJobDate) {tmpExp.startJobDate = new Date(this.state.workExperiences[i].startJobDate)}
           if (this.state.workExperiences[i].endJobDate) {tmpExp.endJobDate = new Date(this.state.workExperiences[i].endJobDate)}
-          
+         
           if (i===0) {tmpWExps[0] = tmpExp; }
             else {tmpWExps =  [...tmpWExps,tmpExp]; }
-
+ 
         }
         if (tmpWExps.length>0) {jobSeekerProfile.workExperiences = tmpWExps}
-
+ 
       } else {jobSeekerProfile.workExperiences = null}
-      
-      this.props.editJobSeekerProfile(jobSeekerProfile); 
+     
+      this.props.editJobSeekerProfile(jobSeekerProfile);
       this.onShowAlert();
     }
-
+ 
   handleWExperienceSubmit = (e) => {
     this.toggle();
     e.preventDefault();
@@ -289,19 +305,19 @@ class EditJobSeekerProfile extends React.Component {
       });
     }
   }
-
+ 
   handleWEDelete() {
     let experience = this.state.workExperience;
     const newWorkExperiences = this.state.workExperiences.filter(workExperience => {
       return workExperience !== experience;
     });
-
+ 
     this.setState(prevState => ({
       workExperiences: [...newWorkExperiences],
       weRemoveModal: !prevState.weRemoveModal
     }));
   }
-
+ 
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
       window.setTimeout(() => {
@@ -309,7 +325,7 @@ class EditJobSeekerProfile extends React.Component {
       }, 3000)
     });
   }
-
+ 
   toggle() {
     this.setState(prevState => ({
       modal: !prevState.modal,
@@ -317,14 +333,14 @@ class EditJobSeekerProfile extends React.Component {
       weId: ''
     }));
   }
-
+ 
   toggleWERemove(e, experience) {
     this.setState(prevState => ({
       weRemoveModal: !prevState.weRemoveModal,
       workExperience: experience
     }));
   }
-
+ 
   toggleModalWithData(e, exp, id) {
     if(typeof exp.startJobDate !== 'string') {
       var tsStartJobDate = new Date(exp.startJobDate.seconds * 1000);
@@ -352,7 +368,7 @@ class EditJobSeekerProfile extends React.Component {
       }));
     }
   }
-
+ 
   render() {
     const { auth, response, message } = this.props;
     if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN} />;
@@ -369,11 +385,11 @@ class EditJobSeekerProfile extends React.Component {
                     <input id="we_id" type="hidden" name="we_id" value={this.state.weId} />
                     <div className="row">
                       <div className="col-md-6 col-sm-12">
-                        <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name" 
+                        <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name"
                           onChange={this.handleChange} required value={this.state.companyName} />
                       </div>
                       <div className="col-md-6 col-sm-12">
-                        <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" name="job_title" 
+                        <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" name="job_title"
                           onChange={this.handleChange} required value={this.state.jobTitle} />
                       </div>
                       <div className="col-md-6 col-sm-12">
@@ -397,7 +413,7 @@ class EditJobSeekerProfile extends React.Component {
                         </div>
                       </div>
                       <div className="col-sm-12">
-                        <MDBInput id="jobDescription" label="Job description" type="text" icon="pencil-alt" 
+                        <MDBInput id="jobDescription" label="Job description" type="text" icon="pencil-alt"
                         name="job_description" onChange={this.handleChange} value={this.state.jobDescription} />
                       </div>
                       <div className="col-sm-12 mb-1">
@@ -454,8 +470,8 @@ class EditJobSeekerProfile extends React.Component {
                     <div className="row">
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          
-                          <MDBInput id="jobSeekerName" value={this.state.jobSeekerName || ''} label="Name"  type="text" icon="pencil-alt" 
+                         
+                          <MDBInput id="jobSeekerName" value={this.state.jobSeekerName || ''} label="Name"  type="text" icon="pencil-alt"
                           onChange={this.handleChange} maxLength="40" pattern="^[A-Za-z.\s_-]+$" required />
                         </div>
                       </div>
@@ -500,12 +516,12 @@ class EditJobSeekerProfile extends React.Component {
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>Languages</label>
-                          <Select
+                          <CreatableSelect
                             id="employeeLanguage"
-                            value={this.state.selectedLanguages}
+                            value={this.state.languages}
+                            isMulti
                             onChange={this.handleLanguagesChange}
                             options={languages}
-                            isMulti={true}
                           />
                         </div>
                       </div>
@@ -538,7 +554,7 @@ class EditJobSeekerProfile extends React.Component {
                                     <i id={"remove_we_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
                                     <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
                                   </div>            
-                                </div>                 
+                                </div>                
                               )
                             })
                           }
@@ -552,7 +568,7 @@ class EditJobSeekerProfile extends React.Component {
                             <div className="form-group mt-2">
                               <label htmlFor="euCitizen">EU Citizen:</label>
                               <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
-                                shape="curve" color="primary-o" id="employeeCitizenship" 
+                                shape="curve" color="primary-o" id="employeeCitizenship"
                                 checked={this.state.euCitizen ? true : false} onChange={this.handleChangeEU}>
                                     Are you an EU Citizen?
                               </Checkbox>
@@ -560,7 +576,7 @@ class EditJobSeekerProfile extends React.Component {
                           </div>
                           <div className="col-12">
                             <div className="form-group">
-                              <MDBInput id="minSalary" value={this.state.minSalary || ''} label="Minimum expected salary" type="number" icon="euro-sign" 
+                              <MDBInput id="minSalary" value={this.state.minSalary || ''} label="Minimum expected salary" type="number" icon="euro-sign"
                               onChange={this.handleChange} />
                             </div>
                           </div>
@@ -570,12 +586,12 @@ class EditJobSeekerProfile extends React.Component {
                         <div className="form-group">
                           <label>Employment type for this position:</label>
                           <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
-                            shape="curve" color="primary-o" id="employmentTypeFull" 
+                            shape="curve" color="primary-o" id="employmentTypeFull"
                             checked={this.state.applyingFullTime ? true : false} onChange={this.handleChangeFT}>
                                 Full-time
                           </Checkbox>
                           <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
-                            shape="curve" color="primary-o" id="employmentTypePart" 
+                            shape="curve" color="primary-o" id="employmentTypePart"
                             checked={this.state.applyingPartTime ? true : false} onChange={this.handleChangePT}>
                                 Part-time
                           </Checkbox>
@@ -599,8 +615,8 @@ class EditJobSeekerProfile extends React.Component {
     );
   }
 }
-
-
+ 
+ 
 const mapStateToProps = state => {
   const jobseekers = state.firestore.data.jobseeker;
   const auth = state.firebase.auth;
@@ -612,15 +628,15 @@ const mapStateToProps = state => {
     message: state.profile.message
   };
 };
-
+ 
 const mapDispatchToPropsJobseeker = dispatch => {
-  
+ 
   return {
     editJobSeekerProfile: (profile) => dispatch(editJobSeekerProfile(profile))
   }
 };
-
-
+ 
+ 
 export default
   compose(
     connect(mapStateToProps, mapDispatchToPropsJobseeker),
@@ -628,5 +644,5 @@ export default
       {
         collection: "jobseeker"
       }
-    ])   
+    ])  
   )(EditJobSeekerProfile);
