@@ -368,63 +368,67 @@ class EditJobSeekerProfile extends React.Component {
           <ModalBody>
             <form className="work-experience-form text-info" onSubmit={this.handleWExperienceSubmit}>
               <div className="row">
-                <div className="col-sm-12">
-                  <div className="form-group">
-                    <input id="we_id" type="hidden" name="we_id" value={this.state.weId} />
-                    <div className="row">
-                      <div className="col-md-6 col-sm-12">
-                        <MDBInput id="companyName" label="Company name" type="text" icon="pencil-alt" name="company_name"
-                          onChange={this.handleChange} required value={this.state.companyName} />
+                <div className="col-12">
+                  <input id="we_id" type="hidden" name="we_id" value={this.state.weId} />
+                  <div className="row">
+                    <div className="col-md-6 col-12">
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="companyName"><i className="fas fa-file-signature"></i> Company name</label>
+                        <input type="text" id="companyName" name="company_name" value={this.state.companyName} className="form-control form-control-lg" onChange={this.handleChange} 
+                          placeholder="Career Tinder" required />
                       </div>
-                      <div className="col-md-6 col-sm-12">
-                        <MDBInput id="jobTitle" label="Job title" type="text" icon="pencil-alt" name="job_title"
-                          onChange={this.handleChange} required value={this.state.jobTitle} />
+                    </div>
+                    <div className="col-md-6 col-12">
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="jobTitle"><i className="fas fa-chalkboard-teacher"></i> Job title</label>
+                        <input type="text" id="jobTitle" name="job_title" value={this.state.jobTitle} className="form-control form-control-lg" onChange={this.handleChange} 
+                          placeholder="Software Engineer" required />
                       </div>
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group datepicker">
-                          <label>From:</label>
-                          <div className="md-form">
-                            <i className="fas fa-calendar-alt prefix"></i>
-                            <DatePicker selected={this.state.startFromDate} onChange={this.handleFromDateChange} className="form-control"
-                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" name="working_from" maxDate={new Date()} required />
-                          </div>
-                        </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6 col-12">
+                      <div className="form-group datepicker">
+                        <label className="form-label" htmlFor="jobTitle"><i className="fas fa-calendar-alt prefix"></i> From</label>
+                        <DatePicker selected={this.state.startFromDate} onChange={this.handleFromDateChange} className="form-control form-control-lg"
+                          peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" name="working_from" maxDate={new Date()} required />                        
                       </div>
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group datepicker">
-                          <label>To:</label>
-                          <div className="md-form">
-                            <i className="fas fa-calendar-alt prefix"></i>
-                            <DatePicker selected={this.state.workedTo} onChange={this.handleToDateChange} className="form-control"
-                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" name="worked_to" maxDate={new Date()} />
-                          </div>
-                        </div>
+                    </div>
+                    <div className="col-md-6 col-12">
+                      <div className="form-group datepicker">
+                        <label className="form-label" htmlFor="jobTitle"><i className="fas fa-calendar-alt prefix"></i> To</label>
+                        <DatePicker selected={this.state.workedTo} onChange={this.handleToDateChange} className="form-control form-control-lg"
+                          peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" name="worked_to" maxDate={new Date()} />
                       </div>
-                      <div className="col-sm-12">
-                        <MDBInput id="jobDescription" label="Job description" type="text" icon="pencil-alt"
-                        name="job_description" onChange={this.handleChange} value={this.state.jobDescription} />
+                    </div>
+                    <div className="col-12">
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="jobDescription"><i class="far fa-address-card"></i> Job description</label>
+                        <textarea type="text" id="jobDescription" name="job_description" value={this.state.jobDescription} className="form-control form-control-lg" onChange={this.handleChange} 
+                          rows="1" required />
                       </div>
-                      <div className="col-sm-12 mb-1">
-                        <div className="form-inline">
-                          <div className="form-group">
-                            <label htmlFor="job_type" style={{'justifyContent':'left'}} className="mr-2">Job type while working there:</label>
-                            <Radio name="job_type" shape="round" color="primary" animation="smooth"
-                             value="Full-time" checked={this.state.prevWorkJobType === 'Full-time'}
-                             onChange={this.handleOptionChange}>
-                              Full-time
-                            </Radio>
-                            <Radio name="job_type" shape="round" color="primary" animation="smooth"
-                             value="Part-time" checked={this.state.prevWorkJobType === 'Part-time'}
-                             onChange={this.handleOptionChange}>
-                              Part-time
-                            </Radio>
-                          </div>
+                    </div>
+                    <div className="col-12 mb-1">
+                      <div className="form-inline">
+                        <div className="form-group">
+                          <label htmlFor="job_type" style={{'justifyContent':'left'}} className="mr-2"><i className="fas fa-map-marked-alt mr-2"></i> Job type while working there:</label>
+                          <Radio name="job_type" shape="round" color="primary" animation="smooth"
+                            value="Full-time" checked={this.state.prevWorkJobType === 'Full-time'}
+                            onChange={this.handleOptionChange}>
+                            Full-time
+                          </Radio>
+                          <Radio name="job_type" shape="round" color="primary" animation="smooth"
+                            value="Part-time" checked={this.state.prevWorkJobType === 'Part-time'}
+                            onChange={this.handleOptionChange}>
+                            Part-time
+                          </Radio>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-12">
+                <div className="col-12">
+                  <hr className="mt-4 mb-4" />
                   <Button color="success" type="submit"><i className={this.state.weCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.weCreate ? 'Add' : 'Update'}</Button>{' '}
                   <Button color="danger" onClick={this.toggle}>Cancel</Button>
                 </div>
@@ -447,141 +451,136 @@ class EditJobSeekerProfile extends React.Component {
           </ModalFooter>
         </Modal>
         <div className="profile-form-wrapper">
-          <div className="card border-info card-container">
-            <div className="card-header bg-info">
-              <i className="fas fa-users"></i> Update your Job Seeker profile
-              </div>
-            <div className="card-body text-info">
-              <div className="tab-content" id="pills-tabContent">
-                <div className="tab-pane fade show active" id="pills-job-seeker" role="tabpanel" aria-labelledby="pills-job-seeker-tab">
-                  <form className="profile-form" onSubmit={this.handleSubmit}>
-                    <div className="row">
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                         
-                          <MDBInput id="jobSeekerName" value={this.state.jobSeekerName || ''} label="Name"  type="text" icon="pencil-alt"
-                          onChange={this.handleChange} maxLength="40" pattern="^[A-Za-z.\s_-]+$" required />
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput id="jobSeekerPhone" value={this.state.jobSeekerPhone || ''}  label="Phone" icon="mobile-alt" type="number" onChange={this.handleChange} />
-                        </div>
-                      </div>
+          <h3 className="text-center font-weight-bold mt-4">
+            <i className="far fa-edit"></i><br/>
+            Edit your Job Seeker profile
+          </h3>
+          <div className="row justify-content-center">
+            <div className="col-12 col-lg-10">
+              <form className="profile-form mb-4 mt-4" onSubmit={this.handleSubmit}>
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="jobSeekerName"><i className="fas fa-file-signature"></i> Name</label>
+                      <input type="text" id="jobSeekerName" name="jobSeekerName" value={this.state.jobSeekerName || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        placeholder="John Doe" maxLength="40" pattern="^[A-Za-z.\s_-]+$" required />
                     </div>
-                    <div className="row">
-                      <div className="col-sm-12">
-                        <div className="form-group">
-                          <MDBInput id="jobSeekerAddress" value={this.state.jobSeekerAddress || ''} label="Address" icon="address-card" type="textarea" rows="1" onChange={this.handleChange} />
-                        </div>
-                      </div>
+                  </div>
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="jobSeekerPhone"><i className="fas fa-mobile-alt"></i> Phone</label>
+                      <input type="text" id="jobSeekerPhone" name="jobSeekerPhone" value={this.state.jobSeekerPhone || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        placeholder="01234567899" required />
                     </div>
-                    <div className="row">
-                      <div className="col-md-4 col-sm-12">
-                        <div className="form-group datepicker">
-                          <label>Date of birth:</label>
-                          <div className="md-form">
-                            <i className="fas fa-calendar-alt prefix"></i>
-                            <DatePicker selected={this.state.startDOBDate || '' } id="dateOfBirth" onChange={this.handleDOBDateChange} className="form-control"
-                              peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" maxDate={new Date()} autoComplete="off"  />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-4 col-sm-12">
-                        <div className="form-group">
-                          <label>Skills</label>
-                          <CreatableSelect
-                            id="employeeSkills"
-                            value={this.state.skills}
-                            isMulti
-                            onChange={this.handleSkillsChange}
-                            options={skills}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-4 col-sm-12">
-                        <div className="form-group">
-                          <label>Languages</label>
-                          <CreatableSelect
-                            id="employeeLanguage"
-                            value={this.state.languages}
-                            isMulti
-                            onChange={this.handleLanguagesChange}
-                            options={languages}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-12">                        
-                        <div className="form-group">
-                          <label style={{'width':'auto'}}>Work Experiences:</label>
-                          <Button color="danger" className="btn-circle" onClick={this.toggle}><i className="fas fa-plus"></i></Button>
-                        </div>
-                        <div className="row" id="work_experiences">
-                          {
-                            this.state.workExperiences.map((workExperience, i) => {
-                              return (
-                                <div key={`work-experience-${i}`} className="col-lg-3 col-md-4 col-12">
-                                  <div className="work-experiences-tag badge badge-info mb-2">
-                                    <span>{workExperience.companyName}</span>
-                                    <i id={"remove_we_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
-                                    <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
-                                  </div>            
-                                </div>                
-                              )
-                            })
-                          }
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6 col-sm-12">
-                        <div className="row">
-                          <div className="col-12">
-                            <div className="form-group mt-2">
-                              <label htmlFor="euCitizen">EU Citizen:</label>
-                              <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
-                                shape="curve" color="primary-o" id="employeeCitizenship"
-                                checked={this.state.euCitizen ? true : false} onChange={this.handleChangeEU}>
-                                    Are you an EU Citizen?
-                              </Checkbox>
-                            </div>
-                          </div>
-                          <div className="col-12">
-                            <div className="form-group">
-                              <MDBInput id="minSalary" value={this.state.minSalary || ''} label="Minimum expected salary" type="number" icon="euro-sign"
-                              onChange={this.handleChange} />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <label>Employment type for this position:</label>
-                          <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
-                            shape="curve" color="primary-o" id="employmentTypeFull"
-                            checked={this.state.applyingFullTime ? true : false} onChange={this.handleChangeFT}>
-                                Full-time
-                          </Checkbox>
-                          <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
-                            shape="curve" color="primary-o" id="employmentTypePart"
-                            checked={this.state.applyingPartTime ? true : false} onChange={this.handleChangePT}>
-                                Part-time
-                          </Checkbox>
-                        </div>                          
-                      </div>                      
-                    </div>                    
-                    <div className="row">
-                      <div className="col-sm-12">
-                        <MDBBtn color="success" className="float-right" type="submit">
-                          <i className="fas fa-save"></i> Save Profile
-                        </MDBBtn>
-                      </div>
-                    </div>
-                  </form>
+                  </div>
                 </div>
-              </div>
+                <div className="row">
+                  <div className="col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="jobSeekerAddress"><i class="far fa-address-card"></i> Address</label>
+                      <textarea type="text" id="jobSeekerAddress" name="jobSeekerAddress" value={this.state.jobSeekerAddress || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        rows="1" required />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-4 col-sm-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="jobSeekerAddress"><i class="far fa-calendar-alt"></i> Date of birth</label>
+                      <DatePicker selected={this.state.startDOBDate || '' } id="dateOfBirth" onChange={this.handleDOBDateChange} className="form-control w-100"
+                          peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" maxDate={new Date()} autoComplete="off" placeholder="MM/DD/YYYY" />
+                    </div>
+                  </div>
+                  <div className="col-md-4 col-sm-12">
+                    <div className="form-group">
+                      <label><i className="fas fa-code"></i> Skills</label>
+                      <CreatableSelect
+                        id="employeeSkills"
+                        value={this.state.skills}
+                        isMulti
+                        onChange={this.handleSkillsChange}
+                        options={skills}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4 col-sm-12">
+                    <div className="form-group">
+                      <label><i className="fas fa-sign-language"></i> Languages</label>
+                      <CreatableSelect
+                        id="employeeLanguage"
+                        value={this.state.languages}
+                        isMulti
+                        onChange={this.handleLanguagesChange}
+                        options={languages}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-12">                        
+                    <div className="form-group">
+                      <label className="work-experience-label"><i className="far fa-building"></i> Work Experiences:</label>
+                      <button type="button" className="btn btn-danger btn-circle" onClick={this.toggle}><i className="fas fa-plus"></i></button>
+                    </div>
+                    <div className="row" id="work_experiences">
+                      {
+                        this.state.workExperiences.map((workExperience, i) => {
+                          return (
+                            <div key={`work-experience-${i}`} className="col-lg-3 col-md-4 col-12">
+                              <div className="work-experiences-tag badge badge-info mb-2">
+                                <span>{workExperience.companyName}</span>
+                                <i id={"remove_we_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
+                                <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                              </div>            
+                            </div>                
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="form-group mt-2">
+                      <label htmlFor="euCitizen"><i class="fas fa-globe-europe"></i> EU Citizen:</label>
+                      <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                        shape="curve" color="primary-o" id="employeeCitizenship"
+                        checked={this.state.euCitizen ? true : false} onChange={this.handleChangeEU}>
+                            Are you an EU Citizen?
+                      </Checkbox>
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="minSalary"><i className="fas fa-euro-sign"></i> Minimum expected salary(Euro)</label>
+                      <input type="text" id="minSalary" name="minSalary" value={this.state.minSalary || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        placeholder="40000" required />
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="form-group">
+                      <label><i className="fas fa-map-marked-alt"></i> Interested in</label>
+                      <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                        shape="curve" color="primary-o" id="employmentTypeFull"
+                        checked={this.state.applyingFullTime ? true : false} onChange={this.handleChangeFT}>
+                            Full-time
+                      </Checkbox>
+                      <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                        shape="curve" color="primary-o" id="employmentTypePart"
+                        checked={this.state.applyingPartTime ? true : false} onChange={this.handleChangePT}>
+                            Part-time
+                      </Checkbox>
+                    </div>                          
+                  </div>                      
+                </div>                    
+                <div className="row">
+                  <div className="col-12">
+                    <button type="submit" className="btn btn-lg btn-info w-100 mt-4">
+                      <i className="fas fa-save"></i> Save
+                    </button> 
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>

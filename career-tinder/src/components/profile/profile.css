@@ -5,7 +5,6 @@
 
 .profile-form .form-group>label,
 .work-experience-form .form-group>label {
-    color: #1e698d !important;
     font-weight: bold;
     width: 100%;
 }
@@ -33,10 +32,20 @@
     line-height: 32px;
 }
 
+.profile-form {
+    padding: 0 10px;
+}
+
+.profile-form button {
+    margin: 0;
+}
+
+.work-experience-label {
+    width: auto !important;
+    margin-right: 10px;
+}
+
 @media (max-width: 768px) {
-    .profile-form-wrapper {
-        margin: 0;
-    }
     .card.job-ad.text-body.shadow.rounded {
         margin: 0 10px 10px;
     }

@@ -7,47 +7,36 @@ import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
 
 class Notifications extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props);
+  }
+
   render() {
     const { auth, notifications } = this.props;
-
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
-      <div className="container">
-        <div className="profile-form-wrapper">
-          <div className="card border-info mb-3">
-            <div className="card-header">
-              <div className="fas fa-bell-slash" /> Notifications{" "}
-            </div>
-            <div className="card-body text-info">
-              <div className="tab-content" id="pills-tabContent">
-                <div
-                  className="tab-pane fade show active"
-                  id="pills-job-seeker"
-                  role="tabpanel"
-                  aria-labelledby="pills-job-seeker-tab"
-                />
-                <div className="section">
-                  <div className="card z-depth-0">
-                    <div className="card-content">
-                      <ul className="online-users">
-                        {notifications &&
-                          notifications.map(item => {
-                            return (
-                              <li key={item.id}>
-                                <span>{item.content}</span>
-                                <div className="note-date grey-text">
-                                  {moment(item.time.toDate()).fromNow()}
-                                </div>
-                              </li>
-                            );
-                          })}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div className="container page-wrapper">
+        <h3 className="text-center font-weight-bold mt-4">
+          <i className="fas fa-bell"></i> Notifications{" "}
+        </h3>
+        <div className="row">
+          <div className="col-12 col-md-6">
+            <ul className="online-users">
+              {notifications &&
+                notifications.map(item => {
+                  return (
+                    <li key={item.id}>
+                      <span>{item.content}</span>
+                      <div className="note-date grey-text">
+                        {moment(item.time.toDate()).fromNow()}
+                      </div>
+                    </li>
+                  );
+                })}                                 
+            </ul>
+            <h6 className="text-center">{!notifications ? 'You have no notifications at this moment.' :''}</h6>
           </div>
         </div>
       </div>
@@ -58,7 +47,6 @@ class Notifications extends React.Component {
 const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const notification = state.firestore.ordered.notifications;
-  console.log(notification);
   return {
     uid: auth.uid,
     notifications: notification,
