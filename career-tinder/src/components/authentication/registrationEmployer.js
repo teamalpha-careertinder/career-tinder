@@ -4,6 +4,7 @@ import { MDBBtn, MDBCardBody, MDBCardFooter, MDBInput } from "mdbreact";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import {Animated} from "react-animated-css";
 import { signUpAsEmployer } from "../../store/actions/authActions";
 
 class RegistrationEmployer extends React.Component {
@@ -76,11 +77,14 @@ class RegistrationEmployer extends React.Component {
               </div>
             </form>
             <div className="text-center font-weight-bold mt-4 mb-4">
+            <Animated animationIn="pulse infinite" isVisible={true}>
               <NavLink className="text-info"
                 to={ROUTES.REGISTRATION_JOB_SEEKER}
               >
-                <i className="fas fa-user-graduate" /> Oops! I'm a Job Seeker!
+                
+                <i className="fas fa-user-graduate" style={{color:"#FF2D55"}}/> <label style={{color:"#FF2D55"}}>Oops! I'm a Job Seeker!</label>
               </NavLink>
+              </Animated>
             </div>
           </div>
         </div>

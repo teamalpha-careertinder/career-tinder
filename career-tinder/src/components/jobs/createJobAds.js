@@ -148,45 +148,28 @@ class CreateJobAds extends React.Component {
           />{" "}
           {message}
         </Alert>
-        <div className="container">
-          <div className="justify-content-md-center">
-            <div className="profile-form-wrapper">
-              <div className="card border-info card-container">
-                <div className="card-header">
-                  <i className="fas fa-users" /> Create Job Ad
-                </div>
-                <div className="card-body text-info">
-                  <div className="tab-content" id="pills-tabContent">
-                    <div
-                      className="tab-pane fade show active"
-                      role="tabpanel"
-                      aria-labelledby="pills-create-job-ad-tab"
-                    >
-                      <form
-                        className="profile-form"
-                        onSubmit={this.handleSubmit}
-                      >
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <MDBInput
-                                id="jobtitle"
-                                label="Job Title"
-                                type="text"
-                                icon="pencil-alt"
-                                name="job_title"
-                                className="form-control"
-                                onChange={this.handleChange}
-                                value={this.state.jobtitle}
-                                required
-                              />
-                            </div>
-                          </div>
-                        </div>
+
+      <div className="container page-wrapper">        
+        <h3 className="text-center font-weight-bold mt-4">
+          <i className="fas fa-users"></i><br/>
+          Create Job Ad
+        </h3>
+      
+        <div className="row">
+          <div className="col-md-6 col-12">
+            <form className="empr-form mt-4 mb-4" onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="jobtitle"><i className="fas fa-file-signature"></i> Job Title</label>
+                <input type="text" id="jobtitle" name="job_title" value={this.state.jobtitle} className="form-control form-control-lg" onChange={this.handleChange} 
+                  placeholder="Job Title" required />
+              </div>
+
+                          
+                        
                         <div className="row">
                           <div className="col-md-6 col-sm-12">
                             <div className="form-group">
-                              <label>Needed Skills</label>
+                              <label className="form-label" htmlFor="email">Needed Skills</label>
 
                               <Select
                                 value={this.state.neededskills}
@@ -199,7 +182,7 @@ class CreateJobAds extends React.Component {
 
                           <div className="col-md-6 col-sm-12">
                             <div className="form-group">
-                              <label>Job Location</label>
+                              <label className="form-label" htmlFor="joblocation" name="joblocation"><i className="fas fa-map-marker-alt"></i>Job Location</label>
 
                               <Select
                                 value={this.state.location}
@@ -213,8 +196,8 @@ class CreateJobAds extends React.Component {
                         <div className="row">
                           <div className="col-sm-10 mb-1">
                             <div className="form-group">
-                              <label htmlFor="job_type">
-                                Employment type for this position:
+                              <label className="form-label"  htmlFor="email">
+                                Employment type
                               </label>
                               <div className="form-check">
                                 <input
@@ -224,7 +207,7 @@ class CreateJobAds extends React.Component {
                                   onChange={this.handleChangeJobType}
                                   name="applyfulltime"
                                 />
-                                <label
+                                <label 
                                   className="form-check-label"
                                   htmlFor="job_type_ft"
                                 >
@@ -251,97 +234,79 @@ class CreateJobAds extends React.Component {
                           </div>
                         </div>
 
-                        <div>
+                        <label className="form-label" htmlFor="email"><i className="fas fa-address-card"></i> Education</label>
+                        <div >
                           <select
                             className="form-control browser-default custom-select"
                             value={this.state.education}
                             id="education"
                             label="Education"
-                            icon="address-card"
+                            
                             type="text"
                             rows="1"
                             onChange={this.handleChange}
                             required
                           >
-                            <option>Education</option>
-                            <option value="1">Ph.D</option>
-                            <option value="2">M.Sc</option>
-                            <option value="3">B.Sc </option>
-                            <option value="4">High School Diploma</option>
-                            <option value="3">Other</option>
+                            <option >Select</option>
+                            <option value="0">Ph.D</option>
+                            <option value="1">M.Sc</option>
+                            <option value="2">B.Sc </option>
+                            <option value="3">High School Diploma</option>
+                            <option value="4">Other</option>
                           </select>
                         </div>
 
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              {/*  <MDBInput 
-                                value={this.state.education}
-                                id="education"
-                                label="Education"
-                                icon="address-card"
-                                type="text"
-                                rows="1"
-                                className="form-control"
-                                onChange={this.handleChange}
-                                required
-                              /> */}
-                            </div>
-                          </div>
-                        </div>
+                     
 
-                        <div className="row">
+                          <div className="row" style={{paddingLeft:'17px'}}>
                           <div className="col-sm-6">
-                            <div className="form-group">
-                              <MDBInput
-                                value={this.state.minsalary}
-                                id="minsalary"
-                                label=" Expected Minimum Salary"
-                                icon="euro-sign"
-                                type="number"
-                                onChange={this.handleChange}
-                              />
-                            </div>
-                          </div>
+                         
+                            <br></br>
 
+                            <div className="row" style={{paddingBottom: '10px'}}>     
+                             <i class='fa fa-euro-sign'/> 
+                            </div>
+                            
+                         
+                            <div className="row">    
+                            <input   style={{width: '15rem'}} class="form-control form-control-static " placeholder=" Expected Minimum Salary"  id="minsalary"  type="number" value={this.state.minsalary} onChange={this.handleChange}></input>
+                            </div>
+                             
+                           
+                          </div>
                           <div className="col-sm-6">
-                            <div className="form-group">
-                              <MDBInput
-                                value={this.state.maxsalary}
-                                id="maxsalary"
-                                label="Expected Maximum Salary"
-                                icon="euro-sign"
-                                type="number"
-                                onChange={this.handleChange}
-                              />
+                         
+                         <br></br>
+
+                         <div className="row" style={{paddingBottom: '10px'}}>     
+                             <i class='fa fa-euro-sign'/> 
                             </div>
-                          </div>
+                            
+                         
+                            <div className="row">    
+                            <input  style={{width: '15rem'}} class="form-control form-control-static " placeholder=" Expected Maximum Salary"  id="minsalary"  type="number" value={this.state.maxsalary} onChange={this.handleChange}></input>
+                            </div>
+                             
+                       </div>
+                          
+                        
+                     
                         </div>
 
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <MDBInput
-                                value={this.state.jobdescription}
-                                id="jobdescription"
-                                label="Job Discription"
-                                type="textarea"
-                                rows="3"
-                                icon="comment-alt"
-                                className="form-control"
-                                onChange={this.handleChange}
-                                required
-                              />
-                            </div>
-                          </div>
-                        </div>
+                        <br></br>
+                        <div className="form-group">
+                        <label className="form-label" htmlFor="jobdescription"><i className="fas fa-sticky-note"></i> Description</label>
+                <textarea  id="jobdescription" name="job_discription"  value={this.state.jobdescription} className="form-control form-control-lg"  onChange={this.handleChange} 
+                 required />
+              </div>
+
 
                         <div className="row">
                           <div className="col-sm-6">
                             <div className="form-group datepicker">
-                              <label>Expected Start Date:</label>
+                              <label  className="form-label" >Expected Start Date:</label>
                               <div className="md-form">
-                                <i className="fas fa-calendar-alt prefix" />
+                                <i className="fas fa-calendar-alt prefix"  style={{fontSize: '1.1rem'}}/>
                                 <DatePicker
                                   selected={this.state.expectedstartdate}
                                   onChange={this.handleDateChange.bind(
@@ -363,9 +328,9 @@ class CreateJobAds extends React.Component {
 
                           <div className="col-sm-6">
                             <div className="form-group datepicker">
-                              <label>Expiration Date:</label>
+                              <label className="form-label">Expiration Date:</label>
                               <div className="md-form">
-                                <i className="fas fa-calendar-alt prefix" />
+                                <i className="fas fa-calendar-alt prefix" style={{fontSize: '1.1rem'}} />
                                 <DatePicker
                                   selected={this.state.expirationdate}
                                   onChange={this.handleDateChange.bind(
@@ -386,27 +351,22 @@ class CreateJobAds extends React.Component {
                           </div>
                         </div>
 
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <MDBBtn
-                              color="primary"
-                              className="float-right"
-                              type="submit"
-                            >
-                              <i className="fas fa-save" /> submit This Job
-                              Opportunity
-                            </MDBBtn>
-                          </div>
-                        </div>
+
+                        <button type="submit" className="btn btn-lg btn-info w-100 mt-4">
+                <i className="fas fa-user-plus"></i> Submit This Job Opportunity
+                                </button> 
+
+
+                        
                       </form>
-                    </div>
-                  </div>
-                </div>
+                  
+                
+                
               </div>
             </div>
           </div>
         </div>
-      </div>
+      
     );
   }
 }
