@@ -12,7 +12,7 @@ class EditProfile extends React.Component {
     const { auth, user} = this.props;
     if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN}/>;
     return (
-      <div className="container">
+      <div className="container page-wrapper">
         {user && user.userType === "jobseeker" ? (
             <EditJobSeekerProfile />
           ) : (
