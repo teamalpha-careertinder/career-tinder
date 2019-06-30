@@ -9,6 +9,8 @@ import "./jobs.css";
 import { saveUserChoice } from "../../store/actions/jobAdActions";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
+import addScoreToJobPost from "./relevancyFactorCalculator"
+import moment from "moment"
 
 const jobSeekerChoiceEntity = {
   jobAdId: null,
@@ -65,8 +67,20 @@ class JobAds extends Component {
     );
   };
 
+  
+
   render() {
-    const { auth, userJobPosting } = this.props;
+    const { auth, userJobPosting, jobseeker } = this.props;
+
+    if(userJobPosting && userJobPosting.length && jobseeker)
+    {
+      addScoreToJobPost(jobseeker, userJobPosting)
+      userJobPosting.sort(function(a, b) {
+        return b.relevancyScore - a.relevancyScore || moment(b.createdAt) - moment(a.createdAt);
+      });
+    }
+    console.log("after sorting--------")
+    console.log(userJobPosting)
 
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
@@ -200,7 +214,10 @@ class JobAds extends Component {
 const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const jobposting = state.firestore.ordered.jobposting;
-  const jobseekerChoice = state.firestore.ordered.jobSeekerChoice;
+  const jobseekerChoice = state.firestore.ordered.jobSeekerChoice;//console.log(auth)
+  let userid = auth.uid;
+  let jobseekers = state.firestore.data.jobseeker;
+  let jobseeker = jobseekers && userid ? jobseekers[userid] : null;
   const userJobPosting = _.differenceWith(jobposting, jobseekerChoice, function(
     jobpost,
     jobseekerchoice
@@ -211,7 +228,8 @@ const mapStateToProps = state => {
   return {
     userJobPosting: userJobPosting,
     uid: auth.uid,
-    auth: auth
+    auth: auth,
+    jobseeker: jobseeker
   };
 };
 
