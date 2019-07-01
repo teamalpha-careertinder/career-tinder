@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 import Select from 'react-select';
-import { MDBInput, MDBBtn, ModalFooter } from "mdbreact";
+import { ModalFooter } from "mdbreact";
 import './profile.css';
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -554,9 +554,15 @@ class EditJobSeekerProfile extends React.Component {
                           return (
                             <div key={`work-experience-${i}`} className="col-lg-3 col-md-4 col-12">
                               <div className="work-experiences-tag badge badge-info mb-2">
-                                <span>{workExperience.companyName}</span>
-                                <i id={"remove_we_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
-                                <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                                <div className="row">
+                                  <div className="col-8 text-left">
+                                    <span>{workExperience.companyName}</span>
+                                  </div>
+                                  <div className="col-4">
+                                    <i id={"remove_we_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
+                                    <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                                  </div>
+                                </div>  
                               </div>            
                             </div>                
                           )

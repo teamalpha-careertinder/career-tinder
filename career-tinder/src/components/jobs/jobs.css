@@ -66,3 +66,16 @@
 .job-ad-action .btn {
     border-radius: 0px;
 }
+
+.bonus-offers-tag i {
+    cursor: pointer;
+}
+
+.bonus-offers-tag.badge.badge-info {
+    padding: 10px;
+    width: 100%;
+}
+
+.bonus-offers-tag span {
+    white-space: normal;
+}
