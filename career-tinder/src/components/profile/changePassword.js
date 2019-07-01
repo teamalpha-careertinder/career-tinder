@@ -58,12 +58,12 @@ class ChangePassword extends React.Component {
               <div className="form-group">
                 <label className="form-label" htmlFor="passwordOne">Enter new Password</label>
                 <input type="password" id="passwordOne" name="passwordOne" value={passwordOne} className="form-control form-control-lg" onChange={this.handleChange} 
-                  placeholder="******" required/>
+                  required/>
               </div>
               <div className="form-group">
                 <label className="form-label" htmlFor="passwordTwo">Re-enter new Password</label>
                 <input type="password" id="passwordTwo" name="passwordTwo" value={passwordTwo} className="form-control form-control-lg" onChange={this.handleChange} 
-                  placeholder="******" required/>
+                  required/>
               </div>
               <button type="submit" className="btn btn-lg btn-info w-100 mt-4" disabled={isInvalid}>
                 <i className="fas fa-exchange-alt"></i> Change

@@ -58,13 +58,13 @@ class RegistrationJobSeeker extends React.Component {
               <div className="form-group">
                 <label className="form-label" htmlFor="password"><i className="fas fa-key"></i> Password</label>
                 <input type="password" id="password" name="password" value={this.state.password} className="form-control form-control-lg" onChange={this.changeHandler} 
-                  placeholder="******" required />
+                  required />
               </div>
 
               <div className="form-group">
                 <label className="form-label" htmlFor="confirm_password"><i className="fas fa-key"></i> Confirm Password</label>
                 <input type="password" id="confirm_password" name="confirmpassword" value={this.state.confirmpassword} className="form-control form-control-lg" onChange={this.changeHandler} 
-                  placeholder="******" required autoComplete="new-password"/>
+                  required autoComplete="new-password"/>
               </div>
 
               <button type="submit" className="btn btn-lg btn-info w-100 mt-4" enabled={isInvalid}>

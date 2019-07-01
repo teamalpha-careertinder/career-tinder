@@ -33,7 +33,7 @@ class JobsList extends Component {
         <div className="job-ad-create-floater">
           <Animated animationIn="pulse infinite" isVisible={true}>
             <NavLink
-              className="btn btn-info btn-circle"
+              className="btn btn-warning btn-circle"
               to={ROUTES.CREATE_JOB_AD}
             >
               <i className="fas fa-plus"></i>
