@@ -26,72 +26,56 @@ class JobDetails extends Component {
   render() {
     const { job } = this.props;
     return (
-      <div className="col-sm-6">
-        <div className="card border mb-3" style={{ maxwidth: "18rem" }}>
-          <h5 className="card-header" style={{backgroundColor:'#14789d'}}>{job.jobtitle}</h5>
-          <div className="card-body text-dark">
-            <h5 className="card-title">{job.employername}</h5>
-            <br />
-            <div className="card-text">
-              <div className="btn-group flex-wrap">
-                <NavLink
-                  type="button"
-                  id="btnMatch"
-                  
-                  className="btn thumbs_button mr-3 btn-sm "
-                  to={{
-                    pathname: ROUTES.EMPLOYER_MATCHES + "/" + job.id,
-                    job: job
-                  }}
-                >
-                  <i
-                    className="far fa-thumbs-up"
-                    style={{ fontSize: "18px", color: "white" }}
-                  />
-                </NavLink>
-                <NavLink
-                  type="button"
-                  className="btn edit_button mr-3 btn-sm"
-                  to={{
-                    pathname: "/create-job-ad",
-                    job: job
-                  }}
-                >
-                  <div>
-                    <i
-                      className="fas fa-edit"
-                      style={{ fontSize: "18px", color: "white" }}
-                    />
-                  </div>
-                </NavLink>
-              
-                <button
-                  type="button"
-                  id="btnDelete"
-                  className="btn delete_button mr-3 btn-sm"
-                  onClick={e => this.handleDeleteAction(job.id)}
-                >
-                  <i
-                    className="fas fa-trash-alt"
-                    style={{ fontSize: "18px", color: "white" }}
-                  />
-                </button>
-
-                <NavLink
-                  type="button"
-                  className="btn group_button mr-3 btn-sm"
-                  to={{
-                    pathname:
-                      ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER + "/" + job.id,
-                    job: job
-                  }}
-                >
-                  <i
-                    className="fas fa-users"
-                    style={{ fontSize: "18px", color: "white" }}
-                  />
-                </NavLink>
-              </div>
+      <div className="col-12 col-md-6 col-lg-4">
+        <div className="job-ad-admin-wrapper">
+          <h6 className="job-ad-heading text-info text-center">{job.jobtitle}</h6>        
+          <div className="job-ad-links">
+            <div className="job-ad-link">
+              <NavLink
+                id="btnMatch"
+                className="text-info w-100 m-0"
+                to={{
+                  pathname: ROUTES.EMPLOYER_MATCHES + "/" + job.id,
+                  job: job
+                }}
+              >
+                <i className="far fa-thumbs-up"></i> Matches for this job (0)
+              </NavLink>
+            </div>
+            <div className="job-ad-link">
+              <NavLink
+                className="text-info w-100 m-0"
+                to={{
+                  pathname:
+                    ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER + "/" + job.id,
+                  job: job
+                }}
+              >
+                <i className="fas fa-users"></i> Recommendations (0)
+              </NavLink>
+            </div>   
+          </div>
+          <div className="job-ad-actions">             
+            <div className="job-ad-action">
+              <NavLink
+                className="btn btn-info btn-sm w-100 m-0 font-weight-bold"
+                to={{
+                  pathname: "/create-job-ad",
+                  job: job
+                }}
+              >
+                  <i className="fas fa-edit"></i><br/> Edit
+              </NavLink>
+            </div>
+            <div className="job-ad-action">
+              <button
+                type="button"
+                id="btnDelete"
+                className="btn btn-danger btn-sm w-100 m-0"
+                onClick={e => this.handleDeleteAction(job.id)}
+              >
+                <i className="fas fa-trash-alt"></i><br/> Remove
+              </button>
             </div>
           </div>
         </div>

@@ -42,10 +42,6 @@
     height: 100vh;
 }
 
-h6 {
-    line-height: 1.7;
-}
-
 .navbar {
     transition: background .5s ease-in-out, padding .5s ease-in-out;
 }

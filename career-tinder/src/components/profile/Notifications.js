@@ -9,7 +9,6 @@ import { Redirect } from "react-router-dom";
 class Notifications extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
   }
 
   render() {
@@ -36,7 +35,7 @@ class Notifications extends React.Component {
                   );
                 })}                                 
             </ul>
-            <h6 className="text-center">{!notifications ? 'You have no notifications at this moment.' :''}</h6>
+            <h6 className="text-center">{notifications && notifications.length === 0 ? 'You have no notifications at this moment.' :''}</h6>
           </div>
         </div>
       </div>
