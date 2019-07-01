@@ -15,6 +15,54 @@
 .job-ad .card-body .fas {
     width: 20px;
 }
-.job-ad{
+
+.job-ad {
     margin-bottom: 10px;
+}
+
+.jobs-heading {
+    font-weight: bold;
+    line-height: 2.7;
+}
+
+.job-ad-wrapper {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+    margin: 0 10px 20px;
+}
+
+.job-ad-heading {
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    font-size: 20px;
+    padding: 10px 10px;
+    margin-bottom: 0;
+}
+
+.job-ad-links {
+    padding: 12px;
+}
+
+.job-ad-action {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.job-ad-create-floater {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 99999;
+}
+
+.card-buttons {
+    width: 50%;
+    display: inline-block;
+}
+
+.card-buttons .btn,
+.job-ad-action .btn {
+    border-radius: 0px;
 }

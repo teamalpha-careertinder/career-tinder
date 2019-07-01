@@ -8,36 +8,33 @@ import JobDetails from "./JobDetails";
 class JobsList extends Component {
   render() {
     const { jobs } = this.props;
-
+    
     return (
-      <div>
-        <div className="container">
-          <div className="card border-info card-container">
-            <div className="card-header">
-              <div className="row">
-                <div className="col-12">
-                  <h5 className="fas fa-list-alt mt-2"> Jobs List</h5>
-                  <NavLink
-                    type="button"
-                    className="btn btn-primary btn-sm nav-link float-right"
-                    to={ROUTES.CREATE_JOB_AD}
-                  >
-                    <b>Create Job Ad</b>
-                  </NavLink>
-                </div>
-              </div>
-            </div>
-            <div className="card-body" align="center">
-              <MDBAnimation type="zoomIn">
-                <div className="row">
-                  {jobs &&
-                    jobs.map(job => {
-                      return <JobDetails job={job} key={job.id} />;
-                    })}
-                </div>
-              </MDBAnimation>
-            </div>
+      <div className="page-wrapper">
+        <div className="job-ads-header row mt-2">
+          <div className="col-12">
+            <h6 className="jobs-heading float-left"><i className="fas fa-list"></i> Jobs List</h6>
+            <NavLink
+              className="btn btn-info btn-sm nav-link float-right"
+              to={ROUTES.CREATE_JOB_AD}
+            >
+              <i className="fas fa-plus"></i> Create Job Ad
+            </NavLink>
           </div>
+        </div>
+        <div className="row">
+          {jobs &&
+            jobs.map(job => {
+              return <JobDetails job={job} key={job.id} />;
+            })}
+        </div>
+        <div className="job-ad-create-floater">
+          <NavLink
+            className="btn btn-info btn-circle"
+            to={ROUTES.CREATE_JOB_AD}
+          >
+            <i className="fas fa-plus"></i>
+          </NavLink>
         </div>
       </div>
     );

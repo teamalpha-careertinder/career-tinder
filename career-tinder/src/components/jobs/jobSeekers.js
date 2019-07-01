@@ -28,24 +28,35 @@ class JobSeekers extends Component {
     this.props.saveEmployerChoice(employerChoice);
   }
 
-  slideSeekerUp = e => {
-    var jobSeekerId = $(e.target)[0].closest(".job-seeker-wrapper").id;
-    //call the managment of (Dis)Likes to be store on DB:
-    this.processLikeDisLike(true, jobSeekerId);
 
-    $("#" + jobSeekerId)
+  slideSeekerUp = e => {
+    var id = $(e.target)[0].closest(".job-seeker-wrapper").id;
+    $("#" + id)
       .animate({ right: "2000px" }, "slow")
       .slideUp(500);
+    //call the managment of (Dis)Likes to be store on DB:
+    setTimeout(
+      function() {
+        //Start the timer
+        this.processLikeDisLike(true, id);
+      }.bind(this),
+      1000
+    );
   };
 
   slideSeekerDown = e => {
-    var jobSeekerId = $(e.target)[0].closest(".job-seeker-wrapper").id;
-    //call the managment of (Dis)Likes to be store on DB:
-    this.processLikeDisLike(false, jobSeekerId);
-
-    $("#" + jobSeekerId)
+    var id = $(e.target)[0].closest(".job-seeker-wrapper").id;
+    $("#" + id)
       .animate({ left: "2000px" }, "slow")
       .slideUp(500);
+    //call the managment of (Dis)Likes to be store on DB:
+    setTimeout(
+      function() {
+        //Start the timer
+        this.processLikeDisLike(false, id);
+      }.bind(this),
+      1000
+    );
   };
 
   render() {
@@ -55,39 +66,31 @@ class JobSeekers extends Component {
     return (
       <div>
         {/* <input type="hidden" id="hdnJobAdId" value={state.jobAdId}></input> */}
-        <div className="container">
+        <div className="container page-wrapper">
           <div className="card-container">
-            <div className="card-header">
-              <div className="row">
-                <div className="col-sm">
-                  <h5 style={{ paddingTop: "9px" }} className="fas fa-list-alt">
-                    {" "}
-                    Recommended Job Seekers
-                  </h5>
-                </div>
-              </div>
-            </div>
-
-            <div className="row mt-2" align="center">
+            <h4 className="mt-4 text-center font-weight-bold">
+              <i className="fas fa-street-view"></i> Recommended Job Seekers
+            </h4>
+            <div className="row mt-4" align="center">
               {jobSeekersList &&
                 jobSeekersList.map(jobSeeker => {
                   return (
                     <div
                       id={jobSeeker.id}
                       key={jobSeeker.id}
-                      className="col-md-6 col-12 job-seeker-wrapper"
+                      className="col-lg-4 col-md-6 col-12 job-seeker-wrapper mt-2"
                     >
                       <div className="card job-ad text-body shadow rounded">
-                        <div className="card-header">
+                        <div className="card-header bg-white text-info font-weight-bold">
                           <div className="row">
-                            <div className="col-9 text-left">
+                            <div className="col-12 text-center">
                               {/* <i className="fas fa-thumbtack" /> {item.jobtitle} */}
                               <i className="fas fa-user-tag" />{" "}
                               {jobSeeker.jobSeekerName}
                             </div>
-                            <div className="col-3">
+                            {/* <div className="col-3">
                               <i className="fas fa-heart wishlist-selector float-right d-none" />
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                         <div className="card-body">
@@ -102,7 +105,7 @@ class JobSeekers extends Component {
                                   return (
                                     <span
                                       key={jobSeeker.id + "_" + skill.value}
-                                      className="badge badge-danger mr-2"
+                                      className="badge badge-warning mr-2"
                                     >
                                       {skill.label}
                                     </span>
@@ -134,7 +137,7 @@ class JobSeekers extends Component {
                                   return (
                                     <span
                                       key={exp.companyName + "_" + exp.jobTitle}
-                                      className="badge badge-danger mr-2"
+                                      className="badge badge-warning mr-2"
                                     >
                                       {exp.companyName}
                                     </span>
@@ -155,7 +158,7 @@ class JobSeekers extends Component {
                                   return (
                                     <span
                                       key={lang.value}
-                                      className="badge badge-danger mr-2"
+                                      className="badge badge-warning mr-2"
                                     >
                                       {lang.label}
                                     </span>
@@ -189,30 +192,26 @@ class JobSeekers extends Component {
                                 <i className="fas fa-ban text-muted" />
                               )}
                             </div>
-                            <div className="col-12">
-                              <div className="row">
-                                <div className="col-6">
-                                  <Button
-                                    outline
-                                    color="success"
-                                    className="w-100"
-                                    onClick={this.slideSeekerUp}
-                                  >
-                                    <i className="fas fa-thumbs-up" />
-                                  </Button>{" "}
-                                </div>
-                                <div className="col-6">
-                                  <Button
-                                    outline
-                                    color="danger"
-                                    className="w-100"
-                                    onClick={this.slideSeekerDown}
-                                  >
-                                    <i className="fas fa-thumbs-down" />
-                                  </Button>{" "}
-                                </div>
-                              </div>
-                            </div>
+                          </div>
+                        </div>
+                        <div className="w-100">
+                          <div className="card-buttons">
+                            <Button                              
+                              color="info"
+                              className="w-100 m-0"
+                              onClick={this.slideSeekerUp}
+                            >
+                              <i className="fas fa-thumbs-up" />
+                            </Button>{" "}
+                          </div>
+                          <div className="card-buttons">
+                            <Button
+                              color="danger"
+                              className="w-100 m-0"
+                              onClick={this.slideSeekerDown}
+                            >
+                              <i className="fas fa-thumbs-down" />
+                            </Button>{" "}
                           </div>
                         </div>
                       </div>
