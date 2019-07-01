@@ -13,6 +13,7 @@ import {
 import cities from "../../constants/city";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
+import { Checkbox, Radio } from 'pretty-checkbox-react';
 
 const skills = [
   { value: "php", label: "PHP" },
@@ -91,11 +92,17 @@ class CreateJobAds extends React.Component {
     });
   };
 
-  handleChangeJobType = e => {
-    this.setState({
-      [e.target.name]: e.target.checked
-    });
-  };
+  handleChangeFT = () => {
+    this.setState(prevState => ({
+      applyfulltime: !prevState.applyfulltime,
+    }));
+  }
+
+  handleChangePT = () => {
+    this.setState(prevState => ({
+      applypartime: !prevState.applypartime,
+    }));
+  }
 
   handleSubmit = event => {
     event.preventDefault();
@@ -149,223 +156,160 @@ class CreateJobAds extends React.Component {
           {message}
         </Alert>
 
-      <div className="container page-wrapper">        
-        <h3 className="text-center font-weight-bold mt-4">
-          <i className="fas fa-users"></i><br/>
-          Create Job Ad
-        </h3>
-      
-        <div className="row">
-          <div className="col-md-6 col-12">
-            <form className="empr-form mt-4 mb-4" onSubmit={this.handleSubmit}>
-              <div className="form-group">
-                <label className="form-label" htmlFor="jobtitle"><i className="fas fa-file-signature"></i> Job Title</label>
-                <input type="text" id="jobtitle" name="job_title" value={this.state.jobtitle} className="form-control form-control-lg" onChange={this.handleChange} 
-                  placeholder="Job Title" required />
-              </div>
-
+        <div className="container page-wrapper">        
+          <h3 className="text-center font-weight-bold mt-4">
+            <i className="fas fa-plus-square"></i><br/>
+            {this.state.jobtitle !== '' ? "Edit Job Ad":"Create Job Ad"}
+          </h3>      
+          <div className="row justify-content-center">
+            <div className="col-lg-8 col-12">
+              <form className="empr-form mt-4 mb-4" onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                  <label className="form-label" htmlFor="jobtitle"><i className="fas fa-file-signature"></i> Job Title</label>
+                  <input type="text" id="jobtitle" name="job_title" value={this.state.jobtitle} className="form-control" onChange={this.handleChange} 
+                    placeholder="Job Title" required />
+                </div>                         
                           
-                        
-                        <div className="row">
-                          <div className="col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <label className="form-label" htmlFor="email">Needed Skills</label>
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">
+                      <label className="form-label"><i className="fas fa-code"></i> Needed Skills</label>
+                      <Select
+                        value={this.state.neededskills}
+                        onChange={this.handleSkillsChange}
+                        options={skills}
+                        isMulti={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-sm-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="joblocation" name="joblocation"><i className="fas fa-map-marker-alt"></i> Job Location</label>
+                      <Select
+                        value={this.state.location}
+                        onChange={this.handleLocationChange}
+                        options={cities}
+                        isMulti={true}
+                      />
+                    </div>
+                  </div>
+                </div>
 
-                              <Select
-                                value={this.state.neededskills}
-                                onChange={this.handleSkillsChange}
-                                options={skills}
-                                isMulti={true}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <label className="form-label" htmlFor="joblocation" name="joblocation"><i className="fas fa-map-marker-alt"></i>Job Location</label>
-
-                              <Select
-                                value={this.state.location}
-                                onChange={this.handleLocationChange}
-                                options={cities}
-                                isMulti={true}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-sm-10 mb-1">
-                            <div className="form-group">
-                              <label className="form-label"  htmlFor="email">
-                                Employment type
-                              </label>
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input checkbox"
-                                  type="checkbox"
-                                  checked={this.state.applyfulltime}
-                                  onChange={this.handleChangeJobType}
-                                  name="applyfulltime"
-                                />
-                                <label 
-                                  className="form-check-label"
-                                  htmlFor="job_type_ft"
-                                >
-                                  Full-time
-                                </label>
-                              </div>
-
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  checked={this.state.applypartime}
-                                  onChange={this.handleChangeJobType}
-                                  name="applypartime"
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="job_type_pt"
-                                >
-                                  Part-time
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <label className="form-label" htmlFor="email"><i className="fas fa-address-card"></i> Education</label>
-                        <div >
-                          <select
-                            className="form-control browser-default custom-select"
-                            value={this.state.education}
-                            id="education"
-                            label="Education"
-                            
-                            type="text"
-                            rows="1"
-                            onChange={this.handleChange}
-                            required
-                          >
-                            <option >Select</option>
-                            <option value="0">Ph.D</option>
-                            <option value="1">M.Sc</option>
-                            <option value="2">B.Sc </option>
-                            <option value="3">High School Diploma</option>
-                            <option value="4">Other</option>
-                          </select>
-                        </div>
-
-                     
-
-                          <div className="row" style={{paddingLeft:'17px'}}>
-                          <div className="col-sm-6">
-                         
-                            <br></br>
-
-                            <div className="row" style={{paddingBottom: '10px'}}>     
-                             <i class='fa fa-euro-sign'/> 
-                            </div>
-                            
-                         
-                            <div className="row">    
-                            <input   style={{width: '15rem'}} class="form-control form-control-static " placeholder=" Expected Minimum Salary"  id="minsalary"  type="number" value={this.state.minsalary} onChange={this.handleChange}></input>
-                            </div>
-                             
-                           
-                          </div>
-                          <div className="col-sm-6">
-                         
-                         <br></br>
-
-                         <div className="row" style={{paddingBottom: '10px'}}>     
-                             <i class='fa fa-euro-sign'/> 
-                            </div>
-                            
-                         
-                            <div className="row">    
-                            <input  style={{width: '15rem'}} class="form-control form-control-static " placeholder=" Expected Maximum Salary"  id="minsalary"  type="number" value={this.state.maxsalary} onChange={this.handleChange}></input>
-                            </div>
-                             
-                       </div>
+                <div className="row">
+                  <div className="col-sm-10 mb-1">
+                    <div className="form-group">
+                      <label className="form-label w-100">
+                        <i className="fas fa-map-marked-alt"></i> Employment type
+                      </label>
+                      <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                        shape="curve" color="primary-o" id="applyfulltime" name="applyfulltime"
+                        checked={this.state.applyfulltime ? true : false} onChange={this.handleChangeFT}>
+                            Full-time
+                      </Checkbox>
+                      <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                        shape="curve" color="primary-o" id="applypartime" name="applypartime"
+                        checked={this.state.applypartime ? true : false} onChange={this.handleChangePT}>
+                            Part-time
+                      </Checkbox>
+                    </div>
+                  </div>
+                </div>
                           
-                        
-                     
-                        </div>
+                <div className="form-group">
+                  <label className="form-label"><i className="fas fa-address-card"></i> Education</label>
+                  <select
+                    className="form-control"
+                    value={this.state.education}
+                    id="education"
+                    label="Education"
+                    
+                    type="text"
+                    rows="1"
+                    onChange={this.handleChange}
+                    required
+                  >
+                    <option >Select</option>
+                    <option value="0">Ph.D</option>
+                    <option value="1">M.Sc</option>
+                    <option value="2">B.Sc </option>
+                    <option value="3">High School Diploma</option>
+                    <option value="4">Other</option>
+                  </select>
+                </div>                     
 
-                        <br></br>
-                        <div className="form-group">
-                        <label className="form-label" htmlFor="jobdescription"><i className="fas fa-sticky-note"></i> Description</label>
-                <textarea  id="jobdescription" name="job_discription"  value={this.state.jobdescription} className="form-control form-control-lg"  onChange={this.handleChange} 
-                 required />
-              </div>
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">     
+                      <label className="form-label"><i class='fa fa-euro-sign'/> Expected Minimum Salary(Yearly)</label>
+                      <input className="form-control" placeholder="40000"  id="minsalary"  type="number" value={this.state.minsalary} onChange={this.handleChange}></input>
+                    </div>  
+                  </div>
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">     
+                      <label className="form-label"><i class='fa fa-euro-sign'/> Expected Maximum Salary(Yearly)</label>
+                      <input className="form-control" placeholder="60000"  id="maxsalary"  type="number" value={this.state.maxsalary} onChange={this.handleChange}></input>
+                    </div> 
+                  </div>  
+                </div>
 
+                <div className="form-group">
+                  <label className="form-label" htmlFor="jobdescription"><i className="fas fa-sticky-note"></i> Description</label>
+                  <textarea  id="jobdescription" name="job_discription"  value={this.state.jobdescription} className="form-control"  onChange={this.handleChange} 
+                  required />
+                </div>
 
-                        <div className="row">
-                          <div className="col-sm-6">
-                            <div className="form-group datepicker">
-                              <label  className="form-label" >Expected Start Date:</label>
-                              <div className="md-form">
-                                <i className="fas fa-calendar-alt prefix"  style={{fontSize: '1.1rem'}}/>
-                                <DatePicker
-                                  selected={this.state.expectedstartdate}
-                                  onChange={this.handleDateChange.bind(
-                                    this.parentElement,
-                                    "expectedstartdate"
-                                  )}
-                                  className="form-control"
-                                  peekNextMonth
-                                  showMonthDropdown
-                                  showYearDropdown
-                                  dropdownMode="select"
-                                  name="expectedstartdate"
-                                  minDate={new Date()}
-                                  autoComplete="off"
-                                />
-                              </div>
-                            </div>
-                          </div>
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="form-group datepicker">
+                      <label className="form-label w-100"><i className="fas fa-calendar-alt prefix" /> Expected Start Date</label>
+                      <DatePicker
+                        selected={this.state.expectedstartdate}
+                        onChange={this.handleDateChange.bind(
+                          this.parentElement,
+                          "expectedstartdate"
+                        )}
+                        className="form-control"
+                        peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                        name="expectedstartdate"
+                        minDate={new Date()}
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-12">
+                    <div className="form-group datepicker">
+                      <label className="form-label w-100"><i className="fas fa-calendar-alt prefix" /> Expiration Date</label>
+                      <DatePicker
+                        selected={this.state.expirationdate}
+                        onChange={this.handleDateChange.bind(
+                          this.parentElement,
+                          "expirationdate"
+                        )}
+                        className="form-control"
+                        peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                        name="expirationdate"
+                        minDate={new Date()}
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-                          <div className="col-sm-6">
-                            <div className="form-group datepicker">
-                              <label className="form-label">Expiration Date:</label>
-                              <div className="md-form">
-                                <i className="fas fa-calendar-alt prefix" style={{fontSize: '1.1rem'}} />
-                                <DatePicker
-                                  selected={this.state.expirationdate}
-                                  onChange={this.handleDateChange.bind(
-                                    this.parentElement,
-                                    "expirationdate"
-                                  )}
-                                  className="form-control"
-                                  peekNextMonth
-                                  showMonthDropdown
-                                  showYearDropdown
-                                  dropdownMode="select"
-                                  name="expirationdate"
-                                  minDate={new Date()}
-                                  autoComplete="off"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-
-                        <button type="submit" className="btn btn-lg btn-info w-100 mt-4">
-                <i className="fas fa-user-plus"></i> Submit This Job Opportunity
-                                </button> 
-
-
-                        
-                      </form>
+                <button type="submit" className="btn btn-lg btn-info w-100 mt-4">
+                  <i className="fas fa-save"></i> Save
+                </button>                         
+              </form>       
                   
-                
-                
-              </div>
             </div>
           </div>
         </div>
+      </div>
       
     );
   }

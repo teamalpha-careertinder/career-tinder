@@ -6,7 +6,7 @@ import * as ROUTES from "../../constants/routes";
 import { signIn } from "../../store/actions/authActions";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import {Animated} from "react-animated-css";
+import { Animated } from "react-animated-css";
 import $ from "jquery/src/jquery";
 
 const INITIAL_STATE = {
@@ -70,9 +70,9 @@ class Login extends React.Component {
         <div className="text-center">
           <span>Don't have an account?{" "}</span>
           <Animated animationIn="pulse infinite" isVisible={true}>
-          <NavLink className="nav-link text-info font-weight-bold" to={ROUTES.LANDING}>
-            <i className="fas fa-user-plus" /> Register
-          </NavLink>
+            <NavLink className="nav-link text-danger font-weight-bold" to={ROUTES.LANDING}>
+              <i className="fas fa-user-plus" /> Register
+            </NavLink>
           </Animated>
         </div>
       </div>

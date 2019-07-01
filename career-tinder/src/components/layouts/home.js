@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import {Animated} from "react-animated-css";
+import { Animated } from "react-animated-css";
 
 class Home extends React.Component {
   render() {
@@ -23,14 +23,14 @@ class Home extends React.Component {
               <div className="col-6 text-center mt-4" > 
                 <NavLink className="text-danger home-choose-role " to={ROUTES.REGISTRATION_JOB_SEEKER} >
                 <Animated animationIn="jackInTheBox" isVisible={true}>   <i className="fas fa-user-graduate"></i><br/></Animated>
-                  <Animated animationIn="flash infinite" animationInDuration='5000' animationInDelay ='4000' isVisible={true}>    <span className="font-weight-bold ">I'm a Job Seeker</span></Animated>
+                  <span className="font-weight-bold ">I'm a Job Seeker</span>
                 </NavLink>
               </div>
              
               <div className="col-6 text-center mt-4" >
                 <NavLink className="text-warning home-choose-role" to={ROUTES.REGISTRATION_EMPLOYER}>
                 <Animated animationIn="jackInTheBox" isVisible={true}>    <i className="fas fa-user-tie"></i><br/></Animated>
-                  <Animated animationIn="flash infinite " animationInDuration='5000' animationInDelay ='4000' isVisible={true}>      <span className="font-weight-bold">I'm an Employer</span></Animated>
+                  <span className="font-weight-bold">I'm an Employer</span>
                 </NavLink>
               </div>
             </div>
@@ -43,9 +43,9 @@ class Home extends React.Component {
        
 
             <Animated animationIn="pulse infinite" isVisible={true}>
-           <NavLink className="text-info font-weight-bold" to={ROUTES.LOG_IN} >
-              <i className="fas fa-sign-in-alt " /> Log in
-            </NavLink>
+              <NavLink className="text-info font-weight-bold" to={ROUTES.LOG_IN} >
+                <i className="fas fa-sign-in-alt " /> Log in
+              </NavLink>
             </Animated>
             </div>
           </div>
