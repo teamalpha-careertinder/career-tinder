@@ -301,7 +301,7 @@ class CreateJobAds extends React.Component {
                   </div>
                 </div>
 
-                <button type="submit" className="btn btn-lg btn-info w-100 mt-4">
+                <button type="submit" className="btn btn-info w-100 mt-4">
                   <i className="fas fa-save"></i> Save
                 </button>                         
               </form>       

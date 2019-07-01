@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import { MDBAnimation } from "mdbreact";
 import "../profile/profile.css";
 import * as ROUTES from "../../constants/routes";
 import JobDetails from "./JobDetails";
+import { Animated } from "react-animated-css";
 
 class JobsList extends Component {
   render() {
@@ -14,12 +14,14 @@ class JobsList extends Component {
         <div className="job-ads-header row mt-2">
           <div className="col-12">
             <h6 className="jobs-heading float-left"><i className="fas fa-list"></i> Jobs List</h6>
-            <NavLink
-              className="btn btn-info btn-sm nav-link float-right"
-              to={ROUTES.CREATE_JOB_AD}
-            >
-              <i className="fas fa-plus"></i> Create Job Ad
-            </NavLink>
+            <Animated animationIn="pulse" isVisible={true}>
+              <NavLink
+                className="btn btn-info btn-sm nav-link float-right"
+                to={ROUTES.CREATE_JOB_AD}
+              >
+                <i className="fas fa-plus"></i> Create Job Ad
+              </NavLink>
+            </Animated>
           </div>
         </div>
         <div className="row">
@@ -29,12 +31,14 @@ class JobsList extends Component {
             })}
         </div>
         <div className="job-ad-create-floater">
-          <NavLink
-            className="btn btn-info btn-circle"
-            to={ROUTES.CREATE_JOB_AD}
-          >
-            <i className="fas fa-plus"></i>
-          </NavLink>
+          <Animated animationIn="pulse infinite" isVisible={true}>
+            <NavLink
+              className="btn btn-info btn-circle"
+              to={ROUTES.CREATE_JOB_AD}
+            >
+              <i className="fas fa-plus"></i>
+            </NavLink>
+          </Animated>
         </div>
       </div>
     );

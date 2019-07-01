@@ -85,27 +85,29 @@ class JobAds extends Component {
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
-      <div className="container">
-        <div className="row job-ads-wrapper mb-3">
+      <div className="page-wrapper">
+        <h4 className="mt-4 text-center font-weight-bold">
+          <i className="fas fa-street-view"></i> Recommended Jobs
+        </h4>
+        <div className="row job-ads-wrapper mt-4" align="center">
           {userJobPosting &&
             userJobPosting.map(item => {
               return (
                 <div
                   id={item.id}
                   key={item.id}
-                  className="col-md-6 col-12 job-ad-wrapper"
+                  className="col-lg-4 col-md-6 col-12 mt-2 job-ad-wrapper"
                 >
-                  {" "}
                   {/*this is temporal: id must contain de id of document JobPosting from DB*/}
                   <div className="card job-ad text-body shadow rounded">
-                    <div className="card-header">
+                    <div className="card-header bg-white text-info font-weight-bold">
                       <div className="row">
-                        <div className="col-9">
+                        <div className="col-12 text-center">
                           <i className="fas fa-thumbtack" /> {item.jobtitle}
                         </div>
-                        <div className="col-3">
+                        {/* <div className="col-3">
                           <i className="fas fa-heart wishlist-selector float-right d-none" />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                     <div className="card-body">
@@ -176,7 +178,7 @@ class JobAds extends Component {
                         </div>
                         <hr />
                         <div className="col-12">
-                          <div className="row">
+                          {/* <div className="row">
                             <div className="col-6">
                               <Button
                                 outline
@@ -197,8 +199,28 @@ class JobAds extends Component {
                                 <i className="fas fa-thumbs-down" />
                               </Button>{" "}
                             </div>
-                          </div>
+                          </div> */}
                         </div>
+                      </div>
+                    </div>
+                    <div className="w-100">
+                      <div className="card-buttons">
+                        <Button                              
+                          color="info"
+                          className="w-100 m-0"
+                          onClick={this.slideAdUp}
+                        >
+                          <i className="fas fa-thumbs-up" />
+                        </Button>{" "}
+                      </div>
+                      <div className="card-buttons">
+                        <Button
+                          color="danger"
+                          className="w-100 m-0"
+                          onClick={this.slideAdDown}
+                        >
+                          <i className="fas fa-thumbs-down" />
+                        </Button>{" "}
                       </div>
                     </div>
                   </div>

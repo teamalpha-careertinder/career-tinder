@@ -27,7 +27,7 @@ class JobDetails extends Component {
     const { job } = this.props;
     return (
       <div className="col-12 col-md-6 col-lg-4">
-        <div className="job-ad-wrapper">
+        <div className="job-ad-admin-wrapper">
           <h6 className="job-ad-heading text-info text-center">{job.jobtitle}</h6>        
           <div className="job-ad-links">
             <div className="job-ad-link">
