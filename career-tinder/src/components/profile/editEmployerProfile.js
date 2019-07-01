@@ -149,7 +149,7 @@ class EditEmployerProfile extends React.Component {
                     <hr/>
                   </div>
                   <div className="col-2">
-                    <i class="fas fa-tty"></i>
+                    <i className="fas fa-tty"></i>
                   </div>
                   <div className="col-5">
                     <hr/>
