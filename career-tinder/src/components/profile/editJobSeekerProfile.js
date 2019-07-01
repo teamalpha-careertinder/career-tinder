@@ -415,7 +415,7 @@ class EditJobSeekerProfile extends React.Component {
                     </div>
                     <div className="col-12">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="jobDescription"><i class="far fa-address-card"></i> Job description</label>
+                        <label className="form-label" htmlFor="jobDescription"><i className="far fa-address-card"></i> Job description</label>
                         <textarea type="text" id="jobDescription" name="job_description" value={this.state.jobDescription} className="form-control form-control-lg" onChange={this.handleChange} 
                           rows="1" required />
                       </div>
@@ -489,7 +489,7 @@ class EditJobSeekerProfile extends React.Component {
                 <div className="row">
                   <div className="col-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="jobSeekerAddress"><i class="far fa-address-card"></i> Address</label>
+                      <label className="form-label" htmlFor="jobSeekerAddress"><i className="far fa-address-card"></i> Address</label>
                       <textarea type="text" id="jobSeekerAddress" name="jobSeekerAddress" value={this.state.jobSeekerAddress || ''} className="form-control form-control-lg" onChange={this.handleChange} 
                         rows="1" required></textarea>
                     </div>
@@ -498,7 +498,7 @@ class EditJobSeekerProfile extends React.Component {
                 <div className="row">
                   <div className="col-md-6 col-12">
                     <div className="form-group datepicker">
-                      <label className="form-label" htmlFor="dateOfBirth"><i class="far fa-calendar-alt"></i> Date of birth</label>
+                      <label className="form-label" htmlFor="dateOfBirth"><i className="far fa-calendar-alt"></i> Date of birth</label>
                       <DatePicker selected={this.state.startDOBDate || '' } id="dateOfBirth" onChange={this.handleDOBDateChange} className="form-control w-100"
                           peekNextMonth showMonthDropdown showYearDropdown dropdownMode="select" maxDate={new Date()} autoComplete="off" />
                     </div>
@@ -568,7 +568,7 @@ class EditJobSeekerProfile extends React.Component {
                 <div className="row">
                   <div className="col-md-6 col-12">
                     <div className="form-group mt-2">
-                      <label htmlFor="euCitizen"><i class="fas fa-globe-europe"></i> EU Citizen</label>
+                      <label htmlFor="euCitizen"><i className="fas fa-globe-europe"></i> EU Citizen</label>
                       <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
                         shape="curve" color="primary-o" id="employeeCitizenship"
                         checked={this.state.euCitizen ? true : false} onChange={this.handleChangeEU}>

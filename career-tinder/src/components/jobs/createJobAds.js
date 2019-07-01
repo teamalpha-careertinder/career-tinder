@@ -13,16 +13,10 @@ import {
 import cities from "../../constants/city";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
-import { Checkbox, Radio } from 'pretty-checkbox-react';
-
-const skills = [
-  { value: "php", label: "PHP" },
-  { value: "asp.net", label: "ASP.Net" },
-  { value: "java", label: "Java" },
-  { value: "pyhton", label: "Python" },
-  { value: "react", label: "React" },
-  { value: "angular", label: "Angular" }
-];
+import { Checkbox, Radio } from "pretty-checkbox-react";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+import $ from "jquery/src/jquery";
 
 class CreateJobAds extends React.Component {
   handleSkillsChange = neededskills => {
@@ -49,7 +43,7 @@ class CreateJobAds extends React.Component {
       expectedstartdate: "",
       expirationdate: "",
       visible: false,
-      location: ''
+      location: ""
     };
     this.onShowAlert = this.onShowAlert.bind(this);
     if (this.props.location.job) {
@@ -94,15 +88,15 @@ class CreateJobAds extends React.Component {
 
   handleChangeFT = () => {
     this.setState(prevState => ({
-      applyfulltime: !prevState.applyfulltime,
+      applyfulltime: !prevState.applyfulltime
     }));
-  }
+  };
 
   handleChangePT = () => {
     this.setState(prevState => ({
-      applypartime: !prevState.applypartime,
+      applypartime: !prevState.applypartime
     }));
-  }
+  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -144,7 +138,7 @@ class CreateJobAds extends React.Component {
 
   render() {
     //isOpen={this.state.visible}
-    const { auth, response, message } = this.props;
+    const { auth, response, message, educationList, locationList, skillsList } = this.props;
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
@@ -156,39 +150,61 @@ class CreateJobAds extends React.Component {
           {message}
         </Alert>
 
-        <div className="container page-wrapper">        
+        <div className="container page-wrapper">
           <h3 className="text-center font-weight-bold mt-4">
-            <i className="fas fa-plus-square"></i><br/>
-            {this.state.jobtitle !== '' ? "Edit Job Ad":"Create Job Ad"}
-          </h3>      
+            <i className="fas fa-plus-square" />
+            <br />
+            {this.state.jobtitle !== "" ? "Edit Job Ad" : "Create Job Ad"}
+          </h3>
           <div className="row justify-content-center">
             <div className="col-lg-8 col-12">
-              <form className="empr-form mt-4 mb-4" onSubmit={this.handleSubmit}>
+              <form
+                className="empr-form mt-4 mb-4"
+                onSubmit={this.handleSubmit}
+              >
                 <div className="form-group">
-                  <label className="form-label" htmlFor="jobtitle"><i className="fas fa-file-signature"></i> Job Title</label>
-                  <input type="text" id="jobtitle" name="job_title" value={this.state.jobtitle} className="form-control" onChange={this.handleChange} 
-                    placeholder="Job Title" required />
-                </div>                         
-                          
+                  <label className="form-label" htmlFor="jobtitle">
+                    <i className="fas fa-file-signature" /> Job Title
+                  </label>
+                  <input
+                    type="text"
+                    id="jobtitle"
+                    name="job_title"
+                    value={this.state.jobtitle}
+                    className="form-control"
+                    onChange={this.handleChange}
+                    placeholder="Job Title"
+                    required
+                  />
+                </div>
+
                 <div className="row">
                   <div className="col-md-6 col-12">
                     <div className="form-group">
-                      <label className="form-label"><i className="fas fa-code"></i> Needed Skills</label>
+                      <label className="form-label">
+                        <i className="fas fa-code" /> Needed Skills
+                      </label>
                       <Select
                         value={this.state.neededskills}
                         onChange={this.handleSkillsChange}
-                        options={skills}
+                        options={skillsList}
                         isMulti={true}
                       />
                     </div>
                   </div>
                   <div className="col-md-6 col-sm-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="joblocation" name="joblocation"><i className="fas fa-map-marker-alt"></i> Job Location</label>
+                      <label
+                        className="form-label"
+                        htmlFor="joblocation"
+                        name="joblocation"
+                      >
+                        <i className="fas fa-map-marker-alt" /> Job Location
+                      </label>
                       <Select
                         value={this.state.location}
                         onChange={this.handleLocationChange}
-                        options={cities}
+                        options={locationList}
                         isMulti={true}
                       />
                     </div>
@@ -199,69 +215,121 @@ class CreateJobAds extends React.Component {
                   <div className="col-sm-10 mb-1">
                     <div className="form-group">
                       <label className="form-label w-100">
-                        <i className="fas fa-map-marked-alt"></i> Employment type
+                        <i className="fas fa-map-marked-alt" /> Employment type
                       </label>
-                      <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
-                        shape="curve" color="primary-o" id="applyfulltime" name="applyfulltime"
-                        checked={this.state.applyfulltime ? true : false} onChange={this.handleChangeFT}>
-                            Full-time
+                      <Checkbox
+                        icon={<i className="fas fa-check-double" />}
+                        animation="jelly"
+                        shape="curve"
+                        color="primary-o"
+                        id="applyfulltime"
+                        name="applyfulltime"
+                        checked={this.state.applyfulltime ? true : false}
+                        onChange={this.handleChangeFT}
+                      >
+                        Full-time
                       </Checkbox>
-                      <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
-                        shape="curve" color="primary-o" id="applypartime" name="applypartime"
-                        checked={this.state.applypartime ? true : false} onChange={this.handleChangePT}>
-                            Part-time
+                      <Checkbox
+                        icon={<i className="fas fa-check-double" />}
+                        animation="jelly"
+                        shape="curve"
+                        color="primary-o"
+                        id="applypartime"
+                        name="applypartime"
+                        checked={this.state.applypartime ? true : false}
+                        onChange={this.handleChangePT}
+                      >
+                        Part-time
                       </Checkbox>
                     </div>
                   </div>
                 </div>
-                          
+
                 <div className="form-group">
-                  <label className="form-label"><i className="fas fa-address-card"></i> Education</label>
+                  <label className="form-label">
+                    <i className="fas fa-address-card" /> Education
+                  </label>
                   <select
                     className="form-control"
                     value={this.state.education}
                     id="education"
                     label="Education"
-                    
                     type="text"
                     rows="1"
                     onChange={this.handleChange}
                     required
                   >
-                    <option >Select</option>
-                    <option value="0">Ph.D</option>
-                    <option value="1">M.Sc</option>
-                    <option value="2">B.Sc </option>
-                    <option value="3">High School Diploma</option>
-                    <option value="4">Other</option>
+                    <option>Select</option>
+                    {educationList && educationList.length > 0 ? (
+                              educationList.map(item => {
+                                return (
+                                  <option value={item.value}>
+                                    {item.label}
+                                  </option>
+                                );
+                              })
+                            ) : (
+                              <option>No education data found!</option>
+                            )}
                   </select>
-                </div>                     
+                </div>
 
                 <div className="row">
                   <div className="col-md-6 col-12">
-                    <div className="form-group">     
-                      <label className="form-label"><i class='fa fa-euro-sign'/> Expected Minimum Salary(Yearly)</label>
-                      <input className="form-control" placeholder="40000"  id="minsalary"  type="number" value={this.state.minsalary} onChange={this.handleChange}></input>
-                    </div>  
+                    <div className="form-group">
+                      <label className="form-label">
+                        <i className="fa fa-euro-sign" /> Expected Minimum
+                        Salary(Yearly)
+                      </label>
+                      <input
+                        className="form-control"
+                        placeholder="40000"
+                        id="minsalary"
+                        type="number"
+                        value={this.state.minsalary}
+                        onChange={this.handleChange}
+                      />
+                    </div>
                   </div>
                   <div className="col-md-6 col-12">
-                    <div className="form-group">     
-                      <label className="form-label"><i class='fa fa-euro-sign'/> Expected Maximum Salary(Yearly)</label>
-                      <input className="form-control" placeholder="60000"  id="maxsalary"  type="number" value={this.state.maxsalary} onChange={this.handleChange}></input>
-                    </div> 
-                  </div>  
+                    <div className="form-group">
+                      <label className="form-label">
+                        <i className="fa fa-euro-sign" /> Expected Maximum
+                        Salary(Yearly)
+                      </label>
+                      <input
+                        className="form-control"
+                        placeholder="60000"
+                        id="maxsalary"
+                        type="number"
+                        value={this.state.maxsalary}
+                        onChange={this.handleChange}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="jobdescription"><i className="fas fa-sticky-note"></i> Description</label>
-                  <textarea  id="jobdescription" name="job_discription"  value={this.state.jobdescription} className="form-control"  onChange={this.handleChange} 
-                  required />
+                  <label className="form-label" htmlFor="jobdescription">
+                    <i className="fas fa-sticky-note" /> Description
+                  </label>
+                  <textarea
+                    id="jobdescription"
+                    name="job_discription"
+                    value={this.state.jobdescription}
+                    className="form-control"
+                    onChange={this.handleChange}
+                    required
+                  />
                 </div>
 
                 <div className="row">
                   <div className="col-md-6 col-12">
                     <div className="form-group datepicker">
-                      <label className="form-label w-100"><i className="fas fa-calendar-alt prefix" /> Expected Start Date</label>
+                      <label className="form-label w-100">
+                        <i className="fas fa-calendar-alt prefix" /> Expected
+                        Start Date
+                      </label>
                       <DatePicker
                         selected={this.state.expectedstartdate}
                         onChange={this.handleDateChange.bind(
@@ -281,7 +349,10 @@ class CreateJobAds extends React.Component {
                   </div>
                   <div className="col-md-6 col-12">
                     <div className="form-group datepicker">
-                      <label className="form-label w-100"><i className="fas fa-calendar-alt prefix" /> Expiration Date</label>
+                      <label className="form-label w-100">
+                        <i className="fas fa-calendar-alt prefix" /> Expiration
+                        Date
+                      </label>
                       <DatePicker
                         selected={this.state.expirationdate}
                         onChange={this.handleDateChange.bind(
@@ -302,25 +373,58 @@ class CreateJobAds extends React.Component {
                 </div>
 
                 <button type="submit" className="btn btn-info w-100 mt-4">
-                  <i className="fas fa-save"></i> Save
-                </button>                         
-              </form>       
-                  
+                  <i className="fas fa-save" /> Save
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </div>
-      
     );
   }
 }
 
 const mapStateToProps = state => {
-  return {
+  var returnObject = {
     auth: state.firebase.auth,
     response: state.profile.response,
     message: state.profile.message
   };
+
+  const skillsData = state.firestore.data.Skill;
+  const educationData = state.firestore.data.education;
+  const locationData = state.firestore.data.city;
+  if (skillsData && educationData) {
+    var result = new Array();
+    $.each(skillsData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.skillsList = result;
+    console.log(result);
+
+    result = new Array();
+    $.each(educationData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.educationList = result;
+
+    result = new Array();
+    $.each(locationData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.locationList = result;
+    console.log(result);
+  }
+  return returnObject;
 };
 
 const mapDispatchToProps = dispatch => {
@@ -330,7 +434,20 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  firestoreConnect([
+    {
+      collection: "education"
+    },
+    {
+      collection: "Skill"
+    },
+    {
+      collection: "city"
+    }
+  ])
 )(CreateJobAds);
