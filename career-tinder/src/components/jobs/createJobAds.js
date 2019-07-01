@@ -235,7 +235,7 @@ class CreateJobAds extends React.Component {
                   <div className="row">
                     <div className="col-12">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="bonusOffer"><i class="far fa-address-card"></i> Bonus</label>
+                        <label className="form-label" htmlFor="bonusOffer"><i className="far fa-address-card"></i> Offer details</label>
                         <textarea type="text" id="bonusOffer" name="bonusOffer" value={this.state.bonusOffer} className="form-control form-control-lg" onChange={this.handleChange} 
                           rows="1" required />
                       </div>
@@ -381,9 +381,15 @@ class CreateJobAds extends React.Component {
                           return (
                             <div key={`bonus-${i}`} className="col-lg-3 col-md-4 col-12">
                               <div className="bonus-offers-tag badge badge-info mb-2">
-                                <span>{bonus.bonusOffer}</span>
-                                <i id={"remove_bonus_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleBonusRemove(e, bonus)}></i>
-                                <i id={"edit_bonus_"+i} onClick={(e) => this.toggleModalWithData(e, bonus, "remove_bonus_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                                <div className="row">
+                                  <div className="col-8 text-left">
+                                    <span>{bonus.bonusOffer}</span>
+                                  </div>
+                                  <div className="col-4">
+                                    <i id={"remove_bonus_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleBonusRemove(e, bonus)}></i>
+                                    <i id={"edit_bonus_"+i} onClick={(e) => this.toggleModalWithData(e, bonus, "remove_bonus_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                                  </div>
+                                </div>                                
                               </div>            
                             </div>                
                           )

@@ -22,6 +22,10 @@
     width: 100%;
 }
 
+.work-experiences-tag span {
+    white-space: normal;
+}
+
 .btn-circle {
     width: 40px;
     height: 40px;
@@ -32,43 +36,30 @@
     line-height: 32px;
 }
 
-
-.navlink_button
-{
-	background-color: #14789d;
-	color: white;
-	
+.navlink_button {
+    background-color: #14789d;
+    color: white;
 }
 
-.thumbs_button
-{
-	background-color: #5AB85C;
-	color: white;
-	
-}
-.edit_button
-{
-	background-color: #12789C;
-	color: white;
-	
+.thumbs_button {
+    background-color: #5AB85C;
+    color: white;
 }
 
-.delete_button
-{
-	background-color: #FF2D55;
-	color: white;
-	
+.edit_button {
+    background-color: #12789C;
+    color: white;
 }
 
-.group_button
-{
-	background-color: #FF9500;
-	color: white;
-	
+.delete_button {
+    background-color: #FF2D55;
+    color: white;
 }
 
-
-
+.group_button {
+    background-color: #FF9500;
+    color: white;
+}
 
 .profile-form {
     padding: 0 10px;
