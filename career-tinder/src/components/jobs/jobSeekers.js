@@ -10,6 +10,8 @@ import { Button } from "reactstrap";
 import "../app/app.css";
 import { saveEmployerChoice } from "../../store/actions/jobAdActions";
 import _ from "lodash";
+import addScoreToJobSeeker from "./jobSeekerRelevancyFactorCalculator";
+import moment from "moment";
 
 class JobSeekers extends Component {
   processLikeDisLike(userAction, jobSeekerId) {
@@ -27,7 +29,6 @@ class JobSeekers extends Component {
     employerChoice.isLiked = userAction;
     this.props.saveEmployerChoice(employerChoice);
   }
-
 
   slideSeekerUp = e => {
     var id = $(e.target)[0].closest(".job-seeker-wrapper").id;
@@ -60,16 +61,28 @@ class JobSeekers extends Component {
   };
 
   render() {
-    const { auth, jobSeekersList } = this.props;
+    const { auth, jobSeekersList, jobAd } = this.props;
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
+    ////////////////////////////////////////////////////////////////////////////////////
+    //sorting
+    if (jobSeekersList && jobSeekersList.length && jobAd) {
+      addScoreToJobSeeker(jobAd, jobSeekersList);
+      jobSeekersList.sort(function(a, b) {
+        return (
+          b.relevancyScore - a.relevancyScore ||
+          moment(b.createdAt) - moment(a.createdAt)
+        );
+      });
+    }
+    ////////////////////////////////////////////////////////////////////////////////////
     return (
       <div>
         {/* <input type="hidden" id="hdnJobAdId" value={state.jobAdId}></input> */}
         <div className="container page-wrapper">
           <div className="card-container">
             <h4 className="mt-4 text-center font-weight-bold">
-              <i className="fas fa-street-view"></i> Recommended Job Seekers
+              <i className="fas fa-street-view" /> Recommended Job Seekers
             </h4>
             <div className="row mt-4" align="center">
               {jobSeekersList &&
@@ -196,7 +209,7 @@ class JobSeekers extends Component {
                         </div>
                         <div className="w-100">
                           <div className="card-buttons">
-                            <Button                              
+                            <Button
                               color="info"
                               className="w-100 m-0"
                               onClick={this.slideSeekerUp}
@@ -241,11 +254,16 @@ const mapStateToProps = state => {
       );
     }
   );
+  //retrieving jobAd for sorting
+  let jobAds = state.firestore.data.jobposting;
+  let jobAd = jobAds && jobAdId ? jobAds[jobAdId] : null;
+
   return {
     auth: state.firebase.auth,
     authError: state.auth.authError,
     jobSeekersList: EmployerjobSeekersList,
-    jobAdId: jobAdId
+    jobAdId: jobAdId,
+    jobAd: jobAd
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -267,6 +285,9 @@ export default compose(
       {
         collection: "employerChoice",
         where: [["employerId", "==", props.auth.uid || null]]
+      },
+      {
+        collection: "jobposting"
       }
     ];
   })
