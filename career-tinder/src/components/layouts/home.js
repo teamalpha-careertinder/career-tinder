@@ -1,10 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { MDBCardBody, MDBBtn, MDBCardFooter } from "mdbreact";
-import { MDBAnimation } from "mdbreact";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { Animated } from "react-animated-css";
 
 class Home extends React.Component {
   render() {
@@ -16,32 +15,41 @@ class Home extends React.Component {
           <i className="far fa-grin"></i><br/>
           Choose your role in<br/> Career Tinder
         </h3>
-        <div className="row">
+        <div className="row"  >
           <div className="col-12 col-md-6">
+         
             <div className="row">
-              <div className="col-6 text-center mt-4">
-                <NavLink className="text-danger home-choose-role" to={ROUTES.REGISTRATION_JOB_SEEKER}>
-                  <i className="fas fa-user-graduate"></i><br/>
-                  <span className="font-weight-bold">I'm a Job Seeker</span>
+            
+              <div className="col-6 text-center mt-4" > 
+                <NavLink className="text-danger home-choose-role " to={ROUTES.REGISTRATION_JOB_SEEKER} >
+                <Animated animationIn="jackInTheBox" isVisible={true}>   <i className="fas fa-user-graduate"></i><br/></Animated>
+                  <span className="font-weight-bold ">I'm a Job Seeker</span>
                 </NavLink>
               </div>
-              <div className="col-6 text-center mt-4">
+             
+              <div className="col-6 text-center mt-4" >
                 <NavLink className="text-warning home-choose-role" to={ROUTES.REGISTRATION_EMPLOYER}>
-                  <i className="fas fa-user-tie"></i><br/>
+                <Animated animationIn="jackInTheBox" isVisible={true}>    <i className="fas fa-user-tie"></i><br/></Animated>
                   <span className="font-weight-bold">I'm an Employer</span>
                 </NavLink>
               </div>
             </div>
+            
           </div>
         </div>    
         <div className="row">
-          <div className="col-12 text-center mt-4">
+          <div className="col-12 text-center mt-4" >
             Already have an account? <br />
-            <NavLink className="text-info font-weight-bold" to={ROUTES.LOG_IN}>
-              <i className="fas fa-sign-in-alt" /> Log in
-            </NavLink>
+       
+
+            <Animated animationIn="pulse infinite" isVisible={true}>
+              <NavLink className="text-info font-weight-bold" to={ROUTES.LOG_IN} >
+                <i className="fas fa-sign-in-alt " /> Log in
+              </NavLink>
+            </Animated>
+            </div>
           </div>
-        </div>
+        
         <div className="row d-none d-md-block mt-4 text-center">
           <div className="col-md-6">
             <i class="fas fa-flag mt-4"></i>

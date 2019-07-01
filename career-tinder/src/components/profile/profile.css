@@ -32,6 +32,44 @@
     line-height: 32px;
 }
 
+
+.navlink_button
+{
+	background-color: #14789d;
+	color: white;
+	
+}
+
+.thumbs_button
+{
+	background-color: #5AB85C;
+	color: white;
+	
+}
+.edit_button
+{
+	background-color: #12789C;
+	color: white;
+	
+}
+
+.delete_button
+{
+	background-color: #FF2D55;
+	color: white;
+	
+}
+
+.group_button
+{
+	background-color: #FF9500;
+	color: white;
+	
+}
+
+
+
+
 .profile-form {
     padding: 0 10px;
 }

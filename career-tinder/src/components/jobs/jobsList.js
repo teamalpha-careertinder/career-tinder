@@ -11,19 +11,24 @@ class JobsList extends Component {
 
     return (
       <div>
-        <div className="container">
-          <div className="card border-info card-container">
-            <div className="card-header">
+        <br></br>
+        <div className="container"  rel="stylesheet" href="animate.min.css">
+         
+          
               <div className="row">
                 <div className="col-12">
-                  <h5 className="fas fa-list-alt mt-2"> Jobs List</h5>
-                  <NavLink
-                    type="button"
-                    className="btn btn-primary btn-sm nav-link float-right"
+                  <h3 className="fas fa-list-alt mt-2" style={{paddingLeft:"5px"}}> Jobs List</h3>
+                  
+                  <NavLink 
+                    type="button" 
+                    
+                    className=" btn-sm nav-link float-right navlink_button animated infinite pulse delay-1s" 
+                   
                     to={ROUTES.CREATE_JOB_AD}
                   >
                     <b>Create Job Ad</b>
                   </NavLink>
+                
                 </div>
               </div>
             </div>
@@ -36,10 +41,10 @@ class JobsList extends Component {
                     })}
                 </div>
               </MDBAnimation>
-            </div>
+           
           </div>
         </div>
-      </div>
+     
     );
   }
 }
