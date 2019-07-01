@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 import Select from 'react-select';
-import { MDBInput, MDBBtn, ModalFooter } from "mdbreact";
+import { ModalFooter } from "mdbreact";
 import './profile.css';
 import { connect } from "react-redux";
 import { compose } from "redux";
