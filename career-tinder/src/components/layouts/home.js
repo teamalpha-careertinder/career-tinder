@@ -52,7 +52,7 @@ class Home extends React.Component {
         
         <div className="row d-none d-md-block mt-4 text-center">
           <div className="col-md-6">
-            <i class="fas fa-flag mt-4"></i>
+            <i className="fas fa-flag mt-4"></i>
             <h6 className="mb-2 mt-4">
               Welcome to Career Tinder website. This website is designed for the
               companies which are looking to hire new employees, as well as people

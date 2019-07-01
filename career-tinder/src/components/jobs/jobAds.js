@@ -9,8 +9,8 @@ import "./jobs.css";
 import { saveUserChoice } from "../../store/actions/jobAdActions";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
-import addScoreToJobPost from "./relevancyFactorCalculator"
-import moment from "moment"
+import addScoreToJobPost from "./relevancyFactorCalculator";
+import moment from "moment";
 
 const jobSeekerChoiceEntity = {
   jobAdId: null,
@@ -67,27 +67,27 @@ class JobAds extends Component {
     );
   };
 
-  
-
   render() {
     const { auth, userJobPosting, jobseeker } = this.props;
 
-    if(userJobPosting && userJobPosting.length && jobseeker)
-    {
-      addScoreToJobPost(jobseeker, userJobPosting)
+    if (userJobPosting && userJobPosting.length && jobseeker) {
+      addScoreToJobPost(jobseeker, userJobPosting);
       userJobPosting.sort(function(a, b) {
-        return b.relevancyScore - a.relevancyScore || moment(b.createdAt) - moment(a.createdAt);
+        return (
+          b.relevancyScore - a.relevancyScore ||
+          moment(b.createdAt) - moment(a.createdAt)
+        );
       });
     }
-    console.log("after sorting--------")
-    console.log(userJobPosting)
+    console.log("after sorting--------");
+    console.log(userJobPosting);
 
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="page-wrapper">
         <h4 className="mt-4 text-center font-weight-bold">
-          <i className="fas fa-street-view"></i> Recommended Jobs
+          <i className="fas fa-street-view" /> Recommended Jobs
         </h4>
         <div className="row job-ads-wrapper mt-4" align="center">
           {userJobPosting &&
@@ -177,35 +177,12 @@ class JobAds extends Component {
                           {item.education}
                         </div>
                         <hr />
-                        <div className="col-12">
-                          {/* <div className="row">
-                            <div className="col-6">
-                              <Button
-                                outline
-                                color="success"
-                                className="w-100"
-                                onClick={this.slideAdUp}
-                              >
-                                <i className="fas fa-thumbs-up" />
-                              </Button>{" "}
-                            </div>
-                            <div className="col-6">
-                              <Button
-                                outline
-                                color="danger"
-                                className="w-100"
-                                onClick={this.slideAdDown}
-                              >
-                                <i className="fas fa-thumbs-down" />
-                              </Button>{" "}
-                            </div>
-                          </div> */}
-                        </div>
+                        <div className="col-12" />
                       </div>
                     </div>
                     <div className="w-100">
                       <div className="card-buttons">
-                        <Button                              
+                        <Button
                           color="info"
                           className="w-100 m-0"
                           onClick={this.slideAdUp}
@@ -236,7 +213,7 @@ class JobAds extends Component {
 const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const jobposting = state.firestore.ordered.jobposting;
-  const jobseekerChoice = state.firestore.ordered.jobSeekerChoice;//console.log(auth)
+  const jobseekerChoice = state.firestore.ordered.jobSeekerChoice; //console.log(auth)
   let userid = auth.uid;
   let jobseekers = state.firestore.data.jobseeker;
   let jobseeker = jobseekers && userid ? jobseekers[userid] : null;
@@ -246,6 +223,19 @@ const mapStateToProps = state => {
   ) {
     return jobpost.id === jobseekerchoice.jobAdId;
   });
+
+  //fill the education item name instead if the key
+  const allEducationData = state.firestore.data.education;
+  if (
+    allEducationData != undefined &&
+    userJobPosting != undefined &&
+    userJobPosting.length > 0
+  ) {
+    $.each(userJobPosting, function(index, jobAd) {
+      var educationItem = allEducationData[jobAd.education];
+      if (educationItem != undefined) jobAd.education = educationItem.name;
+    });
+  }
 
   return {
     userJobPosting: userJobPosting,
@@ -275,6 +265,9 @@ export default compose(
       {
         collection: "jobposting",
         orderBy: ["createdAt", "desc"]
+      },
+      {
+        collection: "education"
       }
     ];
   })
