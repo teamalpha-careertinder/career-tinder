@@ -52,7 +52,6 @@ const addScoreToJobPost = (jobseeker, jobposting) => {
         score+=RelevancyFactors.JOBTYPE;
 
       job.relevancyScore = score;
-      console.log(job.jobtitle + ": "+job.createdAt.toDate())
     })
   }
 

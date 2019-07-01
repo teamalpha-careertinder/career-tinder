@@ -17,7 +17,7 @@
 }
 
 .job-ad {
-    margin-bottom: 10px;
+    box-shadow: none;
 }
 
 .jobs-heading {
@@ -78,4 +78,14 @@
 
 .bonus-offers-tag span {
     white-space: normal;
+}
+
+.job-ad-wrapper .card-header {
+    font-size: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .page-wrapper .demo__card {
+        width: calc(100% - 60px);
+    }
 }

@@ -6,11 +6,13 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import "./jobs.css";
+import "./jobs.scss";
 import { saveUserChoice } from "../../store/actions/jobAdActions";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
 import addScoreToJobPost from "./relevancyFactorCalculator"
-import moment from "moment"
+import moment from "moment";
+import { Animated } from "react-animated-css";
 
 const jobSeekerChoiceEntity = {
   jobAdId: null,
@@ -25,6 +27,9 @@ class JobAds extends Component {
     this.state = {
       badges: ["primary", "warning", "info", "danger", "success"]
     };
+    
+    this.slideAdUp = this.slideAdUp.bind(this);
+    this.slideAdDown = this.slideAdDown.bind(this);
   }
 
   //function to save on DB the relation between job add and user's like or dislike:
@@ -37,34 +42,12 @@ class JobAds extends Component {
     this.props.saveUserChoice(jobSeekerChoice);
   }
 
-  slideAdUp = e => {
-    var id = $(e.target)[0].closest(".job-ad-wrapper").id;
-    $("#" + id)
-      .animate({ right: "2000px" }, "slow")
-      .slideUp(500);
-    //call the managment of (Dis)Likes to be store on DB:
-    setTimeout(
-      function() {
-        //Start the timer
-        this.processLikeDisLike(true, id, this.props.auth.uid);
-      }.bind(this),
-      1000
-    );
+  slideAdUp = (id) => {
+    // this.processLikeDisLike(true, id, this.props.auth.uid);
   };
 
-  slideAdDown = e => {
-    var id = $(e.target)[0].closest(".job-ad-wrapper").id;
-    $("#" + id)
-      .animate({ left: "2000px" }, "slow")
-      .slideUp(500);
-    //call the managment of (Dis)Likes to be store on DB:
-    setTimeout(
-      function() {
-        //Start the timer
-        this.processLikeDisLike(false, id, this.props.auth.uid);
-      }.bind(this),
-      1000
-    );
+  slideAdDown = (id) => {
+    // this.processLikeDisLike(false, id, this.props.auth.uid);
   };
 
   
@@ -79,8 +62,6 @@ class JobAds extends Component {
         return b.relevancyScore - a.relevancyScore || moment(b.createdAt) - moment(a.createdAt);
       });
     }
-    console.log("after sorting--------")
-    console.log(userJobPosting)
 
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
@@ -89,25 +70,25 @@ class JobAds extends Component {
         <h4 className="mt-4 text-center font-weight-bold">
           <i className="fas fa-street-view"></i> Recommended Jobs
         </h4>
-        <div className="row job-ads-wrapper mt-4" align="center">
-          {userJobPosting &&
+        <div className="demo">
+          <div className="demo__content">
+            <div className="demo__card-cont">
+            {userJobPosting &&
             userJobPosting.map(item => {
               return (
+              <div
+                id={item.id}
+                key={item.id} 
+                className="demo__card shadow rounded text-center">
                 <div
-                  id={item.id}
-                  key={item.id}
-                  className="col-lg-4 col-md-6 col-12 mt-2 job-ad-wrapper"
+                  className="job-ad-wrapper"
                 >
-                  {/*this is temporal: id must contain de id of document JobPosting from DB*/}
-                  <div className="card job-ad text-body shadow rounded">
-                    <div className="card-header bg-white text-info font-weight-bold">
+                  <div className="card job-ad text-body">
+                    <div className="card-header bg-info text-white font-weight-bold">
                       <div className="row">
                         <div className="col-12 text-center">
                           <i className="fas fa-thumbtack" /> {item.jobtitle}
                         </div>
-                        {/* <div className="col-3">
-                          <i className="fas fa-heart wishlist-selector float-right d-none" />
-                        </div> */}
                       </div>
                     </div>
                     <div className="card-body">
@@ -123,9 +104,7 @@ class JobAds extends Component {
                                 <span
                                   key={child.value}
                                   className={
-                                    "badge badge-" +
-                                    this.state.badges[i] +
-                                    " mr-2"
+                                    "badge badge-danger mr-2"
                                   }
                                 >
                                   {child.label}
@@ -177,59 +156,118 @@ class JobAds extends Component {
                           {item.education}
                         </div>
                         <hr />
-                        <div className="col-12">
-                          {/* <div className="row">
-                            <div className="col-6">
-                              <Button
-                                outline
-                                color="success"
-                                className="w-100"
-                                onClick={this.slideAdUp}
-                              >
-                                <i className="fas fa-thumbs-up" />
-                              </Button>{" "}
-                            </div>
-                            <div className="col-6">
-                              <Button
-                                outline
-                                color="danger"
-                                className="w-100"
-                                onClick={this.slideAdDown}
-                              >
-                                <i className="fas fa-thumbs-down" />
-                              </Button>{" "}
-                            </div>
-                          </div> */}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="w-100">
-                      <div className="card-buttons">
-                        <Button                              
-                          color="info"
-                          className="w-100 m-0"
-                          onClick={this.slideAdUp}
-                        >
-                          <i className="fas fa-thumbs-up" />
-                        </Button>{" "}
-                      </div>
-                      <div className="card-buttons">
-                        <Button
-                          color="danger"
-                          className="w-100 m-0"
-                          onClick={this.slideAdDown}
-                        >
-                          <i className="fas fa-thumbs-down" />
-                        </Button>{" "}
                       </div>
                     </div>
                   </div>
                 </div>
+                <div className="demo__card__choice m--reject"></div>
+                <div className="demo__card__choice m--like"></div>
+                <div className="demo__card__drag"></div>
+              </div>   
               );
-            })}
-        </div>
+            })}          
+            </div>
+            <div className="demo__tip text-danger font-weight-bold">
+              <Animated animationIn="pulse infinite" isVisible={true}>
+                <i className="fas fa-angle-double-left"></i> Swipe left or right <i className="fas fa-angle-double-right"></i>
+              </Animated>
+            </div>
+          </div>
+        </div>   
       </div>
     );
+  }
+
+  componentDidMount() {
+    var animating = false;
+    var cardsCounter = 0;
+    var numOfCards = 6;
+    var decisionVal = 80;
+    var pullDeltaX = 0;
+    var deg = 0;
+    var $card, $cardReject, $cardLike;
+    var _ = this;
+
+    function pullChange() {
+      animating = true;
+      deg = pullDeltaX / 10;
+      $card.css("transform", "translateX("+ pullDeltaX +"px) rotate("+ deg +"deg)");
+
+      var opacity = pullDeltaX / 100;
+      var rejectOpacity = (opacity >= 0) ? 0 : Math.abs(opacity);
+      var likeOpacity = (opacity <= 0) ? 0 : opacity;
+      $cardReject.css("opacity", rejectOpacity);
+      $cardLike.css("opacity", likeOpacity);
+    };
+
+    function release() {
+      var id = $card.attr('id');
+      if (pullDeltaX >= decisionVal) {
+        _.slideAdUp(id);
+        $card.addClass("to-right");
+      } else if (pullDeltaX <= -decisionVal) {
+        _.slideAdDown(id);
+        $card.addClass("to-left");
+      }
+
+      if (Math.abs(pullDeltaX) >= decisionVal) {
+        $card.addClass("inactive");
+
+        setTimeout(function() {
+          $card.addClass("below").removeClass("inactive to-left to-right");
+          cardsCounter++;
+          if (cardsCounter === numOfCards) {
+            cardsCounter = 0;
+            $(".demo__card").removeClass("below");
+          }
+        }, 300);
+      }
+
+      if (Math.abs(pullDeltaX) < decisionVal) {
+        $card.addClass("reset");
+      }
+
+      setTimeout(function() {
+        $card.attr("style", "").removeClass("reset")
+          .find(".demo__card__choice").attr("style", "");
+
+        pullDeltaX = 0;
+        animating = false;
+      }, 300);
+    };
+
+    $(document).on("mousedown touchstart", ".demo__card:not(.inactive)", function(e) {
+      if (animating) return;
+
+      $card = $(this);
+      $cardReject = $(".demo__card__choice.m--reject", $card);
+      $cardLike = $(".demo__card__choice.m--like", $card);
+      var startX =  0;
+      if(e.originalEvent.touches) {
+        startX = e.originalEvent.touches[0].pageX;
+      } else {
+        startX = e.pageX;
+      }
+
+      $(document).on("mousemove touchmove", function(e) {
+        var x = 0;
+        if(e.originalEvent.touches) {
+          x = e.originalEvent.touches[0].pageX;
+        } else {
+          x = e.pageX;
+        }
+        
+        pullDeltaX = (x - startX);
+        if (!pullDeltaX) return;
+        pullChange();
+      });
+
+      $(document).on("mouseup touchend", function() {
+        $(document).off("mousemove touchmove mouseup touchend");
+        if (!pullDeltaX) return; // prevents from rapid click events
+        release();
+      });
+    });
   }
 }
 
