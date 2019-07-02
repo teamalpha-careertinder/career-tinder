@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { MDBBtn, MDBCardBody, MDBCardFooter, MDBInput } from "mdbreact";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";

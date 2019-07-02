@@ -4,7 +4,7 @@ export const RelevancyConfig = {
     LOCATION_IS_ACTIVE:   true,
     LANGUAGE_IS_ACTIVE:   true,
     SALARY_IS_ACTIVE:     true,
-    EDUCATION_IS_ACTIVE:  true,
+    EDUCATION_IS_ACTIVE:  false,
     JOBTYPE_IS_ACTIVE:    true
 }
 

@@ -1,4 +1,4 @@
-import RelevancyFactors from "../../constants/relevancyFactors";
+import {RelevancyFactors} from "../../constants/relevancyFactors";
 import moment from "moment";
 
 const addScoreToJobSeeker = (jobposting, jobseekers) => {
