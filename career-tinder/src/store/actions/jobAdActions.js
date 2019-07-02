@@ -8,13 +8,14 @@ export const jobAdActions = jobAd => {
       .doc(userId)
       .get()
       .then(d => {
-        jobAd.employername = d.data().companyname ? d.data().companyname : "";
-
+        const employername = d.data().employerName ? d.data().employerName : "";
+        console.log(jobAd.employername);
         firestore
           .collection("jobposting")
           .add({
             ...jobAd,
             employerid: userId,
+            employername: employername,
             createdAt: new Date()
           })
           .then(() => {

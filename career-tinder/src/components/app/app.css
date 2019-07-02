@@ -42,12 +42,18 @@ body {
 
 /* Custom styles */
 
-.btn-info {
+.btn-info,
+.bg-info {
     background-color: #14799e !important;
 }
 
 .text-info {
     color: #14799e !important;
+}
+
+.demo .card-body b {
+    color: #1e698d !important;
+    font-weight: normal;
 }
 
 .btn-danger {
@@ -64,6 +70,10 @@ body {
 
 .text-warning {
     color: #FF9500 !important;
+}
+
+.form-control::placeholder {
+    color: #bbb;
 }
 
 .navbar {
@@ -143,11 +153,6 @@ button.navbar-toggler {
     height: 66px;
 }
 
-.react-datepicker-wrapper input {
-    margin-left: 2.5rem !important;
-    width: calc(100% - 2.5rem);
-}
-
 .md-form>label {
     color: #333 !important;
 }
@@ -161,6 +166,10 @@ button.navbar-toggler {
     background-color: transparent;
 }
 
+.modal-title {
+    font-weight: bold;
+}
+
 @media (max-width: 768px) {
     #root {
         height: 100%;
@@ -168,9 +177,5 @@ button.navbar-toggler {
     .fb-wrapper {
         background: #fff;
         padding: 10px;
-    }
-    .ct-nav-collapsible {
-        padding: 0 10px;
-        margin-top: 10px;
     }
 }

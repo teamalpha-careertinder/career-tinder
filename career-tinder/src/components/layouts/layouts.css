@@ -12,7 +12,7 @@
 .user-settings-dropdown .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: #33b5e5;
+    background-color: #14799e;
 }
 
 .navbar-wrapper #ct_navbar {
@@ -49,6 +49,26 @@
     margin-right: 40px;
 }
 
+.snap {
+    border: 1px red dashed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.snap p {
+    margin: 0;
+}
+
+.snap img {
+    width: 130px;
+    height: 100px;
+}
+
+.snap-message {
+    padding: 12px;
+}
+
 @media (max-width: 768px) {
     .header-wrapper {
         margin-bottom: 0px;
@@ -68,6 +88,14 @@
     }
     .navbar-wrapper {
         height: 64px;
+    }
+    .ct-nav-collapsible {
+        padding: 0px;
+        margin-top: 10px;
+    }
+    #ct_navbar .nav-item .nav-link {
+        padding-right: 6px;
+        padding-left: 20px;
     }
     .navbar-wrapper .navbar-collapse {
         margin-top: 10px;
@@ -110,23 +138,11 @@
     .page-wrapper>.page-heading {
         margin-top: 80px;
     }
+    #ct_navbar a.nav-link.active {
+        background-color: #14799e !important;
+        color: #fff !important;
+    }
+    #ct_navbar a.nav-link.active .text-info {
+        color: #fff !important;
+    }
 }
-
-
-.snap {
-    border: 1px red dashed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .snap p {
-    margin: 0;
-  }
-  .snap img {
-    width: 130px;
-    height: 100px;
-  }
-  .snap-message {
-    padding: 12px;
-  }
-  

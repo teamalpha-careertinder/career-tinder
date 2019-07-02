@@ -4,6 +4,7 @@ import { MDBBtn, MDBCardBody, MDBCardFooter, MDBInput } from "mdbreact";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { Animated } from "react-animated-css";
 import { signUpAsEmployer } from "../../store/actions/authActions";
 
 class RegistrationEmployer extends React.Component {
@@ -56,13 +57,13 @@ class RegistrationEmployer extends React.Component {
               <div className="form-group">
                 <label className="form-label" htmlFor="password"><i className="fas fa-key"></i> Password</label>
                 <input type="password" id="password" name="password" value={this.state.password} className="form-control form-control-lg" onChange={this.changeHandler} 
-                  placeholder="******" required />
+                  required />
               </div>
 
               <div className="form-group">
                 <label className="form-label" htmlFor="confirm_password"><i className="fas fa-key"></i> Confirm Password</label>
                 <input type="password" id="confirm_password" name="confirmpassword" value={this.state.confirmpassword} className="form-control form-control-lg" onChange={this.changeHandler} 
-                  placeholder="******" required autoComplete="new-password"/>
+                  required autoComplete="new-password"/>
               </div>
 
               <button type="submit" className="btn btn-lg btn-info w-100 mt-4" enabled={isInvalid}>
@@ -76,11 +77,14 @@ class RegistrationEmployer extends React.Component {
               </div>
             </form>
             <div className="text-center font-weight-bold mt-4 mb-4">
-              <NavLink className="text-info"
+            <Animated animationIn="pulse infinite" isVisible={true}>
+              <NavLink className="text-danger"
                 to={ROUTES.REGISTRATION_JOB_SEEKER}
               >
-                <i className="fas fa-user-graduate" /> Oops! I'm a Job Seeker!
+                
+                <i className="fas fa-user-graduate"></i> Oops! I'm a Job Seeker!
               </NavLink>
+              </Animated>
             </div>
           </div>
         </div>

@@ -31,8 +31,6 @@ class ChangePassword extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    //console.log(`OnSubmit1: `, this.state, this.props);
-
     this.props.passwordChange(this.state.passwordOne);
     newLoad = false;
     this.setState({
@@ -49,77 +47,39 @@ class ChangePassword extends React.Component {
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
-      <div className="container">
-        <div className="profile-form-wrapper">
-          <div className="card border-info mb-3">
-            <div className="card-header">
-              <MDBIcon icon="user" className="mr-1" /> Change your password
-            </div>
-            <div className="card-body text-info">
-              <div className="tab-content" id="pills-tabContent">
-                <div
-                  className="tab-pane fade show active"
-                  id="pills-job-seeker"
-                  role="tabpanel"
-                  aria-labelledby="pills-job-seeker-tab"
-                >
-                  <form onSubmit={this.handleSubmit} className="profile-form">
-                    <div className="row">
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput
-                            name="passwordOne"
-                            value={passwordOne}
-                            onChange={this.handleChange}
-                            label="Enter new Password"
-                            type="password"
-                            icon="pencil-alt"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput
-                            name="passwordTwo"
-                            value={passwordTwo}
-                            onChange={this.handleChange}
-                            label="Re-enter new Password"
-                            type="password"
-                            icon="pencil-alt"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-sm-12">
-                        <MDBBtn
-                          color="indigo"
-                          className="float-right"
-                          type="submit"
-                          disabled={isInvalid}
-                        >
-                          {
-                            //<i className="fas fa-save"></i>
-                          }{" "}
-                          Change Password
-                        </MDBBtn>
-                        {newLoad === false ? (
-                          <div
-                            className={
-                              authStatus === "OK"
-                                ? "center green-text"
-                                : "center red-text"
-                            }
-                          >
-                            <p>{authMsg}</p>
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
-                  </form>
-                </div>
+      <div className="container page-wrapper">
+        <h3 className="text-center font-weight-bold mt-4">
+          <i className="fas fa-key"></i><br/> 
+          Change your password{" "}
+        </h3>
+        <div className="row">
+          <div className="col-12 col-md-6">
+            <form onSubmit={this.handleSubmit} className="profile-form mt-4 mb-4">
+              <div className="form-group">
+                <label className="form-label" htmlFor="passwordOne">Enter new Password</label>
+                <input type="password" id="passwordOne" name="passwordOne" value={passwordOne} className="form-control form-control-lg" onChange={this.handleChange} 
+                  required/>
               </div>
-            </div>
+              <div className="form-group">
+                <label className="form-label" htmlFor="passwordTwo">Re-enter new Password</label>
+                <input type="password" id="passwordTwo" name="passwordTwo" value={passwordTwo} className="form-control form-control-lg" onChange={this.handleChange} 
+                  required/>
+              </div>
+              <button type="submit" className="btn btn-lg btn-info w-100 mt-4" disabled={isInvalid}>
+                <i className="fas fa-exchange-alt"></i> Change
+              </button>  
+                {newLoad === false ? (
+                  <div
+                    className={
+                      authStatus === "OK"
+                        ? "text-center green-text"
+                        : "text-center red-text"
+                    }
+                  >
+                    <h6 className="mt-4">{authMsg}</h6>
+                  </div>
+                ) : null}
+            </form>
           </div>
         </div>
       </div>
@@ -128,7 +88,6 @@ class ChangePassword extends React.Component {
 }
 
 const mapStateToProps = state => {
-  // console.log(state);
   const auth = state.firebase.auth;
   const users = state.firestore.data.users;
   const user = users ? users[auth.uid] : null;

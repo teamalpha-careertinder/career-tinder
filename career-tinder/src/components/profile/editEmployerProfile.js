@@ -103,133 +103,89 @@ class EditEmployerProfile extends React.Component {
       <div className="employer-profile">
         <Alert color={response} isOpen={this.state.visible}><i className={response === 'success' ? "fas fa-check" : "fas fa-times"}></i> {message}</Alert>
         <div className="profile-form-wrapper">
-          <div className="card border-info card-container">
-            <div className="card-header">
-              <i className="fas fa-user-tie" /> Update your Employer profile
-            </div>
-            <div className="card-body text-info">
-              <div className="tab-content" id="pills-tabContent">
-                <div
-                  className="tab-pane fade show active"
-                  id="pills-company"
-                  role="tabpanel"
-                  aria-labelledby="pills-company-tab"
-                >
-                  <form
-                    className="profile-form"
-                    onSubmit={this.handleEmployerSubmit}
-                  >
-                    <div className="row">
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput
-                            id="employerName"
-                            value={this.state.employerName || ""}
-                            label="Employer Name"
-                            icon="pencil-alt"
-                            type="text"
-                            onChange={this.handleChange}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput
-                            id="industryName"
-                            value={this.state.industryName || ""}
-                            label="Industry"
-                            type="text"
-                            icon="industry"
-                            onChange={this.handleChange}
-                          />
-                        </div>
-                      </div>
+          <h3 className="text-center font-weight-bold mt-4">
+            <i className="far fa-edit"></i><br/>
+            Edit your Employer profile
+          </h3>
+          <div className="row justify-content-center">
+            <div className="col-lg-10 col-12">
+              <form
+                className="profile-form mt-4"
+                onSubmit={this.handleEmployerSubmit}
+              >
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="employerName"><i className="fas fa-file-signature"></i> Company name</label>
+                      <input type="text" id="employerName" name="employerName" value={this.state.employerName || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        placeholder="Career Tinder" required />
                     </div>
-                    <div className="row">
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput
-                            id="employerAddress"
-                            value={this.state.employerAddress || ""}
-                            label="Employer Address"
-                            type="textarea"
-                            rows="1"
-                            icon="address-card"
-                            onChange={this.handleChange}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput
-                            id="employerDescription"
-                            value={this.state.employerDescription || ""}
-                            label="Employer Description"
-                            type="textarea"
-                            rows="1"
-                            icon="comment-alt"
-                            onChange={this.handleChange}
-                          />
-                        </div>
-                      </div>
+                  </div>
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="industryName"><i className="fas fa-industry"></i> Industry</label>
+                      <input type="text" id="industryName" name="industryName" value={this.state.industryName || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        placeholder="IT" required />
                     </div>
-                    <div className="row">
-                      <div className="col-md-4 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput
-                            id="contactName"
-                            value={this.state.contactName || ""}
-                            label="Contact Name"
-                            type="text"
-                            icon="pencil-alt"
-                            onChange={this.handleChange}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-4 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput
-                            id="contactEmail"
-                            value={this.state.contactEmail || ""}
-                            label="Contact Email"
-                            type="email"
-                            icon="envelope"
-                            onChange={this.handleChange}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-4 col-sm-12">
-                        <div className="form-group">
-                          <MDBInput
-                            id="contactPhone"
-                            value={this.state.contactPhone || ""}
-                            label="Contact Phone"
-                            type="number"
-                            icon="mobile-alt"
-                            onChange={this.handleChange}
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-sm-12">
-                        <MDBBtn
-                          color="indigo"
-                          className="float-right"
-                          type="submit"
-                        >
-                          <i className="fas fa-save" /> Save Profile
-                        </MDBBtn>
-                      </div>
-                    </div>
-                  </form>
+                  </div>
                 </div>
-              </div>
+                <div className="row">
+                  <div className="col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="employerAddress"><i className="fas fa-map-marker-alt"></i> Address</label>
+                      <textarea id="employerAddress" name="employerAddress" value={this.state.employerAddress || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        required></textarea>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="employerDescription"><i className="fas fa-sticky-note"></i> Description</label>
+                      <textarea id="employerDescription" name="employerDescription" value={this.state.employerDescription || ''} className="form-control form-control-lg" onChange={this.handleChange}></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div className="row text-center mt-4 mb-4">
+                  <div className="col-5">
+                    <hr/>
+                  </div>
+                  <div className="col-2">
+                    <i className="fas fa-tty"></i>
+                  </div>
+                  <div className="col-5">
+                    <hr/>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-4 col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="contactName"><i className="fas fa-user-check"></i> Contact person</label>
+                      <input type="text" id="contactName" name="contactName" value={this.state.contactName || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        placeholder="Jane Doe" required />
+                    </div>
+                  </div>
+                  <div className="col-lg-4 col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="contactEmail"><i className="fas fa-envelope"></i> Contact email</label>
+                      <input type="email" id="contactEmail" name="contactEmail" value={this.state.contactEmail || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        placeholder="contact@career-tinder.com" required />
+                    </div>
+                  </div>
+                  <div className="col-lg-4 col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="contactPhone"><i className="fas fa-mobile-alt"></i> Contact number</label>
+                      <input type="text" id="contactPhone" name="contactPhone" value={this.state.contactPhone || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                        placeholder="01XXXXXXXXX" required />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-12">
+                    <button type="submit" className="btn btn-lg btn-info w-100 mt-4">
+                      <i className="fas fa-save"></i> Save
+                    </button> 
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
