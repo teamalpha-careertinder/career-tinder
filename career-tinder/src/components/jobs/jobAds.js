@@ -13,6 +13,7 @@ import _ from "lodash";
 import { Animated } from "react-animated-css";
 import addScoreToJobPost from "./relevancyFactorCalculator";
 import moment from "moment";
+import ReactMoment from 'react-moment';
 
 const jobSeekerChoiceEntity = {
   jobAdId: null,
@@ -81,7 +82,7 @@ class JobAds extends Component {
                     <div
                       id={item.id}
                       key={item.id}
-                      className="demo__card shadow rounded text-center"
+                      className="demo__card shadow rounded text-left"
                     >
                       <div className="job-ad-wrapper">
                         <div className="card job-ad text-body">
@@ -94,12 +95,18 @@ class JobAds extends Component {
                             </div>
                           </div>
                           <div className="card-body">
-                            <div className="row">
+                            <div className="row">                              
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-building" />
+                                </b>{" "}
+                                {item.employername ? item.employername : <i className="fas fa-ban text-muted" />}
+                              </div>
                               <div className="col-12">
                                 <b className="mr-2">
-                                  <i className="fas fa-check-double" /> Skills:
+                                  <i className="fas fa-check-double" />
                                 </b>
-                                {item.neededskills &&
+                                {item.neededskills && item.neededskills.length > 0 ? (
                                   item.neededskills.map((child, i) => {
                                     i = i % 5;
                                     return (
@@ -110,11 +117,14 @@ class JobAds extends Component {
                                         {child.label}
                                       </span>
                                     );
-                                  })}
+                                  })
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
                               </div>
                               <div className="col-12">
                                 <b>
-                                  <i className="fas fa-certificate" /> Type:
+                                  <i className="fas fa-certificate" />
                                 </b>{" "}
                                 {(item.applyfulltime && item.applyfulltime
                                   ? "Full Time"
@@ -125,15 +135,9 @@ class JobAds extends Component {
                               </div>
                               <div className="col-12">
                                 <b>
-                                  <i className="fas fa-euro-sign" /> Salary:
+                                  <i className="fas fa-euro-sign" />
                                 </b>{" "}
-                                {item.minsalary} - {item.maxsalary}
-                              </div>
-                              <div className="col-12">
-                                <b>
-                                  <i className="fas fa-building" /> Company:
-                                </b>{" "}
-                                {item.employername}
+                                {item.minsalary || item.maxsalary ? (item.minsalary+" - "+item.maxsalary) : <i className="fas fa-ban text-muted" />}
                               </div>
                               <div className="col-12">
                                 <b>
@@ -142,22 +146,28 @@ class JobAds extends Component {
                                 {item.expectedstartdate &&
                                   item.expectedstartdate
                                     .toDate()
-                                    .toLocaleString()}
+                                    .toLocaleString() ? (
+                                      <ReactMoment format="MMM DD, YYYY">{item.expectedstartdate.toDate().toLocaleString()}</ReactMoment>       
+                                  ) : 
+                                  <i className="fas fa-ban text-muted" />                                  
+                                }
                               </div>
                               <div className="col-12">
                                 <b>
-                                  <i className="fas fa-calendar-alt" /> Due
-                                  Date:
+                                  <i className="fas fa-calendar-alt" /> Expires
                                 </b>{" "}
                                 {item.expirationdate &&
-                                  item.expirationdate.toDate().toLocaleString()}
+                                  item.expirationdate.toDate().toLocaleString() ? (
+                                    <ReactMoment format="MMM DD, YYYY">{item.expirationdate.toDate().toLocaleString()}</ReactMoment>    
+                                  ): (
+                                    <i className="fas fa-ban text-muted" />    
+                                  )}
                               </div>
                               <div className="col-12">
                                 <b>
-                                  <i className="fas fa-graduation-cap" />{" "}
-                                  Education:
+                                  <i className="fas fa-graduation-cap" />{" "} Education
                                 </b>{" "}
-                                {item.education}
+                                {item.education ? item.education : <i className="fas fa-ban text-muted" /> }
                               </div>
                               <hr />
                             </div>

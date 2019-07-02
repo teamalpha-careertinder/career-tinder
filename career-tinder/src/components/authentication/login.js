@@ -24,12 +24,13 @@ class Login extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = e => {
+  handleSubmit = e => { 
+    sessionStorage.setItem("popupLoaded", "0");
     e.preventDefault();
     if($('.collapsenav').hasClass('show')) {
       $('.hamburger-button__button').click();
     }
-    this.props.signIn(this.state);
+    this.props.signIn(this.state);   
   };
 
   render() {
