@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const jobAdActions = jobAd => {
   return (dispatch, getState, { getFirestore }) => {
     // make async call to database
@@ -231,6 +233,64 @@ export const matchEmployerLikeWithJobSeekerChoice = employerChoice => {
       })
       .catch(function(error) {
         dispatch({ type: "SAVE_EMPLOYER_MATCH_ERROR" }, error); ////////////////////////
+      });
+  };
+};
+export const getjobposting = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    const beginningDateObject = new Date(Date.now());
+
+    firestore
+      .collection("jobposting")
+      .where("expirationdate", ">=", beginningDateObject)
+      .get()
+      .then(function(querySnapshot) {
+        const jobseekerProfile = firestore
+          .collection("jobseeker")
+          .doc(getState().firebase.auth.uid)
+          .get()
+          .then(function(doc) {
+            if (doc.exists) {
+              var data = [];
+              querySnapshot.forEach(function(documentSnapshot) {
+                const unexpiredJobPosting = documentSnapshot.data();
+                const userSkills = doc.data().skills;
+                const neededskills = unexpiredJobPosting.neededskills;
+
+                const userLanguages = doc.data().languages;
+                const neededLanguages = unexpiredJobPosting.languages;
+
+                console.log("needed", userLanguages);
+                console.log("user have", neededLanguages);
+
+                const matchedSkills = _.intersectionWith(
+                  neededskills,
+                  userSkills,
+                  function(neededskill, userSkill) {
+                    return neededskill.label === userSkill.label;
+                  }
+                );
+
+                const matchedLanguages = _.intersectionWith(
+                  userLanguages,
+                  neededLanguages,
+                  function(neededLanguage, userLanguage) {
+                    return neededLanguage.label === userLanguage.label;
+                  }
+                );
+                if (matchedSkills.length > 0 && matchedLanguages.length > 0) {
+                  data.push(documentSnapshot.data());
+                  return unexpiredJobPosting;
+                }
+              });
+              console.log("filteredJobPosting", data);
+              dispatch({ type: "FETCH_JOB_POST_SUCCESS", data });
+            }
+          });
+      })
+      .catch(function(error) {
+        dispatch({ type: "FETCH_JOB_POST_ERROR" }, error); ////////////////////////
       });
   };
 };

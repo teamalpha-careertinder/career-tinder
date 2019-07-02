@@ -1,6 +1,8 @@
 const initState = {};
 
 const jobAdReducer = (state = initState, action) => {
+  const { data } = action;
+
   switch (action.type) {
     case "CREATE_JOBPOST_SUCCESS":
       console.log("CREATE_JOBPOST_SUCCESS");
@@ -88,6 +90,21 @@ const jobAdReducer = (state = initState, action) => {
       };
     case "SAVE_EMPLOYER_MATCH_ERROR":
       console.log("SAVE_EMPLOYER_MATCH_ERROR");
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
+    case "FETCH_JOB_POST_SUCCESS":
+      console.log("FETCH_JOB_POST_SUCCESS");
+      return {
+        ...state,
+        response: "success",
+        message: "Job post has been fetched successfully",
+        data
+      };
+    case "FETCH_JOB_POST_ERROR":
+      console.log("FETCH_JOB_POST_ERROR");
       return {
         ...state,
         response: "danger",
