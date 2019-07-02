@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import "./jobs.css";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
+import $ from "jquery/src/jquery";
 
 class JobSeekerMatches extends Component {
   render() {
@@ -99,7 +100,13 @@ class JobSeekerMatches extends Component {
                           <b>
                             <i className="fas fa-graduation-cap" /> Education:
                           </b>{" "}
-                          {item.education}
+                          {(item.education || item.education.label) ? (
+                                  item.education.label?
+                                  item.education.label
+                                  :item.education
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
                         </div>
                       </div>
                     </div>
@@ -135,9 +142,18 @@ const mapStateToProps = state => {
     }
   );
 
-  console.log("jobposting", jobposting);
-  console.log("matches", matches);
-  console.log("jobseekerMatchedJobPosting", jobseekerMatchedJobPosting);
+  //fill the education item name instead if the key
+  const allEducationData = state.firestore.data.education;
+  if (
+    allEducationData != undefined &&
+    jobseekerMatchedJobPosting != undefined &&
+    jobseekerMatchedJobPosting.length > 0
+  ) {
+    $.each(jobseekerMatchedJobPosting, function(index, jobAd) {
+      var educationItem = allEducationData[jobAd.education];
+      if (educationItem != undefined) jobAd.education = educationItem.name;
+    });
+  }
   return {
     jobseekerMatchedJobPosting: jobseekerMatchedJobPosting,
     uid: auth.uid,
@@ -164,6 +180,9 @@ export default compose(
       {
         collection: "jobposting",
         orderBy: ["createdAt", "desc"]
+      },
+      {
+        collection: "education"
       }
     ];
   })
