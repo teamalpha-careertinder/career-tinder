@@ -21,6 +21,9 @@ class CreateJobAds extends React.Component {
   handleSkillsChange = neededskills => {
     this.setState({ neededskills });
   };
+  handleLanguagesChange = languages => {
+    this.setState({ languages });
+  };
   handleLocationChange = location => {
     this.setState({ location });
   };
@@ -49,7 +52,8 @@ class CreateJobAds extends React.Component {
       bonusCreate: true,
       bonusModal: false,
       bonusRemoveModal: false,
-      bonusOffer: ''
+      bonusOffer: '',
+      languages: "",
     };
     this.onShowAlert = this.onShowAlert.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -62,6 +66,8 @@ class CreateJobAds extends React.Component {
         this.state.jobtitle = modifiableJobAd.jobtitle;
       if (modifiableJobAd.neededskills)
         this.state.neededskills = modifiableJobAd.neededskills;
+      if (modifiableJobAd.languages)
+        this.state.languages = modifiableJobAd.languages;
       if (modifiableJobAd.applypartime)
         this.state.applypartime = modifiableJobAd.applypartime;
       if (modifiableJobAd.applyfulltime)
@@ -209,7 +215,7 @@ class CreateJobAds extends React.Component {
 
   render() {
     //isOpen={this.state.visible}
-    const { auth, response, message, educationList, locationList, skillsList } = this.props;
+    const { auth, response, message, educationList, locationList, skillsList, languageList } = this.props;
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
@@ -362,6 +368,23 @@ class CreateJobAds extends React.Component {
                   </select>
                 </div>
 
+            <div className="row">
+              <div className="col-md-6 col-12">
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="fas fa-address-card" /> Required Languages
+                  </label>
+                  <Select
+                        value={this.state.languages}
+                        onChange={this.handleLanguagesChange}
+                        options={languageList}
+                        isMulti={true}
+                      />
+                </div>
+              </div>
+              <div className="col-md-6 col-sm-12"></div>
+            </div>
+
                 <div className="row">
                   <div className="col-md-6 col-12">
                     <div className="form-group">     
@@ -492,7 +515,9 @@ const mapStateToProps = state => {
   const skillsData = state.firestore.data.Skill;
   const educationData = state.firestore.data.education;
   const locationData = state.firestore.data.city;
-  if (skillsData && educationData) {
+  const languageData = state.firestore.data.language;
+
+  if (skillsData && educationData && locationData && languageData) {
     var result = new Array();
     $.each(skillsData, function(index, item) {
       result.push({
@@ -501,7 +526,7 @@ const mapStateToProps = state => {
       });
     });
     returnObject.skillsList = result;
-    console.log(result);
+//    console.log(result);
 
     result = new Array();
     $.each(educationData, function(index, item) {
@@ -520,7 +545,17 @@ const mapStateToProps = state => {
       });
     });
     returnObject.locationList = result;
-    console.log(result);
+//    console.log(result);
+
+    result = new Array();
+    $.each(languageData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.languageList = result;
+//    console.log(result);
   }
   return returnObject;
 };
@@ -539,13 +574,20 @@ export default compose(
   ),
   firestoreConnect([
     {
-      collection: "education"
+      collection: "education",
+      orderBy: ["name", "asc"]
     },
     {
-      collection: "Skill"
+      collection: "Skill",
+      orderBy: ["name", "asc"]
     },
     {
-      collection: "city"
+      collection: "city",
+      orderBy: ["name", "asc"]
+    },
+    {  
+      collection: "language",
+      orderBy: ["name", "asc"]
     }
   ])
 )(CreateJobAds);

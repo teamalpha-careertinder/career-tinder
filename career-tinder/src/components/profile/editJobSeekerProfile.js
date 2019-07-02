@@ -12,31 +12,19 @@ import * as ROUTES from '../../constants/routes';
 import { firestoreConnect } from "react-redux-firebase";
 import { Checkbox, Radio } from 'pretty-checkbox-react';
 import CreatableSelect from 'react-select/creatable';
-import cities from '../../constants/city'
-
- 
-const skills = [
-  { value: 'php', label: 'PHP' },
-  { value: 'asp.net', label: 'ASP.Net' },
-  { value: 'java', label: 'Java' }
-];
- 
-const languages = [
-  { value: 'english', label: 'English' },
-  { value: 'deutsche', label: 'Deutsche' },
-  { value: 'italian', label: 'Italian' }
-];
+//import cities from '../../constants/city'
+import $ from "jquery/src/jquery";
  
 //Entity to store JobSeekerProfile in DB
 const jobSeekerProfileEntity = {
-  jobSeekerName: null,  //should be replaced by firstName
+  jobSeekerName: null,  
   jobSeekerPhone: null,  
   jobSeekerAddress: null,
   applyingFullTime: false,
   applyingPartTime: false,
   euCitizen: false,
   minSalary: null,
-  maxSalary: null,
+//  maxSalary: null,
   languages: null,
     //  label: field of languages
     //  value: field of languages
@@ -44,6 +32,8 @@ const jobSeekerProfileEntity = {
     //  label: field of skills
     //  value: field of skills
   DOBDate: null,
+  city: null,
+  education: null,
   //usertype: null, //inhereted from user
   workExperiences: null
     //  companyName: field of workExperiences
@@ -69,10 +59,14 @@ class EditJobSeekerProfile extends React.Component {
 
   handleCityChange = (city) => {
     this.setState({ city: city });
-    console.log(`Option selected:`, city);
+ //   console.log(`Option selected:`, city);
   }
 
- 
+  handleEducationChange = (education) => {
+    this.setState({ education: education });
+ //   console.log(`Option selected:`, education);
+  }
+
   handleLanguagesChange = languages => {
     if(languages){
       languages.forEach(languages => {
@@ -95,13 +89,13 @@ class EditJobSeekerProfile extends React.Component {
     var applyingPartTime = jobSeekerProfileProps && jobSeekerProfileProps.applyingPartTime;
     var euCitizen = jobSeekerProfileProps && jobSeekerProfileProps.euCitizen;
     var minSalary = jobSeekerProfileProps && jobSeekerProfileProps.minSalary;
-    var maxSalary = jobSeekerProfileProps && jobSeekerProfileProps.maxSalary;
+//    var maxSalary = jobSeekerProfileProps && jobSeekerProfileProps.maxSalary;
     var DOBDate = jobSeekerProfileProps && jobSeekerProfileProps.DOBDate;
     var skills = jobSeekerProfileProps && jobSeekerProfileProps.skills;
     var languages = jobSeekerProfileProps && jobSeekerProfileProps.languages;
     var workExperiences = (jobSeekerProfileProps && jobSeekerProfileProps.workExperiences !== null) ? jobSeekerProfileProps.workExperiences : [];
     var city = jobSeekerProfileProps && jobSeekerProfileProps.city;
-
+    var education = jobSeekerProfileProps && jobSeekerProfileProps.education;
  
     workExperiences.map((item, value) => {
       item.id = Math.random().toString(36).slice(2);
@@ -115,8 +109,9 @@ class EditJobSeekerProfile extends React.Component {
       applyingPartTime: applyingPartTime,
       euCitizen: euCitizen,
       minSalary: minSalary,
-      maxSalary: maxSalary,
+//      maxSalary: maxSalary,
       languages: languages,
+      education: education,
       skills: skills,
       startDOBDate: DOBDate && DOBDate.toDate(),
  
@@ -240,11 +235,12 @@ class EditJobSeekerProfile extends React.Component {
       if (this.state.euCitizen) { jobSeekerProfile.euCitizen  = true }
         else { jobSeekerProfile.euCitizen  = false}  
       if (this.state.minSalary) {jobSeekerProfile.minSalary = this.state.minSalary;}
-      if (this.state.maxSalary) {jobSeekerProfile.maxSalary = this.state.maxSalary;}
+//      if (this.state.maxSalary) {jobSeekerProfile.maxSalary = this.state.maxSalary;}
       if (this.state.languages) {jobSeekerProfile.languages = this.state.languages;}
       if (this.state.skills) { jobSeekerProfile.skills = this.state.skills}
       if (this.state.startDOBDate) {jobSeekerProfile.DOBDate  =  this.state.startDOBDate;}
       if (this.state.city) {jobSeekerProfile.city  =  this.state.city;}
+      if (this.state.education) {jobSeekerProfile.education = this.state.education;}
       if (this.state.workExperiences.length > 0) {
         var tmpWExps = [];
         for (var i = 0, l = this.state.workExperiences.length; i < l; i++) {
@@ -370,7 +366,7 @@ class EditJobSeekerProfile extends React.Component {
   }
  
   render() {
-    const { auth, response, message } = this.props;
+    const { auth, response, message, skillsList, locationList, educationList, languageList } = this.props;
     if (!auth.uid && !auth.emailVerified) return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="job-seeker-profile">
@@ -506,12 +502,26 @@ class EditJobSeekerProfile extends React.Component {
                   <div className="col-md-6 col-12">
                     <div className="form-group">
                       <label><i className="fas fa-code"></i> Skills</label>
-                      <CreatableSelect
+                      <Select
                         id="employeeSkills"
                         value={this.state.skills}
-                        isMulti
                         onChange={this.handleSkillsChange}
-                        options={skills}
+                        options={skillsList}
+                        isMulti={true}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-12">
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="education"><i class="far fa-address-card"></i> Education</label>
+                      <Select
+                          id="jobSeekerEducation"
+                          value={this.state.education}
+                          onChange={this.handleEducationChange}
+                          options={educationList}
+                          isMulti={false}
                       />
                     </div>
                   </div>
@@ -520,12 +530,12 @@ class EditJobSeekerProfile extends React.Component {
                   <div className="col-md-6 col-12">
                     <div className="form-group">
                       <label><i className="fas fa-sign-language"></i> Languages</label>
-                      <CreatableSelect
-                        id="employeeLanguage"
-                        value={this.state.languages}
-                        isMulti
-                        onChange={this.handleLanguagesChange}
-                        options={languages}
+                      <Select
+                          id="employeeLanguage"
+                          value={this.state.languages}
+                          onChange={this.handleLanguagesChange}
+                          options={languageList}
+                          isMulti={true}
                       />
                     </div>
                   </div>
@@ -533,11 +543,11 @@ class EditJobSeekerProfile extends React.Component {
                     <div className="form-group">
                       <label><i className="fas fa-map-marker-alt"></i> City</label>
                       <Select
-                        id="employeeCity"
-                        value={this.state.city}
-                        onChange={this.handleCityChange}
-                        options={cities}
-                        isMulti={false}
+                          id="employeeCity"
+                          value={this.state.city}
+                          onChange={this.handleCityChange}
+                          options={locationList}
+                          isMulti={false}
                       />
                     </div>
                   </div>
@@ -626,12 +636,60 @@ const mapStateToProps = state => {
   const jobseekers = state.firestore.data.jobseeker;
   const auth = state.firebase.auth;
   const jobseeker = jobseekers ? jobseekers[auth.uid] : null;
-  return {
+
+  var returnObject = {
     auth: auth,
-    jobseeker :jobseeker,
+    jobseeker: jobseeker,
     response: state.profile.response,
     message: state.profile.message
   };
+  
+  // code for fetching data from Skill-sets
+  const skillsData = state.firestore.data.Skill;
+  const locationData = state.firestore.data.city;
+  const educationData = state.firestore.data.education;
+  const languageData = state.firestore.data.language;
+
+  if (skillsData && locationData && educationData && languageData ){
+    var result = new Array();
+    $.each(skillsData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.skillsList = result;
+    //console.log(result);
+  
+    result = new Array();
+    $.each(locationData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.locationList = result;
+//    console.log(result);
+    result = new Array();
+    $.each(educationData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.educationList = result;
+
+    result = new Array();
+    $.each(languageData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.languageList = result;
+
+  }
+  return returnObject;
 };
  
 const mapDispatchToPropsJobseeker = dispatch => {
@@ -648,6 +706,22 @@ export default
     firestoreConnect([
       {
         collection: "jobseeker"
+      },   
+      {  //we read from collections of education, skills and locations(cities) and languages
+        collection: "Skill",
+        orderBy: ["name", "asc"]
+      },
+      {
+        collection: "city",
+        orderBy: ["name", "asc"]
+      },
+      {
+        collection: "education",
+        orderBy: ["name", "asc"]
+      },
+      {  
+        collection: "language",
+        orderBy: ["name", "asc"]
       }
     ])  
   )(EditJobSeekerProfile);
