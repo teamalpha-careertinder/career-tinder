@@ -27,7 +27,7 @@ class JobAds extends Component {
     this.state = {
       badges: ["primary", "warning", "info", "danger", "success"]
     };
-    
+
     this.slideAdUp = this.slideAdUp.bind(this);
     this.slideAdDown = this.slideAdDown.bind(this);
   }
@@ -42,12 +42,12 @@ class JobAds extends Component {
     this.props.saveUserChoice(jobSeekerChoice);
   }
 
-  slideAdUp = (id) => {
-    // this.processLikeDisLike(true, id, this.props.auth.uid);
+  slideAdUp = id => {
+    this.processLikeDisLike(true, id, this.props.auth.uid);
   };
 
-  slideAdDown = (id) => {
-    // this.processLikeDisLike(false, id, this.props.auth.uid);
+  slideAdDown = id => {
+    this.processLikeDisLike(false, id, this.props.auth.uid);
   };
 
   render() {
@@ -75,107 +75,110 @@ class JobAds extends Component {
         <div className="demo">
           <div className="demo__content">
             <div className="demo__card-cont">
-            {userJobPosting &&
-            userJobPosting.map(item => {
-              return (
-              <div
-                id={item.id}
-                key={item.id} 
-                className="demo__card shadow rounded text-center">
-                <div
-                  className="job-ad-wrapper"
-                >
-                  <div className="card job-ad text-body">
-                    <div className="card-header bg-info text-white font-weight-bold">
-                      <div className="row">
-                        <div className="col-12 text-center">
-                          <i className="fas fa-thumbtack" /> {item.jobtitle}
+              {userJobPosting &&
+                userJobPosting.map(item => {
+                  return (
+                    <div
+                      id={item.id}
+                      key={item.id}
+                      className="demo__card shadow rounded text-center"
+                    >
+                      <div className="job-ad-wrapper">
+                        <div className="card job-ad text-body">
+                          <div className="card-header bg-info text-white font-weight-bold">
+                            <div className="row">
+                              <div className="col-12 text-center">
+                                <i className="fas fa-thumbtack" />{" "}
+                                {item.jobtitle}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card-body">
+                            <div className="row">
+                              <div className="col-12">
+                                <b className="mr-2">
+                                  <i className="fas fa-check-double" /> Skills:
+                                </b>
+                                {item.neededskills &&
+                                  item.neededskills.map((child, i) => {
+                                    i = i % 5;
+                                    return (
+                                      <span
+                                        key={child.value}
+                                        className={"badge badge-danger mr-2"}
+                                      >
+                                        {child.label}
+                                      </span>
+                                    );
+                                  })}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-certificate" /> Type:
+                                </b>{" "}
+                                {(item.applyfulltime && item.applyfulltime
+                                  ? "Full Time"
+                                  : "Part Time") ||
+                                  (item.applypartime && item.applypartime
+                                    ? "Part Time"
+                                    : "Full Time")}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-euro-sign" /> Salary:
+                                </b>{" "}
+                                {item.minsalary} - {item.maxsalary}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-building" /> Company:
+                                </b>{" "}
+                                {item.employername}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-calendar-alt" /> Start
+                                </b>{" "}
+                                {item.expectedstartdate &&
+                                  item.expectedstartdate
+                                    .toDate()
+                                    .toLocaleString()}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-calendar-alt" /> Due
+                                  Date:
+                                </b>{" "}
+                                {item.expirationdate &&
+                                  item.expirationdate.toDate().toLocaleString()}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-graduation-cap" />{" "}
+                                  Education:
+                                </b>{" "}
+                                {item.education}
+                              </div>
+                              <hr />
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      <div className="demo__card__choice m--reject" />
+                      <div className="demo__card__choice m--like" />
+                      <div className="demo__card__drag" />
                     </div>
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col-12">
-                          <b className="mr-2">
-                            <i className="fas fa-check-double" /> Skills:
-                          </b>
-                          {item.neededskills &&
-                            item.neededskills.map((child, i) => {
-                              i = i % 5;
-                              return (
-                                <span
-                                  key={child.value}
-                                  className={
-                                    "badge badge-danger mr-2"
-                                  }
-                                >
-                                  {child.label}
-                                </span>
-                              );
-                            })}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-certificate" /> Type:
-                          </b>{" "}
-                          {(item.applyfulltime && item.applyfulltime
-                            ? "Full Time"
-                            : "Part Time") ||
-                            (item.applypartime && item.applypartime
-                              ? "Part Time"
-                              : "Full Time")}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-euro-sign" /> Salary:
-                          </b>{" "}
-                          {item.minsalary} - {item.maxsalary}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-building" /> Company:
-                          </b>{" "}
-                          {item.employername}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-calendar-alt" /> Start
-                          </b>{" "}
-                          {item.expectedstartdate &&
-                            item.expectedstartdate.toDate().toLocaleString()}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-calendar-alt" /> Due Date:
-                          </b>{" "}
-                          {item.expirationdate &&
-                            item.expirationdate.toDate().toLocaleString()}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-graduation-cap" /> Education:
-                          </b>{" "}
-                          {item.education}
-                        </div>
-                        <hr />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="demo__card__choice m--reject"></div>
-                <div className="demo__card__choice m--like"></div>
-                <div className="demo__card__drag"></div>
-              </div>   
-              );
-            })}          
+                  );
+                })}
             </div>
             <div className="demo__tip text-danger font-weight-bold">
               <Animated animationIn="pulse infinite" isVisible={true}>
-                <i className="fas fa-angle-double-left"></i> Swipe left or right <i className="fas fa-angle-double-right"></i>
+                <i className="fas fa-angle-double-left" /> Swipe left or right{" "}
+                <i className="fas fa-angle-double-right" />
               </Animated>
             </div>
           </div>
-        </div>   
+        </div>
       </div>
     );
   }
@@ -193,17 +196,20 @@ class JobAds extends Component {
     function pullChange() {
       animating = true;
       deg = pullDeltaX / 10;
-      $card.css("transform", "translateX("+ pullDeltaX +"px) rotate("+ deg +"deg)");
+      $card.css(
+        "transform",
+        "translateX(" + pullDeltaX + "px) rotate(" + deg + "deg)"
+      );
 
       var opacity = pullDeltaX / 100;
-      var rejectOpacity = (opacity >= 0) ? 0 : Math.abs(opacity);
-      var likeOpacity = (opacity <= 0) ? 0 : opacity;
+      var rejectOpacity = opacity >= 0 ? 0 : Math.abs(opacity);
+      var likeOpacity = opacity <= 0 ? 0 : opacity;
       $cardReject.css("opacity", rejectOpacity);
       $cardLike.css("opacity", likeOpacity);
-    };
+    }
 
     function release() {
-      var id = $card.attr('id');
+      var id = $card.attr("id");
       if (pullDeltaX >= decisionVal) {
         _.slideAdUp(id);
         $card.addClass("to-right");
@@ -230,46 +236,53 @@ class JobAds extends Component {
       }
 
       setTimeout(function() {
-        $card.attr("style", "").removeClass("reset")
-          .find(".demo__card__choice").attr("style", "");
+        $card
+          .attr("style", "")
+          .removeClass("reset")
+          .find(".demo__card__choice")
+          .attr("style", "");
 
         pullDeltaX = 0;
         animating = false;
       }, 300);
-    };
+    }
 
-    $(document).on("mousedown touchstart", ".demo__card:not(.inactive)", function(e) {
-      if (animating) return;
+    $(document).on(
+      "mousedown touchstart",
+      ".demo__card:not(.inactive)",
+      function(e) {
+        if (animating) return;
 
-      $card = $(this);
-      $cardReject = $(".demo__card__choice.m--reject", $card);
-      $cardLike = $(".demo__card__choice.m--like", $card);
-      var startX =  0;
-      if(e.originalEvent.touches) {
-        startX = e.originalEvent.touches[0].pageX;
-      } else {
-        startX = e.pageX;
-      }
-
-      $(document).on("mousemove touchmove", function(e) {
-        var x = 0;
-        if(e.originalEvent.touches) {
-          x = e.originalEvent.touches[0].pageX;
+        $card = $(this);
+        $cardReject = $(".demo__card__choice.m--reject", $card);
+        $cardLike = $(".demo__card__choice.m--like", $card);
+        var startX = 0;
+        if (e.originalEvent.touches) {
+          startX = e.originalEvent.touches[0].pageX;
         } else {
-          x = e.pageX;
+          startX = e.pageX;
         }
-        
-        pullDeltaX = (x - startX);
-        if (!pullDeltaX) return;
-        pullChange();
-      });
 
-      $(document).on("mouseup touchend", function() {
-        $(document).off("mousemove touchmove mouseup touchend");
-        if (!pullDeltaX) return; // prevents from rapid click events
-        release();
-      });
-    });
+        $(document).on("mousemove touchmove", function(e) {
+          var x = 0;
+          if (e.originalEvent.touches) {
+            x = e.originalEvent.touches[0].pageX;
+          } else {
+            x = e.pageX;
+          }
+
+          pullDeltaX = x - startX;
+          if (!pullDeltaX) return;
+          pullChange();
+        });
+
+        $(document).on("mouseup touchend", function() {
+          $(document).off("mousemove touchmove mouseup touchend");
+          if (!pullDeltaX) return; // prevents from rapid click events
+          release();
+        });
+      }
+    );
   }
 }
 
