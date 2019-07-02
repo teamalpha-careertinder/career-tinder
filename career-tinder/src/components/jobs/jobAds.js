@@ -57,7 +57,7 @@ class JobAds extends Component {
 
   render() {
     const { auth, userJobPosting, jobseeker } = this.props;
-    /*
+    
     if (userJobPosting && userJobPosting.length && jobseeker) {
       addScoreToJobPost(jobseeker, userJobPosting);
       userJobPosting.sort(function(a, b) {
@@ -66,9 +66,7 @@ class JobAds extends Component {
           moment(b.createdAt) - moment(a.createdAt)
         );
       });
-    }*/
-    console.log("after sorting--------");
-    console.log(userJobPosting);
+    }
 
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
