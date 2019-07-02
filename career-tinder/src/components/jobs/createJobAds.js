@@ -426,7 +426,7 @@ class CreateJobAds extends React.Component {
                       {
                         this.state.benefits.map((benefit, i) => {
                           return (
-                            <div key={`benefit-${i}`} className="col-lg-3 col-md-4 col-12">
+                            <div key={`benefit-${i}`} className="col-lg-4 col-md-6 col-12">
                               <div className="bonus-offers-tag badge badge-info mb-2">
                                 <div className="row">
                                   <div className="col-8 text-left">
@@ -434,7 +434,7 @@ class CreateJobAds extends React.Component {
                                   </div>
                                   <div className="col-4">
                                     <i id={"remove_bonus_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleBenefitRemove(e, benefit)}></i>
-                                    <i id={"edit_bonus_"+i} onClick={(e) => this.toggleModalWithData(e, benefit, "remove_bonus_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                                    <i id={"edit_bonus_"+i} onClick={(e) => this.toggleModalWithData(e, benefit, "remove_bonus_"+i)} className="fas fa-edit float-right"></i>
                                   </div>
                                 </div>                                
                               </div>            

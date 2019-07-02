@@ -8,7 +8,7 @@ import { Animated } from "react-animated-css";
 class Home extends React.Component {
   render() {
     const { auth } = this.props;
-    if (auth.uid && auth.emailVerified) return <Redirect to={ROUTES.FEED} />;
+    if (auth.uid && auth.emailVerified) return <Redirect to={ROUTES.JOBS} />;
     return (
       <div className="container page-wrapper">
         <h3 className="text-center font-weight-bold page-heading">
