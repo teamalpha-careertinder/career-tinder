@@ -46,19 +46,19 @@ class CreateJobAds extends React.Component {
       expirationdate: "",
       visible: false,
       location: '',
-      bonus: '',
-      bonuses: [],
-      bonusId: '',
-      bonusCreate: true,
-      bonusModal: false,
-      bonusRemoveModal: false,
-      bonusOffer: '',
+      benefit: '',
+      benefits: [],
+      benefitId: '',
+      benefitCreate: true,
+      benefitModal: false,
+      benefitRemoveModal: false,
+      benefitOffer: '',
       languages: "",
     };
     this.onShowAlert = this.onShowAlert.bind(this);
     this.toggle = this.toggle.bind(this);
-    this.toggleBonusRemove = this.toggleBonusRemove.bind(this);
-    this.handleBonusDelete = this.handleBonusDelete.bind(this);
+    this.toggleBenefitRemove = this.toggleBenefitRemove.bind(this);
+    this.handleBenefitDelete = this.handleBenefitDelete.bind(this);
     if (this.props.location.job) {
       var modifiableJobAd = this.props.location.job;
       if (modifiableJobAd.id) this.state.id = modifiableJobAd.id;
@@ -80,12 +80,11 @@ class CreateJobAds extends React.Component {
         this.state.jobdescription = modifiableJobAd.jobdescription;
       if (modifiableJobAd.education)
         this.state.education = modifiableJobAd.education;
-      if (modifiableJobAd.bonuses) {
-        console.log(modifiableJobAd.bonuses);
-        modifiableJobAd.bonuses.map((item, value) => {
+      if (modifiableJobAd.benefits) {
+        modifiableJobAd.benefits.map((item, value) => {
           item.id = Math.random().toString(36).slice(2);
         });
-        this.state.bonuses = modifiableJobAd.bonuses;
+        this.state.benefits = modifiableJobAd.benefits;
       }        
       if (modifiableJobAd.expectedstartdate)
         this.state.expectedstartdate = modifiableJobAd.expectedstartdate.toDate();
@@ -142,36 +141,36 @@ class CreateJobAds extends React.Component {
     }, 2000);
   };
 
-  handleBonusSubmit = (e) => {
+  handleBenefitSubmit = (e) => {
     this.toggle();
     e.preventDefault();
-    if(e.target.bonusId.value === '') {
-      const newBonus = {
+    if(e.target.benefitId.value === '') {
+      const newBenefit = {
         id: Math.random().toString(36).slice(2),
-        bonusOffer: e.target.bonusOffer.value,
+        benefitOffer: e.target.benefitOffer.value,
       };
-      newBonus.bonusOffer !== '' && this.setState({
-        bonuses: [...this.state.bonuses, newBonus]
+      newBenefit.benefitOffer !== '' && this.setState({
+        benefits: [...this.state.benefits, newBenefit]
       });
     } else {
-      let updatedBonuses = [...this.state.bonuses];
-      let bonus = updatedBonuses.find((b) => b.id === e.target.bonusId.value);
-      bonus.bonusOffer = e.target.bonusOffer.value;
-      bonus.bonusOffer !== '' && this.setState({
-        bonuses: updatedBonuses
+      let updatedBenefits = [...this.state.benefits];
+      let benefit = updatedBenefits.find((b) => b.id === e.target.benefitId.value);
+      benefit.benefitOffer = e.target.benefitOffer.value;
+      benefit.benefitOffer !== '' && this.setState({
+        benefits: updatedBenefits
       });
     }
   }
 
-  handleBonusDelete() {
-    let bonus = this.state.bonus;
-    const newBonuses = this.state.bonuses.filter(bonusOffer => {
-      return bonusOffer !== bonus;
+  handleBenefitDelete() {
+    let benefit = this.state.benefit;
+    const newBenefits = this.state.benefits.filter(benefitOffer => {
+      return benefitOffer !== benefit;
     });
  
     this.setState(prevState => ({
-      bonuses: [...newBonuses],
-      bonusRemoveModal: !prevState.bonusRemoveModal
+      benefits: [...newBenefits],
+      benefitRemoveModal: !prevState.benefitRemoveModal
     }));
   }
 
@@ -191,24 +190,27 @@ class CreateJobAds extends React.Component {
 
   toggle() {
     this.setState(prevState => ({
-      bonusModal: !prevState.bonusModal
+      benefitModal: !prevState.benefitModal,
+      benefitCreate: true,
+      benefitId: '',
+      benefitOffer: ''
     }));
   }
 
-  toggleBonusRemove(e, offer) {
+  toggleBenefitRemove(e, offer) {
     this.setState(prevState => ({
-      bonusRemoveModal: !prevState.bonusRemoveModal,
-      bonus: offer
+      benefitRemoveModal: !prevState.benefitRemoveModal,
+      benefit: offer
     }));
   }
 
-  toggleModalWithData(e, bonus, id) {
+  toggleModalWithData(e, benefit, id) {
     if(e.target.id !== id){
       this.setState(prevState => ({
-        bonusModal: true,
-        bonusCreate: false,
-        bonusId: bonus.id,
-        bonusOffer: bonus.bonusOffer,
+        benefitModal: true,
+        benefitCreate: false,
+        benefitId: benefit.id,
+        benefitOffer: benefit.benefitOffer,
       }));
     }
   }
@@ -226,18 +228,18 @@ class CreateJobAds extends React.Component {
           />{" "}
           {message}
         </Alert>
-        <Modal isOpen={this.state.bonusModal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}><i className="fas fa-info-circle text-warning"></i> {this.state.bonusCreate ? 'Add' : 'Edit'} bonus offer</ModalHeader>
+        <Modal isOpen={this.state.benefitModal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}><i className="fas fa-info-circle text-warning"></i> {this.state.benefitCreate ? 'Add' : 'Edit'} benefit</ModalHeader>
           <ModalBody>
-            <form className="bonus-offer-form text-info" onSubmit={this.handleBonusSubmit}>
+            <form className="bonus-offer-form text-info" onSubmit={this.handleBenefitSubmit}>
               <div className="row">
                 <div className="col-12">
-                  <input id="bonusId" type="hidden" name="bonusId" value={this.state.bonusId} />
+                  <input id="benefitId" type="hidden" name="benefitId" value={this.state.benefitId} />
                   <div className="row">
                     <div className="col-12">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="bonusOffer"><i className="far fa-address-card"></i> Offer details</label>
-                        <textarea type="text" id="bonusOffer" name="bonusOffer" value={this.state.bonusOffer} className="form-control form-control-lg" onChange={this.handleChange} 
+                        <label className="form-label" htmlFor="benefitOffer"><i className="far fa-address-card"></i> Offer details</label>
+                        <textarea type="text" id="benefitOffer" name="benefitOffer" value={this.state.benefitOffer} className="form-control form-control-lg" onChange={this.handleChange} 
                           rows="1" required />
                       </div>
                     </div>
@@ -245,7 +247,7 @@ class CreateJobAds extends React.Component {
                 </div>
                 <div className="col-12">
                   <hr className="mt-4 mb-4" />
-                  <Button color="success" type="submit"><i className={this.state.bonusCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.bonusCreate ? 'Add' : 'Update'}</Button>{' '}
+                  <Button color="success" type="submit"><i className={this.state.benefitCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.benefitCreate ? 'Add' : 'Update'}</Button>{' '}
                   <Button color="danger" onClick={this.toggle}>Cancel</Button>
                 </div>
               </div>
@@ -253,18 +255,18 @@ class CreateJobAds extends React.Component {
           </ModalBody>
         </Modal>
 
-        <Modal isOpen={this.state.bonusRemoveModal} toggle={(e) => this.toggleBonusRemove(e, '')} className={this.props.className}>
-          <ModalHeader toggle={(e) => this.toggleBonusRemove(e, '')}><i className="fas fa-info-circle text-warning"></i> Remove Bonus</ModalHeader>
+        <Modal isOpen={this.state.benefitRemoveModal} toggle={(e) => this.toggleBenefitRemove(e, '')} className={this.props.className}>
+          <ModalHeader toggle={(e) => this.toggleBenefitRemove(e, '')}><i className="fas fa-info-circle text-warning"></i> Remove Benefit</ModalHeader>
           <ModalBody>
             <div className="row">
               <div className="col-12">
-                Do you really want to remove this bonus from your job ad?
+                Do you really want to remove this benefit from your job ad?
               </div>
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" onClick={this.handleBonusDelete}><i className="fas fa-trash-alt"></i> Remove</Button>{' '}
-            <Button color="primary" onClick={(e) => this.toggleBonusRemove(e, '')}>Cancel</Button>
+            <Button color="danger" onClick={this.handleBenefitDelete}><i className="fas fa-trash-alt"></i> Remove</Button>{' '}
+            <Button color="primary" onClick={(e) => this.toggleBenefitRemove(e, '')}>Cancel</Button>
           </ModalFooter>
         </Modal>
 
@@ -417,22 +419,22 @@ class CreateJobAds extends React.Component {
                 <div className="row mb-4">
                   <div className="col-12">
                     <div className="form-group">
-                      <label className="form-label w-auto mr-2"><i className="fab fa-angellist"></i> Bonuses</label>
+                      <label className="form-label w-auto mr-2"><i className="fab fa-angellist"></i> Benefits</label>
                       <button type="button" className="btn btn-danger btn-circle" onClick={this.toggle}><i className="fas fa-plus"></i></button>
                     </div>
-                    <div className="row" id="bonuses">
+                    <div className="row" id="benefits">
                       {
-                        this.state.bonuses.map((bonus, i) => {
+                        this.state.benefits.map((benefit, i) => {
                           return (
-                            <div key={`bonus-${i}`} className="col-lg-3 col-md-4 col-12">
+                            <div key={`benefit-${i}`} className="col-lg-3 col-md-4 col-12">
                               <div className="bonus-offers-tag badge badge-info mb-2">
                                 <div className="row">
                                   <div className="col-8 text-left">
-                                    <span>{bonus.bonusOffer}</span>
+                                    <span>{benefit.benefitOffer}</span>
                                   </div>
                                   <div className="col-4">
-                                    <i id={"remove_bonus_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleBonusRemove(e, bonus)}></i>
-                                    <i id={"edit_bonus_"+i} onClick={(e) => this.toggleModalWithData(e, bonus, "remove_bonus_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                                    <i id={"remove_bonus_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleBenefitRemove(e, benefit)}></i>
+                                    <i id={"edit_bonus_"+i} onClick={(e) => this.toggleModalWithData(e, benefit, "remove_bonus_"+i)} className="fas fa-edit ml-3 float-right"></i>
                                   </div>
                                 </div>                                
                               </div>            

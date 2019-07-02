@@ -326,7 +326,12 @@ class EditJobSeekerProfile extends React.Component {
     this.setState(prevState => ({
       modal: !prevState.modal,
       weCreate: true,
-      weId: ''
+      weId: '',
+      companyName: '',
+      jobTitle: '',
+      jobDescription: '',
+      startFromDate: '',
+      workedTo: ''
     }));
   }
  

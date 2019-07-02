@@ -134,7 +134,7 @@ class JobSeekers extends Component {
                                 Education:
                               </b>{" "}
                               {jobSeeker.education ? (
-                                jobSeeker.education
+                                jobSeeker.education.label
                               ) : (
                                 <i className="fas fa-ban text-muted" />
                               )}
