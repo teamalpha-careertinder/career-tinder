@@ -79,8 +79,8 @@ class JobAds extends Component {
         return b.relevancyScore - a.relevancyScore || moment(b.createdAt) - moment(a.createdAt);
       });
     }
-    console.log("after sorting--------")
-    console.log(userJobPosting)
+    console.log("after sorting--------total item: "+userJobPosting.length)
+    // console.log(userJobPosting)
 
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
