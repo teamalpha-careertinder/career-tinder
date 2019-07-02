@@ -33,6 +33,7 @@ export const signOut = () => {
       .then(() => {
         dispatch({ type: "SIGNOUT_SUCCESS" });
       });
+    firebase.logout();
   };
 };
 
