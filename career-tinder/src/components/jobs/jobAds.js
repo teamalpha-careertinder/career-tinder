@@ -7,13 +7,16 @@ import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import "./jobs.css";
 import "./jobs.scss";
-import { saveUserChoice } from "../../store/actions/jobAdActions";
+import {
+  getjobposting,
+  saveUserChoice
+} from "../../store/actions/jobAdActions";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
 import { Animated } from "react-animated-css";
 import addScoreToJobPost from "./relevancyFactorCalculator";
 import moment from "moment";
-import ReactMoment from 'react-moment';
+import ReactMoment from "react-moment";
 
 const jobSeekerChoiceEntity = {
   jobAdId: null,
@@ -24,6 +27,7 @@ const jobSeekerChoiceEntity = {
 class JobAds extends Component {
   constructor(props) {
     super(props);
+    this.props.getjobposting();
 
     this.state = {
       badges: ["primary", "warning", "info", "danger", "success"]
@@ -53,7 +57,7 @@ class JobAds extends Component {
 
   render() {
     const { auth, userJobPosting, jobseeker } = this.props;
-
+    /*
     if (userJobPosting && userJobPosting.length && jobseeker) {
       addScoreToJobPost(jobseeker, userJobPosting);
       userJobPosting.sort(function(a, b) {
@@ -62,7 +66,7 @@ class JobAds extends Component {
           moment(b.createdAt) - moment(a.createdAt)
         );
       });
-    }
+    }*/
     console.log("after sorting--------");
     console.log(userJobPosting);
 
@@ -95,18 +99,23 @@ class JobAds extends Component {
                             </div>
                           </div>
                           <div className="card-body">
-                            <div className="row">                              
+                            <div className="row">
                               <div className="col-12">
                                 <b>
                                   <i className="fas fa-building" />
                                 </b>{" "}
-                                {item.employername ? item.employername : <i className="fas fa-ban text-muted" />}
+                                {item.employername ? (
+                                  item.employername
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
                               </div>
                               <div className="col-12">
                                 <b className="mr-2">
                                   <i className="fas fa-check-double" />
                                 </b>
-                                {item.neededskills && item.neededskills.length > 0 ? (
+                                {item.neededskills &&
+                                item.neededskills.length > 0 ? (
                                   item.neededskills.map((child, i) => {
                                     i = i % 5;
                                     return (
@@ -137,37 +146,56 @@ class JobAds extends Component {
                                 <b>
                                   <i className="fas fa-euro-sign" />
                                 </b>{" "}
-                                {item.minsalary || item.maxsalary ? (item.minsalary+" - "+item.maxsalary) : <i className="fas fa-ban text-muted" />}
+                                {item.minsalary || item.maxsalary ? (
+                                  item.minsalary + " - " + item.maxsalary
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
                               </div>
                               <div className="col-12">
                                 <b>
                                   <i className="fas fa-calendar-alt" /> Start
                                 </b>{" "}
                                 {item.expectedstartdate &&
-                                  item.expectedstartdate
-                                    .toDate()
-                                    .toLocaleString() ? (
-                                      <ReactMoment format="MMM DD, YYYY">{item.expectedstartdate.toDate().toLocaleString()}</ReactMoment>       
-                                  ) : 
-                                  <i className="fas fa-ban text-muted" />                                  
-                                }
+                                item.expectedstartdate
+                                  .toDate()
+                                  .toLocaleString() ? (
+                                  <ReactMoment format="MMM DD, YYYY">
+                                    {item.expectedstartdate
+                                      .toDate()
+                                      .toLocaleString()}
+                                  </ReactMoment>
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
                               </div>
                               <div className="col-12">
                                 <b>
                                   <i className="fas fa-calendar-alt" /> Expires
                                 </b>{" "}
                                 {item.expirationdate &&
-                                  item.expirationdate.toDate().toLocaleString() ? (
-                                    <ReactMoment format="MMM DD, YYYY">{item.expirationdate.toDate().toLocaleString()}</ReactMoment>    
-                                  ): (
-                                    <i className="fas fa-ban text-muted" />    
-                                  )}
+                                item.expirationdate
+                                  .toDate()
+                                  .toLocaleString() ? (
+                                  <ReactMoment format="MMM DD, YYYY">
+                                    {item.expirationdate
+                                      .toDate()
+                                      .toLocaleString()}
+                                  </ReactMoment>
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
                               </div>
                               <div className="col-12">
                                 <b>
-                                  <i className="fas fa-graduation-cap" />{" "} Education
+                                  <i className="fas fa-graduation-cap" />{" "}
+                                  Education
                                 </b>{" "}
-                                {item.education ? item.education : <i className="fas fa-ban text-muted" /> }
+                                {item.education ? (
+                                  item.education
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
                               </div>
                               <hr />
                             </div>
@@ -298,7 +326,7 @@ class JobAds extends Component {
 
 const mapStateToProps = state => {
   const auth = state.firebase.auth;
-  const jobposting = state.firestore.ordered.jobposting;
+  const jobposting = state.jobAd.data;
   const jobseekerChoice = state.firestore.ordered.jobSeekerChoice; //console.log(auth)
   let userid = auth.uid;
   let jobseekers = state.firestore.data.jobseeker;
@@ -309,6 +337,8 @@ const mapStateToProps = state => {
   ) {
     return jobpost.id === jobseekerchoice.jobAdId;
   });
+  console.log("normal", jobposting);
+  console.log("abonrmal", state.jobAd.data);
 
   //fill the education item name instead if the key
   const allEducationData = state.firestore.data.education;
@@ -322,7 +352,6 @@ const mapStateToProps = state => {
       if (educationItem != undefined) jobAd.education = educationItem.name;
     });
   }
-
   return {
     userJobPosting: userJobPosting,
     uid: auth.uid,
@@ -333,6 +362,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToPropsJobseeker = dispatch => {
   return {
+    getjobposting: () => dispatch(getjobposting()),
     saveUserChoice: jobSeekerChoice => dispatch(saveUserChoice(jobSeekerChoice))
   };
 };
@@ -347,10 +377,6 @@ export default compose(
       {
         collection: "jobSeekerChoice",
         where: [["jobSeekerId", "==", props.uid || null]]
-      },
-      {
-        collection: "jobposting",
-        orderBy: ["createdAt", "desc"]
       },
       {
         collection: "education"
