@@ -244,9 +244,9 @@ export const getjobposting = () => {
               var data = [];
               querySnapshot.forEach(function(documentSnapshot) {
                 const unexpiredJobPosting = documentSnapshot.data();
+                unexpiredJobPosting.id = documentSnapshot.id;
                 const userSkills = doc.data().skills;
                 const neededskills = unexpiredJobPosting.neededskills;
-
                 const userLanguages = doc.data().languages;
                 const neededLanguages = unexpiredJobPosting.languages;
 
@@ -265,11 +265,13 @@ export const getjobposting = () => {
                     return neededLanguage.label === userLanguage.label;
                   }
                 );
+
                 if (matchedSkills.length > 0 && matchedLanguages.length > 0) {
-                  data.push(documentSnapshot.data());
+                  data.push(unexpiredJobPosting);
                   return unexpiredJobPosting;
                 }
               });
+
               dispatch({ type: "FETCH_JOB_POST_SUCCESS", data });
             }
           });
@@ -283,7 +285,6 @@ export const getjobposting = () => {
 export const getjobseekers = jobAdId => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
-    console.log(jobAdId);
     firestore
       .collection("jobseeker")
       .get()
@@ -297,6 +298,7 @@ export const getjobseekers = jobAdId => {
               var data = [];
               querySnapshot.forEach(function(documentSnapshot) {
                 const jobSekeersList = documentSnapshot.data();
+                jobSekeersList.id = documentSnapshot.id;
                 const neededskills = doc.data().neededskills;
                 const userSkills = jobSekeersList.skills;
 
