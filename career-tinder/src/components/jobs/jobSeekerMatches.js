@@ -7,6 +7,7 @@ import "./jobs.css";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
 import $ from "jquery/src/jquery";
+import ReactMoment from "react-moment";
 
 class JobSeekerMatches extends Component {
   render() {
@@ -36,13 +37,16 @@ class JobSeekerMatches extends Component {
                         <div className="col-12 text-center">
                           <i className="fas fa-thumbtack" /> {item.jobtitle}
                         </div>
-                        {/* <div className="col-3">
-                          <i className="fas fa-heart wishlist-selector float-right d-none" />
-                        </div> */}
                       </div>
                     </div>
                     <div className="card-body">
                       <div className="row">
+                        <div className="col-12">
+                          <b>
+                            <i className="fas fa-building" /> Company:
+                          </b>{" "}
+                          {item.employername}
+                        </div>
                         <div className="col-12">
                           <b className="mr-2">
                             <i className="fas fa-check-double" /> Skills:
@@ -78,23 +82,33 @@ class JobSeekerMatches extends Component {
                         </div>
                         <div className="col-12">
                           <b>
-                            <i className="fas fa-building" /> Company:
-                          </b>{" "}
-                          {item.employername}
-                        </div>
-                        <div className="col-12">
-                          <b>
                             <i className="fas fa-calendar-alt" /> Start
                           </b>{" "}
                           {item.expectedstartdate &&
-                            item.expectedstartdate.toDate().toLocaleString()}
+                            item.expectedstartdate.toDate().toLocaleString() ? (
+                              <ReactMoment format="MMM DD, YYYY">
+                                {item.expectedstartdate
+                                  .toDate()
+                                  .toLocaleString()}
+                              </ReactMoment>
+                            ) : (
+                              <i className="fas fa-ban text-muted" />
+                            )}
                         </div>
                         <div className="col-12">
                           <b>
                             <i className="fas fa-calendar-alt" /> Due Date:
                           </b>{" "}
                           {item.expirationdate &&
-                            item.expirationdate.toDate().toLocaleString()}
+                            item.expirationdate.toDate().toLocaleString() ? (
+                              <ReactMoment format="MMM DD, YYYY">
+                                {item.expirationdate
+                                  .toDate()
+                                  .toLocaleString()}
+                              </ReactMoment>
+                            ) : (
+                              <i className="fas fa-ban text-muted" />
+                            )}
                         </div>
                         <div className="col-12">
                           <b>
@@ -123,7 +137,7 @@ class JobSeekerMatches extends Component {
           <h4 className="mt-4 text-center font-weight-bold">
             <i className="fas fa-wave-square"></i> Matched Jobs
           </h4>
-          <h6>There are no matched jobs for you yet.</h6>
+          <h6 className="mt-4 text-center">There are no matched jobs for you yet.</h6>
         </div>
       );
     }
