@@ -17,7 +17,8 @@ export const jobAdActions = jobAd => {
             ...jobAd,
             employerid: userId,
             employername: employername,
-            createdAt: new Date()
+            createdAt: new Date(),
+            lastUpdatedAt: new Date()
           })
           .then(() => {
             dispatch({ type: "CREATE_JOBPOST_SUCCESS" });
@@ -32,21 +33,20 @@ export const jobAdActions = jobAd => {
   };
 };
 
-export const jobUpdateActions = jobAd => {
+export const jobUpdateActions = (jobAdId, jobAd) => {
   return (dispatch, getState, { getFirestore }) => {
     // make async call to database
     const userId = getState().firebase.auth.uid;
     const firestore = getFirestore();
-    const jobAdId = jobAd.id;
+    //const jobAdId = jobAd.id;
 
     firestore
       .collection("employer")
       .doc(userId)
       .get()
       .then(d => {
-        jobAd.employername = d.data().companyname ? d.data().companyname : "";
-
-        delete jobAd.id;
+       const employername = d.data().employerName ? d.data().employerName : "";
+        //delete jobAd.id;
 
         firestore
           .collection("jobposting")
@@ -54,6 +54,7 @@ export const jobUpdateActions = jobAd => {
           .update({
             ...jobAd,
             employerid: userId,
+            employername: employername,
             lastUpdatedAt: new Date()
           })
           .then(() => {
