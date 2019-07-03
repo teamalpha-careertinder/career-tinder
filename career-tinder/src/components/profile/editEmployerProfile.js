@@ -101,10 +101,16 @@ class EditEmployerProfile extends React.Component {
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
       <div className="employer-profile">
-        <Alert color={response} isOpen={this.state.visible}><i className={response === 'success' ? "fas fa-check" : "fas fa-times"}></i> {message}</Alert>
+        <Alert color={response} isOpen={this.state.visible}>
+          <i
+            className={response === "success" ? "fas fa-check" : "fas fa-times"}
+          />{" "}
+          {message}
+        </Alert>
         <div className="profile-form-wrapper">
           <h3 className="text-center font-weight-bold mt-4">
-            <i className="far fa-edit"></i><br/>
+            <i className="far fa-edit" />
+            <br />
             Edit your Employer profile
           </h3>
           <div className="row justify-content-center">
@@ -116,73 +122,167 @@ class EditEmployerProfile extends React.Component {
                 <div className="row">
                   <div className="col-md-6 col-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="employerName"><i className="fas fa-file-signature"></i> Company name</label>
-                      <input type="text" id="employerName" name="employerName" value={this.state.employerName || ''} className="form-control form-control-lg" onChange={this.handleChange} 
-                        placeholder="Career Tinder" required />
+                      <label className="form-label" htmlFor="employerName">
+                        <i className="fas fa-file-signature" /> Company name
+                      </label>
+                      <input
+                        type="text"
+                        id="employerName"
+                        name="employerName"
+                        defaultValue={
+                          this.props.employer &&
+                          this.props.employer.employerName
+                        }
+                        className="form-control form-control-lg"
+                        onChange={this.handleChange}
+                        placeholder="Career Tinder"
+                        required
+                      />
                     </div>
                   </div>
                   <div className="col-md-6 col-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="industryName"><i className="fas fa-industry"></i> Industry</label>
-                      <input type="text" id="industryName" name="industryName" value={this.state.industryName || ''} className="form-control form-control-lg" onChange={this.handleChange} 
-                        placeholder="IT" required />
+                      <label className="form-label" htmlFor="industryName">
+                        <i className="fas fa-industry" /> Industry
+                      </label>
+                      <input
+                        type="text"
+                        id="industryName"
+                        name="industryName"
+                        defaultValue={
+                          this.props.employer &&
+                          this.props.employer.industryName
+                        }
+                        className="form-control form-control-lg"
+                        onChange={this.handleChange}
+                        placeholder="IT"
+                        required
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="employerAddress"><i className="fas fa-map-marker-alt"></i> Address</label>
-                      <textarea id="employerAddress" name="employerAddress" value={this.state.employerAddress || ''} className="form-control form-control-lg" onChange={this.handleChange} 
-                        required></textarea>
+                      <label className="form-label" htmlFor="employerAddress">
+                        <i className="fas fa-map-marker-alt" /> Address
+                      </label>
+                      <input
+                        type="text"
+                        id="employerAddress"
+                        name="employerAddress"
+                        defaultValue={
+                          this.props.employer &&
+                          this.props.employer.employerAddress
+                        }
+                        className="form-control form-control-lg"
+                        onChange={this.handleChange}
+                        required
+                      />
                     </div>
                   </div>
                   <div className="col-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="employerDescription"><i className="fas fa-sticky-note"></i> Description</label>
-                      <textarea id="employerDescription" name="employerDescription" value={this.state.employerDescription || ''} className="form-control form-control-lg" onChange={this.handleChange}></textarea>
+                      <label
+                        className="form-label"
+                        htmlFor="employerDescription"
+                      >
+                        <i className="fas fa-sticky-note" /> Description
+                      </label>
+                      <input
+                        type="text"
+                        id="employerDescription"
+                        name="employerDescription"
+                        defaultValue={
+                          this.props.employer &&
+                          this.props.employer.employerDescription
+                        }
+                        className="form-control form-control-lg"
+                        onChange={this.handleChange}
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="row text-center mt-4 mb-4">
                   <div className="col-5">
-                    <hr/>
+                    <hr />
                   </div>
                   <div className="col-2">
-                    <i className="fas fa-tty"></i>
+                    <i className="fas fa-tty" />
                   </div>
                   <div className="col-5">
-                    <hr/>
+                    <hr />
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-lg-4 col-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="contactName"><i className="fas fa-user-check"></i> Contact person</label>
-                      <input type="text" id="contactName" name="contactName" value={this.state.contactName || ''} className="form-control form-control-lg" onChange={this.handleChange} 
-                        placeholder="Jane Doe" required />
+                      <label className="form-label" htmlFor="contactName">
+                        <i className="fas fa-user-check" /> Contact person
+                      </label>
+                      <input
+                        type="text"
+                        id="contactName"
+                        name="contactName"
+                        defaultValue={
+                          this.props.employer && this.props.employer.contactName
+                        }
+                        className="form-control form-control-lg"
+                        onChange={this.handleChange}
+                        placeholder="Jane Doe"
+                        required
+                      />
                     </div>
                   </div>
                   <div className="col-lg-4 col-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="contactEmail"><i className="fas fa-envelope"></i> Contact email</label>
-                      <input type="email" id="contactEmail" name="contactEmail" value={this.state.contactEmail || ''} className="form-control form-control-lg" onChange={this.handleChange} 
-                        placeholder="contact@career-tinder.com" required />
+                      <label className="form-label" htmlFor="contactEmail">
+                        <i className="fas fa-envelope" /> Contact email
+                      </label>
+                      <input
+                        type="email"
+                        id="contactEmail"
+                        name="contactEmail"
+                        defaultValue={
+                          this.props.employer &&
+                          this.props.employer.contactEmail
+                        }
+                        className="form-control form-control-lg"
+                        onChange={this.handleChange}
+                        placeholder="contact@career-tinder.com"
+                        required
+                      />
                     </div>
                   </div>
                   <div className="col-lg-4 col-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="contactPhone"><i className="fas fa-mobile-alt"></i> Contact number</label>
-                      <input type="text" id="contactPhone" name="contactPhone" value={this.state.contactPhone || ''} className="form-control form-control-lg" onChange={this.handleChange} 
-                        placeholder="01XXXXXXXXX" required />
+                      <label className="form-label" htmlFor="contactPhone">
+                        <i className="fas fa-mobile-alt" /> Contact number
+                      </label>
+                      <input
+                        type="text"
+                        id="contactPhone"
+                        name="contactPhone"
+                        defaultValue={
+                          this.props.employer &&
+                          this.props.employer.contactPhone
+                        }
+                        className="form-control form-control-lg"
+                        onChange={this.handleChange}
+                        placeholder="01XXXXXXXXX"
+                        required
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-12">
-                    <button type="submit" className="btn btn-lg btn-info w-100 mt-4">
-                      <i className="fas fa-save"></i> Save
-                    </button> 
+                    <button
+                      type="submit"
+                      className="btn btn-lg btn-info w-100 mt-4"
+                    >
+                      <i className="fas fa-save" /> Save
+                    </button>
                   </div>
                 </div>
               </form>

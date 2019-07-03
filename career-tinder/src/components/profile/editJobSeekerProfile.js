@@ -475,14 +475,22 @@ class EditJobSeekerProfile extends React.Component {
                   <div className="col-md-6 col-12">
                     <div className="form-group">
                       <label className="form-label" htmlFor="jobSeekerName"><i className="fas fa-file-signature"></i> Name</label>
-                      <input type="text" id="jobSeekerName" name="jobSeekerName" value={this.state.jobSeekerName || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                      <input type="text" id="jobSeekerName" name="jobSeekerName" defaultValue={
+                        this.props.jobseeker &&
+                        this.props.jobseeker.jobSeekerName
+                      } className="form-control form-control-lg" onChange={this.handleChange} 
                         placeholder="John Doe" maxLength="40" pattern="^[A-Za-z.\s_-]+$" required />
                     </div>
                   </div>
                   <div className="col-md-6 col-12">
                     <div className="form-group">
                       <label className="form-label" htmlFor="jobSeekerPhone"><i className="fas fa-mobile-alt"></i> Phone</label>
-                      <input type="text" id="jobSeekerPhone" name="jobSeekerPhone" value={this.state.jobSeekerPhone || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                      <input type="text" id="jobSeekerPhone" name="jobSeekerPhone" 
+                        defaultValue={
+                          this.props.jobseeker &&
+                          this.props.jobseeker.jobSeekerPhone
+                        }
+                       className="form-control form-control-lg" onChange={this.handleChange} 
                         placeholder="01234567899" required />
                     </div>
                   </div>
@@ -491,8 +499,11 @@ class EditJobSeekerProfile extends React.Component {
                   <div className="col-12">
                     <div className="form-group">
                       <label className="form-label" htmlFor="jobSeekerAddress"><i className="far fa-address-card"></i> Address</label>
-                      <textarea type="text" id="jobSeekerAddress" name="jobSeekerAddress" value={this.state.jobSeekerAddress || ''} className="form-control form-control-lg" onChange={this.handleChange} 
-                        rows="1" required></textarea>
+                      <input type="text" id="jobSeekerAddress" name="jobSeekerAddress" defaultValue={
+                        this.props.jobseeker &&
+                        this.props.jobseeker.jobSeekerAddress
+                      } className="form-control form-control-lg" onChange={this.handleChange} 
+                        required/>
                     </div>
                   </div>
                 </div>
@@ -520,7 +531,7 @@ class EditJobSeekerProfile extends React.Component {
                 <div className="row">
                   <div className="col-12">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="education"><i class="far fa-address-card"></i> Education</label>
+                      <label className="form-label" htmlFor="education"><i className="far fa-address-card"></i> Education</label>
                       <Select
                           id="jobSeekerEducation"
                           value={this.state.education}
@@ -600,7 +611,10 @@ class EditJobSeekerProfile extends React.Component {
                   <div className="col-md-6 col-12">
                     <div className="form-group">
                       <label className="form-label" htmlFor="minSalary"><i className="fas fa-euro-sign"></i> Minimum expected salary(Euro)</label>
-                      <input type="text" id="minSalary" name="minSalary" value={this.state.minSalary || ''} className="form-control form-control-lg" onChange={this.handleChange} 
+                      <input type="text" id="minSalary" name="minSalary" defaultValue={
+                        this.props.jobseeker &&
+                        this.props.jobseeker.minSalary
+                      }  className="form-control form-control-lg" onChange={this.handleChange} 
                         placeholder="40000" required />
                     </div>
                   </div>
