@@ -17,6 +17,23 @@ import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import $ from "jquery/src/jquery";
 
+const jobAdEntity = {
+  jobtitle: null,
+  neededskills: null,
+  applypartime: false,
+  applyfulltime: false,
+  minsalary: null,
+  maxsalary: null,
+  jobdescription: null,
+  education: null,
+  expectedstartdate: null,
+  expirationdate: null,
+  visible: false,
+  location: null,
+  benefits: null,
+  languages: null
+}
+
 class CreateJobAds extends React.Component {
   handleSkillsChange = neededskills => {
     this.setState({ neededskills });
@@ -121,13 +138,49 @@ class CreateJobAds extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    //take the information from state that should be stored in DB (state contains more data than needed):
+    var jobAdProfile = jobAdEntity;
+    
+    if (this.state.jobtitle) {jobAdProfile.jobtitle    = this.state.jobtitle; } else { jobAdProfile.jobtitle = null};
+    if (this.state.neededskills) {jobAdProfile.neededskills = this.state.neededskills; } else { jobAdProfile.neededskills = null};
+    if (this.state.applypartime) {jobAdProfile.applypartime = true } else { jobAdProfile.applypartime = false };
+    if (this.state.applyfulltime) {jobAdProfile.applyfulltime = true } else { jobAdProfile.applyfulltime = false };
+    if (this.state.minsalary) {jobAdProfile.minsalary  = this.state.minsalary; }  else { jobAdProfile.minsalary = null};
+    if (this.state.maxsalary) {jobAdProfile.maxsalary    =  this.state.maxsalary; } else { jobAdProfile.maxsalary = null};
+    if (this.state.jobdescription) {jobAdProfile.jobdescription = this.state.jobdescription; } else { jobAdProfile.jobdescription = null};
+    if (this.state.education) {jobAdProfile.education = this.state.education; } else { jobAdProfile.education = null};
+    if (this.state.expectedstartdate) {jobAdProfile.expectedstartdate = this.state.expectedstartdate; } else { jobAdProfile.expectedstartdate = null};
+    if (this.state.expirationdate) {jobAdProfile.expirationdate    =  this.state.expirationdate; } else { jobAdProfile.expirationdate = null};
+    if (this.state.visible) {jobAdProfile.visible    =  this.state.visible; } else { jobAdProfile.visible = false };
+    if (this.state.location) {jobAdProfile.location    =  this.state.location; } else { jobAdProfile.location = null};
+//    if (this.state.benefits) {jobAdProfile.benefits    =  this.state.benefits; }
+    if (this.state.languages) {jobAdProfile.languages = this.state.languages; } else { jobAdProfile.languages = null};
+    if (this.state.benefits.length > 0) {
+      var tmpBenef = [];
+      for (var i = 0, l = this.state.benefits.length; i < l; i++) {
+        var tmpBen = {
+          benefitOffer: null,
+          id: null
+        }
+        if (this.state.benefits[i].benefitOffer) {tmpBen.benefitOffer = this.state.benefits[i].benefitOffer}
+        if (this.state.benefits[i].id) {tmpBen.id = this.state.benefits[i].id}
+        
+        if (i===0) {tmpBenef[0] = tmpBen; }
+          else {tmpBenef =  [...tmpBenef,tmpBen]; }
+
+      }
+      if (tmpBenef.length>0) {jobAdProfile.benefits = tmpBenef}
+
+    } else {jobAdProfile.benefits = null}
+
+
     event.target.className += " was-validated";
     var successMessage = "Job Ad Successfully Created";
     if (this.state.id) {
-      this.props.jobUpdateActions(this.state);
+      this.props.jobUpdateActions(this.state.id, jobAdProfile);
       successMessage = "Job Ad Successfully Updated";
     } else {
-      this.props.jobAdActions(this.state);
+      this.props.jobAdActions(jobAdProfile);
     }
     Swal.fire({
       type: "success",
@@ -565,7 +618,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     jobAdActions: jobAd => dispatch(jobAdActions(jobAd)),
-    jobUpdateActions: jobAd => dispatch(jobUpdateActions(jobAd))
+    jobUpdateActions: (jobAdId,jobAd) => dispatch(jobUpdateActions(jobAdId,jobAd))
   };
 };
 
