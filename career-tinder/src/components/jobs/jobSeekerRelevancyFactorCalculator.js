@@ -1,16 +1,12 @@
-import {RelevancyFactors} from "../../constants/relevancyFactors";
+import {RelevancyFactors, RelevancyConfig} from "../../constants/relevancyFactors";
 import moment from "moment";
 
 const addScoreToJobSeeker = (jobposting, jobseekers) => {
   jobseekers.forEach(seeker => {
+
     let score = 0;
 
-    let minSalary = Number(seeker.minSalary) ? Number(seeker.minSalary) : 0;
-    let maxSalary = Number(seeker.maxSalary) ? Number(seeker.maxSalary) : 0;
-
-    if (minSalary > 0 || maxSalary > 0) score += RelevancyFactors.IS_PAID;
-
-    score += RelevancyFactors.TIME;
+    let minsalary = Number(seeker.minsalary) ? Number(seeker.minsalary) : 0;
 
     let skillMatch = false;
     if (
@@ -21,7 +17,7 @@ const addScoreToJobSeeker = (jobposting, jobseekers) => {
     ) {
       seeker.skills.forEach(userSkill => {
         jobposting.neededskills.forEach(jobSkill => {
-          if (jobSkill.value.toLowerCase() == userSkill.value.toLowerCase()) {
+          if (jobSkill.label.toLowerCase() == userSkill.label.toLowerCase()) {
             score += RelevancyFactors.EACH_SKILL_MATCH_FACTOR;
             skillMatch = true;
           }
@@ -32,15 +28,21 @@ const addScoreToJobSeeker = (jobposting, jobseekers) => {
 
     if (jobposting.location && jobposting.location.length && seeker.city) {
       jobposting.location.forEach(site => {
-        if (site.value.toLowerCase() == seeker.city.value.toLowerCase()) {
+        if (site.label.toLowerCase() == seeker.city.label.toLowerCase()) {
           score += RelevancyFactors.LOCATION;
         }
       });
     }
 
+    if(RelevancyConfig.EDUCATION_IS_ACTIVE && jobposting.education && seeker.education
+      && jobposting.education.label.toLowerCase() == seeker.education.label.toLowerCase())
+    {
+      score += RelevancyFactors.EDUCATION;
+    }
+
     if (
-      Number(jobposting.minsalary) &&
-      minSalary <= Number(jobposting.minsalary)
+      Number(jobposting.maxsalary) &&
+      Number(jobposting.maxsalary) >= minsalary
     ) {
       score += RelevancyFactors.SALARY;
     }
@@ -48,8 +50,9 @@ const addScoreToJobSeeker = (jobposting, jobseekers) => {
     if (
       jobposting.applyfulltime == seeker.applyfulltime ||
       jobposting.applypartime == seeker.applypartime
-    )
+    ) {
       score += RelevancyFactors.JOBTYPE;
+    }
 
     seeker.relevancyScore = score;
   });
