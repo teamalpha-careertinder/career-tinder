@@ -70,8 +70,7 @@ class JobSeekers extends Component {
       addScoreToJobSeeker(jobAd, jobSeekersList);
       jobSeekersList.sort(function(a, b) {
         return (
-          b.relevancyScore - a.relevancyScore ||
-          moment(b.createdAt) - moment(a.createdAt)
+          b.relevancyScore - a.relevancyScore
         );
       });
     }
@@ -99,7 +98,7 @@ class JobSeekers extends Component {
                             <div className="col-12 text-center">
                               {/* <i className="fas fa-thumbtack" /> {item.jobtitle} */}
                               <i className="fas fa-user-tag" />{" "}
-                              {jobSeeker.jobSeekerName}
+                              {jobSeeker.jobSeekerName + " " + jobSeeker.relevancyScore}
                             </div>
                             {/* <div className="col-3">
                               <i className="fas fa-heart wishlist-selector float-right d-none" />

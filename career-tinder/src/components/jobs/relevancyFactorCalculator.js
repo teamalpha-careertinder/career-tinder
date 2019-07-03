@@ -83,7 +83,7 @@ const addScoreToJobPost = (jobseeker, jobposting) => {
         })
       }
       
-      if(RelevancyConfig.SALARY_IS_ACTIVE && Number(jobseeker.minsalary) && minsalary > Number(jobseeker.minsalary))
+      if(RelevancyConfig.SALARY_IS_ACTIVE && Number(jobseeker.minsalary) && minsalary >= Number(jobseeker.minsalary))
         score += RelevancyFactors.SALARY;
       
       if(RelevancyConfig.JOBTYPE_IS_ACTIVE){
