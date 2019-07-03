@@ -8,12 +8,19 @@ import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import { Button } from "reactstrap";
 import "../app/app.css";
-import { saveEmployerChoice } from "../../store/actions/jobAdActions";
+import {
+  getjobseekers,
+  saveEmployerChoice
+} from "../../store/actions/jobAdActions";
 import _ from "lodash";
 import addScoreToJobSeeker from "./jobSeekerRelevancyFactorCalculator";
 import moment from "moment";
 
 class JobSeekers extends Component {
+  constructor(props) {
+    super(props);
+    this.props.getjobseekers(this.props.jobAdId);
+  }
   processLikeDisLike(userAction, jobSeekerId) {
     const employerChoiceEntity = {
       employerId: null,
@@ -21,7 +28,6 @@ class JobSeekers extends Component {
       jobSeekerId: null,
       isLiked: Boolean
     };
-    console.log(this.props);
     var employerChoice = employerChoiceEntity;
     employerChoice.employerId = this.props.auth.uid;
     employerChoice.jobAdId = this.props.jobAdId;
@@ -69,9 +75,7 @@ class JobSeekers extends Component {
     if (jobSeekersList && jobSeekersList.length && jobAd) {
       addScoreToJobSeeker(jobAd, jobSeekersList);
       jobSeekersList.sort(function(a, b) {
-        return (
-          b.relevancyScore - a.relevancyScore
-        );
+        return b.relevancyScore - a.relevancyScore;
       });
     }
     ////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +102,7 @@ class JobSeekers extends Component {
                             <div className="col-12 text-center">
                               {/* <i className="fas fa-thumbtack" /> {item.jobtitle} */}
                               <i className="fas fa-user-tag" />{" "}
-                              {jobSeeker.jobSeekerName + " " + jobSeeker.relevancyScore}
+                              {jobSeeker.jobSeekerName}
                             </div>
                             {/* <div className="col-3">
                               <i className="fas fa-heart wishlist-selector float-right d-none" />
@@ -241,7 +245,7 @@ class JobSeekers extends Component {
 const mapStateToProps = state => {
   const urlSplit = window.location.href.split("/");
   const jobAdId = urlSplit[urlSplit.length - 1];
-  const jobSeekersList = state.firestore.ordered.jobseeker;
+  const jobSeekersList = state.jobAd.data;
   const employerChoices = state.firestore.ordered.employerChoice;
   const EmployerjobSeekersList = _.differenceWith(
     jobSeekersList,
@@ -267,6 +271,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
+    getjobseekers: jobAdId => dispatch(getjobseekers(jobAdId)),
     saveEmployerChoice: employerChoice =>
       dispatch(saveEmployerChoice(employerChoice))
   };
@@ -278,9 +283,6 @@ export default compose(
   ),
   firestoreConnect(props => {
     return [
-      {
-        collection: "jobseeker"
-      },
       {
         collection: "employerChoice",
         where: [["employerId", "==", props.auth.uid || null]]

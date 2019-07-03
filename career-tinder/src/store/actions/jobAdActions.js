@@ -11,7 +11,6 @@ export const jobAdActions = jobAd => {
       .get()
       .then(d => {
         const employername = d.data().employerName ? d.data().employerName : "";
-        console.log(jobAd.employername);
         firestore
           .collection("jobposting")
           .add({
@@ -21,16 +20,13 @@ export const jobAdActions = jobAd => {
             createdAt: new Date()
           })
           .then(() => {
-            console.log("Created job posting successfully");
             dispatch({ type: "CREATE_JOBPOST_SUCCESS" });
           })
           .catch(err => {
-            console.log("Job posting creation error");
             dispatch({ type: "CREATE_JOBPOST_ERROR" }, err);
           });
       })
       .catch(err => {
-        console.log("Job posting creation error");
         dispatch({ type: "CREATE_JOBPOST_ERROR" }, err);
       });
   };
@@ -61,16 +57,13 @@ export const jobUpdateActions = jobAd => {
             lastUpdatedAt: new Date()
           })
           .then(() => {
-            console.log("Updated job posting successfully");
             dispatch({ type: "UPDATE_JOBPOST_SUCCESS" });
           })
           .catch(err => {
-            console.log("Job posting update error");
             dispatch({ type: "UPDATE_JOBPOST_ERROR" }, err);
           });
       })
       .catch(err => {
-        console.log("Could not find employer with the specified employer id");
         dispatch({ type: "UPDATE_JOBPOST_ERROR" }, err);
       });
   };
@@ -86,11 +79,9 @@ export const jobDeleteActions = jobAdId => {
       .doc(jobAdId)
       .delete()
       .then(() => {
-        console.log("Deleted job posting successfully");
         dispatch({ type: "DELETE_JOBPOST_SUCCESS" });
       })
       .catch(err => {
-        console.log("Job posting delete error");
         dispatch({ type: "DELETE_JOBPOST_ERROR" }, err);
       });
   };
@@ -139,7 +130,6 @@ export const matchJobSeekerLikeWithEmployerChoice = choice => {
       .then(function(querySnapshot) {
         //if company also likes jobseeker for the same jobAd, a new match is arises <3
         querySnapshot.forEach(function(userSnapshot) {
-          //console.log("querySnapshot", userSnapshot.data())
           //  create document with match:
           var match = matchEntity;
           match.jobAdId = choice.jobAdId;
@@ -162,7 +152,6 @@ export const matchJobSeekerLikeWithEmployerChoice = choice => {
         });
       })
       .catch(function(error) {
-        // console.log("Error getting documents: ", error);
         dispatch({ type: "SAVE_JOBSEEKER_MATCH_ERROR" }, error); ////////////////////////
       });
   };
@@ -239,14 +228,14 @@ export const matchEmployerLikeWithJobSeekerChoice = employerChoice => {
 export const getjobposting = () => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
-    const beginningDateObject = new Date(Date.now());
+    const today = new Date(Date.now());
 
     firestore
       .collection("jobposting")
-      .where("expirationdate", ">=", beginningDateObject)
+      .where("expirationdate", ">=", today)
       .get()
       .then(function(querySnapshot) {
-        const jobseekerProfile = firestore
+        firestore
           .collection("jobseeker")
           .doc(getState().firebase.auth.uid)
           .get()
@@ -260,9 +249,6 @@ export const getjobposting = () => {
 
                 const userLanguages = doc.data().languages;
                 const neededLanguages = unexpiredJobPosting.languages;
-
-                console.log("needed", userLanguages);
-                console.log("user have", neededLanguages);
 
                 const matchedSkills = _.intersectionWith(
                   neededskills,
@@ -284,13 +270,65 @@ export const getjobposting = () => {
                   return unexpiredJobPosting;
                 }
               });
-              console.log("filteredJobPosting", data);
               dispatch({ type: "FETCH_JOB_POST_SUCCESS", data });
             }
           });
       })
       .catch(function(error) {
         dispatch({ type: "FETCH_JOB_POST_ERROR" }, error); ////////////////////////
+      });
+  };
+};
+
+export const getjobseekers = jobAdId => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    console.log(jobAdId);
+    firestore
+      .collection("jobseeker")
+      .get()
+      .then(function(querySnapshot) {
+        firestore
+          .collection("jobposting")
+          .doc(jobAdId)
+          .get()
+          .then(function(doc) {
+            if (doc.exists) {
+              var data = [];
+              querySnapshot.forEach(function(documentSnapshot) {
+                const jobSekeersList = documentSnapshot.data();
+                const neededskills = doc.data().neededskills;
+                const userSkills = jobSekeersList.skills;
+
+                const neededLanguages = doc.data().languages;
+                const userLanguages = jobSekeersList.languages;
+
+                const matchedSkills = _.intersectionWith(
+                  userSkills,
+                  neededskills,
+                  function(userSkill, neededskill) {
+                    return userSkill.label == neededskill.label;
+                  }
+                );
+
+                const matchedLanguages = _.intersectionWith(
+                  neededLanguages,
+                  userLanguages,
+                  function(userLanguage, neededLanguage) {
+                    return userLanguage.label === neededLanguage.label;
+                  }
+                );
+                if (matchedSkills.length > 0 && matchedLanguages.length > 0) {
+                  data.push(jobSekeersList);
+                  return jobSekeersList;
+                }
+              });
+              dispatch({ type: "FETCH_JOB_SEEKER_SUCCESS", data });
+            }
+          });
+      })
+      .catch(function(error) {
+        dispatch({ type: "FETCH_JOB_SEEKER_ERROR" }, error); ////////////////////////
       });
   };
 };

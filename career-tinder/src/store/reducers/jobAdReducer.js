@@ -110,6 +110,21 @@ const jobAdReducer = (state = initState, action) => {
         response: "danger",
         message: "An error occured!"
       };
+    case "FETCH_JOB_SEEKER_SUCCESS":
+      console.log("FETCH_JOB_SEEKER_SUCCESS");
+      return {
+        ...state,
+        response: "success",
+        message: "Job seeker list has been fetched successfully",
+        data
+      };
+    case "FETCH_JOB_SEEKER_ERROR":
+      console.log("FETCH_JOB_SEEKER_ERROR");
+      return {
+        ...state,
+        response: "danger",
+        message: "An error occured!"
+      };
     default:
       return state;
   }
