@@ -1,9 +1,8 @@
 import React from "react";
-import { MDBInput, MDBBtn } from "mdbreact";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
-import { Alert } from "reactstrap";
+import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import Swal from "sweetalert2";
 import { connect } from "react-redux";
 import {
@@ -13,25 +12,23 @@ import {
 import cities from "../../constants/city";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
-
-const skills = [
-  { value: "php", label: "PHP" },
-  { value: "asp.net", label: "ASP.Net" },
-  { value: "java", label: "Java" },
-  { value: "pyhton", label: "Python" },
-  { value: "react", label: "React" },
-  { value: "angular", label: "Angular" }
-];
+import { Checkbox, Radio } from "pretty-checkbox-react";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
+import $ from "jquery/src/jquery";
 
 class CreateJobAds extends React.Component {
   handleSkillsChange = neededskills => {
     this.setState({ neededskills });
   };
+  handleLanguagesChange = languages => {
+    this.setState({ languages });
+  };
   handleLocationChange = location => {
     this.setState({ location });
   };
   getPickerValue = value => {
-    console.log(value);
+    // console.log(value);
   };
 
   constructor(props) {
@@ -48,9 +45,20 @@ class CreateJobAds extends React.Component {
       expectedstartdate: "",
       expirationdate: "",
       visible: false,
-      location: ''
+      location: '',
+      benefit: '',
+      benefits: [],
+      benefitId: '',
+      benefitCreate: true,
+      benefitModal: false,
+      benefitRemoveModal: false,
+      benefitOffer: '',
+      languages: "",
     };
     this.onShowAlert = this.onShowAlert.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.toggleBenefitRemove = this.toggleBenefitRemove.bind(this);
+    this.handleBenefitDelete = this.handleBenefitDelete.bind(this);
     if (this.props.location.job) {
       var modifiableJobAd = this.props.location.job;
       if (modifiableJobAd.id) this.state.id = modifiableJobAd.id;
@@ -58,6 +66,8 @@ class CreateJobAds extends React.Component {
         this.state.jobtitle = modifiableJobAd.jobtitle;
       if (modifiableJobAd.neededskills)
         this.state.neededskills = modifiableJobAd.neededskills;
+      if (modifiableJobAd.languages)
+        this.state.languages = modifiableJobAd.languages;
       if (modifiableJobAd.applypartime)
         this.state.applypartime = modifiableJobAd.applypartime;
       if (modifiableJobAd.applyfulltime)
@@ -70,6 +80,12 @@ class CreateJobAds extends React.Component {
         this.state.jobdescription = modifiableJobAd.jobdescription;
       if (modifiableJobAd.education)
         this.state.education = modifiableJobAd.education;
+      if (modifiableJobAd.benefits) {
+        modifiableJobAd.benefits.map((item, value) => {
+          item.id = Math.random().toString(36).slice(2);
+        });
+        this.state.benefits = modifiableJobAd.benefits;
+      }        
       if (modifiableJobAd.expectedstartdate)
         this.state.expectedstartdate = modifiableJobAd.expectedstartdate.toDate();
       if (modifiableJobAd.expirationdate)
@@ -91,23 +107,31 @@ class CreateJobAds extends React.Component {
     });
   };
 
-  handleChangeJobType = e => {
-    this.setState({
-      [e.target.name]: e.target.checked
-    });
+  handleChangeFT = () => {
+    this.setState(prevState => ({
+      applyfulltime: !prevState.applyfulltime
+    }));
+  };
+
+  handleChangePT = () => {
+    this.setState(prevState => ({
+      applypartime: !prevState.applypartime
+    }));
   };
 
   handleSubmit = event => {
     event.preventDefault();
     event.target.className += " was-validated";
+    var successMessage = "Job Ad Successfully Created";
     if (this.state.id) {
       this.props.jobUpdateActions(this.state);
+      successMessage = "Job Ad Successfully Updated";
     } else {
       this.props.jobAdActions(this.state);
     }
     Swal.fire({
       type: "success",
-      title: "Job Ad Successfully Created",
+      title: successMessage,
       showConfirmButton: false,
       timer: 1500
     });
@@ -116,6 +140,41 @@ class CreateJobAds extends React.Component {
       this.props.history.push("/jobs");
     }, 2000);
   };
+
+  handleBenefitSubmit = (e) => {
+    this.toggle();
+    e.preventDefault();
+    if(e.target.benefitId.value === '') {
+      const newBenefit = {
+        id: Math.random().toString(36).slice(2),
+        benefitOffer: e.target.benefitOffer.value,
+      };
+      newBenefit.benefitOffer !== '' && this.setState({
+        benefits: [...this.state.benefits, newBenefit]
+      });
+    } else {
+      let updatedBenefits = [...this.state.benefits];
+      let benefit = updatedBenefits.find((b) => b.id === e.target.benefitId.value);
+      benefit.benefitOffer = e.target.benefitOffer.value;
+      benefit.benefitOffer !== '' && this.setState({
+        benefits: updatedBenefits
+      });
+    }
+  }
+
+  handleBenefitDelete() {
+    let benefit = this.state.benefit;
+    const newBenefits = this.state.benefits.filter(benefitOffer => {
+      return benefitOffer !== benefit;
+    });
+ 
+    this.setState(prevState => ({
+      benefits: [...newBenefits],
+      benefitRemoveModal: !prevState.benefitRemoveModal
+    }));
+  }
+
+
 
   state = {
     visible: false
@@ -131,13 +190,34 @@ class CreateJobAds extends React.Component {
 
   toggle() {
     this.setState(prevState => ({
-      modal: !prevState.modal
+      benefitModal: !prevState.benefitModal,
+      benefitCreate: true,
+      benefitId: '',
+      benefitOffer: ''
     }));
+  }
+
+  toggleBenefitRemove(e, offer) {
+    this.setState(prevState => ({
+      benefitRemoveModal: !prevState.benefitRemoveModal,
+      benefit: offer
+    }));
+  }
+
+  toggleModalWithData(e, benefit, id) {
+    if(e.target.id !== id){
+      this.setState(prevState => ({
+        benefitModal: true,
+        benefitCreate: false,
+        benefitId: benefit.id,
+        benefitOffer: benefit.benefitOffer,
+      }));
+    }
   }
 
   render() {
     //isOpen={this.state.visible}
-    const { auth, response, message } = this.props;
+    const { auth, response, message, educationList, locationList, skillsList, languageList } = this.props;
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
@@ -148,261 +228,277 @@ class CreateJobAds extends React.Component {
           />{" "}
           {message}
         </Alert>
-        <div className="container">
-          <div className="justify-content-md-center">
-            <div className="profile-form-wrapper">
-              <div className="card border-info card-container">
-                <div className="card-header">
-                  <i className="fas fa-users" /> Create Job Ad
-                </div>
-                <div className="card-body text-info">
-                  <div className="tab-content" id="pills-tabContent">
-                    <div
-                      className="tab-pane fade show active"
-                      role="tabpanel"
-                      aria-labelledby="pills-create-job-ad-tab"
-                    >
-                      <form
-                        className="profile-form"
-                        onSubmit={this.handleSubmit}
-                      >
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <MDBInput
-                                id="jobtitle"
-                                label="Job Title"
-                                type="text"
-                                icon="pencil-alt"
-                                name="job_title"
-                                className="form-control"
-                                onChange={this.handleChange}
-                                value={this.state.jobtitle}
-                                required
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <label>Needed Skills</label>
-
-                              <Select
-                                value={this.state.neededskills}
-                                onChange={this.handleSkillsChange}
-                                options={skills}
-                                isMulti={true}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="col-md-6 col-sm-12">
-                            <div className="form-group">
-                              <label>Job Location</label>
-
-                              <Select
-                                value={this.state.location}
-                                onChange={this.handleLocationChange}
-                                options={cities}
-                                isMulti={true}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-sm-10 mb-1">
-                            <div className="form-group">
-                              <label htmlFor="job_type">
-                                Employment type for this position:
-                              </label>
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input checkbox"
-                                  type="checkbox"
-                                  checked={this.state.applyfulltime}
-                                  onChange={this.handleChangeJobType}
-                                  name="applyfulltime"
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="job_type_ft"
-                                >
-                                  Full-time
-                                </label>
-                              </div>
-
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  checked={this.state.applypartime}
-                                  onChange={this.handleChangeJobType}
-                                  name="applypartime"
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="job_type_pt"
-                                >
-                                  Part-time
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div>
-                          <select
-                            className="form-control browser-default custom-select"
-                            value={this.state.education}
-                            id="education"
-                            label="Education"
-                            icon="address-card"
-                            type="text"
-                            rows="1"
-                            onChange={this.handleChange}
-                            required
-                          >
-                            <option>Education</option>
-                            <option value="1">Ph.D</option>
-                            <option value="2">M.Sc</option>
-                            <option value="3">B.Sc </option>
-                            <option value="4">High School Diploma</option>
-                            <option value="3">Other</option>
-                          </select>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              {/*  <MDBInput 
-                                value={this.state.education}
-                                id="education"
-                                label="Education"
-                                icon="address-card"
-                                type="text"
-                                rows="1"
-                                className="form-control"
-                                onChange={this.handleChange}
-                                required
-                              /> */}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <MDBInput
-                                value={this.state.minsalary}
-                                id="minsalary"
-                                label=" Expected Minimum Salary"
-                                icon="euro-sign"
-                                type="number"
-                                onChange={this.handleChange}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <MDBInput
-                                value={this.state.maxsalary}
-                                id="maxsalary"
-                                label="Expected Maximum Salary"
-                                icon="euro-sign"
-                                type="number"
-                                onChange={this.handleChange}
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <MDBInput
-                                value={this.state.jobdescription}
-                                id="jobdescription"
-                                label="Job Discription"
-                                type="textarea"
-                                rows="3"
-                                icon="comment-alt"
-                                className="form-control"
-                                onChange={this.handleChange}
-                                required
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-sm-6">
-                            <div className="form-group datepicker">
-                              <label>Expected Start Date:</label>
-                              <div className="md-form">
-                                <i className="fas fa-calendar-alt prefix" />
-                                <DatePicker
-                                  selected={this.state.expectedstartdate}
-                                  onChange={this.handleDateChange.bind(
-                                    this.parentElement,
-                                    "expectedstartdate"
-                                  )}
-                                  className="form-control"
-                                  peekNextMonth
-                                  showMonthDropdown
-                                  showYearDropdown
-                                  dropdownMode="select"
-                                  name="expectedstartdate"
-                                  minDate={new Date()}
-                                  autoComplete="off"
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="col-sm-6">
-                            <div className="form-group datepicker">
-                              <label>Expiration Date:</label>
-                              <div className="md-form">
-                                <i className="fas fa-calendar-alt prefix" />
-                                <DatePicker
-                                  selected={this.state.expirationdate}
-                                  onChange={this.handleDateChange.bind(
-                                    this.parentElement,
-                                    "expirationdate"
-                                  )}
-                                  className="form-control"
-                                  peekNextMonth
-                                  showMonthDropdown
-                                  showYearDropdown
-                                  dropdownMode="select"
-                                  name="expirationdate"
-                                  minDate={new Date()}
-                                  autoComplete="off"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <MDBBtn
-                              color="primary"
-                              className="float-right"
-                              type="submit"
-                            >
-                              <i className="fas fa-save" /> submit This Job
-                              Opportunity
-                            </MDBBtn>
-                          </div>
-                        </div>
-                      </form>
+        <Modal isOpen={this.state.benefitModal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}><i className="fas fa-info-circle text-warning"></i> {this.state.benefitCreate ? 'Add' : 'Edit'} benefit</ModalHeader>
+          <ModalBody>
+            <form className="bonus-offer-form text-info" onSubmit={this.handleBenefitSubmit}>
+              <div className="row">
+                <div className="col-12">
+                  <input id="benefitId" type="hidden" name="benefitId" value={this.state.benefitId} />
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="benefitOffer"><i className="far fa-address-card"></i> Offer details</label>
+                        <textarea type="text" id="benefitOffer" name="benefitOffer" value={this.state.benefitOffer} className="form-control form-control-lg" onChange={this.handleChange} 
+                          rows="1" required />
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div className="col-12">
+                  <hr className="mt-4 mb-4" />
+                  <Button color="success" type="submit"><i className={this.state.benefitCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.benefitCreate ? 'Add' : 'Update'}</Button>{' '}
+                  <Button color="danger" onClick={this.toggle}>Cancel</Button>
+                </div>
               </div>
+            </form>
+          </ModalBody>
+        </Modal>
+
+        <Modal isOpen={this.state.benefitRemoveModal} toggle={(e) => this.toggleBenefitRemove(e, '')} className={this.props.className}>
+          <ModalHeader toggle={(e) => this.toggleBenefitRemove(e, '')}><i className="fas fa-info-circle text-warning"></i> Remove Benefit</ModalHeader>
+          <ModalBody>
+            <div className="row">
+              <div className="col-12">
+                Do you really want to remove this benefit from your job ad?
+              </div>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={this.handleBenefitDelete}><i className="fas fa-trash-alt"></i> Remove</Button>{' '}
+            <Button color="primary" onClick={(e) => this.toggleBenefitRemove(e, '')}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
+
+        <div className="container page-wrapper">
+          <h3 className="text-center font-weight-bold mt-4">
+            <i className="fas fa-plus-square" />
+            <br />
+            {this.state.jobtitle !== "" ? "Edit Job Ad" : "Create Job Ad"}
+          </h3>
+          <div className="row justify-content-center">
+            <div className="col-lg-8 col-12">
+              <form
+                className="empr-form mt-4 mb-4"
+                onSubmit={this.handleSubmit}
+              >
+                <div className="form-group">
+                  <label className="form-label" htmlFor="jobtitle"><i className="fas fa-file-signature"></i> Job Title</label>
+                  <input type="text" id="jobtitle" name="job_title" value={this.state.jobtitle} className="form-control" onChange={this.handleChange} 
+                    placeholder="Job Title" required />
+                </div>   
+
+                <div className="row">
+                  <div className="col-10">
+                    <div className="form-group">
+                      <label className="form-label w-100">
+                        <i className="fas fa-map-marked-alt"></i> Employment type
+                      </label>
+                      <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                        shape="curve" color="primary-o" id="applyfulltime" name="applyfulltime"
+                        checked={this.state.applyfulltime ? true : false} onChange={this.handleChangeFT}>
+                            Full-time
+                      </Checkbox>
+                      <Checkbox icon={<i className="fas fa-check-double" />} animation="jelly"
+                        shape="curve" color="primary-o" id="applypartime" name="applypartime"
+                        checked={this.state.applypartime ? true : false} onChange={this.handleChangePT}>
+                            Part-time
+                      </Checkbox>
+                    </div>
+                  </div>
+                </div>                      
+                          
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">
+                      <label className="form-label">
+                        <i className="fas fa-code" /> Needed Skills
+                      </label>
+                      <Select
+                        value={this.state.neededskills}
+                        onChange={this.handleSkillsChange}
+                        options={skillsList}
+                        isMulti={true}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-sm-12">
+                    <div className="form-group">
+                      <label
+                        className="form-label"
+                        htmlFor="joblocation"
+                        name="joblocation"
+                      >
+                        <i className="fas fa-map-marker-alt" /> Job Location
+                      </label>
+                      <Select
+                        value={this.state.location}
+                        onChange={this.handleLocationChange}
+                        options={locationList}
+                        isMulti={true}
+                      />
+                    </div>
+                  </div>
+                </div>                
+                          
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="fas fa-address-card" /> Education
+                  </label>
+                  <select
+                    className="form-control"
+                    value={this.state.education}
+                    id="education"
+                    label="Education"
+                    type="text"
+                    rows="1"
+                    onChange={this.handleChange}
+                    required
+                  >
+                    <option>Select</option>
+                    {educationList && educationList.length > 0 ? (
+                              educationList.map(item => {
+                                return (
+                                  <option value={item.value}>
+                                    {item.label}
+                                  </option>
+                                );
+                              })
+                            ) : (
+                              <option>No education data found!</option>
+                            )}
+                  </select>
+                </div>
+
+            <div className="row">
+              <div className="col-md-6 col-12">
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="fas fa-address-card" /> Required Languages
+                  </label>
+                  <Select
+                        value={this.state.languages}
+                        onChange={this.handleLanguagesChange}
+                        options={languageList}
+                        isMulti={true}
+                      />
+                </div>
+              </div>
+              <div className="col-md-6 col-sm-12"></div>
+            </div>
+
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">     
+                      <label className="form-label"><i className='fa fa-euro-sign'/> Expected Minimum Salary(Yearly)</label>
+                      <input className="form-control" placeholder="40000"  id="minsalary"  type="number" value={this.state.minsalary} onChange={this.handleChange}></input>
+                    </div>  
+                  </div>
+                  <div className="col-md-6 col-12">
+                    <div className="form-group">     
+                      <label className="form-label"><i className='fa fa-euro-sign'/> Expected Maximum Salary(Yearly)</label>
+                      <input className="form-control" placeholder="60000"  id="maxsalary"  type="number" value={this.state.maxsalary} onChange={this.handleChange}></input>
+                    </div> 
+                  </div>  
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label" htmlFor="jobdescription">
+                    <i className="fas fa-sticky-note" /> Description
+                  </label>
+                  <textarea
+                    id="jobdescription"
+                    name="job_discription"
+                    value={this.state.jobdescription}
+                    className="form-control"
+                    onChange={this.handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="row mb-4">
+                  <div className="col-12">
+                    <div className="form-group">
+                      <label className="form-label w-auto mr-2"><i className="fab fa-angellist"></i> Benefits</label>
+                      <button type="button" className="btn btn-danger btn-circle" onClick={this.toggle}><i className="fas fa-plus"></i></button>
+                    </div>
+                    <div className="row" id="benefits">
+                      {
+                        this.state.benefits.map((benefit, i) => {
+                          return (
+                            <div key={`benefit-${i}`} className="col-lg-4 col-md-6 col-12">
+                              <div className="bonus-offers-tag badge badge-info mb-2">
+                                <div className="row">
+                                  <div className="col-8 text-left">
+                                    <span>{benefit.benefitOffer}</span>
+                                  </div>
+                                  <div className="col-4">
+                                    <i id={"remove_bonus_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleBenefitRemove(e, benefit)}></i>
+                                    <i id={"edit_bonus_"+i} onClick={(e) => this.toggleModalWithData(e, benefit, "remove_bonus_"+i)} className="fas fa-edit float-right"></i>
+                                  </div>
+                                </div>                                
+                              </div>            
+                            </div>                
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-6 col-12">
+                    <div className="form-group datepicker">
+                      <label className="form-label w-100">
+                        <i className="fas fa-calendar-alt prefix" /> Expected
+                        Start Date
+                      </label>
+                      <DatePicker
+                        selected={this.state.expectedstartdate}
+                        onChange={this.handleDateChange.bind(
+                          this.parentElement,
+                          "expectedstartdate"
+                        )}
+                        className="form-control"
+                        peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                        name="expectedstartdate"
+                        minDate={new Date()}
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-12">
+                    <div className="form-group datepicker">
+                      <label className="form-label w-100">
+                        <i className="fas fa-calendar-alt prefix" /> Expiration
+                        Date
+                      </label>
+                      <DatePicker
+                        selected={this.state.expirationdate}
+                        onChange={this.handleDateChange.bind(
+                          this.parentElement,
+                          "expirationdate"
+                        )}
+                        className="form-control"
+                        peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                        name="expirationdate"
+                        minDate={new Date()}
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+                </div>                
+
+                <button type="submit" className="btn btn-info w-100 mt-4">
+                  <i className="fas fa-save" /> Save
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -412,11 +508,58 @@ class CreateJobAds extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return {
+  var returnObject = {
     auth: state.firebase.auth,
     response: state.profile.response,
     message: state.profile.message
   };
+
+  const skillsData = state.firestore.data.Skill;
+  const educationData = state.firestore.data.education;
+  const locationData = state.firestore.data.city;
+  const languageData = state.firestore.data.language;
+
+  if (skillsData && educationData && locationData && languageData) {
+    var result = new Array();
+    $.each(skillsData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.skillsList = result;
+//    console.log(result);
+
+    result = new Array();
+    $.each(educationData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.educationList = result;
+
+    result = new Array();
+    $.each(locationData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.locationList = result;
+//    console.log(result);
+
+    result = new Array();
+    $.each(languageData, function(index, item) {
+      result.push({
+        value: index,
+        label: item.name
+      });
+    });
+    returnObject.languageList = result;
+//    console.log(result);
+  }
+  return returnObject;
 };
 
 const mapDispatchToProps = dispatch => {
@@ -426,7 +569,27 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  firestoreConnect([
+    {
+      collection: "education",
+      orderBy: ["name", "asc"]
+    },
+    {
+      collection: "Skill",
+      orderBy: ["name", "asc"]
+    },
+    {
+      collection: "city",
+      orderBy: ["name", "asc"]
+    },
+    {  
+      collection: "language",
+      orderBy: ["name", "asc"]
+    }
+  ])
 )(CreateJobAds);

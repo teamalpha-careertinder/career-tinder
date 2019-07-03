@@ -17,42 +17,31 @@ class EmployerMatches extends Component {
       return (
         <div>
           {/* <input type="hidden" id="hdnJobAdId" value={state.jobAdId}></input> */}
-          <div className="container">
+          <div className="container page-wrapper">
             <div className="card-container">
-              <div className="card-header">
-                <div className="row">
-                  <div className="col-sm">
-                    <h5
-                      style={{ paddingTop: "9px" }}
-                      className="fas fa-list-alt"
-                    >
-                      {" "}
-                      Matched Job Seekers
-                    </h5>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row mt-2" align="center">
+              <h4 className="mt-4 text-center font-weight-bold">
+                <i className="fas fa-wave-square"></i> Matched Job Seekers
+              </h4>
+              <div className="row mt-4" align="center">
                 {employerMatchedJobSeekersList &&
                   employerMatchedJobSeekersList.map(jobSeeker => {
                     return (
                       <div
                         id={jobSeeker.id}
                         key={jobSeeker.id}
-                        className="col-md-6 col-12 job-seeker-wrapper"
+                        className="col-lg-4 col-md-6 col-12 job-seeker-wrapper mt-2"
                       >
                         <div className="card job-ad text-body shadow rounded">
-                          <div className="card-header">
+                          <div className="card-header bg-white text-info font-weight-bold">
                             <div className="row">
-                              <div className="col-9 text-left">
+                              <div className="col-12 text-center">
                                 {/* <i className="fas fa-thumbtack" /> {item.jobtitle} */}
                                 <i className="fas fa-user-tag" />{" "}
                                 {jobSeeker.jobSeekerName}
                               </div>
-                              <div className="col-3">
+                              {/* <div className="col-3">
                                 <i className="fas fa-heart wishlist-selector float-right d-none" />
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           <div className="card-body">
@@ -67,7 +56,7 @@ class EmployerMatches extends Component {
                                     return (
                                       <span
                                         key={jobSeeker.id + "_" + skill.value}
-                                        className="badge badge-danger mr-2"
+                                        className="badge badge-warning mr-2"
                                       >
                                         {skill.label}
                                       </span>
@@ -82,8 +71,10 @@ class EmployerMatches extends Component {
                                   <i className="fas fa-graduation-cap" />{" "}
                                   Education:
                                 </b>{" "}
-                                {jobSeeker.education ? (
-                                  jobSeeker.education
+                                {(jobSeeker.education || jobSeeker.education.label) ? (
+                                  jobSeeker.education.label?
+                                  jobSeeker.education.label
+                                  :jobSeeker.education
                                 ) : (
                                   <i className="fas fa-ban text-muted" />
                                 )}
@@ -101,7 +92,7 @@ class EmployerMatches extends Component {
                                         key={
                                           exp.companyName + "_" + exp.jobTitle
                                         }
-                                        className="badge badge-danger mr-2"
+                                        className="badge badge-warning mr-2"
                                       >
                                         {exp.companyName}
                                       </span>
@@ -122,7 +113,7 @@ class EmployerMatches extends Component {
                                     return (
                                       <span
                                         key={lang.value}
-                                        className="badge badge-danger mr-2"
+                                        className="badge badge-warning mr-2"
                                       >
                                         {lang.label}
                                       </span>
@@ -170,7 +161,10 @@ class EmployerMatches extends Component {
     } else {
       return (
         <div className="container">
-          <span>There is no matches for you yet.</span>
+          <h4 className="mt-4 text-center font-weight-bold">
+            <i className="fas fa-wave-square"></i> Matched Job Seekers
+          </h4>
+          <h6 className="text-center mt-4">There are no matches for this job yet.</h6>
         </div>
       );
     }

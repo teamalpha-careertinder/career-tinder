@@ -38,7 +38,6 @@ const SignedInLinks = props => {
 
 const mapStateToProps = state => {
   return {
-    user: state.firebase.profile,
     auth: state.firebase.auth
   };
 };

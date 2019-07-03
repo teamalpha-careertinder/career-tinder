@@ -6,6 +6,8 @@ import { Redirect } from "react-router-dom";
 import "./jobs.css";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
+import $ from "jquery/src/jquery";
+import ReactMoment from "react-moment";
 
 class JobSeekerMatches extends Component {
   render() {
@@ -15,30 +17,36 @@ class JobSeekerMatches extends Component {
       return <Redirect to={ROUTES.LOG_IN} />;
     if (jobseekerMatchedJobPosting.length !== 0) {
       return (
-        <div className="container">
-          <div className="row job-ads-wrapper mb-3">
+        <div className="container page-wrapper">
+          <h4 className="mt-4 text-center font-weight-bold">
+            <i className="fas fa-wave-square"></i> Matched Jobs
+          </h4>
+          <div className="row job-ads-wrapper mt-4" align="center">
             {jobseekerMatchedJobPosting.map(item => {
               return (
                 <div
                   id={item.id}
                   key={item.id}
-                  className="col-md-6 col-12 job-ad-wrapper"
+                  className="col-lg-4 col-md-6 col-12 mt-2 job-ad-wrapper"
                 >
                   {" "}
                   {/*this is temporal: id must contain de id of document JobPosting from DB*/}
                   <div className="card job-ad text-body shadow rounded">
-                    <div className="card-header">
+                    <div className="card-header bg-white text-info font-weight-bold">
                       <div className="row">
-                        <div className="col-9">
+                        <div className="col-12 text-center">
                           <i className="fas fa-thumbtack" /> {item.jobtitle}
-                        </div>
-                        <div className="col-3">
-                          <i className="fas fa-heart wishlist-selector float-right d-none" />
                         </div>
                       </div>
                     </div>
                     <div className="card-body">
                       <div className="row">
+                        <div className="col-12">
+                          <b>
+                            <i className="fas fa-building" /> Company:
+                          </b>{" "}
+                          {item.employername}
+                        </div>
                         <div className="col-12">
                           <b className="mr-2">
                             <i className="fas fa-check-double" /> Skills:
@@ -74,29 +82,45 @@ class JobSeekerMatches extends Component {
                         </div>
                         <div className="col-12">
                           <b>
-                            <i className="fas fa-building" /> Company:
-                          </b>{" "}
-                          {item.employername}
-                        </div>
-                        <div className="col-12">
-                          <b>
                             <i className="fas fa-calendar-alt" /> Start
                           </b>{" "}
                           {item.expectedstartdate &&
-                            item.expectedstartdate.toDate().toLocaleString()}
+                            item.expectedstartdate.toDate().toLocaleString() ? (
+                              <ReactMoment format="MMM DD, YYYY">
+                                {item.expectedstartdate
+                                  .toDate()
+                                  .toLocaleString()}
+                              </ReactMoment>
+                            ) : (
+                              <i className="fas fa-ban text-muted" />
+                            )}
                         </div>
                         <div className="col-12">
                           <b>
                             <i className="fas fa-calendar-alt" /> Due Date:
                           </b>{" "}
                           {item.expirationdate &&
-                            item.expirationdate.toDate().toLocaleString()}
+                            item.expirationdate.toDate().toLocaleString() ? (
+                              <ReactMoment format="MMM DD, YYYY">
+                                {item.expirationdate
+                                  .toDate()
+                                  .toLocaleString()}
+                              </ReactMoment>
+                            ) : (
+                              <i className="fas fa-ban text-muted" />
+                            )}
                         </div>
                         <div className="col-12">
                           <b>
                             <i className="fas fa-graduation-cap" /> Education:
                           </b>{" "}
-                          {item.education}
+                          {(item.education || item.education.label) ? (
+                                  item.education.label?
+                                  item.education.label
+                                  :item.education
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
                         </div>
                       </div>
                     </div>
@@ -110,7 +134,10 @@ class JobSeekerMatches extends Component {
     } else {
       return (
         <div className="container">
-          <span>There is no matches for you yet.</span>
+          <h4 className="mt-4 text-center font-weight-bold">
+            <i className="fas fa-wave-square"></i> Matched Jobs
+          </h4>
+          <h6 className="mt-4 text-center">There are no matched jobs for you yet.</h6>
         </div>
       );
     }
@@ -129,9 +156,18 @@ const mapStateToProps = state => {
     }
   );
 
-  console.log("jobposting", jobposting);
-  console.log("matches", matches);
-  console.log("jobseekerMatchedJobPosting", jobseekerMatchedJobPosting);
+  //fill the education item name instead if the key
+  const allEducationData = state.firestore.data.education;
+  if (
+    allEducationData != undefined &&
+    jobseekerMatchedJobPosting != undefined &&
+    jobseekerMatchedJobPosting.length > 0
+  ) {
+    $.each(jobseekerMatchedJobPosting, function(index, jobAd) {
+      var educationItem = allEducationData[jobAd.education];
+      if (educationItem != undefined) jobAd.education = educationItem.name;
+    });
+  }
   return {
     jobseekerMatchedJobPosting: jobseekerMatchedJobPosting,
     uid: auth.uid,
@@ -158,6 +194,9 @@ export default compose(
       {
         collection: "jobposting",
         orderBy: ["createdAt", "desc"]
+      },
+      {
+        collection: "education"
       }
     ];
   })

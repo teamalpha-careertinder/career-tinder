@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const jobAdActions = jobAd => {
   return (dispatch, getState, { getFirestore }) => {
     // make async call to database
@@ -8,26 +10,23 @@ export const jobAdActions = jobAd => {
       .doc(userId)
       .get()
       .then(d => {
-        jobAd.employername = d.data().companyname ? d.data().companyname : "";
-
+        const employername = d.data().employerName ? d.data().employerName : "";
         firestore
           .collection("jobposting")
           .add({
             ...jobAd,
             employerid: userId,
+            employername: employername,
             createdAt: new Date()
           })
           .then(() => {
-            console.log("Created job posting successfully");
             dispatch({ type: "CREATE_JOBPOST_SUCCESS" });
           })
           .catch(err => {
-            console.log("Job posting creation error");
             dispatch({ type: "CREATE_JOBPOST_ERROR" }, err);
           });
       })
       .catch(err => {
-        console.log("Job posting creation error");
         dispatch({ type: "CREATE_JOBPOST_ERROR" }, err);
       });
   };
@@ -58,16 +57,13 @@ export const jobUpdateActions = jobAd => {
             lastUpdatedAt: new Date()
           })
           .then(() => {
-            console.log("Updated job posting successfully");
             dispatch({ type: "UPDATE_JOBPOST_SUCCESS" });
           })
           .catch(err => {
-            console.log("Job posting update error");
             dispatch({ type: "UPDATE_JOBPOST_ERROR" }, err);
           });
       })
       .catch(err => {
-        console.log("Could not find employer with the specified employer id");
         dispatch({ type: "UPDATE_JOBPOST_ERROR" }, err);
       });
   };
@@ -83,11 +79,9 @@ export const jobDeleteActions = jobAdId => {
       .doc(jobAdId)
       .delete()
       .then(() => {
-        console.log("Deleted job posting successfully");
         dispatch({ type: "DELETE_JOBPOST_SUCCESS" });
       })
       .catch(err => {
-        console.log("Job posting delete error");
         dispatch({ type: "DELETE_JOBPOST_ERROR" }, err);
       });
   };
@@ -136,7 +130,6 @@ export const matchJobSeekerLikeWithEmployerChoice = choice => {
       .then(function(querySnapshot) {
         //if company also likes jobseeker for the same jobAd, a new match is arises <3
         querySnapshot.forEach(function(userSnapshot) {
-          //console.log("querySnapshot", userSnapshot.data())
           //  create document with match:
           var match = matchEntity;
           match.jobAdId = choice.jobAdId;
@@ -159,7 +152,6 @@ export const matchJobSeekerLikeWithEmployerChoice = choice => {
         });
       })
       .catch(function(error) {
-        // console.log("Error getting documents: ", error);
         dispatch({ type: "SAVE_JOBSEEKER_MATCH_ERROR" }, error); ////////////////////////
       });
   };
@@ -230,6 +222,113 @@ export const matchEmployerLikeWithJobSeekerChoice = employerChoice => {
       })
       .catch(function(error) {
         dispatch({ type: "SAVE_EMPLOYER_MATCH_ERROR" }, error); ////////////////////////
+      });
+  };
+};
+export const getjobposting = () => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    const today = new Date(Date.now());
+
+    firestore
+      .collection("jobposting")
+      .where("expirationdate", ">=", today)
+      .get()
+      .then(function(querySnapshot) {
+        firestore
+          .collection("jobseeker")
+          .doc(getState().firebase.auth.uid)
+          .get()
+          .then(function(doc) {
+            if (doc.exists) {
+              var data = [];
+              querySnapshot.forEach(function(documentSnapshot) {
+                const unexpiredJobPosting = documentSnapshot.data();
+                const userSkills = doc.data().skills;
+                const neededskills = unexpiredJobPosting.neededskills;
+
+                const userLanguages = doc.data().languages;
+                const neededLanguages = unexpiredJobPosting.languages;
+
+                const matchedSkills = _.intersectionWith(
+                  neededskills,
+                  userSkills,
+                  function(neededskill, userSkill) {
+                    return neededskill.label === userSkill.label;
+                  }
+                );
+
+                const matchedLanguages = _.intersectionWith(
+                  userLanguages,
+                  neededLanguages,
+                  function(neededLanguage, userLanguage) {
+                    return neededLanguage.label === userLanguage.label;
+                  }
+                );
+                if (matchedSkills.length > 0 && matchedLanguages.length > 0) {
+                  data.push(documentSnapshot.data());
+                  return unexpiredJobPosting;
+                }
+              });
+              dispatch({ type: "FETCH_JOB_POST_SUCCESS", data });
+            }
+          });
+      })
+      .catch(function(error) {
+        dispatch({ type: "FETCH_JOB_POST_ERROR" }, error); ////////////////////////
+      });
+  };
+};
+
+export const getjobseekers = jobAdId => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    console.log(jobAdId);
+    firestore
+      .collection("jobseeker")
+      .get()
+      .then(function(querySnapshot) {
+        firestore
+          .collection("jobposting")
+          .doc(jobAdId)
+          .get()
+          .then(function(doc) {
+            if (doc.exists) {
+              var data = [];
+              querySnapshot.forEach(function(documentSnapshot) {
+                const jobSekeersList = documentSnapshot.data();
+                const neededskills = doc.data().neededskills;
+                const userSkills = jobSekeersList.skills;
+
+                const neededLanguages = doc.data().languages;
+                const userLanguages = jobSekeersList.languages;
+
+                const matchedSkills = _.intersectionWith(
+                  userSkills,
+                  neededskills,
+                  function(userSkill, neededskill) {
+                    return userSkill.label == neededskill.label;
+                  }
+                );
+
+                const matchedLanguages = _.intersectionWith(
+                  neededLanguages,
+                  userLanguages,
+                  function(userLanguage, neededLanguage) {
+                    return userLanguage.label === neededLanguage.label;
+                  }
+                );
+                if (matchedSkills.length > 0 && matchedLanguages.length > 0) {
+                  data.push(jobSekeersList);
+                  return jobSekeersList;
+                }
+              });
+              dispatch({ type: "FETCH_JOB_SEEKER_SUCCESS", data });
+            }
+          });
+      })
+      .catch(function(error) {
+        dispatch({ type: "FETCH_JOB_SEEKER_ERROR" }, error); ////////////////////////
       });
   };
 };

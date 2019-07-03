@@ -6,11 +6,17 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
 import "./jobs.css";
-import { saveUserChoice } from "../../store/actions/jobAdActions";
+import "./jobs.scss";
+import {
+  getjobposting,
+  saveUserChoice
+} from "../../store/actions/jobAdActions";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
-import addScoreToJobPost from "./relevancyFactorCalculator"
-import moment from "moment"
+import { Animated } from "react-animated-css";
+import addScoreToJobPost from "./relevancyFactorCalculator";
+import moment from "moment";
+import ReactMoment from "react-moment";
 
 const jobSeekerChoiceEntity = {
   jobAdId: null,
@@ -21,10 +27,14 @@ const jobSeekerChoiceEntity = {
 class JobAds extends Component {
   constructor(props) {
     super(props);
+    this.props.getjobposting();
 
     this.state = {
       badges: ["primary", "warning", "info", "danger", "success"]
     };
+
+    this.slideAdUp = this.slideAdUp.bind(this);
+    this.slideAdDown = this.slideAdDown.bind(this);
   }
 
   //function to save on DB the relation between job add and user's like or dislike:
@@ -37,184 +47,285 @@ class JobAds extends Component {
     this.props.saveUserChoice(jobSeekerChoice);
   }
 
-  slideAdUp = e => {
-    var id = $(e.target)[0].closest(".job-ad-wrapper").id;
-    $("#" + id)
-      .animate({ right: "2000px" }, "slow")
-      .slideUp(500);
-    //call the managment of (Dis)Likes to be store on DB:
-    setTimeout(
-      function() {
-        //Start the timer
-        this.processLikeDisLike(true, id, this.props.auth.uid);
-      }.bind(this),
-      1000
-    );
+  slideAdUp = id => {
+    this.processLikeDisLike(true, id, this.props.auth.uid);
   };
 
-  slideAdDown = e => {
-    var id = $(e.target)[0].closest(".job-ad-wrapper").id;
-    $("#" + id)
-      .animate({ left: "2000px" }, "slow")
-      .slideUp(500);
-    //call the managment of (Dis)Likes to be store on DB:
-    setTimeout(
-      function() {
-        //Start the timer
-        this.processLikeDisLike(false, id, this.props.auth.uid);
-      }.bind(this),
-      1000
-    );
+  slideAdDown = id => {
+    this.processLikeDisLike(false, id, this.props.auth.uid);
   };
-
-  
 
   render() {
     const { auth, userJobPosting, jobseeker } = this.props;
 
-    if(userJobPosting && userJobPosting.length && jobseeker)
-    {
-      addScoreToJobPost(jobseeker, userJobPosting)
+    if (userJobPosting && userJobPosting.length && jobseeker) {
+      addScoreToJobPost(jobseeker, userJobPosting);
       userJobPosting.sort(function(a, b) {
-        return b.relevancyScore - a.relevancyScore || moment(b.createdAt) - moment(a.createdAt);
+        return (
+          b.relevancyScore - a.relevancyScore ||
+          moment(b.createdAt) - moment(a.createdAt)
+        );
       });
     }
-    console.log("after sorting--------")
-    console.log(userJobPosting)
 
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     return (
-      <div className="container">
-        <div className="row job-ads-wrapper mb-3">
-          {userJobPosting &&
-            userJobPosting.map(item => {
-              return (
-                <div
-                  id={item.id}
-                  key={item.id}
-                  className="col-md-6 col-12 job-ad-wrapper"
-                >
-                  {" "}
-                  {/*this is temporal: id must contain de id of document JobPosting from DB*/}
-                  <div className="card job-ad text-body shadow rounded">
-                    <div className="card-header">
-                      <div className="row">
-                        <div className="col-9">
-                          <i className="fas fa-thumbtack" /> {item.jobtitle}
-                        </div>
-                        <div className="col-3">
-                          <i className="fas fa-heart wishlist-selector float-right d-none" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col-12">
-                          <b className="mr-2">
-                            <i className="fas fa-check-double" /> Skills:
-                          </b>
-                          {item.neededskills &&
-                            item.neededskills.map((child, i) => {
-                              i = i % 5;
-                              return (
-                                <span
-                                  key={child.value}
-                                  className={
-                                    "badge badge-" +
-                                    this.state.badges[i] +
-                                    " mr-2"
-                                  }
-                                >
-                                  {child.label}
-                                </span>
-                              );
-                            })}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-certificate" /> Type:
-                          </b>{" "}
-                          {(item.applyfulltime && item.applyfulltime
-                            ? "Full Time"
-                            : "Part Time") ||
-                            (item.applypartime && item.applypartime
-                              ? "Part Time"
-                              : "Full Time")}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-euro-sign" /> Salary:
-                          </b>{" "}
-                          {item.minsalary} - {item.maxsalary}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-building" /> Company:
-                          </b>{" "}
-                          {item.employername}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-calendar-alt" /> Start
-                          </b>{" "}
-                          {item.expectedstartdate &&
-                            item.expectedstartdate.toDate().toLocaleString()}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-calendar-alt" /> Due Date:
-                          </b>{" "}
-                          {item.expirationdate &&
-                            item.expirationdate.toDate().toLocaleString()}
-                        </div>
-                        <div className="col-12">
-                          <b>
-                            <i className="fas fa-graduation-cap" /> Education:
-                          </b>{" "}
-                          {item.education}
-                        </div>
-                        <hr />
-                        <div className="col-12">
-                          <div className="row">
-                            <div className="col-6">
-                              <Button
-                                outline
-                                color="success"
-                                className="w-100"
-                                onClick={this.slideAdUp}
-                              >
-                                <i className="fas fa-thumbs-up" />
-                              </Button>{" "}
+      <div className="page-wrapper">
+        <h4 className="mt-4 text-center font-weight-bold">
+          <i className="fas fa-street-view" /> Recommended Jobs
+        </h4>
+        <div className="demo">
+          <div className="demo__content">
+            <div className="demo__card-cont">
+              {userJobPosting &&
+                userJobPosting.map(item => {
+                  return (
+                    <div
+                      id={item.id}
+                      key={item.id}
+                      className="demo__card shadow rounded text-left"
+                    >
+                      <div className="job-ad-wrapper">
+                        <div className="card job-ad text-body">
+                          <div className="card-header bg-info text-white font-weight-bold">
+                            <div className="row">
+                              <div className="col-12 text-center">
+                                <i className="fas fa-thumbtack" />{" "}
+                                {item.jobtitle}
+                              </div>
                             </div>
-                            <div className="col-6">
-                              <Button
-                                outline
-                                color="danger"
-                                className="w-100"
-                                onClick={this.slideAdDown}
-                              >
-                                <i className="fas fa-thumbs-down" />
-                              </Button>{" "}
+                          </div>
+                          <div className="card-body">
+                            <div className="row">
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-building" />
+                                </b>{" "}
+                                {item.employername ? (
+                                  item.employername
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                              <div className="col-12">
+                                <b className="mr-2">
+                                  <i className="fas fa-check-double" />
+                                </b>
+                                {item.neededskills &&
+                                item.neededskills.length > 0 ? (
+                                  item.neededskills.map((child, i) => {
+                                    i = i % 5;
+                                    return (
+                                      <span
+                                        key={child.value}
+                                        className={"badge badge-danger mr-2"}
+                                      >
+                                        {child.label}
+                                      </span>
+                                    );
+                                  })
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-certificate" />
+                                </b>{" "}
+                                {(item.applyfulltime && item.applyfulltime
+                                  ? "Full Time"
+                                  : "Part Time") ||
+                                  (item.applypartime && item.applypartime
+                                    ? "Part Time"
+                                    : "Full Time")}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-euro-sign" />
+                                </b>{" "}
+                                {item.minsalary || item.maxsalary ? (
+                                  item.minsalary + " - " + item.maxsalary
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-calendar-alt" /> Start
+                                </b>{" "}
+                                {item.expectedstartdate &&
+                                item.expectedstartdate
+                                  .toDate()
+                                  .toLocaleString() ? (
+                                  <ReactMoment format="MMM DD, YYYY">
+                                    {item.expectedstartdate
+                                      .toDate()
+                                      .toLocaleString()}
+                                  </ReactMoment>
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-calendar-alt" /> Expires
+                                </b>{" "}
+                                {item.expirationdate &&
+                                item.expirationdate
+                                  .toDate()
+                                  .toLocaleString() ? (
+                                  <ReactMoment format="MMM DD, YYYY">
+                                    {item.expirationdate
+                                      .toDate()
+                                      .toLocaleString()}
+                                  </ReactMoment>
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-graduation-cap" />{" "}
+                                  Education
+                                </b>{" "}
+                                {item.education ? (
+                                  item.education
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
+                              <hr />
                             </div>
                           </div>
                         </div>
                       </div>
+                      <div className="demo__card__choice m--reject" />
+                      <div className="demo__card__choice m--like" />
+                      <div className="demo__card__drag" />
                     </div>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
+            </div>
+            <div className="demo__tip text-danger font-weight-bold">
+              <Animated animationIn="pulse infinite" isVisible={true}>
+                <i className="fas fa-angle-double-left" /> Swipe left or right{" "}
+                <i className="fas fa-angle-double-right" />
+              </Animated>
+            </div>
+          </div>
         </div>
       </div>
+    );
+  }
+
+  componentDidMount() {
+    var animating = false;
+    var cardsCounter = 0;
+    var numOfCards = 6;
+    var decisionVal = 80;
+    var pullDeltaX = 0;
+    var deg = 0;
+    var $card, $cardReject, $cardLike;
+    var _ = this;
+
+    function pullChange() {
+      animating = true;
+      deg = pullDeltaX / 10;
+      $card.css(
+        "transform",
+        "translateX(" + pullDeltaX + "px) rotate(" + deg + "deg)"
+      );
+
+      var opacity = pullDeltaX / 100;
+      var rejectOpacity = opacity >= 0 ? 0 : Math.abs(opacity);
+      var likeOpacity = opacity <= 0 ? 0 : opacity;
+      $cardReject.css("opacity", rejectOpacity);
+      $cardLike.css("opacity", likeOpacity);
+    }
+
+    function release() {
+      var id = $card.attr("id");
+      if (pullDeltaX >= decisionVal) {
+        _.slideAdUp(id);
+        $card.addClass("to-right");
+      } else if (pullDeltaX <= -decisionVal) {
+        _.slideAdDown(id);
+        $card.addClass("to-left");
+      }
+
+      if (Math.abs(pullDeltaX) >= decisionVal) {
+        $card.addClass("inactive");
+
+        setTimeout(function() {
+          $card.addClass("below").removeClass("inactive to-left to-right");
+          cardsCounter++;
+          if (cardsCounter === numOfCards) {
+            cardsCounter = 0;
+            $(".demo__card").removeClass("below");
+          }
+        }, 300);
+      }
+
+      if (Math.abs(pullDeltaX) < decisionVal) {
+        $card.addClass("reset");
+      }
+
+      setTimeout(function() {
+        $card
+          .attr("style", "")
+          .removeClass("reset")
+          .find(".demo__card__choice")
+          .attr("style", "");
+
+        pullDeltaX = 0;
+        animating = false;
+      }, 300);
+    }
+
+    $(document).on(
+      "mousedown touchstart",
+      ".demo__card:not(.inactive)",
+      function(e) {
+        if (animating) return;
+
+        $card = $(this);
+        $cardReject = $(".demo__card__choice.m--reject", $card);
+        $cardLike = $(".demo__card__choice.m--like", $card);
+        var startX = 0;
+        if (e.originalEvent.touches) {
+          startX = e.originalEvent.touches[0].pageX;
+        } else {
+          startX = e.pageX;
+        }
+
+        $(document).on("mousemove touchmove", function(e) {
+          var x = 0;
+          if (e.originalEvent.touches) {
+            x = e.originalEvent.touches[0].pageX;
+          } else {
+            x = e.pageX;
+          }
+
+          pullDeltaX = x - startX;
+          if (!pullDeltaX) return;
+          pullChange();
+        });
+
+        $(document).on("mouseup touchend", function() {
+          $(document).off("mousemove touchmove mouseup touchend");
+          if (!pullDeltaX) return; // prevents from rapid click events
+          release();
+        });
+      }
     );
   }
 }
 
 const mapStateToProps = state => {
   const auth = state.firebase.auth;
-  const jobposting = state.firestore.ordered.jobposting;
-  const jobseekerChoice = state.firestore.ordered.jobSeekerChoice;//console.log(auth)
+  const jobposting = state.jobAd.data;
+  const jobseekerChoice = state.firestore.ordered.jobSeekerChoice; //console.log(auth)
   let userid = auth.uid;
   let jobseekers = state.firestore.data.jobseeker;
   let jobseeker = jobseekers && userid ? jobseekers[userid] : null;
@@ -225,6 +336,18 @@ const mapStateToProps = state => {
     return jobpost.id === jobseekerchoice.jobAdId;
   });
 
+  //fill the education item name instead if the key
+  const allEducationData = state.firestore.data.education;
+  if (
+    allEducationData != undefined &&
+    userJobPosting != undefined &&
+    userJobPosting.length > 0
+  ) {
+    $.each(userJobPosting, function(index, jobAd) {
+      var educationItem = allEducationData[jobAd.education];
+      if (educationItem != undefined) jobAd.education = educationItem.name;
+    });
+  }
   return {
     userJobPosting: userJobPosting,
     uid: auth.uid,
@@ -235,6 +358,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToPropsJobseeker = dispatch => {
   return {
+    getjobposting: () => dispatch(getjobposting()),
     saveUserChoice: jobSeekerChoice => dispatch(saveUserChoice(jobSeekerChoice))
   };
 };
@@ -251,8 +375,7 @@ export default compose(
         where: [["jobSeekerId", "==", props.uid || null]]
       },
       {
-        collection: "jobposting",
-        orderBy: ["createdAt", "desc"]
+        collection: "education"
       }
     ];
   })

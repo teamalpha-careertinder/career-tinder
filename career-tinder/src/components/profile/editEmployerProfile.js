@@ -140,8 +140,7 @@ class EditEmployerProfile extends React.Component {
                   <div className="col-12">
                     <div className="form-group">
                       <label className="form-label" htmlFor="employerDescription"><i className="fas fa-sticky-note"></i> Description</label>
-                      <textarea id="employerDescription" name="employerDescription" value={this.state.employerDescription || ''} className="form-control form-control-lg" onChange={this.handleChange} 
-                        required></textarea>
+                      <textarea id="employerDescription" name="employerDescription" value={this.state.employerDescription || ''} className="form-control form-control-lg" onChange={this.handleChange}></textarea>
                     </div>
                   </div>
                 </div>
@@ -150,7 +149,7 @@ class EditEmployerProfile extends React.Component {
                     <hr/>
                   </div>
                   <div className="col-2">
-                    <i class="fas fa-tty"></i>
+                    <i className="fas fa-tty"></i>
                   </div>
                   <div className="col-5">
                     <hr/>
