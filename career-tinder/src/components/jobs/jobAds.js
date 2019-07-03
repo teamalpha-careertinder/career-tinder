@@ -57,7 +57,7 @@ class JobAds extends Component {
 
   render() {
     const { auth, userJobPosting, jobseeker } = this.props;
-    
+
     if (userJobPosting && userJobPosting.length && jobseeker) {
       addScoreToJobPost(jobseeker, userJobPosting);
       userJobPosting.sort(function(a, b) {
@@ -335,8 +335,6 @@ const mapStateToProps = state => {
   ) {
     return jobpost.id === jobseekerchoice.jobAdId;
   });
-  console.log("normal", jobposting);
-  console.log("abonrmal", state.jobAd.data);
 
   //fill the education item name instead if the key
   const allEducationData = state.firestore.data.education;
