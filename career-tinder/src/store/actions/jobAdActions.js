@@ -45,7 +45,7 @@ export const jobUpdateActions = (jobAdId, jobAd) => {
       .doc(userId)
       .get()
       .then(d => {
-       const employername = d.data().employerName ? d.data().employerName : "";
+        const employername = d.data().employerName ? d.data().employerName : "";
         //delete jobAd.id;
 
         firestore
@@ -267,7 +267,7 @@ export const getjobposting = () => {
                   }
                 );
 
-                if (matchedSkills.length > 0 && matchedLanguages.length > 0) {
+                if (matchedSkills.length > 0 || matchedLanguages.length > 0) {
                   data.push(unexpiredJobPosting);
                   return unexpiredJobPosting;
                 }
@@ -321,7 +321,7 @@ export const getjobseekers = jobAdId => {
                     return userLanguage.label === neededLanguage.label;
                   }
                 );
-                if (matchedSkills.length > 0 && matchedLanguages.length > 0) {
+                if (matchedSkills.length > 0 || matchedLanguages.length > 0) {
                   data.push(jobSekeersList);
                   return jobSekeersList;
                 }
