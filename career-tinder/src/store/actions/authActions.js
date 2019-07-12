@@ -52,6 +52,11 @@ export const signUpAsJobSeeker = newUser => {
           userType: "jobseeker",
           profileCompletenessPercentage: 0
         });
+        var jobSeeker = firestore.collection("jobseeker").doc(resp.user.uid);
+
+        batch.set(jobSeeker, {
+          jobSeekerName: newUser.fullName
+        });
 
         resp.user.updateProfile({
           displayName: newUser.fullName
@@ -83,6 +88,10 @@ export const signUpAsEmployer = newUser => {
         batch.set(newUserType, {
           userType: "employer",
           profileCompletenessPercentage: 0
+        });
+        var employer = firestore.collection("employer").doc(resp.user.uid);
+        batch.set(employer, {
+          employerName: newUser.companyname
         });
 
         resp.user.updateProfile({
