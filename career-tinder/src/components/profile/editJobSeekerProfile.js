@@ -97,7 +97,7 @@ class EditJobSeekerProfile extends React.Component {
     var city = jobSeekerProfileProps && jobSeekerProfileProps.city;
     var education = jobSeekerProfileProps && jobSeekerProfileProps.education;
  
-    workExperiences.map((item, value) => {
+    workExperiences &&  workExperiences.map((item, value) => {
       item.id = Math.random().toString(36).slice(2);
     });
  

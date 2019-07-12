@@ -54,12 +54,9 @@ class Nav extends React.Component {
       );
     return (
       <div className="navbar-wrapper">
-        <nav
-          id="ct_navbar"
-          className="navbar fixed-top navbar-expand-md"
-        >
+        <nav id="ct_navbar" className="navbar fixed-top navbar-expand-md">
           {auth.uid && auth.emailVerified ? (
-            <Link to={ROUTES.FEED} className="navbar-brand d-none d-md-block">
+            <Link to={ROUTES.JOBS} className="navbar-brand d-none d-md-block">
               <img src={logo} alt={"logo"} className="float-left" />
               <span className="text-info">CAREER</span>
               <span className="text-info">TINDER</span>

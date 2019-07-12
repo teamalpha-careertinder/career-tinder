@@ -8,7 +8,6 @@ import RegistrationEmployer from "../authentication/registrationEmployer";
 import RegistrationJobSeeker from "../authentication/registrationJobSeeker";
 import UpdateProfile from "../profile/editProfile";
 import EmailVerification from "../authentication/emailVerification";
-import FeedBoard from "../feedboard/feedboard";
 import LandingPage from "../layouts/home";
 import ForgotPassword from "../authentication/forgotPassword";
 import ChangePassword from "../profile/changePassword";
@@ -44,7 +43,6 @@ class App extends Component {
                 component={EmailVerification}
               />
               <Route path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />
-              <Route path={ROUTES.FEED} component={FeedBoard} />
               <Route path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
               <Route path={ROUTES.JOBS} component={Jobs} />
               <Route

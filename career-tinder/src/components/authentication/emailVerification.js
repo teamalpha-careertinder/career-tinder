@@ -13,7 +13,7 @@ class EmailVerification extends React.Component {
 
   render() {
     const { auth, authError } = this.props;
-    if (auth && auth.emailVerified) return <Redirect to={ROUTES.FEED} />;
+    if (auth && auth.emailVerified) return <Redirect to={ROUTES.JOBS} />;
     return (
       <div className="container text-center d-flex justify-content-center black-label">
         <MDBRow>
