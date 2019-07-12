@@ -576,7 +576,7 @@ class EditJobSeekerProfile extends React.Component {
                     </div>
                     <div className="row" id="work_experiences">
                       {
-                        this.state.workExperiences.map((workExperience, i) => {
+                        this.state.workExperiences && this.state.workExperiences.map((workExperience, i) => {
                           return (
                             <div key={`work-experience-${i}`} className="col-lg-3 col-md-4 col-12">
                               <div className="work-experiences-tag badge badge-info mb-2">
