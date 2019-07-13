@@ -62,16 +62,14 @@ class Jobs extends React.Component {
     if (
       user &&
       user.userType === "jobseeker" &&
-      jobseeker &&
-      this.getProfileCompletionPercentage(jobseeker) < 85
-    ) {
+      user.profileCompletenessPercentage < 85
+    ) {      
       this.redirectToProfile(85, "Job Seeker");
     }
     if (
       user &&
       user.userType === "employer" &&
-      employer &&
-      this.getProfileCompletionPercentage(employer) < 80
+      user.profileCompletenessPercentage < 80
     ) {
       this.redirectToProfile(80, "Employer");
     }

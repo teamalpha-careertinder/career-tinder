@@ -5,14 +5,14 @@ import { ModalFooter } from "mdbreact";
 import './profile.css';
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import { Alert, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { editJobSeekerProfile } from '../../store/actions/profileAction';
 import * as ROUTES from '../../constants/routes';
 import { firestoreConnect } from "react-redux-firebase";
 import { Checkbox, Radio } from 'pretty-checkbox-react';
 import CreatableSelect from 'react-select/creatable';
-//import cities from '../../constants/city'
+import swal from "sweetalert";
 import $ from "jquery/src/jquery";
  
 //Entity to store JobSeekerProfile in DB
@@ -268,11 +268,11 @@ class EditJobSeekerProfile extends React.Component {
       } else {jobSeekerProfile.workExperiences = null}
      
       this.props.editJobSeekerProfile(jobSeekerProfile);
-      this.onShowAlert();
+      this.onShowAlert(); 
     }
  
   handleWExperienceSubmit = (e) => {
-    this.toggle();
+    this.toggle(1);
     e.preventDefault();
     if(e.target.we_id.value === '') {
       const newWExperience = {
@@ -317,22 +317,46 @@ class EditJobSeekerProfile extends React.Component {
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
       window.setTimeout(() => {
-        this.setState({ visible: false })
-      }, 3000)
+        this.setState({ visible: false });     
+        this.props.history.push(ROUTES.JOBS);
+      }, 1500)
     });
   }
  
-  toggle() {
-    this.setState(prevState => ({
-      modal: !prevState.modal,
-      weCreate: true,
-      weId: '',
-      companyName: '',
-      jobTitle: '',
-      jobDescription: '',
-      startFromDate: '',
-      workedTo: ''
-    }));
+  toggle(forceClose) {
+    if(forceClose) {
+      this.setState(prevState => ({
+        modal: !prevState.modal,
+        weCreate: true,
+        weId: '',
+        companyName: '',
+        jobTitle: '',
+        jobDescription: '',
+        startFromDate: '',
+        workedTo: ''
+      }));
+    } else {
+      swal({
+        text: "You are going to lose all the added information. Do you really want to close the modal?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: false
+      }).then(close => {
+        if (close) {
+          this.setState(prevState => ({
+            modal: !prevState.modal,
+            weCreate: true,
+            weId: '',
+            companyName: '',
+            jobTitle: '',
+            jobDescription: '',
+            startFromDate: '',
+            workedTo: ''
+          }));
+        }
+      }); 
+    }
+       
   }
  
   toggleWERemove(e, experience) {
@@ -376,8 +400,8 @@ class EditJobSeekerProfile extends React.Component {
     return (
       <div className="job-seeker-profile">
         <Alert color={response} isOpen={this.state.visible}><i className={response === 'success' ? "fas fa-check" : "fas fa-times"}></i> {message}</Alert>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}><i className="fas fa-info-circle text-warning"></i> {this.state.weCreate ? 'Add' : 'Edit'} work experience</ModalHeader>
+        <Modal isOpen={this.state.modal} toggle={(e) => this.toggle(0)} className={this.props.className} backdrop="static">
+          <ModalHeader toggle={(e) => this.toggle(0)}><i className="fas fa-info-circle text-warning"></i> {this.state.weCreate ? 'Add' : 'Edit'} work experience</ModalHeader>
           <ModalBody>
             <form className="work-experience-form text-info" onSubmit={this.handleWExperienceSubmit}>
               <div className="row">
@@ -443,7 +467,7 @@ class EditJobSeekerProfile extends React.Component {
                 <div className="col-12">
                   <hr className="mt-4 mb-4" />
                   <Button color="success" type="submit"><i className={this.state.weCreate ? "fas fa-plus": "fas fa-edit"}></i> {this.state.weCreate ? 'Add' : 'Update'}</Button>{' '}
-                  <Button color="danger" onClick={this.toggle}>Cancel</Button>
+                  <Button color="danger" onClick={(e) => this.toggle(0)}>Cancel</Button>
                 </div>
               </div>
             </form>
@@ -572,7 +596,7 @@ class EditJobSeekerProfile extends React.Component {
                   <div className="col-12">                        
                     <div className="form-group">
                       <label className="work-experience-label"><i className="far fa-building"></i> Work Experiences</label>
-                      <button type="button" className="btn btn-danger btn-circle" onClick={this.toggle}><i className="fas fa-plus"></i></button>
+                      <button type="button" className="btn btn-danger btn-circle" onClick={(e) => this.toggle(1)}><i className="fas fa-plus"></i></button>
                     </div>
                     <div className="row" id="work_experiences">
                       {
@@ -585,8 +609,8 @@ class EditJobSeekerProfile extends React.Component {
                                     <span>{workExperience.companyName}</span>
                                   </div>
                                   <div className="col-4">
-                                    <i id={"remove_we_"+i} className="fas fa-trash-alt ml-3 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
-                                    <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit ml-3 float-right"></i>
+                                    <i id={"remove_we_"+i} className="fas fa-trash-alt ml-2 float-right" onClick={(e) => this.toggleWERemove(e, workExperience)}></i>
+                                    <i id={"edit_we_"+i} onClick={(e) => this.toggleModalWithData(e, workExperience, "remove_we_"+i)} className="fas fa-edit float-right"></i>
                                   </div>
                                 </div>  
                               </div>            
@@ -720,7 +744,7 @@ const mapDispatchToPropsJobseeker = dispatch => {
  
  
 export default
-  compose(
+  withRouter(compose(
     connect(mapStateToProps, mapDispatchToPropsJobseeker),
     firestoreConnect([
       {
@@ -743,4 +767,4 @@ export default
         orderBy: ["name", "asc"]
       }
     ])  
-  )(EditJobSeekerProfile);
+  )(EditJobSeekerProfile));

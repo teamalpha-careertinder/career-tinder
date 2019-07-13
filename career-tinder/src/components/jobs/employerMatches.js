@@ -10,7 +10,7 @@ import _ from "lodash";
 
 class EmployerMatches extends Component {
   render() {
-    const { auth, employerMatchedJobSeekersList } = this.props;
+    const { auth, employerMatchedJobSeekersList, jobAd } = this.props;
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
     if (employerMatchedJobSeekersList.length !== 0) {
@@ -20,7 +20,7 @@ class EmployerMatches extends Component {
           <div className="container page-wrapper">
             <div className="card-container">
               <h4 className="mt-4 text-center font-weight-bold">
-                <i className="fas fa-wave-square"></i> Matched Job Seekers
+                <i className="fas fa-wave-square"></i> Matches for position "{jobAd && jobAd.jobtitle}"
               </h4>
               <div className="row mt-4" align="center">
                 {employerMatchedJobSeekersList &&
@@ -183,20 +183,21 @@ const mapStateToProps = state => {
       return jobseeker.id === match.jobSeekerId && jobAdId === match.jobAdId;
     }
   );
-  console.log("jobseeker", jobseekers);
-  console.log("matches", matches);
-  console.log("employerMatchedJobSeekersList", employerMatchedJobSeekersList);
+  //retrieving jobAd for sorting
+  let jobAds = state.firestore.data.jobposting;
+  let jobAd = jobAds && jobAdId ? jobAds[jobAdId] : null;
+
   return {
     uid: state.firebase.auth.uid,
     auth: state.firebase.auth,
     authError: state.auth.authError,
     employerMatchedJobSeekersList: employerMatchedJobSeekersList,
-    jobAdId: jobAdId
+    jobAdId: jobAdId,
+    jobAd: jobAd
   };
 };
 
 const mapDispatchToPropsJobseeker = dispatch => {
-  // console.log(state);
   return {};
 };
 
@@ -213,6 +214,9 @@ export default compose(
       },
       {
         collection: "jobseeker"
+      },
+      {
+        collection: "jobposting"
       }
     ];
   })

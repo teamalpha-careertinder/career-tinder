@@ -3,7 +3,7 @@ import { MDBInput, MDBBtn } from "mdbreact";
 import "./profile.css";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import { Alert } from "reactstrap";
 import { editEmployerProfile } from "../../store/actions/profileAction";
 import * as ROUTES from "../../constants/routes";
@@ -90,7 +90,8 @@ class EditEmployerProfile extends React.Component {
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
       window.setTimeout(() => {
-        this.setState({ visible: false });
+        this.setState({ visible: false });    
+        this.props.history.push(ROUTES.JOBS);
       }, 3000);
     });
   };
@@ -313,14 +314,17 @@ const mapDispatchToPropsEmployer = dispatch => {
   };
 };
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToPropsEmployer
-  ),
-  firestoreConnect([
-    {
-      collection: "employer"
-    }
-  ])
-)(EditEmployerProfile);
+export default withRouter(
+  compose(
+    connect(
+      mapStateToProps,
+      mapDispatchToPropsEmployer
+    ),
+    firestoreConnect([
+      {
+        collection: "employer"
+      }
+    ])
+  )
+  (EditEmployerProfile)
+);
