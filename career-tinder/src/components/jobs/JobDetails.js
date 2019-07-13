@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../profile/profile.css";
 import { jobDeleteActions } from "../../store/actions/jobAdActions";
 import swal from "sweetalert";
@@ -33,32 +33,32 @@ class JobDetails extends Component {
           </h6>
           <div className="job-ad-links">
             <div className="job-ad-link">
-              <NavLink
+              <Link
                 id="btnMatch"
-                className="text-info w-100 m-0"
+                className="btn btn-outline-info text-info w-100 m-0 mb-2"
                 to={{
                   pathname: ROUTES.EMPLOYER_MATCHES + "/" + job.id,
                   job: job
                 }}
               >
-                <i className="far fa-thumbs-up" /> Matches for this job
-              </NavLink>
+                <i className="far fa-thumbs-up" /><br/> Matches
+              </Link>
             </div>
             <div className="job-ad-link">
-              <NavLink
-                className="text-info w-100 m-0"
+              <Link
+                className="btn btn-outline-info text-info w-100 m-0"
                 to={{
                   pathname: ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER + "/" + job.id,
                   job: job
                 }}
               >
-                <i className="fas fa-users" /> Recommendations
-              </NavLink>
+                <i className="fas fa-users" /><br/> Recommendations
+              </Link>
             </div>
           </div>
           <div className="job-ad-actions">
             <div className="job-ad-action">
-              <NavLink
+              <Link
                 className="btn btn-info btn-sm w-100 m-0 font-weight-bold"
                 to={{
                   pathname: "/create-job-ad",
@@ -67,7 +67,7 @@ class JobDetails extends Component {
               >
                 <i className="fas fa-edit" />
                 <br /> Edit
-              </NavLink>
+              </Link>
             </div>
             <div className="job-ad-action">
               <button

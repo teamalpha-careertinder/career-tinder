@@ -325,7 +325,7 @@ class CreateJobAds extends React.Component {
 
         <div className="container page-wrapper">
           <h3 className="text-center font-weight-bold mt-4">
-            <i className="fas fa-plus-square" />
+            <i className={this.state.jobtitle !== "" ? "fas fa-edit" : "fas fa-plus-square"} />
             <br />
             {this.state.jobtitle !== "" ? "Edit Job Ad" : "Create Job Ad"}
           </h3>

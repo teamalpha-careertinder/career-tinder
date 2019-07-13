@@ -85,7 +85,7 @@ class JobSeekers extends Component {
         <div className="container page-wrapper">
           <div className="card-container">
             <h4 className="mt-4 text-center font-weight-bold">
-              <i className="fas fa-street-view" /> Recommended Job Seekers
+              <i className="fas fa-street-view" /> Recommendations for position "{jobAd && jobAd.jobtitle}"
             </h4>
             <div className="row mt-4" align="center">
               {jobSeekersList &&
