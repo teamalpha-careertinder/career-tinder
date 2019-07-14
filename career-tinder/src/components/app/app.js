@@ -17,6 +17,8 @@ import EmployerMatches from "../jobs/employerMatches";
 import Notifications from "../profile/Notifications";
 import CreateJobAds from "../jobs/createJobAds";
 import JobSeekers from "../jobs/jobSeekers";
+import SeekerMatchedDetails from "../jobs/SeekerMatchedDetails"
+import JobMatchedDetails from "../jobs/JobMatchedDetails.js"
 
 class App extends Component {
   render() {
@@ -42,6 +44,7 @@ class App extends Component {
                 path={ROUTES.EMAIL_VERIFICATION}
                 component={EmailVerification}
               />
+              <Route path={ROUTES.SEEKER_MATCHED_DETAILS} component={SeekerMatchedDetails}/>
               <Route path={ROUTES.CHANGE_PASSWORD} component={ChangePassword} />
               <Route path={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
               <Route path={ROUTES.JOBS} component={Jobs} />
@@ -49,6 +52,7 @@ class App extends Component {
                 path={ROUTES.JOB_SEEKER_MATCHES}
                 component={JobSeekerMatches}
               />
+              <Route path={ROUTES.JOB_MATCHED_DETAILS} component={JobMatchedDetails}/>
               <Route
                 path={ROUTES.EMPLOYER_MATCHES}
                 component={EmployerMatches}

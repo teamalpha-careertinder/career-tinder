@@ -8,6 +8,7 @@ import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
 import $ from "jquery/src/jquery";
 import ReactMoment from "react-moment";
+import { NavLink } from "react-router-dom";
 
 class JobSeekerMatches extends Component {
   render() {
@@ -138,6 +139,16 @@ class JobSeekerMatches extends Component {
             <i className="fas fa-wave-square"></i> Matched Jobs
           </h4>
           <h6 className="mt-4 text-center">There are no matched jobs for you yet.</h6>
+          <NavLink
+                id="btnMatch"
+                className="text-info w-100 m-0"
+                to={{
+                  pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + "Job",
+                  
+                }}
+              >
+                 Seeker Matched Details
+                </NavLink>
         </div>
       );
     }

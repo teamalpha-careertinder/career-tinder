@@ -162,9 +162,24 @@ class EmployerMatches extends Component {
       return (
         <div className="container">
           <h4 className="mt-4 text-center font-weight-bold">
-            <i className="fas fa-wave-square"></i> Matched Job Seekers
+            <i className="fas fa-wave-square"></i> Matched Job Seekers 
+           
           </h4>
+         
           <h6 className="text-center mt-4">There are no matches for this job yet.</h6>
+         
+          <NavLink
+                id="btnMatch"
+                className="text-info w-100 m-0"
+                to={{
+                  pathname: ROUTES.SEEKER_MATCHED_DETAILS + "/" + "Anny",
+                  
+                }}
+              >
+                 Seeker Matched Details
+                </NavLink>
+
+
         </div>
       );
     }
