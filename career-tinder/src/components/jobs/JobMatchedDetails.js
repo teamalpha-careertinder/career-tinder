@@ -9,10 +9,9 @@ class JobMatchedDetails extends React.Component
     render() {
         return ( <div className="container page-wrapper">
         <div className="card-container ">
-          <h4 className="mt-4 text-center font-weight-bold"><i className="far fa-address-card" /> Job Details </h4>
-          <br></br><br></br>
-          <div className="card " style={{ flexDirection: 'column' , display: 'inline-flex'}} >
-            <div class="card-header text-center text-white" style={{backgroundColor: '#14799E'}}><b>Job Title</b>
+          <h4 className="mt-4 text-center font-weight-bold mb-4"><i className="far fa-address-card" /> Job Details </h4>
+          <div className="card justify-content-center">
+            <div class="card-header text-center text-white bg-info"><b>Job Title</b>
             </div>
             <div class="card-body ">
                 

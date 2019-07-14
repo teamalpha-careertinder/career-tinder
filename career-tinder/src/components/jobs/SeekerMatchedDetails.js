@@ -10,11 +10,10 @@ class SeekerMatchedDetails extends React.Component
         return (
            
             <div className="container ">
-              <h4 className="mt-4 text-center font-weight-bold"><i className="far fa-address-card" /> Job Seeker Details </h4>
-              <br></br><br></br>
+              <h4 className="mt-4 text-center font-weight-bold mb-4"><i className="far fa-address-card" /> Job Seeker Details </h4>
               
-              <div className="card justify-content-center" style={{ flexDirection: 'column' , display: 'inline-flex'}} >
-                <div class="card-header text-center text-white" style={{ backgroundColor: '#14799E'}}><b>Job Seeker Name</b>
+              <div className="card justify-content-center">
+                <div class="card-header bg-info text-center text-white"><b>Job Seeker Name</b>
                 </div>
                 <div class="card-body ">
                     

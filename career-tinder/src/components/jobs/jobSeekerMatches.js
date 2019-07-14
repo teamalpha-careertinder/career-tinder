@@ -2,13 +2,12 @@ import React, { Component } from "react";
 import * as ROUTES from "../../constants/routes";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 import "./jobs.css";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
 import $ from "jquery/src/jquery";
 import ReactMoment from "react-moment";
-import { NavLink } from "react-router-dom";
 
 class JobSeekerMatches extends Component {
   render() {

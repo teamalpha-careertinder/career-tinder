@@ -4,7 +4,7 @@ import "../profile/profile.css";
 import * as ROUTES from "../../constants/routes";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 import "../app/app.css";
 import _ from "lodash";
 
