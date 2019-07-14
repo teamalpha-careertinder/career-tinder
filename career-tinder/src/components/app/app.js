@@ -17,6 +17,7 @@ import EmployerMatches from "../jobs/employerMatches";
 import Notifications from "../profile/Notifications";
 import CreateJobAds from "../jobs/createJobAds";
 import JobSeekers from "../jobs/jobSeekers";
+import FileSharing from "../communication/fileSharing"
 
 class App extends Component {
   render() {
@@ -58,6 +59,7 @@ class App extends Component {
                 path={ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER}
                 component={JobSeekers}
               />
+              <Route path={"/communication/fileSharing"} component={FileSharing} />
             </div>
           </div>
         </HashRouter>
