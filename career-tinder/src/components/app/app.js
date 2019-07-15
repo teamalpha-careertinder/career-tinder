@@ -19,6 +19,7 @@ import CreateJobAds from "../jobs/createJobAds";
 import JobSeekers from "../jobs/jobSeekers";
 import SeekerMatchedDetails from "../jobs/SeekerMatchedDetails"
 import JobMatchedDetails from "../jobs/JobMatchedDetails.js"
+import DashboardComponent from "../chat/Dashboard/dashboard";
 
 class App extends Component {
   render() {
@@ -61,6 +62,10 @@ class App extends Component {
               <Route
                 path={ROUTES.JOB_SEEKERS_LIST_FOR_EMPLOYER}
                 component={JobSeekers}
+              />
+               <Route
+                path={ROUTES.CHAT_DASHBOARD}
+                component={DashboardComponent}
               />
             </div>
           </div>

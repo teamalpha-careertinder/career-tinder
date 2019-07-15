@@ -22,6 +22,11 @@ const SignedInLinks = props => {
       ) : (
         ""
       )}
+        <li className="nav-item" onClick={props.closeMenu}>
+        <NavLink className="nav-link" to={ROUTES.CHAT_DASHBOARD}>
+          <i className="far fa-envelope text-info" /> Messages
+        </NavLink>
+      </li>
       <li className="nav-item" onClick={props.closeMenu}>
         <NavLink className="nav-link" to={ROUTES.NOTIFICATIONS}>
           <i className="fas fa-bell text-info" /> Notifications
