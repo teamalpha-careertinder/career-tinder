@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import * as ROUTES from "../../constants/routes";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 import "./jobs.css";
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
@@ -138,6 +138,16 @@ class JobSeekerMatches extends Component {
             <i className="fas fa-wave-square"></i> Matched Jobs
           </h4>
           <h6 className="mt-4 text-center">There are no matched jobs for you yet.</h6>
+          <NavLink
+                id="btnMatch"
+                className="text-info w-100 m-0"
+                to={{
+                  pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + "Job",
+                  
+                }}
+              >
+                 Seeker Matched Details
+                </NavLink>
         </div>
       );
     }

@@ -74,6 +74,10 @@
     margin-right: 10px;
 }
 
+.no-space-break{
+    white-space:nowrap;
+  }
+
 @media (max-width: 768px) {
     .card.job-ad.text-body.shadow.rounded {
         margin: 0 10px 10px;
