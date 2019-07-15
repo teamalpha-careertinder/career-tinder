@@ -38,21 +38,22 @@ class JobAds extends Component {
   }
 
   //function to save on DB the relation between job add and user's like or dislike:
-  processLikeDisLike(userAction, jobAdId, jobSeekerId) {
+  processLikeDisLike(userAction, jobAdId, jobSeekerId, jobseeker) {
     //userAction: true ->User likes company // false->user dislikes company
     var jobSeekerChoice = jobSeekerChoiceEntity;
     jobSeekerChoice.jobAdId = jobAdId;
     jobSeekerChoice.jobSeekerId = jobSeekerId;
     jobSeekerChoice.isLiked = userAction;
+    // jobSeekerChoice.jobseekerEmail = userAction;
     this.props.saveUserChoice(jobSeekerChoice);
   }
 
   slideAdUp = id => {
-    this.processLikeDisLike(true, id, this.props.auth.uid);
+    this.processLikeDisLike(true, id, this.props.auth.uid, this.props.jobseeker);
   };
 
   slideAdDown = id => {
-    this.processLikeDisLike(false, id, this.props.auth.uid);
+    this.processLikeDisLike(false, id, this.props.auth.uid, this.props.jobseeker);
   };
 
   render() {
@@ -190,7 +191,7 @@ class JobAds extends Component {
                                   Education
                                 </b>{" "}
                                 {item.education ? (
-                                  item.education
+                                  item.education.label
                                 ) : (
                                   <i className="fas fa-ban text-muted" />
                                 )}

@@ -50,12 +50,14 @@ export const signUpAsJobSeeker = newUser => {
         var newUserType = firestore.collection("users").doc(resp.user.uid);
         batch.set(newUserType, {
           userType: "jobseeker",
+          userEmail: newUser.email,
           profileCompletenessPercentage: 0
         });
         var jobSeeker = firestore.collection("jobseeker").doc(resp.user.uid);
 
         batch.set(jobSeeker, {
-          jobSeekerName: newUser.fullName
+          jobSeekerName: newUser.fullName,
+          jobSeekerEmail: newUser.email
         });
 
         resp.user.updateProfile({
@@ -87,11 +89,13 @@ export const signUpAsEmployer = newUser => {
         var newUserType = firestore.collection("users").doc(resp.user.uid);
         batch.set(newUserType, {
           userType: "employer",
+          userEmail: newUser.email,
           profileCompletenessPercentage: 0
         });
         var employer = firestore.collection("employer").doc(resp.user.uid);
         batch.set(employer, {
-          employerName: newUser.companyname
+          employerName: newUser.companyname,
+          employerEmail: newUser.email
         });
 
         resp.user.updateProfile({

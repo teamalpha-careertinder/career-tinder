@@ -114,7 +114,7 @@ class JobSeekerMatches extends Component {
                           <b>
                             <i className="fas fa-graduation-cap" /> Education:
                           </b>{" "}
-                          {(item.education || item.education.label) ? (
+                          {(item.education && item.education.label) ? (
                                   item.education.label?
                                   item.education.label
                                   :item.education
@@ -158,6 +158,7 @@ const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const jobposting = state.firestore.ordered.jobposting;
   const matches = state.firestore.ordered.match;
+  console.log(matches);
   const jobseekerMatchedJobPosting = _.intersectionWith(
     jobposting,
     matches,

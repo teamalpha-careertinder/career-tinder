@@ -89,7 +89,7 @@ class EditJobSeekerProfile extends React.Component {
     var applyingPartTime = jobSeekerProfileProps && jobSeekerProfileProps.applyingPartTime;
     var euCitizen = jobSeekerProfileProps && jobSeekerProfileProps.euCitizen;
     var minSalary = jobSeekerProfileProps && jobSeekerProfileProps.minSalary;
-//    var maxSalary = jobSeekerProfileProps && jobSeekerProfileProps.maxSalary;
+    var jobSeekerEmail = jobSeekerProfileProps && jobSeekerProfileProps.jobSeekerEmail;
     var DOBDate = jobSeekerProfileProps && jobSeekerProfileProps.DOBDate;
     var skills = jobSeekerProfileProps && jobSeekerProfileProps.skills;
     var languages = jobSeekerProfileProps && jobSeekerProfileProps.languages;
@@ -105,6 +105,7 @@ class EditJobSeekerProfile extends React.Component {
       jobSeekerName: jobSeekerName,
       jobSeekerPhone: jobSeekerPhone,
       jobSeekerAddress: jobSeekerAddress,
+      jobSeekerEmail: jobSeekerEmail,
       applyingFullTime: applyingFullTime,
       applyingPartTime: applyingPartTime,
       euCitizen: euCitizen,
@@ -225,6 +226,7 @@ class EditJobSeekerProfile extends React.Component {
       //take the information from state that should be stored in DB (state contains more data than needed):
       var jobSeekerProfile = jobSeekerProfileEntity;
       if (this.state.jobSeekerName) {jobSeekerProfile.jobSeekerName    =  this.state.jobSeekerName; }
+      if (this.state.jobSeekerEmail) {jobSeekerProfile.jobSeekerEmail    =  this.state.jobSeekerEmail; }
       if (this.state.jobSeekerPhone) {jobSeekerProfile.jobSeekerPhone  =  this.state.jobSeekerPhone;  }
         else { delete jobSeekerProfile.jobSeekerPhone }
       if (this.state.jobSeekerAddress) { jobSeekerProfile.jobSeekerAddress = this.state.jobSeekerAddress;}
