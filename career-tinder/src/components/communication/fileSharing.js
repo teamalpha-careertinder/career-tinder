@@ -3,10 +3,10 @@ import * as ROUTES from "../../constants/routes";
 import "./communication.css";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-//import { passwordChange } from "../../store/actions/profileAction";
+import { shareFile } from "../../store/actions/communicationAction";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
-import firebase from "../../config/firebaseConfig";
+//import firebase from "../../config/firebaseConfig";
 
 /*const INITIAL_STATE = {
   passwordOne: "",
@@ -42,28 +42,10 @@ class FileSharing extends React.Component {
     }
   }
 
-  handleUpload = () => {
+  handleShare = () => {
     const {file} = this.state;
-    //const storage = this.props.firestore; //getFirestore();
-    const storage = firebase.storage();
-    const uploadTask = storage.ref(`exchange_files/${file.name}`).put(file);
-    uploadTask.on('state_changed', 
-    (snapshot) => {
-      // progrss function ....
-      const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-      this.setState({progress});
-    }, 
-    (error) => {
-         // error function ....
-      console.log(error);
-    }, 
-    () => {
-        // complete function ....
-        storage.ref('exchange_files').child(file.name).getDownloadURL().then(url => {
-            console.log(url);
-            this.setState({url});
-        })
-    });
+    // we call the action to upload the file.
+    this.props.shareFile(file);
   }
 /*
   handleChange = event => {
@@ -99,22 +81,25 @@ class FileSharing extends React.Component {
         <h3 className="text-center font-weight-bold mt-4">
           <i className="fas fa-key" />
           <br />
-          Share File{" "}
+          File Sharing{" "}
         </h3>
 
         <div className="row">
-          <div onSubmit={this.onFormSubmit}>
-            <input type="file" 
-              name="file"
-              className="form-control form-control-lg"
-              {..."onChange={(e) => this.onChange(e)"}
-              onChange={this.handleChange} />
-            <button className="btn btn-lg btn-info w-100 mt-4"
-              onClick={this.handleUpload}>Upload</button>
-          </div>
-          <progress value={this.state.progress} max="100"/>
-        </div>
+            <div className="form-group">
+              <input type="file" 
+                name="file"
+                className="form-control form-control-lg"
+                onChange={this.handleChange} />
+              <button
+                type="submit"
+                className="btn btn-lg btn-info w-100 mt-4"
+                onClick={this.handleShare}
+              >
+                <i className="fas fa-exchange-alt" />Share File
+              </button>
 
+            </div>
+        </div>
       </div>
     );
   }
@@ -134,9 +119,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-//    passwordChange: newPassword => dispatch(passwordChange(newPassword))
-//    shareFile: newPassword => dispatch(shareFile(newPassword))
-};
+    shareFile: file => dispatch(shareFile(file))
+  };
 };
 
 export default compose(
