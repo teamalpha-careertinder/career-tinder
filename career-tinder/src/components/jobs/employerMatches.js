@@ -147,6 +147,16 @@ class EmployerMatches extends Component {
                                   <i className="fas fa-ban text-muted" />
                                 )}
                               </div>
+                              <div className="col-12 text-right">
+                                <NavLink
+                                  id="btnMatch"
+                                  className="text-info w-100 m-0"
+                                  to={{
+                                    pathname: ROUTES.SEEKER_MATCHED_DETAILS + "/" + jobSeeker.id,
+                                  }}
+                                > see details...
+                                </NavLink>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -168,18 +178,6 @@ class EmployerMatches extends Component {
          
           <h6 className="text-center mt-4">There are no matches for this job yet.</h6>
          
-          <NavLink
-                id="btnMatch"
-                className="text-info w-100 m-0"
-                to={{
-                  pathname: ROUTES.SEEKER_MATCHED_DETAILS + "/" + "Anny",
-                  
-                }}
-              >
-                 Seeker Matched Details
-                </NavLink>
-
-
         </div>
       );
     }
