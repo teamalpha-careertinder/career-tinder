@@ -71,11 +71,11 @@ class EmployerMatches extends Component {
                                   <i className="fas fa-graduation-cap" />{" "}
                                   Education:
                                 </b>{" "}
-                                {(jobSeeker.education || jobSeeker.education.label) ? (
+                                {(jobSeeker.education && jobSeeker.education.label) ? (
                                   jobSeeker.education.label?
                                   jobSeeker.education.label
                                   :jobSeeker.education
-                                ) : (
+                                )  : (
                                   <i className="fas fa-ban text-muted" />
                                 )}
                               </div>

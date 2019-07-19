@@ -71,11 +71,11 @@ class SeekerMatchedDetails extends React.Component
                         )}
                   <br></br>
                   <lable className="form-label no-space-break inline-label">Education: </lable> 
-                  {(jobSeeker.education || jobSeeker.education.label) ? (
-                    jobSeeker.education.label?
-                    jobSeeker.education.label
+                  {(jobSeeker.education && jobSeeker.education.label) ? (
+                                  jobSeeker.education.label?
+                                  jobSeeker.education.label
                                   :jobSeeker.education
-                                ) : (
+                                ): (
                                   <i className="fas fa-ban text-muted" />
                                 )}
                   <br></br>
