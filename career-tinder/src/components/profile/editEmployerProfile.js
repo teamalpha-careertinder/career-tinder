@@ -1,5 +1,4 @@
 import React from "react";
-import { MDBInput, MDBBtn } from "mdbreact";
 import "./profile.css";
 import { connect } from "react-redux";
 import { compose } from "redux";
@@ -8,44 +7,12 @@ import { Alert } from "reactstrap";
 import { editEmployerProfile } from "../../store/actions/profileAction";
 import * as ROUTES from "../../constants/routes";
 import { firestoreConnect } from "react-redux-firebase";
-
-//Entity to store employerProfile in DB
-const employerProfileEntity = {
-  employerName: null,
-  industryName: null,
-  employerAddress: null,
-  employerDescription: null,
-  contactName: null,
-  contactEmail: null,
-  contactPhone: null
-};
+import $ from "jquery/src/jquery";
 
 class EditEmployerProfile extends React.Component {
   constructor(props) {
     super(props);
-
-    var employerProfileProps = this.props.employer;
-    var employerName =
-      employerProfileProps && employerProfileProps.employerName;
-    var industryName =
-      employerProfileProps && employerProfileProps.industryName;
-    var employerAddress =
-      employerProfileProps && employerProfileProps.employerAddress;
-    var employerDescription =
-      employerProfileProps && employerProfileProps.employerDescription;
-    var contactName = employerProfileProps && employerProfileProps.contactName;
-    var contactEmail =
-      employerProfileProps && employerProfileProps.contactEmail;
-    var contactPhone =
-      employerProfileProps && employerProfileProps.contactPhone;
     this.state = {
-      employerName: employerName,
-      industryName: industryName,
-      employerAddress: employerAddress,
-      employerDescription: employerDescription,
-      contactName: contactName,
-      contactEmail: contactEmail,
-      contactPhone: contactPhone,
       visible: false
     };
     this.handleChange = this.handleChange.bind(this);
@@ -60,30 +27,17 @@ class EditEmployerProfile extends React.Component {
 
   handleEmployerSubmit = e => {
     e.preventDefault();
-    var employerProfile = employerProfileEntity;
-    if (this.state.employerName) {
-      employerProfileEntity.employerName = this.state.employerName;
-    }
-    if (this.state.industryName) {
-      employerProfileEntity.industryName = this.state.industryName;
-    }
-    if (this.state.employerAddress) {
-      employerProfileEntity.employerAddress = this.state.employerAddress;
-    }
-    if (this.state.employerDescription) {
-      employerProfileEntity.employerDescription = this.state.employerDescription;
-    }
-    if (this.state.contactName) {
-      employerProfileEntity.contactName = this.state.contactName;
-    }
-    if (this.state.contactEmail) {
-      employerProfileEntity.contactEmail = this.state.contactEmail;
-    }
-    if (this.state.contactPhone) {
-      employerProfileEntity.contactPhone = this.state.contactPhone;
-    }
+    
+    var employerProfileEntity = {};
+    employerProfileEntity.employerName = $("#employerName").val();
+    employerProfileEntity.industryName = $("#industryName").val();
+    employerProfileEntity.employerAddress = $("#employerAddress").val();
+    employerProfileEntity.employerDescription = $("#employerDescription").val();
+    employerProfileEntity.contactName = $("#contactName").val();
+    employerProfileEntity.contactEmail = $("#contactEmail").val();
+    employerProfileEntity.contactPhone = $("#contactPhone").val();
 
-    this.props.editEmployerProfile(employerProfile);
+    this.props.editEmployerProfile(employerProfileEntity);
     this.onShowAlert();
   };
 

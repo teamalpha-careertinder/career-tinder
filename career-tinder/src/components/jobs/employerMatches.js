@@ -147,6 +147,18 @@ class EmployerMatches extends Component {
                                   <i className="fas fa-ban text-muted" />
                                 )}
                               </div>
+
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-envelope" /> Job Seeker Email:
+                                </b>{" "}
+                                {(jobSeeker.jobSeekerEmail) ? (
+                                      jobSeeker.jobSeekerEmail
+                                      ) : (
+                                        <i className="fas fa-ban text-muted" />
+                                      )}
+                              </div>
+
                             </div>
                           </div>
                         </div>
