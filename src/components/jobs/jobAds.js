@@ -40,11 +40,16 @@ class JobAds extends Component {
   //function to save on DB the relation between job add and user's like or dislike:
   processLikeDisLike(userAction, jobAdId, jobSeekerId, jobseeker) {
     //userAction: true ->User likes company // false->user dislikes company
+    const job = this.props.userJobPosting.filter(jobAd => jobAd.id == jobAdId)
+    console.log(job)
     var jobSeekerChoice = jobSeekerChoiceEntity;
     jobSeekerChoice.jobAdId = jobAdId;
     jobSeekerChoice.jobSeekerId = jobSeekerId;
     jobSeekerChoice.isLiked = userAction;
-    // jobSeekerChoice.jobseekerEmail = userAction;
+    jobSeekerChoice.jobseekerEmail = jobseeker.jobSeekerEmail ? jobseeker.jobSeekerEmail : "";
+    if(job && job.length){
+      jobSeekerChoice.employerEmail = job[0].employeremail ? job[0].employeremail : "";
+    }
     this.props.saveUserChoice(jobSeekerChoice);
   }
 

@@ -11,7 +11,7 @@ import ReactMoment from "react-moment";
 
 class JobSeekerMatches extends Component {
   render() {
-    const { auth, jobseekerMatchedJobPosting } = this.props;
+    const { auth, jobseekerMatchedJobPosting, jobseeker } = this.props;
 
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
@@ -122,6 +122,29 @@ class JobSeekerMatches extends Component {
                                   <i className="fas fa-ban text-muted" />
                                 )}
                         </div>
+
+                        <div className="col-12">
+                          <b>
+                            <i className="fas fa-envelope" /> Employer email:
+                          </b>{" "}
+                          {(item.employeremail) ? (
+                                item.employeremail
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                        </div>
+
+                        <div className="col-12">
+                          <b>
+                            <i className="fas fa-envelope" /> Job seeker email:
+                          </b>{" "}
+                          {(jobseeker.jobSeekerEmail) ? (
+                                jobseeker.jobSeekerEmail
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                        </div>
+
                       </div>
                     </div>
                   </div>
@@ -158,7 +181,9 @@ const mapStateToProps = state => {
   const auth = state.firebase.auth;
   const jobposting = state.firestore.ordered.jobposting;
   const matches = state.firestore.ordered.match;
-  console.log(matches);
+  const jobseekers = state.firestore.data.jobseeker;
+  const jobseeker = jobseekers ? jobseekers[auth.uid] : null;
+
   const jobseekerMatchedJobPosting = _.intersectionWith(
     jobposting,
     matches,
@@ -182,7 +207,8 @@ const mapStateToProps = state => {
   return {
     jobseekerMatchedJobPosting: jobseekerMatchedJobPosting,
     uid: auth.uid,
-    auth: auth
+    auth: auth,
+    jobseeker: jobseeker
   };
 };
 

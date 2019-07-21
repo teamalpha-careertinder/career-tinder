@@ -28,8 +28,12 @@ class JobSeekers extends Component {
       jobSeekerId: null,
       isLiked: Boolean
     };
+    console.log(this.props.employer)
     var employerChoice = employerChoiceEntity;
     employerChoice.employerId = this.props.auth.uid;
+    if(this.props.employer)
+      employerChoice.employerEmail = this.props.employer.contactEmail ? this.props.employer.contactEmail : this.props.employer.employerEmail;
+    if(!employerChoice.employerEmail) employerChoice.employerEmail = "";
     employerChoice.jobAdId = this.props.jobAdId;
     employerChoice.jobSeekerId = jobSeekerId;
     employerChoice.isLiked = userAction;
@@ -53,11 +57,13 @@ class JobSeekers extends Component {
 
   slideSeekerDown = e => {
     var id = $(e.target)[0].closest(".job-seeker-wrapper").id;
+    
     $("#" + id)
       .animate({ left: "2000px" }, "slow")
       .slideUp(500);
+      
     //call the managment of (Dis)Likes to be store on DB:
-    setTimeout(
+    setTimeout( 
       function() {
         //Start the timer
         this.processLikeDisLike(false, id);
@@ -261,12 +267,16 @@ const mapStateToProps = state => {
   let jobAds = state.firestore.data.jobposting;
   let jobAd = jobAds && jobAdId ? jobAds[jobAdId] : null;
 
+  const employers = state.firestore.data.employer;
+  const auth = state.firebase.auth;
+  const employer = employers ? employers[auth.uid] : null;
   return {
-    auth: state.firebase.auth,
+    auth: auth,
     authError: state.auth.authError,
     jobSeekersList: EmployerjobSeekersList,
     jobAdId: jobAdId,
-    jobAd: jobAd
+    jobAd: jobAd,
+    employer: employer
   };
 };
 const mapDispatchToProps = dispatch => {
