@@ -243,7 +243,7 @@ class EditJobSeekerProfile extends React.Component {
       if (this.state.startDOBDate) {jobSeekerProfile.DOBDate  =  this.state.startDOBDate;}
       if (this.state.city) {jobSeekerProfile.city  =  this.state.city;}
       if (this.state.education) {jobSeekerProfile.education = this.state.education;}
-      if (this.state.workExperiences.length > 0) {
+      if (this.state.workExperiences && this.state.workExperiences.length > 0) {
         var tmpWExps = [];
         for (var i = 0, l = this.state.workExperiences.length; i < l; i++) {
           var tmpExp = {

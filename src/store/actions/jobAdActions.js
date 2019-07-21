@@ -12,14 +12,14 @@ export const jobAdActions = jobAd => {
       .get()
       .then(d => {
         const employername = d.data().employerName ? d.data().employerName : "";
-        const employeremail = d.data().contactEmail ? d.data().contactEmail : "";
+        const employeremail = d.data().contactEmail ? d.data().contactEmail : d.data().employerEmail;
         firestore
           .collection("jobposting")
           .add({
             ...jobAd,
             employerid: userId,
             employername: employername,
-            employeremail: employeremail,
+            employeremail: employeremail ? employeremail : "",
             createdAt: new Date(),
             lastUpdatedAt: new Date()
           })
@@ -49,7 +49,7 @@ export const jobUpdateActions = (jobAdId, jobAd) => {
       .get()
       .then(d => {
         const employername = d.data().employerName ? d.data().employerName : "";
-        const employeremail = d.data().contactEmail ? d.data().contactEmail : "";
+        const employeremail = d.data().contactEmail ? d.data().contactEmail : d.data().employerEmail;
         //delete jobAd.id;
 
         firestore
@@ -59,7 +59,7 @@ export const jobUpdateActions = (jobAdId, jobAd) => {
             ...jobAd,
             employerid: userId,
             employername: employername,
-            employeremail: employeremail,
+            employeremail: employeremail ? employeremail : "",
             lastUpdatedAt: new Date()
           })
           .then(() => {
@@ -141,6 +141,7 @@ export const matchJobSeekerLikeWithEmployerChoice = choice => {
           match.jobAdId = choice.jobAdId;
           match.jobSeekerId = choice.jobSeekerId;
           match.employerID = userSnapshot.data().employerId;
+          match.employerEmail = userSnapshot.data().employerEmail ? userSnapshot.data().employerEmail : "";
 
           //we save this relationship in DB, collection: match
           firestore
@@ -210,6 +211,7 @@ export const matchEmployerLikeWithJobSeekerChoice = employerChoice => {
           match.jobAdId = employerChoice.jobAdId;
           match.jobSeekerId = employerChoice.jobSeekerId;
           match.employerID = getState().firebase.auth.uid;
+          match.employerEmail = userSnapshot.data().employerEmail ? userSnapshot.data().employerEmail : "";
 
           //we save this relationship in DB, collection: match
           firestore
