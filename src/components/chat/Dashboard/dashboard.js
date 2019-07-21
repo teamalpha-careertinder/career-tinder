@@ -1,10 +1,11 @@
 import React from "react";
+import * as ROUTES from "../../../constants/routes";
 import NewChatComponent from "../NewChat/newChat";
 import ChatListComponent from "../ChatList/chatList";
 import ChatViewComponent from "../ChatView/chatView";
 import ChatTextBoxComponent from "../ChatTextBox/chatTextBox";
 import styles from "./styles";
-import { Button, withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core";
 const firebase = require("firebase");
 
 // I need to investigate why sometimes
@@ -23,13 +24,19 @@ class DashboardComponent extends React.Component {
       newChatFormVisible: false,
       email: null,
       friends: [],
-      chats: []
+      chats: [],
+      redirectEmail: null
     };
   }
-
+  componentDidMount = () => {
+    if (this.props.location.state) {
+      this.setState({
+        newChatFormVisible: true,
+        redirectEmail: this.props.location.state.email
+      });
+    }
+  };
   render() {
-    const { classes } = this.props;
-
     if (this.state.email) {
       return (
         <div className="dashboard-container" id="dashboard-container">
@@ -56,6 +63,7 @@ class DashboardComponent extends React.Component {
           ) : null}
           {this.state.newChatFormVisible ? (
             <NewChatComponent
+              redirectEmail={this.state.redirectEmail}
               goToChatFn={this.goToChat}
               newChatSubmitFn={this.newChatSubmit}
             />
@@ -91,8 +99,13 @@ class DashboardComponent extends React.Component {
   // 'user1:user2'
   buildDocKey = friend => [this.state.email, friend].sort().join(":");
 
-  newChatBtnClicked = () =>
-    this.setState({ newChatFormVisible: true, selectedChat: null });
+  newChatBtnClicked = () => {
+    this.setState({
+      newChatFormVisible: true,
+      selectedChat: null,
+      redirectEmail: ""
+    });
+  };
 
   newChatSubmit = async chatObj => {
     const docKey = this.buildDocKey(chatObj.sendTo);
@@ -111,7 +124,7 @@ class DashboardComponent extends React.Component {
         receiverHasRead: false
       });
     this.setState({ newChatFormVisible: false });
-    this.selectChat(this.state.chats.length - 1);
+    // this.selectChat(this.state.chats.length - 1); //commented to unselect any chat in new chat submit action
   };
 
   selectChat = async chatIndex => {
@@ -157,7 +170,7 @@ class DashboardComponent extends React.Component {
 
   componentWillMount = () => {
     firebase.auth().onAuthStateChanged(async _usr => {
-      if (!_usr) this.props.history.push("/login");
+      if (!_usr) this.props.history.push(ROUTES.LOG_IN);
       else {
         await firebase
           .firestore()

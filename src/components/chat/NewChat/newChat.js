@@ -20,7 +20,16 @@ class NewChatComponent extends React.Component {
       message: null
     };
   }
-
+  componentDidMount = () => {
+    if (this.props.redirectEmail) {
+      this.setState({
+        username: this.props.redirectEmail
+      });
+    }
+  };
+  componentWillReceiveProps = nextProps => {
+    this.setState({ username: nextProps.redirectEmail });
+  };
   render() {
     const { classes } = this.props;
 
@@ -29,7 +38,8 @@ class NewChatComponent extends React.Component {
         <CssBaseline />
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h5">
-            You can connect with anyone who is using <br/>Career-Tinder! 
+            Connect with anyone who is using <br />
+            Career-Tinder!
           </Typography>
           <form className={classes.form} onSubmit={e => this.submitNewChat(e)}>
             <FormControl fullWidth>
@@ -38,8 +48,8 @@ class NewChatComponent extends React.Component {
               </InputLabel>
               <Input
                 required
+                value={this.state.username || ""}
                 className={classes.input}
-                autoFocus
                 onChange={e => this.userTyping("username", e)}
                 id="new-chat-username"
               />
@@ -51,6 +61,7 @@ class NewChatComponent extends React.Component {
               <Input
                 required
                 className={classes.input}
+                autoFocus
                 onChange={e => this.userTyping("message", e)}
                 id="new-chat-message"
               />
