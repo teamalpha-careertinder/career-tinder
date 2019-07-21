@@ -9,6 +9,14 @@ import "../app/app.css";
 import _ from "lodash";
 
 class EmployerMatches extends Component {
+  redirectToNewChatWindow = emailstr => {
+    this.props.history.push({
+      pathname: ROUTES.CHAT_DASHBOARD,
+      state: {
+        email: emailstr
+      }
+    });
+  };
   render() {
     const { auth, employerMatchedJobSeekersList, jobAd } = this.props;
     if (!auth.uid && !auth.emailVerified)
@@ -20,7 +28,8 @@ class EmployerMatches extends Component {
           <div className="container page-wrapper">
             <div className="card-container">
               <h4 className="mt-4 text-center font-weight-bold">
-                <i className="fas fa-wave-square"></i> Matches for position "{jobAd && jobAd.jobtitle}"
+                <i className="fas fa-wave-square" /> Matches for position "
+                {jobAd && jobAd.jobtitle}"
               </h4>
               <div className="row mt-4" align="center">
                 {employerMatchedJobSeekersList &&
@@ -71,11 +80,14 @@ class EmployerMatches extends Component {
                                   <i className="fas fa-graduation-cap" />{" "}
                                   Education:
                                 </b>{" "}
-                                {(jobSeeker.education && jobSeeker.education.label) ? (
-                                  jobSeeker.education.label?
-                                  jobSeeker.education.label
-                                  :jobSeeker.education
-                                )  : (
+                                {jobSeeker.education &&
+                                jobSeeker.education.label ? (
+                                  jobSeeker.education.label ? (
+                                    jobSeeker.education.label
+                                  ) : (
+                                    jobSeeker.education
+                                  )
+                                ) : (
                                   <i className="fas fa-ban text-muted" />
                                 )}
                               </div>
@@ -147,29 +159,50 @@ class EmployerMatches extends Component {
                                   <i className="fas fa-ban text-muted" />
                                 )}
                               </div>
-                              
+
                               <div className="col-12 text-right">
                                 <NavLink
                                   id="btnMatch"
                                   className="text-info w-100 m-0"
                                   to={{
-                                    pathname: ROUTES.SEEKER_MATCHED_DETAILS + "/" + jobSeeker.id,
+                                    pathname:
+                                      ROUTES.SEEKER_MATCHED_DETAILS +
+                                      "/" +
+                                      jobSeeker.id
                                   }}
-                                > see details...
+                                >
+                                  {" "}
+                                  see details...
                                 </NavLink>
                               </div>
 
                               <div className="col-12">
                                 <b>
-                                  <i className="fas fa-envelope" /> Job Seeker Email:
+                                  <i className="fas fa-at" /> Job Seeker Email:
                                 </b>{" "}
-                                {(jobSeeker.jobSeekerEmail) ? (
-                                      jobSeeker.jobSeekerEmail
-                                      ) : (
-                                        <i className="fas fa-ban text-muted" />
-                                      )}
+                                {jobSeeker.jobSeekerEmail ? (
+                                  jobSeeker.jobSeekerEmail
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
                               </div>
-
+                              <div className="col-12">
+                                <b>
+                                  <NavLink
+                                    className="nav-link"
+                                    to={ROUTES.CHAT_DASHBOARD}
+                                    onClick={() =>
+                                      this.redirectToNewChatWindow(
+                                        jobSeeker.jobSeekerEmail
+                                          ? jobSeeker.jobSeekerEmail
+                                          : ""
+                                      )
+                                    }
+                                  >
+                                    <i className="fas fa-envelope" /> Let's Chat
+                                  </NavLink>
+                                </b>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -185,12 +218,12 @@ class EmployerMatches extends Component {
       return (
         <div className="container">
           <h4 className="mt-4 text-center font-weight-bold">
-            <i className="fas fa-wave-square"></i> Matched Job Seekers 
-           
+            <i className="fas fa-wave-square" /> Matched Job Seekers
           </h4>
-         
-          <h6 className="text-center mt-4">There are no matches for this job yet.</h6>
-         
+
+          <h6 className="text-center mt-4">
+            There are no matches for this job yet.
+          </h6>
         </div>
       );
     }
