@@ -10,8 +10,16 @@ import $ from "jquery/src/jquery";
 import ReactMoment from "react-moment";
 
 class JobSeekerMatches extends Component {
+  redirectToNewChatWindow = emailstr => {
+    this.props.history.push({
+      pathname: ROUTES.CHAT_DASHBOARD,
+      state: {
+        email: emailstr
+      }
+    });
+  };
   render() {
-    const { auth, jobseekerMatchedJobPosting, jobseeker } = this.props;
+    const { auth, jobseekerMatchedJobPosting } = this.props;
 
     if (!auth.uid && !auth.emailVerified)
       return <Redirect to={ROUTES.LOG_IN} />;
@@ -19,7 +27,7 @@ class JobSeekerMatches extends Component {
       return (
         <div className="container page-wrapper">
           <h4 className="mt-4 text-center font-weight-bold">
-            <i className="fas fa-wave-square"></i> Matched Jobs
+            <i className="fas fa-wave-square" /> Matched Jobs
           </h4>
           <div className="row job-ads-wrapper mt-4" align="center">
             {jobseekerMatchedJobPosting.map(item => {
@@ -85,66 +93,68 @@ class JobSeekerMatches extends Component {
                             <i className="fas fa-calendar-alt" /> Start
                           </b>{" "}
                           {item.expectedstartdate &&
-                            item.expectedstartdate.toDate().toLocaleString() ? (
-                              <ReactMoment format="MMM DD, YYYY">
-                                {item.expectedstartdate
-                                  .toDate()
-                                  .toLocaleString()}
-                              </ReactMoment>
-                            ) : (
-                              <i className="fas fa-ban text-muted" />
-                            )}
+                          item.expectedstartdate.toDate().toLocaleString() ? (
+                            <ReactMoment format="MMM DD, YYYY">
+                              {item.expectedstartdate.toDate().toLocaleString()}
+                            </ReactMoment>
+                          ) : (
+                            <i className="fas fa-ban text-muted" />
+                          )}
                         </div>
                         <div className="col-12">
                           <b>
                             <i className="fas fa-calendar-alt" /> Due Date:
                           </b>{" "}
                           {item.expirationdate &&
-                            item.expirationdate.toDate().toLocaleString() ? (
-                              <ReactMoment format="MMM DD, YYYY">
-                                {item.expirationdate
-                                  .toDate()
-                                  .toLocaleString()}
-                              </ReactMoment>
-                            ) : (
-                              <i className="fas fa-ban text-muted" />
-                            )}
+                          item.expirationdate.toDate().toLocaleString() ? (
+                            <ReactMoment format="MMM DD, YYYY">
+                              {item.expirationdate.toDate().toLocaleString()}
+                            </ReactMoment>
+                          ) : (
+                            <i className="fas fa-ban text-muted" />
+                          )}
                         </div>
                         <div className="col-12">
                           <b>
                             <i className="fas fa-graduation-cap" /> Education:
                           </b>{" "}
-                          {(item.education && item.education.label) ? (
-                                  item.education.label?
-                                  item.education.label
-                                  :item.education
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
+                          {item.education && item.education.label ? (
+                            item.education.label ? (
+                              item.education.label
+                            ) : (
+                              item.education
+                            )
+                          ) : (
+                            <i className="fas fa-ban text-muted" />
+                          )}
                         </div>
 
                         <div className="col-12">
                           <b>
                             <i className="fas fa-envelope" /> Employer email:
                           </b>{" "}
-                          {(item.employeremail) ? (
-                                item.employeremail
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
+                          {item.employeremail ? (
+                            item.employeremail
+                          ) : (
+                            <i className="fas fa-ban text-muted" />
+                          )}
                         </div>
 
                         <div className="col-12">
                           <b>
-                            <i className="fas fa-envelope" /> Job seeker email:
-                          </b>{" "}
-                          {(jobseeker && jobseeker.jobSeekerEmail) ? (
-                                jobseeker.jobSeekerEmail
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
+                            <NavLink
+                              className="nav-link"
+                              to={ROUTES.CHAT_DASHBOARD}
+                              onClick={() =>
+                                this.redirectToNewChatWindow(
+                                  item.employeremail ? item.employeremail : ""
+                                )
+                              }
+                            >
+                              <i className="fas fa-envelope" /> Let's Chat
+                            </NavLink>
+                          </b>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -158,19 +168,20 @@ class JobSeekerMatches extends Component {
       return (
         <div className="container">
           <h4 className="mt-4 text-center font-weight-bold">
-            <i className="fas fa-wave-square"></i> Matched Jobs
+            <i className="fas fa-wave-square" /> Matched Jobs
           </h4>
-          <h6 className="mt-4 text-center">There are no matched jobs for you yet.</h6>
+          <h6 className="mt-4 text-center">
+            There are no matched jobs for you yet.
+          </h6>
           <NavLink
-                id="btnMatch"
-                className="text-info w-100 m-0"
-                to={{
-                  pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + "Job",
-                  
-                }}
-              >
-                 Seeker Matched Details
-                </NavLink>
+            id="btnMatch"
+            className="text-info w-100 m-0"
+            to={{
+              pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + "Job"
+            }}
+          >
+            Seeker Matched Details
+          </NavLink>
         </div>
       );
     }
