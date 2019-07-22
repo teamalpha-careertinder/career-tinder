@@ -138,7 +138,7 @@ class JobSeekerMatches extends Component {
                           <b>
                             <i className="fas fa-envelope" /> Job seeker email:
                           </b>{" "}
-                          {(jobseeker.jobSeekerEmail) ? (
+                          {(jobseeker && jobseeker.jobSeekerEmail) ? (
                                 jobseeker.jobSeekerEmail
                                 ) : (
                                   <i className="fas fa-ban text-muted" />
