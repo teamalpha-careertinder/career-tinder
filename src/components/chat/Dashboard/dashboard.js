@@ -26,7 +26,7 @@ class DashboardComponent extends React.Component {
       friends: [],
       chats: [],
       redirectEmail: null,
-      chatListOpen: true
+      chatListOpen: false
     };
   }
   componentDidMount = () => {
