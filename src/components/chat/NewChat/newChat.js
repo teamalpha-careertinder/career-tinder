@@ -35,12 +35,12 @@ class NewChatComponent extends React.Component {
 
     return (
       <main className={classes.main}>
-        <CssBaseline />
-        <Paper className={classes.paper}>
-          <Typography component="h1" variant="h5">
-            Connect with anyone who is using <br />
-            Career-Tinder!
-          </Typography>
+        <div className={classes.paper}>
+          <h3 className="text-center font-weight-bold mt-4">
+            <i className="fas fa-link" />
+            <br />
+            Connect with anyone in Career-Tinder!
+          </h3>
           <form className={classes.form} onSubmit={e => this.submitNewChat(e)}>
             <FormControl fullWidth>
               <InputLabel htmlFor="new-chat-username">
@@ -54,7 +54,7 @@ class NewChatComponent extends React.Component {
                 id="new-chat-username"
               />
             </FormControl>
-            <FormControl fullWidth>
+            <FormControl fullWidth className="mt-2">
               <InputLabel htmlFor="new-chat-message">
                 Enter Your Message
               </InputLabel>
@@ -62,6 +62,7 @@ class NewChatComponent extends React.Component {
                 required
                 className={classes.input}
                 autoFocus
+                multiline={true}
                 onChange={e => this.userTyping("message", e)}
                 id="new-chat-message"
               />
@@ -85,7 +86,7 @@ class NewChatComponent extends React.Component {
               Unable to locate the user
             </Typography>
           ) : null}
-        </Paper>
+        </div>
       </main>
     );
   }
