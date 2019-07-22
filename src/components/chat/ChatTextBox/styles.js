@@ -9,16 +9,15 @@ const styles = theme => ({
   },
 
   chatTextBoxContainer: {
-    position: 'absolute',
-    bottom: '15px',
-    left: '365px',
+    position: 'relative',
     boxSizing: 'border-box',
-    overflow: 'auto',
-    width: 'calc(100% - 300px - 50px)'
+    overflow: 'hidden',
+    width: '100%'
   },
 
   chatTextBox: {
-    width: 'calc(100% - 25px)'
+    width: 'calc(100% - 25px)',
+    float: 'left'
   }
 
 });

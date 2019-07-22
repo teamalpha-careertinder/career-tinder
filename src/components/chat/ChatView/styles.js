@@ -1,15 +1,12 @@
 const styles = theme => ({
 
   content: {
-    height: 'calc(100vh - 100px)',
+    height: 'calc(100vh - 268px)',
     overflow: 'auto',
-    padding: '25px',
-    marginLeft: '350px',
     boxSizing: 'border-box',
-    overflowY: 'scroll',
-    top: '100px',
-    width: 'calc(100% - 300px)',
-    position: 'absolute'
+    overflowX: 'hidden',
+    width: '100%',
+    position: 'relative'
   },
 
   userSent: {
@@ -32,22 +29,20 @@ const styles = theme => ({
     boxSizing: 'border-box',
     wordWrap: 'break-word',
     marginTop: '10px',
-    backgroundColor: '#707BC4',
+    backgroundColor: '#979FD3',
     color: 'white',
     width: '300px',
     borderRadius: '10px'
   },
 
   chatHeader: {
-    width: 'calc(100% - 301px)',
-    height: '50px',
+    width: '100%',
+    height: 'auto',
     backgroundColor: '#344195',
-    position: 'fixed',
-    marginLeft: '351px',
-    fontSize: '18px',
+    fontSize: '14px',
     textAlign: 'center',
     color: 'white',
-    paddingTop: '10px',
+    padding: '10px',
     boxSizing: 'border-box'
   }
 
