@@ -25,7 +25,8 @@ class DashboardComponent extends React.Component {
       email: null,
       friends: [],
       chats: [],
-      redirectEmail: null
+      redirectEmail: null,
+      chatListOpen: false
     };
   }
   componentDidMount = () => {
@@ -36,38 +37,56 @@ class DashboardComponent extends React.Component {
       });
     }
   };
+
+  openChatList = () => {
+    this.setState({
+      chatListOpen: !this.state.chatListOpen
+    });
+  };
+
   render() {
     if (this.state.email) {
       return (
-        <div className="dashboard-container" id="dashboard-container">
-          <ChatListComponent
-            history={this.props.history}
-            userEmail={this.state.email}
-            selectChatFn={this.selectChat}
-            chats={this.state.chats}
-            selectedChatIndex={this.state.selectedChat}
-            newChatBtnFn={this.newChatBtnClicked}
-          />
-          {this.state.newChatFormVisible ? null : (
-            <ChatViewComponent
-              user={this.state.email}
-              chat={this.state.chats[this.state.selectedChat]}
-            />
-          )}
-          {this.state.selectedChat !== null &&
-          !this.state.newChatFormVisible ? (
-            <ChatTextBoxComponent
-              userClickedInputFn={this.messageRead}
-              submitMessageFn={this.submitMessage}
-            />
-          ) : null}
-          {this.state.newChatFormVisible ? (
-            <NewChatComponent
-              redirectEmail={this.state.redirectEmail}
-              goToChatFn={this.goToChat}
-              newChatSubmitFn={this.newChatSubmit}
-            />
-          ) : null}
+        <div className="container page-wrapper" id="dashboard-container">
+          <div className="row">
+            <div className={this.state.chatListOpen ? "col-md-4 col-12 d-md-block": "col-md-4 col-12 d-md-block d-none"}>
+              <ChatListComponent
+                  history={this.props.history}
+                  userEmail={this.state.email}
+                  selectChatFn={this.selectChat}
+                  chats={this.state.chats}
+                  selectedChatIndex={this.state.selectedChat}
+                  newChatBtnFn={this.newChatBtnClicked}
+                />
+            </div>
+            <div className="col-md-8 col-12">      
+              <div className={this.state.chatListOpen ? 'd-none': 'd-md-none'}>
+                <button className="btn btn-info w-100 m-0 mt-2 mb-2" onClick={this.openChatList}>
+                  <i className="fas fa-envelope-open-text"></i> Open chat list
+                </button>
+              </div>        
+              {this.state.newChatFormVisible ? null : (
+                <ChatViewComponent
+                  user={this.state.email}
+                  chat={this.state.chats[this.state.selectedChat]}
+                />
+              )}
+              {this.state.selectedChat !== null &&
+              !this.state.newChatFormVisible ? (
+                <ChatTextBoxComponent
+                  userClickedInputFn={this.messageRead}
+                  submitMessageFn={this.submitMessage}
+                />
+              ) : null}
+              {this.state.newChatFormVisible ? (
+                <NewChatComponent
+                  redirectEmail={this.state.redirectEmail}
+                  goToChatFn={this.goToChat}
+                  newChatSubmitFn={this.newChatSubmit}
+                />
+              ) : null}
+            </div>
+          </div>
         </div>
       );
     } else {
@@ -103,7 +122,8 @@ class DashboardComponent extends React.Component {
     this.setState({
       newChatFormVisible: true,
       selectedChat: null,
-      redirectEmail: ""
+      redirectEmail: "",
+      chatListOpen: false
     });
   };
 
@@ -123,12 +143,12 @@ class DashboardComponent extends React.Component {
         users: [this.state.email, chatObj.sendTo],
         receiverHasRead: false
       });
-    this.setState({ newChatFormVisible: false });
+    this.setState({ newChatFormVisible: false, chatListOpen: false });
     // this.selectChat(this.state.chats.length - 1); //commented to unselect any chat in new chat submit action
   };
 
   selectChat = async chatIndex => {
-    await this.setState({ selectedChat: chatIndex, newChatFormVisible: false });
+    await this.setState({ selectedChat: chatIndex, newChatFormVisible: false, chatListOpen: false });
     this.messageRead();
   };
 
@@ -137,7 +157,7 @@ class DashboardComponent extends React.Component {
     const chat = this.state.chats.find(_chat =>
       usersInChat.every(_user => _chat.users.includes(_user))
     );
-    this.setState({ newChatFormVisible: false });
+    this.setState({ newChatFormVisible: false, chatListOpen: false });
     await this.selectChat(this.state.chats.indexOf(chat));
     this.submitMessage(msg);
   };
