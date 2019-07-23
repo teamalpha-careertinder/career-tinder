@@ -160,6 +160,16 @@ class EmployerMatches extends Component {
                                 )}
                               </div>
 
+                              <div className="col-12">
+                                <b>
+                                  <i className="fas fa-at" /> Job Seeker Email:
+                                </b>{" "}
+                                {jobSeeker.jobSeekerEmail ? (
+                                  jobSeeker.jobSeekerEmail
+                                ) : (
+                                  <i className="fas fa-ban text-muted" />
+                                )}
+                              </div>
                               <div className="col-12 text-right">
                                 <NavLink
                                   id="btnMatch"
@@ -176,16 +186,6 @@ class EmployerMatches extends Component {
                                 </NavLink>
                               </div>
 
-                              <div className="col-12">
-                                <b>
-                                  <i className="fas fa-at" /> Job Seeker Email:
-                                </b>{" "}
-                                {jobSeeker.jobSeekerEmail ? (
-                                  jobSeeker.jobSeekerEmail
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
-                              </div>
                               <div className="col-12">
                                 <b>
                                   <NavLink
