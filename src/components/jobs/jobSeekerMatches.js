@@ -155,6 +155,17 @@ class JobSeekerMatches extends Component {
                             </NavLink>
                           </b>
                         </div>
+                        <div className="col-12 text-right">
+                          <NavLink
+                            id="btnMatch"
+                            className="text-info w-100 m-0"
+                            to={{
+                              pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + item.id,
+                            }}
+                          > see details...
+                          </NavLink>
+                        </div>
+
                       </div>
                     </div>
                   </div>
@@ -173,15 +184,6 @@ class JobSeekerMatches extends Component {
           <h6 className="mt-4 text-center">
             There are no matched jobs for you yet.
           </h6>
-          <NavLink
-            id="btnMatch"
-            className="text-info w-100 m-0"
-            to={{
-              pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + "Job"
-            }}
-          >
-            Seeker Matched Details
-          </NavLink>
         </div>
       );
     }
