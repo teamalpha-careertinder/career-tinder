@@ -23,20 +23,23 @@ class SeekerMatchedDetails extends React.Component
               <h4 className="mt-4 text-center font-weight-bold mb-4"><i className="far fa-address-card" /> Job Seeker Details </h4>
               
               <div className="card justify-content-center">
-                <div class="card-header bg-info text-center text-white"><b>{jobSeeker.jobSeekerName}</b>
+                <div class="card-header bg-info text-center text-white"><b>
+                  {jobSeeker.jobSeekerName ? jobSeeker.jobSeekerName : (<i className="fas fa-ban text-muted" />)}</b>
                 </div>
                 <div class="card-body ">
                     
-                     <div className="col-lg-4 col-12">
+                     <div className="col-12">
                     <div className="form-group ">
                  
                   
-                  <lable className="form-label no-space-break inline-label">Phone:</lable> {jobSeeker.jobSeekerPhone}
+                  <lable className="form-label no-space-break inline-label">Phone: </lable> 
+                    {jobSeeker.jobSeekerPhone ? jobSeeker.jobSeekerPhone : (<i className="fas fa-ban text-muted" />)}
                   <br></br>
-                  <lable className="form-label no-space-break inline-label">Address:</lable>  {jobSeeker.jobSeekerAddress}
+                  <lable className="form-label no-space-break inline-label">Address: </lable>  
+                    {jobSeeker.jobSeekerAddress ? jobSeeker.jobSeekerAddress : (<i className="fas fa-ban text-muted" />)}
                   <br></br>
                   <lable className="form-label no-space-break inline-label">City: </lable>
-                  {(jobSeeker.city || jobSeeker.city.label) ? (
+                  {(jobSeeker.city && jobSeeker.city.label) ? (
                     jobSeeker.city.label?
                     jobSeeker.city.label
                                   :jobSeeker.city
@@ -72,10 +75,10 @@ class SeekerMatchedDetails extends React.Component
                   <br></br>
                   <lable className="form-label no-space-break inline-label">Education: </lable> 
                   {(jobSeeker.education && jobSeeker.education.label) ? (
-                                  jobSeeker.education.label?
-                                  jobSeeker.education.label
+                    jobSeeker.education.label?
+                    jobSeeker.education.label
                                   :jobSeeker.education
-                                ): (
+                                ) : (
                                   <i className="fas fa-ban text-muted" />
                                 )}
                   <br></br>
@@ -95,9 +98,15 @@ class SeekerMatchedDetails extends React.Component
                                 ) : (
                                   <i className="fas fa-ban text-muted" />
                     )}
-                  <br></br>
-                  <lable className="form-label no-space-break inline-label">Work Experiences:</lable> 
-                  <br></br>
+                  {jobSeeker.workExperiences &&
+                        jobSeeker.workExperiences.length > 0 ? 
+                          ( <><br></br>
+                              <lable className="form-label no-space-break inline-label">Work Experiences:</lable> 
+                              <br></br>
+                            </> ) 
+                          : ( <><br></br>
+                              <lable className="form-label no-space-break inline-label">Work Experiences:</lable> <i className="fas fa-ban text-muted" />
+                              </> )}
                   {jobSeeker.workExperiences &&
                         jobSeeker.workExperiences.length > 0 ? (
                           jobSeeker.workExperiences.map(exp => {
@@ -130,34 +139,34 @@ class SeekerMatchedDetails extends React.Component
                                         <i className="fas fa-ban text-muted" />
                                       )}
                                     <br></br>
-                                    <lable className="form-label no-space-break inline-label">Job Description:</lable> {exp.jobDescription}
+                                    <lable className="form-label no-space-break inline-label">Job Description:</lable> 
+                                      {exp.jobDescription ? exp.jobDescription : ""}
                                     <br></br>
-                                    <lable className="form-label no-space-break inline-label">Job Type While Working There:</lable> {exp.jobType}
+                                    <lable className="form-label no-space-break inline-label">Job Type While Working There:</lable> 
+                                      {exp.jobType ? exp.jobType : ""}
                                 </div>
                               </div>
                               <br></br>
                               </div>
                             );
                           })
-                      ) : (
-                          <i className="fas fa-ban text-muted" />
-                      )}
+                      ) : ""}
 
                   <br></br>  
                   <lable className="form-label no-space-break inline-label">EU Citizen:</lable> {jobSeeker.euCitizen ? "Yes" : "No"}
                   <br></br>
-                  <lable className="form-label no-space-break inline-label">Minimum expected salary (€):</lable> {jobSeeker.minSalary}
+                  <lable className="form-label no-space-break inline-label">Minimum expected salary (€):</lable> 
+                    {jobSeeker.minSalary ? jobSeeker.minSalary : (<i className="fas fa-ban text-muted" />)}
                   <br></br>
                   <lable className="form-label no-space-break inline-label">Interested In: </lable>
-                      {jobSeeker.applyingFullTime ? "Fulltime Job -" : ""}
+                      {jobSeeker.applyingFullTime ? "Fulltime Job" : ""}
+                      {jobSeeker.applyingFullTime && jobSeeker.applyingPartTime ? " - " : ""}
                       {jobSeeker.applyingPartTime ? "Parttime Job" : ""}
                   </div>
                 </div>   
               </div>
-              
-              </div>
-              </div>
-            
+            </div>
+          </div>  
         );
       } else {
         return (
@@ -202,4 +211,3 @@ export default compose(
     ];
   })
 )(SeekerMatchedDetails);
-
