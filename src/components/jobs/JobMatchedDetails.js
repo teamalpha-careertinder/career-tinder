@@ -19,25 +19,42 @@ class JobMatchedDetails extends React.Component
         const jobAd = jobAdList[jobAdId]; // jobAd is an array of 1. We need to take the first object
        // console.log("jobSeeker ",jobSeeker);
       
-        return ( <div className="container page-wrapper">
-        <div className="card-container ">
-          <h4 className="mt-4 text-center font-weight-bold mb-4"><i className="far fa-address-card" /> Job Details </h4>
-          <div className="card justify-content-center">
-            <div class="card-header text-center text-white bg-info"><b>
-              {jobAd.jobtitle ? jobAd.jobtitle : ""}</b>
+        return ( 
+        <div className="container page-wrapper">
+          <h3 className="text-center font-weight-bold mt-4">
+            <i className="far fa-address-card" /> Job Details
+          </h3>
+          <hr/>
+          <div className="row justify-content-center job-details-sections">
+            <div className="col-12">
+              <h4 className="text-center font-weight-bold">{jobAd.jobtitle ? jobAd.jobtitle : ""}</h4>
             </div>
-            <div class="card-body ">
-                 <div className="col-12">
-                <div className="form-group ">
-              <lable className="form-label no-space-break inline-label">Job Type: </lable>
+            <div className="col-12 text-center">
+              <span className="mr-3">
+                <i className="fas fa-clock"></i>{" "}
                 {jobAd.applyfulltime ? "Fulltime" : "" }
-                {jobAd.applyfulltime && jobAd.applypartime ? " - " : "" }
+                {jobAd.applyfulltime && jobAd.applypartime ? " / " : "" }
                 {jobAd.applypartime ? "Partime" : "" }
-              <br></br>
-              <lable className="form-label no-space-break inline-label">Needed Skills: </lable>
-              {jobAd.neededskills && jobAd.neededskills.length > 0 ? (
-                jobAd.neededskills.map(skill => {
+              </span>  
+              <span>
+                <i className="fas fa-map-marker"></i>{" "}
+                {jobAd.location && jobAd.location.length > 0 ? (
+                  jobAd.location.map((loc, index) => {
                     return (
+                        loc.label + ((index + 1) == jobAd.location.length ? "" : " - ")
+                      );
+                    })
+                ) : (
+                  <i className="fas fa-ban text-muted" />
+                )}
+              </span>
+            </div>
+            <div className="col-md-6 col-12 mt-3">
+              <div className="w-100">
+                <label className="form-label w-100">Needed Skills: </label>
+                {jobAd.neededskills && jobAd.neededskills.length > 0 ? (
+                  jobAd.neededskills.map(skill => {
+                      return (
                         <span
                           key={jobAd.id + "_" + skill.value}
                           className="badge badge-warning mr-2"
@@ -49,23 +66,13 @@ class JobMatchedDetails extends React.Component
                     ) : (
                       <i className="fas fa-ban text-muted" />
                     )}
-              <br></br>
-              <lable className="form-label no-space-break inline-label">Job Locations: </lable>
-                {jobAd.location && jobAd.location.length > 0 ? (
-                  jobAd.location.map((loc, index) => {
-                    return (
-                        loc.label + ((index + 1) == jobAd.location.length ? "" : " - ")
-                      );
-                    })
-                ) : (
-                  <i className="fas fa-ban text-muted" />
-                )}
-
-              <br></br>
-              <lable className="form-label no-space-break inline-label">Education: </lable> 
+              </div>
+              <div className="w-100">
+                <label className="form-label w-100">Education: </label>
                 {jobAd.education && jobAd.education.label ? jobAd.education.label : (<i className="fas fa-ban text-muted" />) }
-              <br></br>
-              <lable className="form-label no-space-break inline-label">Required Languages: </lable>
+              </div>
+              <div className="w-100">
+                <label className="form-label w-100">Required Languages: </label>
                 {jobAd.languages &&
                   jobAd.languages.length > 0 ? (
                     jobAd.languages.map(lang => {
@@ -81,38 +88,16 @@ class JobMatchedDetails extends React.Component
                       ) : (
                         <i className="fas fa-ban text-muted" />
                     )}
-              <br></br>
-              <lable className="form-label no-space-break inline-label">Expected Minimum Salary (Yearly): </lable>
-                {jobAd.minsalary ? jobAd.minsalary : (<i className="fas fa-ban text-muted" />) }
-              <br></br>
-              <lable className="form-label no-space-break inline-label">Expected Maximum Salary(Yearly): </lable>
+              </div>
+              <div className="w-100">
+                <label className="form-label w-100">Salary Range(Yearly): </label>
+                <i className="fas fa-euro-sign"></i>
+                {jobAd.minsalary ? jobAd.minsalary : (<i className="fas fa-ban text-muted" />) }{" - "}
+                <i className="fas fa-euro-sign"></i>
                 {jobAd.maxsalary ? jobAd.maxsalary : (<i className="fas fa-ban text-muted" />) }
-              <br></br>
-              <lable className="form-label no-space-break inline-label">Description: </lable>
-                {jobAd.jobdescription ? jobAd.jobdescription : ""}
-              <br></br> 
-              {jobAd.benefits &&
-                jobAd.benefits.length > 0 ? (
-                      <>
-                        <div class="card " style={{ flexDirection: 'column' , display: 'inline-flex'}}>
-                          <div class="card-body ">
-                            <div className="card-title font-weight-bold  text-center text-white" style={{backgroundColor: '#ff2d55'}}><b> Benefits</b></div>
-                            {jobAd.benefits.map((ben, index) => {
-                              return (
-                                <div>{(index+1) + "." + ben.benefitOffer}</div>
-                              )})}
-                          </div>
-                        </div>
-                        <br></br> 
-                      </>
-                        )
-                  : ( <><lable className="form-label no-space-break inline-label">Benefits: </lable>
-                          <i className="fas fa-ban text-muted" />
-                      </>
-                    )
-              }
-              <br></br> 
-              <lable className="form-label no-space-break inline-label">Expected Start Date: </lable>
+              </div>              
+              <div className="w-100">
+                <label className="form-label w-100">Expected Start Date: </label>
                 {jobAd.expectedstartdate &&
                   jobAd.expectedstartdate.toDate().toLocaleString() ? (
                       <ReactMoment format="MMM DD, YYYY">
@@ -121,8 +106,9 @@ class JobMatchedDetails extends React.Component
                     ) : (
                       <i className="fas fa-ban text-muted" />
                     )}  
-              <br></br>
-              <lable className="form-label no-space-break inline-label">Expiration Date:</lable>
+              </div>
+              <div className="w-100">
+                <label className="form-label w-100">Expiration Date: </label>
                 {jobAd.expirationdate &&
                   jobAd.expirationdate.toDate().toLocaleString() ? (
                       <ReactMoment format="MMM DD, YYYY">
@@ -131,14 +117,32 @@ class JobMatchedDetails extends React.Component
                     ) : (
                       <i className="fas fa-ban text-muted" />
                     )}  
-              <br></br>
-              
+              </div>   
+            </div>  
+            <div className="col-md-6 col-12 mt-3">
+              <div className="w-100">
+                <label className="form-label w-100">Description: </label>
+                {jobAd.jobdescription ? jobAd.jobdescription : ""}
               </div>
-            </div>   
+              <div className="w-100">
+                <label className="form-label w-100">Other Benefits: </label>
+                {jobAd.benefits &&
+                  jobAd.benefits.length > 0 ? (
+                        <>
+                              {jobAd.benefits.map((ben, index) => {
+                                return (
+                                  <div>{(index+1) + ". " + ben.benefitOffer}</div>
+                                )})}
+                        </>
+                          )
+                    : ( 
+                        <i className="fas fa-ban text-muted" />
+                    )
+                }   
+              </div>
+            </div>
           </div>
-          </div>
-          </div>
-          </div>
+        </div>
         );
       }
       else {
