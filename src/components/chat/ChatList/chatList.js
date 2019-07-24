@@ -22,9 +22,8 @@ class ChatListComponent extends React.Component {
           <Button
             variant="contained"
             fullWidth
-            color="primary"
             onClick={this.newChat}
-            className={classes.newChatBtn}
+            className={classes.newChatBtn + " btn-info text-white"}
           >
             New Message
           </Button>

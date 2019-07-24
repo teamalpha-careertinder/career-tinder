@@ -139,34 +139,45 @@ class JobSeekerMatches extends Component {
                             <i className="fas fa-ban text-muted" />
                           )}
                         </div>
-
+                        
                         <div className="col-12">
                           <b>
-                            <NavLink
-                              className="nav-link"
-                              to={ROUTES.CHAT_DASHBOARD}
-                              onClick={() =>
-                                this.redirectToNewChatWindow(
-                                  item.employeremail ? item.employeremail : ""
-                                )
-                              }
-                            >
-                              <i className="fas fa-envelope" /> Let's Chat
-                            </NavLink>
+                            
                           </b>
                         </div>
                         <div className="col-12 text-right">
-                          <NavLink
-                            id="btnMatch"
-                            className="text-info w-100 m-0"
-                            to={{
-                              pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + item.id,
-                            }}
-                          > see details...
-                          </NavLink>
+                          
                         </div>
 
                       </div>
+                    </div>
+                    <div className="job-ad-actions">
+                      <div className="job-ad-action">
+                        <NavLink
+                          id="btnMatch"
+                          className="btn btn-info btn-sm w-100 m-0"
+                          to={{
+                            pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + item.id,
+                          }}
+                        > 
+                          <i className="fas fa-ad"></i><br/>
+                          Job Details
+                        </NavLink>
+                      </div>
+                      <div className="job-ad-action">
+                        <NavLink
+                          className="btn btn-success btn-sm w-100 m-0"
+                          to={ROUTES.CHAT_DASHBOARD}
+                          onClick={() =>
+                            this.redirectToNewChatWindow(
+                              item.employeremail ? item.employeremail : ""
+                            )
+                          }
+                        >
+                          <i className="far fa-comments"></i><br/>
+                          Message
+                        </NavLink>
+                      </div>                            
                     </div>
                   </div>
                 </div>

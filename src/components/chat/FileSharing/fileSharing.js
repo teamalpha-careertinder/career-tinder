@@ -103,7 +103,7 @@ class FileCenterComponent extends React.Component {
     return (
       <main className={classes.main}>
         <div className={classes.chatHeader}>
-            Your conversation with {this.props.fileReceiver}
+            Share files with {this.props.fileReceiver}
         </div>
         <div className={classes.paper}>
           <h3 className="text-center font-weight-bold mt-4">
@@ -112,7 +112,7 @@ class FileCenterComponent extends React.Component {
             File Center
           </h3>
           <div className="row">
-            <div className="form-group">
+            <div className="col-12">
               <input type="file" 
                 name="file"
                 className="form-control form-control-lg"
@@ -125,9 +125,9 @@ class FileCenterComponent extends React.Component {
                 className={classes.submit}
                 onClick={this.handleShare}
               >
-                <i className="fas fa-exchange-alt" /> Share File
+                <i className="fas fa-exchange-alt" />{" "} Share File
               </Button>
-              <progress value={this.state.progress} max="100" />
+              <progress className="w-100" value={this.state.progress} max="100" />
               <br />
               {this.state.fileURL && <h6><b>File uploaded successfully</b></h6>}
               <br />

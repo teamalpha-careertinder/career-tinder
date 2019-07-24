@@ -88,6 +88,10 @@
     box-shadow: 0 8px 5px rgba(0, 0, 0, .07)!important;
 }
 
+.job-details-sections label {
+    margin: 10px 0 2px;
+}
+
 @media (max-width: 768px) {
     .page-wrapper .demo__card {
         width: calc(100% - 60px);
