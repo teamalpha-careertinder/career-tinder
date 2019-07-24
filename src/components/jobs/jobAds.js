@@ -81,7 +81,7 @@ class JobAds extends Component {
         <h4 className="mt-4 text-center font-weight-bold">
           <i className="fas fa-street-view" /> Recommended Jobs
         </h4>
-        <div className="demo">
+        <div className="demo seeker-ads-card">
           <div className="demo__content">
             <div className="demo__card-cont">
               {userJobPosting &&
@@ -116,7 +116,7 @@ class JobAds extends Component {
                               </div>
                               <div className="col-12">
                                 <b className="mr-2">
-                                  <i className="fas fa-check-double" />
+                                  <i className="fas fa-universal-access"></i>
                                 </b>
                                 {item.neededskills &&
                                 item.neededskills.length > 0 ? (
