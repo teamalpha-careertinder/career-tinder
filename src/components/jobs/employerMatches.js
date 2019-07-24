@@ -41,18 +41,14 @@ class EmployerMatches extends Component {
                         className="col-lg-4 col-md-6 col-12 job-seeker-wrapper mt-2"
                       >
                         <div className="card job-ad text-body shadow rounded">
-                          <div className="card-header bg-white text-info font-weight-bold">
+                          {/* <div className="card-header bg-white text-info font-weight-bold">
                             <div className="row">
                               <div className="col-12 text-center">
-                                {/* <i className="fas fa-thumbtack" /> {item.jobtitle} */}
                                 <i className="fas fa-user-tag" />{" "}
                                 {jobSeeker.jobSeekerName}
                               </div>
-                              {/* <div className="col-3">
-                                <i className="fas fa-heart wishlist-selector float-right d-none" />
-                              </div> */}
                             </div>
-                          </div>
+                          </div> */}
                           <div className="card-body">
                             <div className="row">
                               <div className="col-12">
