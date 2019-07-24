@@ -92,4 +92,18 @@
     .page-wrapper .demo__card {
         width: calc(100% - 60px);
     }
+    .employer-rec-card .demo__card {
+        top: 42px;
+        height: calc(100vh - 250px);
+        overflow: auto;
+        overflow-x: hidden;
+    }
+    .employer-rec-card .demo__card .job-ad {
+        margin: 4px;
+    }
+    .seeker-ads-card .demo__card {
+        height: calc(100vh - 220px);
+        overflow: auto;
+        overflow-x: hidden;
+    }
 }
