@@ -53,7 +53,7 @@ class EmployerMatches extends Component {
                             <div className="row">
                               <div className="col-12">
                                 <b className="mr-2">
-                                  <i className="fas fa-check-double" /> Skills:
+                                  <i className="fas fa-universal-access"></i> Skills:
                                 </b>
                                 {jobSeeker.skills &&
                                 jobSeeker.skills.length > 0 ? (
@@ -158,48 +158,48 @@ class EmployerMatches extends Component {
 
                               <div className="col-12">
                                 <b>
-                                  <i className="fas fa-at" /> Job Seeker Email:
+                                  <i className="fas fa-envelope" />:
                                 </b>{" "}
                                 {jobSeeker.jobSeekerEmail ? (
                                   jobSeeker.jobSeekerEmail
                                 ) : (
                                   <i className="fas fa-ban text-muted" />
                                 )}
-                              </div>
-                              <div className="col-12 text-right">
-                                <NavLink
-                                  id="btnMatch"
-                                  className="text-info w-100 m-0"
-                                  to={{
-                                    pathname:
-                                      ROUTES.SEEKER_MATCHED_DETAILS +
-                                      "/" +
-                                      jobSeeker.id
-                                  }}
-                                >
-                                  {" "}
-                                  see details...
-                                </NavLink>
-                              </div>
-
-                              <div className="col-12">
-                                <b>
-                                  <NavLink
-                                    className="nav-link"
-                                    to={ROUTES.CHAT_DASHBOARD}
-                                    onClick={() =>
-                                      this.redirectToNewChatWindow(
-                                        jobSeeker.jobSeekerEmail
-                                          ? jobSeeker.jobSeekerEmail
-                                          : ""
-                                      )
-                                    }
-                                  >
-                                    <i className="fas fa-envelope" /> Let's Chat
-                                  </NavLink>
-                                </b>
-                              </div>
+                              </div>                              
                             </div>
+                          </div>
+                          <div className="job-ad-actions">
+                            <div className="job-ad-action">
+                              <NavLink
+                                id="btnMatch"
+                                className="btn btn-info btn-sm w-100 m-0"
+                                to={{
+                                  pathname:
+                                    ROUTES.SEEKER_MATCHED_DETAILS +
+                                    "/" +
+                                    jobSeeker.id
+                                }}
+                              >
+                                <i className="fas fa-user"></i><br/>
+                                Profile
+                              </NavLink>
+                            </div>
+                            <div className="job-ad-action">
+                              <NavLink
+                                className="btn btn-success btn-sm w-100 m-0"
+                                to={ROUTES.CHAT_DASHBOARD}
+                                onClick={() =>
+                                  this.redirectToNewChatWindow(
+                                    jobSeeker.jobSeekerEmail
+                                      ? jobSeeker.jobSeekerEmail
+                                      : ""
+                                  )
+                                }
+                              >
+                                <i className="far fa-comments"></i><br/>
+                                Chat
+                              </NavLink>
+                            </div>                            
                           </div>
                         </div>
                       </div>
