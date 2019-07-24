@@ -131,7 +131,7 @@ class FileCenterComponent extends React.Component {
               <br />
               {this.state.fileURL && <h6><b>File uploaded successfully</b></h6>}
               <br />
-              {this.state.fileURL && <a href = {this.state.fileURL}><u><h6>Click here to download</h6></u></a>}
+              {/*this.state.fileURL && <a href = {this.state.fileURL}><u><h6>Click here to download</h6></u></a>*/}
               <br />
             </div>
           </div>
