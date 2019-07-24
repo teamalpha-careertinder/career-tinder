@@ -1,6 +1,7 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
+import CreatableSelect from 'react-select/creatable';
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Alert,
@@ -43,6 +44,13 @@ const jobAdEntity = {
 
 class CreateJobAds extends React.Component {
   handleSkillsChange = neededskills => {
+    if(neededskills){
+      neededskills.forEach(neededskills => {
+        if(neededskills['__isNew__']){
+          delete neededskills['__isNew__']
+        }
+      });
+    }
     this.setState({ neededskills });
   };
   handleLanguagesChange = languages => {
@@ -529,7 +537,7 @@ class CreateJobAds extends React.Component {
                       <label className="form-label">
                         <i className="fas fa-code" /> Needed Skills
                       </label>
-                      <Select
+                      <CreatableSelect
                         value={this.state.neededskills}
                         onChange={this.handleSkillsChange}
                         options={skillsList}
@@ -745,6 +753,7 @@ class CreateJobAds extends React.Component {
                         name="expirationdate"
                         minDate={new Date()}
                         autoComplete="off"
+                        required
                       />
                     </div>
                   </div>
