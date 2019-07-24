@@ -1,6 +1,8 @@
 import React from "react";
 import * as ROUTES from "../../../constants/routes";
 import NewChatComponent from "../NewChat/newChat";
+import FileCenterComponent from "../FileSharing/fileSharing";
+import Button from "@material-ui/core/Button";
 import ChatListComponent from "../ChatList/chatList";
 import ChatViewComponent from "../ChatView/chatView";
 import ChatTextBoxComponent from "../ChatTextBox/chatTextBox";
@@ -26,7 +28,10 @@ class DashboardComponent extends React.Component {
       friends: [],
       chats: [],
       redirectEmail: null,
-      chatListOpen: false
+      chatListOpen: false,
+      fileDocKey: null,
+      fileReceiver: null,
+      fileCenterFormVisible: false
     };
   }
   componentDidMount = () => {
@@ -65,19 +70,46 @@ class DashboardComponent extends React.Component {
                   <i className="fas fa-envelope-open-text"></i> Open chat list
                 </button>
               </div>        
-              {this.state.newChatFormVisible ? null : (
+              {this.state.newChatFormVisible || this.state.fileCenterFormVisible ? null : (
                 <ChatViewComponent
                   user={this.state.email}
                   chat={this.state.chats[this.state.selectedChat]}
                 />
               )}
               {this.state.selectedChat !== null &&
-              !this.state.newChatFormVisible ? (
-                <ChatTextBoxComponent
-                  userClickedInputFn={this.messageRead}
-                  submitMessageFn={this.submitMessage}
+              !this.state.newChatFormVisible &&
+              !this.state.fileCenterFormVisible ? (
+                <>
+                  <ChatTextBoxComponent
+                    userClickedInputFn={this.messageRead}
+                    submitMessageFn={this.submitMessage}
+                  />
+                  <br></br>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    color="primary"
+                    onClick={this.fileCenterButClicked}
+//                    className={classes.newChatBtn}
+                  >
+                    File Center...
+                  </Button>
+                  {console.log("fileCenterFormVisible1 ", this.state.fileCenterFormVisible )}
+                </>
+              ) : null}
+              {/*start - file sharing*/}
+              {this.state.selectedChat !== null &&
+               this.state.fileCenterFormVisible ? (
+                <FileCenterComponent
+                //  redirectEmail={this.state.redirectEmail}
+                  fileDocKey={this.state.fileDocKey}
+                  fileSender={this.state.email}
+                  fileReceiver={this.state.fileReceiver}
+                //  goToChatFn={this.goToChat}
+                //  newChatSubmitFn={this.newChatSubmit}
                 />
               ) : null}
+              {/*end - file sharing*/}
               {this.state.newChatFormVisible ? (
                 <NewChatComponent
                   redirectEmail={this.state.redirectEmail}
@@ -122,8 +154,24 @@ class DashboardComponent extends React.Component {
     this.setState({
       newChatFormVisible: true,
       selectedChat: null,
+      fileCenterFormVisible: false,
+      fileDocKey: null,
+      fileReceiver: null,
       redirectEmail: "",
       chatListOpen: false
+    });
+  };
+
+  fileCenterButClicked = () => {
+    //const docKey = null; // this.buildDocKey(chatObj.sendTo);
+    const fileReceiver = this.state.chats[this.state.selectedChat].users.filter(
+      _usr => _usr !== this.state.email)[0];
+    const fileDocKey = this.buildDocKey(fileReceiver);
+
+    this.setState({
+      fileCenterFormVisible: true,
+      fileDocKey: fileDocKey,
+      fileReceiver: fileReceiver
     });
   };
 
@@ -149,6 +197,7 @@ class DashboardComponent extends React.Component {
 
   selectChat = async chatIndex => {
     await this.setState({ selectedChat: chatIndex, newChatFormVisible: false, chatListOpen: false });
+    await this.setState({ fileCenterFormVisible: false });
     this.messageRead();
   };
 
