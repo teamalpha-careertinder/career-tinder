@@ -1,7 +1,7 @@
 const styles = theme => ({
 
   content: {
-    height: 'calc(100vh - 268px)',
+    height: 'calc(100vh - 300px)',
     overflow: 'auto',
     boxSizing: 'border-box',
     overflowX: 'hidden',

@@ -88,7 +88,7 @@ class DashboardComponent extends React.Component {
                   <Button
                     variant="contained"
                     fullWidth
-                    color="primary"
+                    className="btn-info text-white"
                     onClick={this.fileCenterButClicked}
 //                    className={classes.newChatBtn}
                   >
