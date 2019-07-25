@@ -1,5 +1,4 @@
 import React from "react";
-import { MDBBtn, MDBInput } from "mdbreact";
 import "./login.css";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";

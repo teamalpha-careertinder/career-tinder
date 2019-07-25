@@ -54,7 +54,7 @@ class Jobs extends React.Component {
   };
 
   render() {
-    const { auth, user, jobAds, employer, jobseeker } = this.props;
+    const { auth, user, jobAds } = this.props;
     var filteredJobAds =
       jobAds && jobAds.filter(jobpost => jobpost.employerid === auth.uid);
     if (!auth.uid && !auth.emailVerified)
@@ -63,7 +63,7 @@ class Jobs extends React.Component {
       user &&
       user.userType === "jobseeker" &&
       user.profileCompletenessPercentage < 85
-    ) {      
+    ) {
       this.redirectToProfile(85, "Job Seeker");
     }
     if (

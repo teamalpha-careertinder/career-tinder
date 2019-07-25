@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import * as ROUTES from "../../constants/routes";
 import $ from "jquery/src/jquery";
-import { Button } from "reactstrap";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { Redirect } from "react-router-dom";
@@ -40,25 +39,39 @@ class JobAds extends Component {
   //function to save on DB the relation between job add and user's like or dislike:
   processLikeDisLike(userAction, jobAdId, jobSeekerId, jobseeker) {
     //userAction: true ->User likes company // false->user dislikes company
-    const job = this.props.userJobPosting.filter(jobAd => jobAd.id == jobAdId)
-    console.log(job)
+    const job = this.props.userJobPosting.filter(jobAd => jobAd.id === jobAdId);
+    console.log(job);
     var jobSeekerChoice = jobSeekerChoiceEntity;
     jobSeekerChoice.jobAdId = jobAdId;
     jobSeekerChoice.jobSeekerId = jobSeekerId;
     jobSeekerChoice.isLiked = userAction;
-    jobSeekerChoice.jobseekerEmail = jobseeker.jobSeekerEmail ? jobseeker.jobSeekerEmail : "";
-    if(job && job.length){
-      jobSeekerChoice.employerEmail = job[0].employeremail ? job[0].employeremail : "";
+    jobSeekerChoice.jobseekerEmail = jobseeker.jobSeekerEmail
+      ? jobseeker.jobSeekerEmail
+      : "";
+    if (job && job.length) {
+      jobSeekerChoice.employerEmail = job[0].employeremail
+        ? job[0].employeremail
+        : "";
     }
     this.props.saveUserChoice(jobSeekerChoice);
   }
 
   slideAdUp = id => {
-    this.processLikeDisLike(true, id, this.props.auth.uid, this.props.jobseeker);
+    this.processLikeDisLike(
+      true,
+      id,
+      this.props.auth.uid,
+      this.props.jobseeker
+    );
   };
 
   slideAdDown = id => {
-    this.processLikeDisLike(false, id, this.props.auth.uid, this.props.jobseeker);
+    this.processLikeDisLike(
+      false,
+      id,
+      this.props.auth.uid,
+      this.props.jobseeker
+    );
   };
 
   render() {
@@ -116,7 +129,7 @@ class JobAds extends Component {
                               </div>
                               <div className="col-12">
                                 <b className="mr-2">
-                                  <i className="fas fa-universal-access"></i>
+                                  <i className="fas fa-universal-access" />
                                 </b>
                                 {item.neededskills &&
                                 item.neededskills.length > 0 ? (
@@ -345,13 +358,13 @@ const mapStateToProps = state => {
   //fill the education item name instead if the key
   const allEducationData = state.firestore.data.education;
   if (
-    allEducationData != undefined &&
-    userJobPosting != undefined &&
+    allEducationData !== undefined &&
+    userJobPosting !== undefined &&
     userJobPosting.length > 0
   ) {
     $.each(userJobPosting, function(index, jobAd) {
       var educationItem = allEducationData[jobAd.education];
-      if (educationItem != undefined) jobAd.education = educationItem.name;
+      if (educationItem !== undefined) jobAd.education = educationItem.name;
     });
   }
   return {
@@ -378,7 +391,7 @@ export default compose(
     return [
       {
         collection: "jobSeekerChoice",
-        where: [["jobSeekerId", "==", props.uid || null]]
+        where: [["jobSeekerId", "===", props.uid || null]]
       },
       {
         collection: "education"
