@@ -288,7 +288,6 @@ export const getjobposting = () => {
                     );
                   }
                 );
-                console.log(matchedSkills.length, matchedLanguages.length);
                 if (matchedSkills.length > 0 || matchedLanguages.length > 0) {
                   data.push(unexpiredJobPosting);
                   return unexpiredJobPosting;

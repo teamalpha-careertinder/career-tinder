@@ -4,24 +4,32 @@ import {
 } from "../../constants/relevancyFactors";
 const boyerMoore = require("../../store/actions/Boyer-Moore").boyerMooreSearch;
 
-const addScoreToJobSeeker = (jobposting, jobseekers) => {
-  jobseekers.forEach(seeker => {
+const addScoreToJobPost = (jobseeker, jobposting) => {
+  jobposting.forEach(job => {
     let score = 0;
     let skillMatch = false;
-    let minsalary = Number(seeker.minsalary) ? Number(seeker.minsalary) : 0;
+    let minsalary = Number(job.minsalary) ? Number(job.minsalary) : 0;
+
+    if (
+      RelevancyConfig.TIME_IS_ACTIVE &&
+      job.expirationdate &&
+      job.expirationdate.seconds > Math.round(+new Date() / 1000)
+    ) {
+      score += RelevancyFactors.TIME;
+    }
 
     if (RelevancyConfig.SKILL_IS_ACTIVE) {
       if (
-        jobposting.neededskills &&
-        jobposting.neededskills.length &&
-        seeker.skills &&
-        seeker.skills.length
+        job.neededskills &&
+        job.neededskills.length &&
+        jobseeker.skills &&
+        jobseeker.skills.length
       ) {
-        seeker.skills.forEach(userSkill => {
-          jobposting.neededskills.forEach(jobSkill => {
+        job.neededskills.forEach(skill => {
+          jobseeker.skills.forEach(userSkill => {
             if (
               boyerMoore(
-                jobSkill.label.toLowerCase(),
+                skill.label.toLowerCase(),
                 userSkill.label.toLowerCase()
               ) // string pattern matching using Boyer–Moore string-search algorithm
             ) {
@@ -33,18 +41,19 @@ const addScoreToJobSeeker = (jobposting, jobseekers) => {
       }
       if (skillMatch) score += RelevancyFactors.SKILL;
     }
+
     if (RelevancyConfig.LANGUAGE_IS_ACTIVE) {
       let languageMatch = false;
       if (
-        jobposting.languages &&
-        jobposting.languages.length &&
-        seeker.languages &&
-        seeker.languages.length
+        job.languages &&
+        job.languages.length &&
+        jobseeker.languages &&
+        jobseeker.languages.length
       ) {
-        seeker.languages.forEach(userLanguage => {
-          jobposting.languages.forEach(language => {
+        job.languages.forEach(language => {
+          jobseeker.languages.forEach(userLanguage => {
             if (
-              userLanguage.label.toLowerCase() === language.label.toLowerCase()
+              language.label.toLowerCase() === userLanguage.label.toLowerCase()
             ) {
               score += RelevancyFactors.EACH_LANGUAGE_MATCH_FACTOR;
               languageMatch = true;
@@ -56,48 +65,48 @@ const addScoreToJobSeeker = (jobposting, jobseekers) => {
     }
     if (
       RelevancyConfig.LOCATION_IS_ACTIVE &&
-      jobposting.location &&
-      jobposting.location.length &&
-      seeker.city
+      job.location &&
+      job.location.length &&
+      jobseeker.city
     ) {
-      jobposting.location.forEach(site => {
-        if (site.label.toLowerCase() === seeker.city.label.toLowerCase()) {
+      job.location.forEach(site => {
+        if (site.label.toLowerCase() === jobseeker.city.label.toLowerCase()) {
           score += RelevancyFactors.LOCATION;
         }
       });
     }
+
     if (RelevancyConfig.JOBTYPE_IS_ACTIVE) {
       if (
-        jobposting.applyfulltime === seeker.applyfulltime ||
-        jobposting.applypartime === seeker.applypartime
-      ) {
+        job.applyfulltime === jobseeker.applyfulltime ||
+        job.applypartime === jobseeker.applypartime
+      )
         score += RelevancyFactors.JOBTYPE;
-      }
     }
+
     if (
       RelevancyConfig.SALARY_IS_ACTIVE &&
-      Number(jobposting.maxsalary) &&
-      Number(jobposting.maxsalary) >= minsalary
+      Number(jobseeker.minsalary) &&
+      minsalary >= Number(jobseeker.minsalary)
     ) {
       score += RelevancyFactors.SALARY;
     }
+
     if (
       RelevancyConfig.EDUCATION_IS_ACTIVE &&
-      jobposting.education &&
-      seeker.education
+      job.education &&
+      jobseeker.education
     ) {
       if (
-        jobposting.education.label &&
-        seeker.education.label &&
-        jobposting.education.label.toLowerCase() ===
-          seeker.education.label.toLowerCase()
+        job.education.label.toLowerCase() ===
+        jobseeker.education.label.toLowerCase()
       ) {
         score += RelevancyFactors.EDUCATION;
       }
     }
 
-    seeker.relevancyScore = score;
+    job.relevancyScore = score;
   });
 };
 
-export default addScoreToJobSeeker;
+export default addScoreToJobPost;
