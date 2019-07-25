@@ -1,18 +1,21 @@
 import _ from "lodash";
+const boyerMoore = require("../actions/Boyer-Moore").boyerMooreSearch;
 
 export const jobAdActions = jobAd => {
   return (dispatch, getState, { getFirestore }) => {
     // make async call to database
     const userId = getState().firebase.auth.uid;
     const firestore = getFirestore();
-    console.log(jobAd)
+    console.log(jobAd);
     firestore
       .collection("employer")
       .doc(userId)
       .get()
       .then(d => {
         const employername = d.data().employerName ? d.data().employerName : "";
-        const employeremail = d.data().contactEmail ? d.data().contactEmail : d.data().employerEmail;
+        const employeremail = d.data().contactEmail
+          ? d.data().contactEmail
+          : d.data().employerEmail;
         firestore
           .collection("jobposting")
           .add({
@@ -49,7 +52,9 @@ export const jobUpdateActions = (jobAdId, jobAd) => {
       .get()
       .then(d => {
         const employername = d.data().employerName ? d.data().employerName : "";
-        const employeremail = d.data().contactEmail ? d.data().contactEmail : d.data().employerEmail;
+        const employeremail = d.data().contactEmail
+          ? d.data().contactEmail
+          : d.data().employerEmail;
         //delete jobAd.id;
 
         firestore
@@ -141,7 +146,9 @@ export const matchJobSeekerLikeWithEmployerChoice = choice => {
           match.jobAdId = choice.jobAdId;
           match.jobSeekerId = choice.jobSeekerId;
           match.employerID = userSnapshot.data().employerId;
-          match.employerEmail = userSnapshot.data().employerEmail ? userSnapshot.data().employerEmail : "";
+          match.employerEmail = userSnapshot.data().employerEmail
+            ? userSnapshot.data().employerEmail
+            : "";
 
           //we save this relationship in DB, collection: match
           firestore
@@ -211,7 +218,9 @@ export const matchEmployerLikeWithJobSeekerChoice = employerChoice => {
           match.jobAdId = employerChoice.jobAdId;
           match.jobSeekerId = employerChoice.jobSeekerId;
           match.employerID = getState().firebase.auth.uid;
-          match.employerEmail = userSnapshot.data().employerEmail ? userSnapshot.data().employerEmail : "";
+          match.employerEmail = userSnapshot.data().employerEmail
+            ? userSnapshot.data().employerEmail
+            : "";
 
           //we save this relationship in DB, collection: match
           firestore
@@ -262,7 +271,10 @@ export const getjobposting = () => {
                   neededskills,
                   userSkills,
                   function(neededskill, userSkill) {
-                    return neededskill.label === userSkill.label;
+                    return boyerMoore(
+                      neededskill.label.toLowerCase(),
+                      userSkill.label.toLowerCase()
+                    ); // string pattern matching using Boyer–Moore string-search algorithm
                   }
                 );
 
@@ -270,16 +282,18 @@ export const getjobposting = () => {
                   userLanguages,
                   neededLanguages,
                   function(neededLanguage, userLanguage) {
-                    return neededLanguage.label === userLanguage.label;
+                    return (
+                      neededLanguage.label.toLowerCase() ===
+                      userLanguage.label.toLowerCase()
+                    );
                   }
                 );
-
+                console.log(matchedSkills.length, matchedLanguages.length);
                 if (matchedSkills.length > 0 || matchedLanguages.length > 0) {
                   data.push(unexpiredJobPosting);
                   return unexpiredJobPosting;
                 }
               });
-
               dispatch({ type: "FETCH_JOB_POST_SUCCESS", data });
             }
           });
@@ -317,7 +331,10 @@ export const getjobseekers = jobAdId => {
                   userSkills,
                   neededskills,
                   function(userSkill, neededskill) {
-                    return userSkill.label == neededskill.label;
+                    return boyerMoore(
+                      userSkill.label.toLowerCase(),
+                      neededskill.label.toLowerCase()
+                    ); // string pattern matching using Boyer–Moore string-search algorithm
                   }
                 );
 
@@ -325,7 +342,10 @@ export const getjobseekers = jobAdId => {
                   neededLanguages,
                   userLanguages,
                   function(userLanguage, neededLanguage) {
-                    return userLanguage.label === neededLanguage.label;
+                    return (
+                      userLanguage.label.toLowerCase() ===
+                      neededLanguage.label.toLowerCase()
+                    );
                   }
                 );
                 if (matchedSkills.length > 0 || matchedLanguages.length > 0) {
