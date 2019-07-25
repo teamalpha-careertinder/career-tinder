@@ -1,7 +1,7 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import Select from "react-select";
-import CreatableSelect from 'react-select/creatable';
+import CreatableSelect from "react-select/creatable";
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Alert,
@@ -17,10 +17,9 @@ import {
   jobAdActions,
   jobUpdateActions
 } from "../../store/actions/jobAdActions";
-import cities from "../../constants/city";
 import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
-import { Checkbox, Radio } from "pretty-checkbox-react";
+import { Checkbox } from "pretty-checkbox-react";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import $ from "jquery/src/jquery";
@@ -44,10 +43,10 @@ const jobAdEntity = {
 
 class CreateJobAds extends React.Component {
   handleSkillsChange = neededskills => {
-    if(neededskills){
+    if (neededskills) {
       neededskills.forEach(neededskills => {
-        if(neededskills['__isNew__']){
-          delete neededskills['__isNew__']
+        if (neededskills["__isNew__"]) {
+          delete neededskills["__isNew__"];
         }
       });
     }
@@ -570,10 +569,12 @@ class CreateJobAds extends React.Component {
                   </label>
                   {/* handle old data where education id is saved instead of value-lable pair  */}
                   {this.state.education &&
-                  (this.state.education.label == undefined ||
-                    this.state.education.label == null) ? (
+                  (this.state.education.label === undefined ||
+                    this.state.education.label === null) ? (
                     <Select
-                      value={educationList.filter(option => option.value === this.state.education)}
+                      value={educationList.filter(
+                        option => option.value === this.state.education
+                      )}
                       onChange={this.handleEducationChange}
                       options={educationList}
                       isMulti={false}
@@ -784,7 +785,7 @@ const mapStateToProps = state => {
   const languageData = state.firestore.data.language;
 
   if (skillsData && educationData && locationData && languageData) {
-    var result = new Array();
+    var result = [];
     $.each(skillsData, function(index, item) {
       result.push({
         value: index,
@@ -794,7 +795,7 @@ const mapStateToProps = state => {
     returnObject.skillsList = result;
     //    console.log(result);
 
-    result = new Array();
+    result = [];
     $.each(educationData, function(index, item) {
       result.push({
         value: index,
@@ -803,7 +804,7 @@ const mapStateToProps = state => {
     });
     returnObject.educationList = result;
 
-    result = new Array();
+    result = [];
     $.each(locationData, function(index, item) {
       result.push({
         value: index,
@@ -813,7 +814,7 @@ const mapStateToProps = state => {
     returnObject.locationList = result;
     //    console.log(result);
 
-    result = new Array();
+    result = [];
     $.each(languageData, function(index, item) {
       result.push({
         value: index,

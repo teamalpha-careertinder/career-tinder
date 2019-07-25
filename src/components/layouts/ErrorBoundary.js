@@ -1,5 +1,5 @@
 import React from "react";
-import oops from "../../assets/images/oops.png"
+import oops from "../../assets/images/oops.png";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -13,12 +13,10 @@ class ErrorBoundary extends React.Component {
     if (this.state.error) {
       return (
         <div className="snap">
-          <img src={oops} />
+          <img src={oops} alt="" />
           <div className="snap-message">
             <p>We're sorry - something has gone wrong.</p>
-         
           </div>
-
         </div>
       );
     } else {

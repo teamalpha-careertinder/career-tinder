@@ -7,10 +7,6 @@ import * as ROUTES from "../../constants/routes";
 import { Redirect } from "react-router-dom";
 
 class Notifications extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { auth, notifications } = this.props;
     if (!auth.uid && !auth.emailVerified)
@@ -18,7 +14,7 @@ class Notifications extends React.Component {
     return (
       <div className="container page-wrapper">
         <h3 className="text-center font-weight-bold mt-4">
-          <i className="fas fa-bell"></i> Notifications{" "}
+          <i className="fas fa-bell" /> Notifications{" "}
         </h3>
         <div className="row">
           <div className="col-12 col-md-6">
@@ -33,9 +29,13 @@ class Notifications extends React.Component {
                       </div>
                     </li>
                   );
-                })}                                 
+                })}
             </ul>
-            <h6 className="text-center">{notifications && notifications.length === 0 ? 'You have no notifications at this moment.' :''}</h6>
+            <h6 className="text-center">
+              {notifications && notifications.length === 0
+                ? "You have no notifications at this moment."
+                : ""}
+            </h6>
           </div>
         </div>
       </div>

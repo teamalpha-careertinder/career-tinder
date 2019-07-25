@@ -15,7 +15,7 @@ export function boyerMooreSearch(text: string, pattern: string): boolean {
   let offsetTable = makeOffsetTable(pattern);
 
   for (let i = pattern.length - 1, j; i < text.length; ) {
-    for (j = pattern.length - 1; pattern[j] == text[i]; i--, j--) {
+    for (j = pattern.length - 1; pattern[j] === text[i]; i--, j--) {
       if (j === 0) {
         return true;
       }
@@ -71,7 +71,7 @@ function makeOffsetTable(pattern: string): number[] {
 
 function isPrefix(pattern: string, p: number): boolean {
   for (let i = p, j = 0; i < pattern.length; i++, j++) {
-    if (pattern[i] != pattern[j]) {
+    if (pattern[i] !== pattern[j]) {
       return false;
     }
 
@@ -84,7 +84,7 @@ function suffixLength(pattern: string, p: number) {
 
   for (
     let i = p, j = pattern.length - 1;
-    i >= 0 && pattern[i] == pattern[j];
+    i >= 0 && pattern[i] === pattern[j];
     i--, j--
   ) {
     len += 1;

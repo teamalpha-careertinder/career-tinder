@@ -27,7 +27,7 @@ class EditEmployerProfile extends React.Component {
 
   handleEmployerSubmit = e => {
     e.preventDefault();
-    
+
     var employerProfileEntity = {};
     employerProfileEntity.employerName = $("#employerName").val();
     employerProfileEntity.industryName = $("#industryName").val();
@@ -44,7 +44,7 @@ class EditEmployerProfile extends React.Component {
   onShowAlert = () => {
     this.setState({ visible: true }, () => {
       window.setTimeout(() => {
-        this.setState({ visible: false });    
+        this.setState({ visible: false });
         this.props.history.push(ROUTES.JOBS);
       }, 3000);
     });
@@ -279,6 +279,5 @@ export default withRouter(
         collection: "employer"
       }
     ])
-  )
-  (EditEmployerProfile)
+  )(EditEmployerProfile)
 );
