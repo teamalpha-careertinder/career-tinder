@@ -40,7 +40,7 @@ class JobAds extends Component {
   processLikeDisLike(userAction, jobAdId, jobSeekerId, jobseeker) {
     //userAction: true ->User likes company // false->user dislikes company
     const job = this.props.userJobPosting.filter(jobAd => jobAd.id === jobAdId);
-    console.log(job);
+
     var jobSeekerChoice = jobSeekerChoiceEntity;
     jobSeekerChoice.jobAdId = jobAdId;
     jobSeekerChoice.jobSeekerId = jobSeekerId;
@@ -79,7 +79,6 @@ class JobAds extends Component {
 
     if (userJobPosting && userJobPosting.length && jobseeker) {
       addScoreToJobPost(jobseeker, userJobPosting);
-      console.log("userJobPosting", userJobPosting);
       userJobPosting.sort(function(a, b) {
         return (
           b.relevancyScore - a.relevancyScore ||
