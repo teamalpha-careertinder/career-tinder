@@ -8,7 +8,7 @@ import * as ROUTES from "../../constants/routes";
 const SignedInLinks = props => {
   return (
     <ul className="navbar-nav ct-nav-collapsible">
-      <li className="nav-item" onClick={props.closeMenu}>
+      <li className="nav-item d-md-none" onClick={props.closeMenu}>
         <NavLink className="nav-link" to="#" onClick={props.history.goBack}>
           <i className="fas fa-arrow-left"></i> Go Back
         </NavLink>
