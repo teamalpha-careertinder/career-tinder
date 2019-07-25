@@ -32,9 +32,9 @@ class JobMatchedDetails extends React.Component {
             <div className="col-12 text-center">
               <span className="mr-3">
                 <i className="fas fa-clock" />{" "}
-                {jobAd.applyfulltime ? "Fulltime" : ""}
+                {jobAd.applyfulltime ? "Full-time" : ""}
                 {jobAd.applyfulltime && jobAd.applypartime ? " / " : ""}
-                {jobAd.applypartime ? "Partime" : ""}
+                {jobAd.applypartime ? "Part-time" : ""}
               </span>
               <span>
                 <i className="fas fa-map-marker" />{" "}

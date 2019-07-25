@@ -52,8 +52,9 @@ class JobSeekers extends Component {
 
   likeSeekerUp = e => {
     var id = $(e.target)[0].closest(".job-seeker-wrapper").id;
+    $("#" + id).find('.card').addClass('bg-success').delay(1000)
     $("#" + id)
-      .animate({ right: "2000px" }, "slow")
+      .animate({ left: "2000px" }, "slow")
       .slideUp(500);
     //call the managment of (Dis)Likes to be store on DB:
     setTimeout(
@@ -68,8 +69,9 @@ class JobSeekers extends Component {
   dislikeSeekerDown = e => {
     var id = $(e.target)[0].closest(".job-seeker-wrapper").id;
     
+    $("#" + id).find('.card').addClass('bg-danger').delay(1000)
     $("#" + id)
-      .animate({ left: "2000px" }, "slow")
+      .animate({ right: "2000px" }, "slow")
       .slideUp(500);
       
     //call the managment of (Dis)Likes to be store on DB:
