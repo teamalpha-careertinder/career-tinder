@@ -3,7 +3,7 @@ import * as ROUTES from "../../constants/routes";
 import $ from "jquery/src/jquery";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 import "./jobs.css";
 import "./jobs.scss";
 import {
@@ -94,146 +94,166 @@ class JobAds extends Component {
         <h4 className="mt-4 text-center font-weight-bold">
           <i className="fas fa-street-view" /> Recommended Jobs
         </h4>
-        <div className="demo seeker-ads-card">
-          <div className="demo__content">
-            <div className="demo__card-cont">
-              {userJobPosting &&
-                userJobPosting.map(item => {
-                  return (
-                    <div
-                      id={item.id}
-                      key={item.id}
-                      className="demo__card shadow rounded text-left"
-                    >
-                      <div className="job-ad-wrapper">
-                        <div className="card job-ad text-body">
-                          <div className="card-header bg-info text-white font-weight-bold">
-                            <div className="row">
-                              <div className="col-12 text-center">
-                                <i className="fas fa-thumbtack" />{" "}
-                                {item.jobtitle}
+        {userJobPosting && userJobPosting.length > 0 ?
+          (
+            <div className="demo seeker-ads-card">
+              <div className="demo__content">
+                <div className="demo__card-cont">
+                  {userJobPosting &&
+                    userJobPosting.map(item => {
+                      return (
+                        <div
+                          id={item.id}
+                          key={item.id}
+                          className="demo__card shadow rounded text-left"
+                        >
+                          <div className="job-ad-wrapper">
+                            <div className="card job-ad text-body">
+                              <div className="card-header bg-info text-white font-weight-bold">
+                                <div className="row">
+                                  <div className="col-12 text-center">
+                                    <i className="fas fa-thumbtack" />{" "}
+                                    {item.jobtitle}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="card-body">
+                                <div className="row">
+                                  <div className="col-12">
+                                    <b>
+                                      <i className="fas fa-building" />
+                                    </b>{" "}
+                                    {item.employername ? (
+                                      item.employername
+                                    ) : (
+                                      <i className="fas fa-ban text-muted" />
+                                    )}
+                                  </div>
+                                  <div className="col-12">
+                                    <b className="mr-2">
+                                      <i className="fas fa-universal-access" />
+                                    </b>
+                                    {item.neededskills &&
+                                    item.neededskills.length > 0 ? (
+                                      item.neededskills.map((child, i) => {
+                                        i = i % 5;
+                                        return (
+                                          <span
+                                            key={child.value}
+                                            className={"badge badge-danger mr-2"}
+                                          >
+                                            {child.label}
+                                          </span>
+                                        );
+                                      })
+                                    ) : (
+                                      <i className="fas fa-ban text-muted" />
+                                    )}
+                                  </div>
+                                  <div className="col-12">
+                                    <b>
+                                      <i className="fas fa-certificate" />
+                                    </b>{" "}
+                                    {(item.applyfulltime && item.applyfulltime
+                                      ? "Full Time"
+                                      : "Part Time") ||
+                                      (item.applypartime && item.applypartime
+                                        ? "Part Time"
+                                        : "Full Time")}
+                                  </div>
+                                  <div className="col-12">
+                                    <b>
+                                      <i className="fas fa-euro-sign" />
+                                    </b>{" "}
+                                    {item.minsalary || item.maxsalary ? (
+                                      item.minsalary + " - " + item.maxsalary
+                                    ) : (
+                                      <i className="fas fa-ban text-muted" />
+                                    )}
+                                  </div>
+                                  <div className="col-12">
+                                    <b>
+                                      <i className="fas fa-calendar-alt" /> Start
+                                    </b>{" "}
+                                    {item.expectedstartdate &&
+                                    item.expectedstartdate
+                                      .toDate()
+                                      .toLocaleString() ? (
+                                      <ReactMoment format="MMM DD, YYYY">
+                                        {item.expectedstartdate
+                                          .toDate()
+                                          .toLocaleString()}
+                                      </ReactMoment>
+                                    ) : (
+                                      <i className="fas fa-ban text-muted" />
+                                    )}
+                                  </div>
+                                  <div className="col-12">
+                                    <b>
+                                      <i className="fas fa-calendar-alt" /> Expires
+                                    </b>{" "}
+                                    {item.expirationdate &&
+                                    item.expirationdate
+                                      .toDate()
+                                      .toLocaleString() ? (
+                                      <ReactMoment format="MMM DD, YYYY">
+                                        {item.expirationdate
+                                          .toDate()
+                                          .toLocaleString()}
+                                      </ReactMoment>
+                                    ) : (
+                                      <i className="fas fa-ban text-muted" />
+                                    )}
+                                  </div>
+                                  <div className="col-12">
+                                    <b>
+                                      <i className="fas fa-graduation-cap" />{" "}
+                                      Education
+                                    </b>{" "}
+                                    {item.education ? (
+                                      item.education.label
+                                    ) : (
+                                      <i className="fas fa-ban text-muted" />
+                                    )}
+                                  </div>
+                                  <hr />
+                                </div>
                               </div>
                             </div>
                           </div>
-                          <div className="card-body">
-                            <div className="row">
-                              <div className="col-12">
-                                <b>
-                                  <i className="fas fa-building" />
-                                </b>{" "}
-                                {item.employername ? (
-                                  item.employername
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
-                              </div>
-                              <div className="col-12">
-                                <b className="mr-2">
-                                  <i className="fas fa-universal-access" />
-                                </b>
-                                {item.neededskills &&
-                                item.neededskills.length > 0 ? (
-                                  item.neededskills.map((child, i) => {
-                                    i = i % 5;
-                                    return (
-                                      <span
-                                        key={child.value}
-                                        className={"badge badge-danger mr-2"}
-                                      >
-                                        {child.label}
-                                      </span>
-                                    );
-                                  })
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
-                              </div>
-                              <div className="col-12">
-                                <b>
-                                  <i className="fas fa-certificate" />
-                                </b>{" "}
-                                {(item.applyfulltime && item.applyfulltime
-                                  ? "Full Time"
-                                  : "Part Time") ||
-                                  (item.applypartime && item.applypartime
-                                    ? "Part Time"
-                                    : "Full Time")}
-                              </div>
-                              <div className="col-12">
-                                <b>
-                                  <i className="fas fa-euro-sign" />
-                                </b>{" "}
-                                {item.minsalary || item.maxsalary ? (
-                                  item.minsalary + " - " + item.maxsalary
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
-                              </div>
-                              <div className="col-12">
-                                <b>
-                                  <i className="fas fa-calendar-alt" /> Start
-                                </b>{" "}
-                                {item.expectedstartdate &&
-                                item.expectedstartdate
-                                  .toDate()
-                                  .toLocaleString() ? (
-                                  <ReactMoment format="MMM DD, YYYY">
-                                    {item.expectedstartdate
-                                      .toDate()
-                                      .toLocaleString()}
-                                  </ReactMoment>
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
-                              </div>
-                              <div className="col-12">
-                                <b>
-                                  <i className="fas fa-calendar-alt" /> Expires
-                                </b>{" "}
-                                {item.expirationdate &&
-                                item.expirationdate
-                                  .toDate()
-                                  .toLocaleString() ? (
-                                  <ReactMoment format="MMM DD, YYYY">
-                                    {item.expirationdate
-                                      .toDate()
-                                      .toLocaleString()}
-                                  </ReactMoment>
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
-                              </div>
-                              <div className="col-12">
-                                <b>
-                                  <i className="fas fa-graduation-cap" />{" "}
-                                  Education
-                                </b>{" "}
-                                {item.education ? (
-                                  item.education.label
-                                ) : (
-                                  <i className="fas fa-ban text-muted" />
-                                )}
-                              </div>
-                              <hr />
-                            </div>
-                          </div>
+                          <div className="demo__card__choice m--reject" />
+                          <div className="demo__card__choice m--like" />
+                          <div className="demo__card__drag" />
                         </div>
-                      </div>
-                      <div className="demo__card__choice m--reject" />
-                      <div className="demo__card__choice m--like" />
-                      <div className="demo__card__drag" />
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                </div>
+                <div className="demo__tip text-danger font-weight-bold">
+                  <Animated animationIn="pulse infinite" isVisible={true}>
+                    <i className="fas fa-angle-double-left" /> Swipe left or right{" "}
+                    <i className="fas fa-angle-double-right" />
+                  </Animated>
+                </div>
+              </div>
             </div>
-            <div className="demo__tip text-danger font-weight-bold">
-              <Animated animationIn="pulse infinite" isVisible={true}>
-                <i className="fas fa-angle-double-left" /> Swipe left or right{" "}
-                <i className="fas fa-angle-double-right" />
-              </Animated>
-            </div>
-          </div>
-        </div>
+          )
+          : (
+            <h5 className="text-center mt-4">
+              There are no recommended jobs for you at this moment.
+              You can either check out all the
+              <NavLink className="text-info mr-2 ml-2 font-weight-bold" to={ROUTES.JOB_SEEKER_MATCHES}>
+                <i className="fas fa-handshake" /> Matches
+              </NavLink>
+              or you can update your 
+              <NavLink
+                className="text-info mr-2 ml-2 font-weight-bold"
+                to={ROUTES.UPDATE_PROFILE}
+              >
+                <i className="fas fa-user" /> Profile
+              </NavLink> 
+              to help us recommend jobs matching your profile.
+            </h5>
+          )}        
       </div>
     );
   }
