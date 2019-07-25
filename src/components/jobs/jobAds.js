@@ -13,7 +13,7 @@ import {
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
 import { Animated } from "react-animated-css";
-import addScoreToJobPost from "./relevancyFactorCalculator";
+import addScoreToJobPost from "./jobAdRelevancyFactorCalculator";
 import moment from "moment";
 import ReactMoment from "react-moment";
 
@@ -40,7 +40,7 @@ class JobAds extends Component {
   processLikeDisLike(userAction, jobAdId, jobSeekerId, jobseeker) {
     //userAction: true ->User likes company // false->user dislikes company
     const job = this.props.userJobPosting.filter(jobAd => jobAd.id === jobAdId);
-    console.log(job);
+
     var jobSeekerChoice = jobSeekerChoiceEntity;
     jobSeekerChoice.jobAdId = jobAdId;
     jobSeekerChoice.jobSeekerId = jobSeekerId;
