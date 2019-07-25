@@ -84,11 +84,16 @@ const addScoreToJobSeeker = (jobposting, jobseekers) => {
     if (
       RelevancyConfig.EDUCATION_IS_ACTIVE &&
       jobposting.education &&
-      seeker.education &&
-      jobposting.education.label.toLowerCase() ===
-        seeker.education.label.toLowerCase()
+      seeker.education
     ) {
-      score += RelevancyFactors.EDUCATION;
+      if (
+        jobposting.education.label &&
+        seeker.education.label &&
+        jobposting.education.label.toLowerCase() ===
+          seeker.education.label.toLowerCase()
+      ) {
+        score += RelevancyFactors.EDUCATION;
+      }
     }
 
     seeker.relevancyScore = score;

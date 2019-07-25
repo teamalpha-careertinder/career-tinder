@@ -91,14 +91,18 @@ const addScoreToJobPost = (jobseeker, jobposting) => {
     ) {
       score += RelevancyFactors.SALARY;
     }
+
     if (
       RelevancyConfig.EDUCATION_IS_ACTIVE &&
       job.education &&
-      jobseeker.education &&
-      job.education.label.toLowerCase() ===
-        jobseeker.education.label.toLowerCase()
+      jobseeker.education
     ) {
-      score += RelevancyFactors.EDUCATION;
+      if (
+        job.education.label.toLowerCase() ===
+        jobseeker.education.label.toLowerCase()
+      ) {
+        score += RelevancyFactors.EDUCATION;
+      }
     }
 
     job.relevancyScore = score;
