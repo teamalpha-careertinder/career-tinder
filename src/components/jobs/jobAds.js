@@ -13,7 +13,7 @@ import {
 import { firestoreConnect } from "react-redux-firebase";
 import _ from "lodash";
 import { Animated } from "react-animated-css";
-import addScoreToJobPost from "./relevancyFactorCalculator";
+import addScoreToJobPost from "./jobAdRelevancyFactorCalculator";
 import moment from "moment";
 import ReactMoment from "react-moment";
 
@@ -79,6 +79,7 @@ class JobAds extends Component {
 
     if (userJobPosting && userJobPosting.length && jobseeker) {
       addScoreToJobPost(jobseeker, userJobPosting);
+      console.log("userJobPosting", userJobPosting);
       userJobPosting.sort(function(a, b) {
         return (
           b.relevancyScore - a.relevancyScore ||

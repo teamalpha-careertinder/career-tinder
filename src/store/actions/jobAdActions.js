@@ -294,6 +294,8 @@ export const getjobposting = () => {
                   return unexpiredJobPosting;
                 }
               });
+              console.log(data);
+
               dispatch({ type: "FETCH_JOB_POST_SUCCESS", data });
             }
           });
