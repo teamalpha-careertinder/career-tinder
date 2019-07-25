@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
-import { MDBBtn, MDBCardFooter, MDBInput } from "mdbreact";
 import "./login.css";
 import * as ROUTES from "../../constants/routes";
 import { signIn } from "../../store/actions/authActions";
