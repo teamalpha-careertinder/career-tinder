@@ -572,7 +572,7 @@ class CreateJobAds extends React.Component {
                   (this.state.education.label === undefined ||
                     this.state.education.label === null) ? (
                     <Select
-                      value={educationList.filter(
+                        value={educationList && educationList.filter(
                         option => option.value === this.state.education
                       )}
                       onChange={this.handleEducationChange}
