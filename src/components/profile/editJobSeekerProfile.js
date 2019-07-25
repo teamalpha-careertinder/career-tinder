@@ -34,14 +34,8 @@ const jobSeekerProfileEntity = {
   DOBDate: null,
   city: null,
   education: null,
-  //usertype: null, //inhereted from user
   workExperiences: null
-    //  companyName: field of workExperiences
-    //  jobDescription: field of workExperiences
-    //  jobTitle: field of workExperiences
-    //  jobType: field of workExperiences
-    //  startJobDate: field of workExperiences
-    //  endJobDate: field of workExperiences */
+    
 }
  
 class EditJobSeekerProfile extends React.Component {
@@ -369,17 +363,19 @@ class EditJobSeekerProfile extends React.Component {
   }
  
   toggleModalWithData(e, exp, id) {
+    var tsStartJobDate = "";
+    var tsEndJobDate = "";
     if(typeof exp.startJobDate !== 'string') {
-      var tsStartJobDate = new Date(exp.startJobDate.seconds * 1000);
+      tsStartJobDate = new Date(exp.startJobDate.seconds * 1000);
       tsStartJobDate = (tsStartJobDate.getMonth() + 1) + '/' + tsStartJobDate.getDate() + '/' + tsStartJobDate.getFullYear();
     } else {
-      var tsStartJobDate = exp.startJobDate;
+      tsStartJobDate = exp.startJobDate;
     }
     if(typeof exp.endJobDate !== 'string') {
-      var tsEndJobDate = new Date(exp.endJobDate.seconds * 1000);
+      tsEndJobDate = new Date(exp.endJobDate.seconds * 1000);
       tsEndJobDate = (tsEndJobDate.getMonth() + 1) + '/' + tsEndJobDate.getDate() + '/' + tsEndJobDate.getFullYear();
     } else {
-      var tsEndJobDate = exp.endJobDate;
+      tsEndJobDate = exp.endJobDate;
     }
     if(e.target.id !== id){
       this.setState(prevState => ({
@@ -696,7 +692,7 @@ const mapStateToProps = state => {
   const languageData = state.firestore.data.language;
 
   if (skillsData && locationData && educationData && languageData ){
-    var result = new Array();
+    var result = [];
     $.each(skillsData, function(index, item) {
       result.push({
         value: index,
@@ -706,7 +702,7 @@ const mapStateToProps = state => {
     returnObject.skillsList = result;
     //console.log(result);
   
-    result = new Array();
+    result = [];
     $.each(locationData, function(index, item) {
       result.push({
         value: index,
@@ -715,7 +711,7 @@ const mapStateToProps = state => {
     });
     returnObject.locationList = result;
 //    console.log(result);
-    result = new Array();
+    result = [];
     $.each(educationData, function(index, item) {
       result.push({
         value: index,
@@ -724,7 +720,7 @@ const mapStateToProps = state => {
     });
     returnObject.educationList = result;
 
-    result = new Array();
+    result = [];
     $.each(languageData, function(index, item) {
       result.push({
         value: index,

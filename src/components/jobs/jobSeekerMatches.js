@@ -139,16 +139,11 @@ class JobSeekerMatches extends Component {
                             <i className="fas fa-ban text-muted" />
                           )}
                         </div>
-                        
-                        <div className="col-12">
-                          <b>
-                            
-                          </b>
-                        </div>
-                        <div className="col-12 text-right">
-                          
-                        </div>
 
+                        <div className="col-12">
+                          <b />
+                        </div>
+                        <div className="col-12 text-right" />
                       </div>
                     </div>
                     <div className="job-ad-actions">
@@ -157,10 +152,11 @@ class JobSeekerMatches extends Component {
                           id="btnMatch"
                           className="btn btn-info btn-sm w-100 m-0"
                           to={{
-                            pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + item.id,
+                            pathname: ROUTES.JOB_MATCHED_DETAILS + "/" + item.id
                           }}
-                        > 
-                          <i className="fas fa-ad"></i><br/>
+                        >
+                          <i className="fas fa-ad" />
+                          <br />
                           Job Details
                         </NavLink>
                       </div>
@@ -174,10 +170,11 @@ class JobSeekerMatches extends Component {
                             )
                           }
                         >
-                          <i className="far fa-comments"></i><br/>
+                          <i className="far fa-comments" />
+                          <br />
                           Message
                         </NavLink>
-                      </div>                            
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -219,13 +216,13 @@ const mapStateToProps = state => {
   //fill the education item name instead if the key
   const allEducationData = state.firestore.data.education;
   if (
-    allEducationData != undefined &&
-    jobseekerMatchedJobPosting != undefined &&
+    allEducationData !== undefined &&
+    jobseekerMatchedJobPosting !== undefined &&
     jobseekerMatchedJobPosting.length > 0
   ) {
     $.each(jobseekerMatchedJobPosting, function(index, jobAd) {
       var educationItem = allEducationData[jobAd.education];
-      if (educationItem != undefined) jobAd.education = educationItem.name;
+      if (educationItem !== undefined) jobAd.education = educationItem.name;
     });
   }
   return {
