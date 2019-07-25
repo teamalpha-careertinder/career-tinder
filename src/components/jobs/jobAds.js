@@ -241,17 +241,17 @@ class JobAds extends Component {
             <h5 className="text-center mt-4">
               There are no recommended jobs for you at this moment.
               You can either check out all the
-              <NavLink className="text-info mr-1 ml-1" to={ROUTES.JOB_SEEKER_MATCHES}>
-                <i className="fas fa-handshake" />Matches
+              <NavLink className="text-info mr-2 ml-2 font-weight-bold" to={ROUTES.JOB_SEEKER_MATCHES}>
+                <i className="fas fa-handshake" /> Matches
               </NavLink>
               or you can update your 
               <NavLink
-                className="text-info mr-1 ml-1"
+                className="text-info mr-2 ml-2 font-weight-bold"
                 to={ROUTES.UPDATE_PROFILE}
               >
-                <i className="fas fa-user" />Profile
+                <i className="fas fa-user" /> Profile
               </NavLink> 
-              to help us recommend more jobs for you.
+              to help us recommend jobs matching your profile.
             </h5>
           )}        
       </div>
