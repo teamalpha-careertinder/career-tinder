@@ -391,7 +391,7 @@ export default compose(
     return [
       {
         collection: "jobSeekerChoice",
-        where: [["jobSeekerId", "===", props.uid || null]]
+        where: [["jobSeekerId", "==", props.uid || null]]
       },
       {
         collection: "education"
