@@ -4,7 +4,6 @@ import "../profile/profile.css";
 import * as ROUTES from "../../constants/routes";
 import JobDetails from "./JobDetails";
 import { Animated } from "react-animated-css";
-import $ from "jquery/src/jquery";
 
 class JobsList extends Component {
   constructor() {
