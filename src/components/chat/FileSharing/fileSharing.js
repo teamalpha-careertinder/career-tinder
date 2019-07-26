@@ -33,10 +33,7 @@ class FileCenterComponent extends React.Component {
       chatID: this.props.fileDocKey,
       fileSender: this.props.fileSender,
       fileReceiver: this.props.fileReceiver
-     // username: null,   //delete
-     // message: null //delete
     }
-    console.log("props1 ", this.props);
     this.handleChange = this
       .handleChange
       .bind(this);
@@ -57,34 +54,20 @@ class FileCenterComponent extends React.Component {
   }
   
   handleDowload = fileName => {
-    console.log("donwload ", fileName);
-
-    firebase.storage().ref(`exchange_files/`).child("2019-07-23_35_cv1.txt")
+    firebase.storage().ref(`exchange_files/`).child(fileName)
         .getDownloadURL()
         .then(function(url) {
           // This can be downloaded directly:
-          console.log("url", url);
-          var xhr = new XMLHttpRequest();
-          xhr.responseType = 'blob';
-          xhr.onload = function(event) {
-            var blob = xhr.response;
-          };
-          xhr.open('GET', url);
-          xhr.send();
-        
+          window.open(url, "_blank");
+
       }).catch(function(error) {
         console.log("error ",error)
         // Handle any errors
       });
-
   }
 
   handleShare = () => {
     const { file } = this.state;
-    //const firebase = getFirebase();
-    //const firestore = getFirestore();
-    //const userId = getState().firebase.auth.uid;
-    //const userId = firebase.auth().currentUser;
     const storage = firebase.storage();
 
     const fileName = new Date().toISOString().slice(0,10) + 
@@ -115,7 +98,7 @@ class FileCenterComponent extends React.Component {
           });
         // Upload completed successfully, now we can get the download fileURL
         storage.ref(`exchange_files/`).child(fileName).getDownloadURL().then((fileURL) => {
-          console.log('File available at', fileURL);
+          //console.log('File available at', fileURL);
           this.setState({ fileURL });
         });
       });
@@ -163,14 +146,12 @@ class FileCenterComponent extends React.Component {
               >
                 <i className="fas fa-exchange-alt" /> Share File
               </Button>
+              <progress className="w-100" value={this.state.progress} max="100" />
               <br />
               {this.state.fileURL && <h6><b>File uploaded successfully</b></h6>}
               <br />
-              {/*this.state.fileURL && <a href = {this.state.fileURL}><u><h6>Click here to download</h6></u></a>*/}
-              <br />
             </div>
           </div>
-          {console.log("estado ", this.state)}
           {this.state.fileList.length > 0 ?
             <div className={classes.chatHeader}>
               Previuosly shared files
@@ -183,7 +164,8 @@ class FileCenterComponent extends React.Component {
               <tr className="tr">
                 <th className="th"><b>File</b></th>
                 <th className="th"><b>Date</b></th>
-                <th className="th"><b>Sent/Received</b></th>
+                <th className="th"><b>Sent/Recv</b></th>
+                <th className="th"><b>Download</b></th>
               </tr>
             : null
           }
@@ -208,8 +190,9 @@ class FileCenterComponent extends React.Component {
                         color="primary"
                         //type="submit"
                        // className={classes.submit}
-                        onClick={this.handleDowload} 
-                      > Download
+                       // onClick={this.handleDowload} 
+                        onClick={() => this.handleDowload(_file.fileName ? _file.fileName : "")}
+                      > <i className="fas fa-file-download" />
                       </Button>
                     </th>
                   </tr>
@@ -218,41 +201,6 @@ class FileCenterComponent extends React.Component {
               ) 
             : null }
           </table>
-
-          // work on process to try to get the files url:
-          { this.state.fileList.length > 0 ? (
-              this.state.fileList.map((_file, _index) => {  
-
-                const fileName = _file.fileName.slice(14);
-                console.log('File available at45', _file, _file.url)
-            //    var fileURL2 = '';
-    //            const storage = firebase.storage();
-                //storage.ref(`exchange_files/`).child(_file.fileName).getDownloadURL().then((url) => {
-                 // fileURL = url;
-//                  console.log('File available at', url)
-              //    this.setState({ fileURL: url });
-              //  });
-                
-   /*             const fileURL2 = storage.ref(`exchange_files/`).child(_file.fileName)
-                  .getDownloadURL()
-                  .then(function(url) {
-                    return url;
-                  }).catch(function(error) {
-                    // Handle any errors here
-                  });
-                  console.log('File available at2', fileURL2)
-*/
-                return(
-                  <div key={_index}>
-                        { /*fileURL2 ? <a href = {fileURL2.toString()}><u>{fileName} </u></a> : fileName + "(URL error)" */} 
-                        { /*file.url ? <a href = {_file.url}><u>{fileName} </u></a> : fileName + "(URL error)"*/ }
-                        {fileName} 
-                        
-                  </div>
-                )}
-              )
-           ) : (console.log('File not available', this.state.fileList.length))
-          } 
 
           {this.state.serverError ? (
             <Typography
@@ -280,96 +228,23 @@ class FileCenterComponent extends React.Component {
           .firestore()
           .collection("fileSharing")
           .where("chatID", "==", this.props.fileDocKey)
+          .orderBy("createdAt","desc")
           .onSnapshot(async res => {
             const files = res.docs.map(_doc => _doc.data());
-            const fileURLList = []
-            files.map(_file => {
-              
-              firebase.storage().ref(`exchange_files/`).child(_file.fileName)
-                  .getDownloadURL()
-                  .then(url => {
-                    console.log('File available at3', url)
-                    const urlFile = _file;
-                    urlFile.url = url
-                    urlFile.stringURL = url.toString();
-                    fileURLList.push(urlFile)
-                  }).catch(function(error) {
-                    // Handle any errors here
-                  }); 
-
-            })
-            
             await this.setState({
               fileList: files
             });
-            console.log("fileList ", this.state.fileList)
-            console.log("fileURLList ", fileURLList)
+       //    console.log("fileList ", this.state.fileList)
+       //     console.log("fileURLList ", fileURLList)
           },
+          (error) => {
+            // error function ....
+            console.log(error);
+          }
           );
       }
     });
   };
 }
-/*
-function  mapStateToProps(state, ownProps) {
-  console.log("state1 ", state);
-  console.log("props1 ", ownProps);
-  const auth = state.firebase.auth;
-  const users = state.firestore.data.users;
-  const user = users ? users[auth.uid] : null;
-  
-  const fileURLList = [];
 
-  firebase
-          .firestore()
-          .collection("fileSharing")
-          .where("chatID", "==", ownProps.fileDocKey)
-          .onSnapshot(async res => {
-            const files = res.docs.map(_doc => _doc.data());
-
-            files.map(_file => {
-              
-              firebase.storage().ref(`exchange_files/`).child(_file.fileName)
-                  .getDownloadURL()
-                  .then(url => {
-                    console.log('File available at3', url)
-                    const urlFile = _file;
-                    urlFile.url = url
-                    urlFile.stringURL = url.toString();
-                    fileURLList.push(urlFile)
-                  }).catch(function(error) {
-                    // Handle any errors here
-                  }); 
-
-            })
-            
-            await this.setState({
-              fileList: fileURLList
-            });
-           console.log("fileList ", this.state.fileList)
-            console.log("fileURLList ", fileURLList)
-          },
-          );
-
-  return {
-    auth: auth,
-    authStatus: state.profile.authStatus,
-    authMsg: state.profile.authMsg,
-    user: user, 
-    fileDocKey: ownProps.fileDocKey,
-    fileList: fileURLList
-  };
-};
-
-export default compose(
-  connect(
-    mapStateToProps
-  ),
-  firestoreConnect([
-    {
-      collection: "fileSharing"
-    }
-  ])
-)(FileCenterComponent);
-*/
 export default withStyles(styles)(FileCenterComponent);
