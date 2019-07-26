@@ -1,21 +1,12 @@
 import React from "react";
 import {
-  FormControl,
-  InputLabel,
-  Input,
+ 
   Button,
-  Paper,
   withStyles,
-  CssBaseline,
-  Typography,
-  List,
-  ListItem,
-  ListItemText
+  Typography
+
 } from "@material-ui/core";
 import styles from "./styles";
-import { compose } from "redux";
-import { connect } from "react-redux";
-import { firestoreConnect, firestore } from "react-redux-firebase";
 import firebase from "../../../config/firebaseConfig";
 import * as ROUTES from "../../../constants/routes";
 import ReactMoment from "react-moment";
@@ -182,7 +173,7 @@ class FileCenterComponent extends React.Component {
                             </ReactMoment>
                           ) : ( <i className="fas fa-ban text-muted" />  )
                         }</th>
-                    <th className="th">{_file.senderID == this.state.fileSender ? " Sent" : " Received" }</th>
+                    <th className="th">{_file.senderID === this.state.fileSender ? " Sent" : " Received" }</th>
                     <th className="th">
                       <Button
                         //fullWidth
