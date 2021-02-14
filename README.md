@@ -21,13 +21,13 @@ PURPOSE. See the GNU General Public License for more details.
 The following people contributed to the conception and realization of the
 present career-tinder :
 
-- Monojit Goon
-- Mainul Hasan Shuvro
+- [Monojit Goon](https://github.com/monojitgoon)
+- [Mainul Hasan Shuvro](https://github.com/shuvro1226)
 - Abel Guevara Sanchez
-- Anny Zahid
-- Abdullah Al Noman
+- [Anny Zahid](https://github.com/anny148)
+- [Abdullah Al Noman](https://github.com/al-noman)
 - Qais Mohammad Ahmad AbuRayyan
-- Tanvir Ahmed Siddique
+- [Tanvir Ahmed Siddique](https://github.com/tanviruni) 
 - Lucky Sutradhar
 - Kaveh Khani
 - Muhammad Adnan
